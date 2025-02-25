@@ -57,7 +57,10 @@ class App:
             set.SECOND_WIN_HEIGHT
         )
 
-        method_name = f"create_{name.lower()}_ui"
+        method_name = (
+            f"{set.BUTTON_METHOD_PREFIX}{name.lower()}"
+            f"{set.BUTTON_METHOD_POSTFIX}"
+        )
         method = getattr(self, method_name, None)
 
         if method:

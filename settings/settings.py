@@ -16,14 +16,6 @@ MAIN_WIN_BUTTONS = [
     "Option di sicurezza"
 ]
 
-# Frames
-FRAME_BG_COLOR = "#f0f0f0"
-FRAME_PADX = 10
-FRAME_PADY = 10
-
-# Main frame
-MAIN_WIN_FRAME_COL_NUM = 3
-
 # Secondary window
 SECOND_WIN_WIDTH = 400
 SECOND_WIN_HEIGHT = 300
@@ -43,6 +35,13 @@ TRAVI_OPTIONS = {
     "Larghezza": ["45", "50"],
     "Spessore": ["1.2", "1.5", "2.0", "2.5", "3.0"]
 }
+
+# Frames
+FRAME_BG_COLOR = "#f0f0f0"
+FRAME_PADX = 10
+FRAME_PADY = 10
+# Main frame
+MAIN_WIN_FRAME_COL_NUM = 3
 
 # Buttons
 BUTTON_HEIGHT = 2
@@ -64,3 +63,7 @@ GRID_WEIGHT = 1
 LABEL_BG_COLOR = "#f0f0f0"
 LABEL_FONT_FAMILY = "Arial"
 LABEL_FONT_SIZE = 14
+
+# Methods
+BUTTON_METHOD_PREFIX = "create_"
+BUTTON_METHOD_POSTFIX = "_ui"
