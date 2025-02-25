@@ -96,7 +96,8 @@ class App:
         frame = tk.Frame(
             window,
             bg=set.FRAME_BG_COLOR,
-            padx=set.FRAME_PADX, pady=set.FRAME_PADY)
+            padx=set.FRAME_PADX, pady=set.FRAME_PADY
+        )
         frame.pack(expand=True, fill=tk.BOTH)
 
         # Поля и варианты выбора
@@ -105,34 +106,43 @@ class App:
         entries = {}
 
         for i, (label, values) in enumerate(options.items()):
-            tk.Label(frame, text=label, bg="#f0f0f0").grid(
+            tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
                 row=i,
-                column=0,
-                sticky="w",
-                pady=5
+                column=set.LABEL_NAME_COLUMN,
+                sticky=set.LABEL_STICKY,
+                pady=set.LABEL_PADY
             )
             var = tk.StringVar(value=values[0])
             dropdown = tk.OptionMenu(frame, var, *values)
-            dropdown.grid(row=i, column=1, sticky="ew", padx=5)
+            dropdown.grid(
+                row=i,
+                column=set.DROPDOWN_COLUMN,
+                sticky=set.DROPDOWN_STICKY,
+                padx=set.DROPDOWN_PADX
+            )
             entries[label] = var
 
             if label in ["Altezza", "Larghezza", "Spessore"]:
-                tk.Label(frame, text="mm", bg="#f0f0f0").grid(
+                tk.Label(
+                    frame,
+                    text=set.LABEL_MM_TEXT,
+                    bg=set.LABEL_BG_COLOR
+                ).grid(
                     row=i,
-                    column=2,
-                    sticky="w"
+                    column=set.LABEL_NAME_COLUMN,
+                    sticky=set.LABEL_STICKY
                 )
 
         # Поле для ввода длины
-        tk.Label(frame, text="Lunghezza", bg="#f0f0f0").grid(
+        tk.Label(frame, text="Lunghezza", bg=set.LABEL_BG_COLOR).grid(
             row=len(options),
             column=0,
             sticky="w",
-            pady=5
+            pady=set.LABEL_PADY
         )
         lunghezza_entry = tk.Entry(frame)
         lunghezza_entry.grid(row=len(options), column=1, sticky="ew", padx=5)
-        tk.Label(frame, text="mm", bg="#f0f0f0").grid(
+        tk.Label(frame, text=set.LABEL_MM_TEXT, bg=set.LABEL_BG_COLOR).grid(
             row=len(options),
             column=2,
             sticky="w"
@@ -180,7 +190,7 @@ class App:
                 row=i,
                 column=0,
                 sticky="w",
-                pady=5
+                pady=set.LABEL_PADY
             )
             var = tk.StringVar(value=values[0])
             dropdown = tk.OptionMenu(frame, var, *values)
@@ -201,11 +211,11 @@ class App:
         start_row = len(options)
 
         for i, label in enumerate(input_fields):
-            tk.Label(frame, text=label, bg="#f0f0f0").grid(
+            tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
                 row=start_row + i,
-                column=0,
-                sticky="w",
-                pady=5
+                column=set.LABEL_NAME_COLUMN,
+                sticky=set.LABEL_STICKY,
+                pady=set.LABEL_PADY
             )
             entry = tk.Entry(frame)
             entry.grid(row=start_row + i, column=1, sticky="ew", padx=5)

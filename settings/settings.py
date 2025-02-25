@@ -63,7 +63,24 @@ GRID_WEIGHT = 1
 LABEL_BG_COLOR = "#f0f0f0"
 LABEL_FONT_FAMILY = "Arial"
 LABEL_FONT_SIZE = 14
+LABEL_PADY = 5
+LABEL_MM_TEXT = "mm"
+LABEL_MM_COLUMN = 2
+LABEL_NAME_COLUMN = 0
+LABEL_STICKY = "w"
+
+# Dropdowns
+DROPDOWN_STICKY = "ew"
+DROPDOWN_PADX = 5
+DROPDOWN_COLUMN = 1
 
 # Methods
 BUTTON_METHOD_PREFIX = "create_"
 BUTTON_METHOD_POSTFIX = "_ui"
+
+# Dimensions
+HEIGHT = "Altezza"
+WIDTH = "Larghezza"
+THICKNESS = "Spessore"
+LENGTH = "Lunghezza"
+
