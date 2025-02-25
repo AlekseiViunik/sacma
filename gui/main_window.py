@@ -160,53 +160,31 @@ class App:
             padx=set.FRAME_PADX,
             pady=set.FRAME_PADY
         )
-        frame.pack(expand=True, fill="both")
+        frame.pack(expand=True, fill=tk.BOTH)
 
         # Поля и варианты выбора
-        options = {
-            "Solo montante": ["No", "Sì"],
-            "Sismo resistente": ["No", "Sì"],
-            "Sezione": [
-                "80/20",
-                "80/25",
-                "80/30",
-                "100/20",
-                "100/25",
-                "100/30",
-                "120/20",
-                "120/25",
-                "120/30",
-                "120x110/20",
-                "120x110/25",
-                "120x110/30",
-                "120x110/40"
-            ]
-        }
+        options = set.FIANCATE_SELECT_FIELDS
 
         entries = {}
 
         for i, (label, values) in enumerate(options.items()):
-            tk.Label(frame, text=label, bg="#f0f0f0").grid(
+            tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
                 row=i,
-                column=0,
-                sticky="w",
+                column=set.LABEL_NAME_COLUMN,
+                sticky=set.LABEL_STICKY,
                 pady=set.LABEL_PADY
             )
             var = tk.StringVar(value=values[0])
             dropdown = tk.OptionMenu(frame, var, *values)
-            dropdown.grid(row=i, column=1, sticky="ew", padx=5)
+            dropdown.grid(
+                row=i,
+                column=set.DROPDOWN_COLUMN,
+                sticky=set.DROPDOWN_STICKY,
+                padx=set.DROPDOWN_PADX
+            )
             entries[label] = var
 
-        input_fields = [
-            "Altezza",
-            "N diagonali 10/10",
-            "N diagonali 15/10",
-            "N diagonali 20/10",
-            "N diagonali 25/10",
-            "N diagonali 30/10",
-            "N traversi 10/10",
-            "N traversi 15/10"
-        ]
+        input_fields = set.FIANCATE_INPUT_FIELDS
 
         start_row = len(options)
 
@@ -220,9 +198,19 @@ class App:
             entry = tk.Entry(frame)
             entry.grid(row=start_row + i, column=1, sticky="ew", padx=5)
             entries[label] = entry
+            if label in set.dimensions_need_mm:
+                tk.Label(
+                    frame,
+                    text=set.LABEL_MM_TEXT,
+                    bg=set.LABEL_BG_COLOR
+                ).grid(
+                    row=start_row + i,
+                    column=set.LABEL_MM_COLUMN,
+                    sticky=set.LABEL_STICKY
+                )
 
     # Колонки подстраиваем под контент
-        for i in range(2):
+        for i in range(set.COL_NUM):
             frame.columnconfigure(i, weight=1)
 
     def on_close(self, window):

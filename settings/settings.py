@@ -37,6 +37,37 @@ TRAVI_OPTIONS = {
     "Lunghezza": ""
 }
 
+# Fiancate window
+FIANCATE_SELECT_FIELDS = {
+    "Solo montante": ["No", "Sì"],
+    "Sismo resistente": ["No", "Sì"],
+    "Sezione": [
+        "80/20",
+        "80/25",
+        "80/30",
+        "100/20",
+        "100/25",
+        "100/30",
+        "120/20",
+        "120/25",
+        "120/30",
+        "120x110/20",
+        "120x110/25",
+        "120x110/30",
+        "120x110/40"
+    ]
+}
+FIANCATE_INPUT_FIELDS = [
+    "Altezza",
+    "N diagonali 10/10",
+    "N diagonali 15/10",
+    "N diagonali 20/10",
+    "N diagonali 25/10",
+    "N diagonali 30/10",
+    "N traversi 10/10",
+    "N traversi 15/10"
+]
+
 # Frames
 FRAME_BG_COLOR = "#f0f0f0"
 FRAME_PADX = 10
@@ -84,6 +115,4 @@ HEIGHT = "Altezza"
 WIDTH = "Larghezza"
 THICKNESS = "Spessore"
 LENGTH = "Lunghezza"
-
 dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH]
-
