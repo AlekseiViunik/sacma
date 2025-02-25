@@ -37,13 +37,15 @@ class WindowCreator:
                 padx=set.DROPDOWN_PADX
             )
             self.entries[label] = var
+            self.add_mm(frame, label, i)
 
         start_row = len(self.select_fields)  # Начинаем после селектов
 
         # Поля для ввода
         for i, label in enumerate(self.input_fields):
+            row = start_row + i
             tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
-                row=start_row + i,
+                row=row,
                 column=set.LABEL_NAME_COLUMN,
                 sticky=set.LABEL_STICKY,
                 pady=set.LABEL_PADY
@@ -56,21 +58,22 @@ class WindowCreator:
                 padx=set.ENTRY_PADX
             )
             self.entries[label] = entry
-
-            # Добавляем "mm" для размеров
-            if label in set.dimensions_need_mm:
-                tk.Label(
-                    frame,
-                    text=set.LABEL_MM_TEXT,
-                    bg=set.LABEL_BG_COLOR
-                ).grid(
-                    row=start_row + i,
-                    column=set.LABEL_MM_COLUMN,
-                    sticky=set.LABEL_STICKY
-                )
+            self.add_mm(frame, label, row)
 
         # Настройка растяжения колонок
         for i in range(set.COL_NUM):
             frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
         return self.entries
+
+    def add_mm(self, frame, label, row):
+        if label in set.dimensions_need_mm:
+            tk.Label(
+                frame,
+                text=set.LABEL_MM_TEXT,
+                bg=set.LABEL_BG_COLOR
+            ).grid(
+                row=row,
+                column=set.LABEL_MM_COLUMN,
+                sticky=set.LABEL_STICKY
+            )
