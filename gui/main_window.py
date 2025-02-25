@@ -98,7 +98,11 @@ class App:
         )
 
     def create_travi_ui(self, window):
-        creator = WindowCreator(window, set.TRAVI_OPTIONS, [set.LENGTH])
+        creator = WindowCreator(
+            window,
+            set.TRAVI_SELECT_FIELDS,
+            set.TRAVI_INPUT_FIELDS
+        )
         self.entries = creator.create_ui()
 
     def create_fiancate_ui(self, window):
