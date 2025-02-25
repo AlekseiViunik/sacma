@@ -83,6 +83,7 @@ class App:
             width=set.BUTTON_INVIA_WIDTH,
             bg=set.BUTTON_COLOR,
             relief=set.BUTTON_RELIEF,
+            command=lambda n=name: self.calculate(n)
         )
         btn_invia.pack(
             side=set.BUTTON_INVIA_SIDE,
@@ -120,3 +121,8 @@ class App:
         x = (screen_width - width) // 2
         y = (screen_height - height) // 2
         window.geometry(f"{width}x{height}+{x}+{y}")
+
+    def calculate(self, name):
+        for field, entry in self.entries.items():
+            value = entry.get() if isinstance(entry, tk.Entry) else entry.get()
+            print(f"{field}: {value}")
