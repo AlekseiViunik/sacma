@@ -9,7 +9,7 @@ MAIN_WIN_BUTTONS = [
     "Tasselli",
     "Satellitare",
     "Pianetti",
-    "Gragliato",
+    "Grigliato",
     "Travi di battuta",
     "Angolari per automatici",
     "Gravita leggera",
@@ -83,4 +83,3 @@ HEIGHT = "Altezza"
 WIDTH = "Larghezza"
 THICKNESS = "Spessore"
 LENGTH = "Lunghezza"
-
