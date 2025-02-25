@@ -1,0 +1,6 @@
+
+class FileHandler:
+    def __init__(self, type_of_the_shelf, data):
+        self.type_of_the_shelf = type_of_the_shelf
+        self.data = data
+    
