@@ -8,6 +8,8 @@ from .window_creator import WindowCreator
 class App:
     def __init__(self, root):
         self.root = root
+        self.root.resizable(False, False)
+        self.entries = {}
         self.root.title(f"{set.MAIN_WIN_TITLE}")
         self.root.geometry(f"{set.MAIN_WIN_WIDTH}x{set.MAIN_WIN_HEIGHT}")
         self.center_window(self.root, set.MAIN_WIN_WIDTH, set.MAIN_WIN_HEIGHT)
@@ -96,7 +98,7 @@ class App:
 
     def create_travi_ui(self, window):
         creator = WindowCreator(window, set.TRAVI_OPTIONS, [set.LENGTH])
-        self.travi_entries = creator.create_ui()
+        self.entries = creator.create_ui()
 
     def create_fiancate_ui(self, window):
         window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
@@ -105,7 +107,7 @@ class App:
             set.FIANCATE_SELECT_FIELDS,
             set.FIANCATE_INPUT_FIELDS
         )
-        self.fiancate_entries = creator.create_ui()
+        self.entries = creator.create_ui()
 
     def on_close(self, window):
         window.destroy()
