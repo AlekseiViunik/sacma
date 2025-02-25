@@ -197,7 +197,12 @@ class App:
                 pady=set.LABEL_PADY
             )
             entry = tk.Entry(frame)
-            entry.grid(row=start_row + i, column=1, sticky="ew", padx=5)
+            entry.grid(
+                row=start_row + i,
+                column=set.ENTRY_COLUMN,
+                sticky=set.ENTRY_STICKY,
+                padx=set.ENTRY_PADX
+            )
             entries[label] = entry
             if label in set.dimensions_need_mm:
                 tk.Label(
@@ -212,7 +217,7 @@ class App:
 
     # Колонки подстраиваем под контент
         for i in range(set.COL_NUM):
-            frame.columnconfigure(i, weight=1)
+            frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
     def on_close(self, window):
         window.destroy()
