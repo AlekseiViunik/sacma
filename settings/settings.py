@@ -33,15 +33,15 @@ TRAVI_OPTIONS = {
         140, 150, 160, 170, 180, 190, 200
     ],
     "Larghezza": ["45", "50"],
-    "Spessore": ["1.2", "1.5", "2.0", "2.5", "3.0"]
+    "Spessore": ["1.2", "1.5", "2.0", "2.5", "3.0"],
+    "Lunghezza": ""
 }
 
 # Frames
 FRAME_BG_COLOR = "#f0f0f0"
 FRAME_PADX = 10
 FRAME_PADY = 10
-# Main frame
-MAIN_WIN_FRAME_COL_NUM = 3
+
 
 # Buttons
 BUTTON_HEIGHT = 2
@@ -57,6 +57,7 @@ BUTTON_INVIA_SIDE = "bottom"
 BUTTON_INVIA_ANCHOR = "se"
 
 # Grid
+COL_NUM = 3
 GRID_WEIGHT = 1
 
 # Labels

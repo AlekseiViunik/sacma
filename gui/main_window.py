@@ -17,7 +17,7 @@ class App:
     def create_widgets(self):
         frame = tk.Frame(self.root)
         frame.pack(expand=True)
-        cols = set.MAIN_WIN_FRAME_COL_NUM
+        cols = set.COL_NUM
         rows = math.ceil(len(self.buttons) / cols)
 
         max_width = max(len(name) for name in self.buttons)
@@ -106,21 +106,37 @@ class App:
         entries = {}
 
         for i, (label, values) in enumerate(options.items()):
-            tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
-                row=i,
-                column=set.LABEL_NAME_COLUMN,
-                sticky=set.LABEL_STICKY,
-                pady=set.LABEL_PADY
-            )
-            var = tk.StringVar(value=values[0])
-            dropdown = tk.OptionMenu(frame, var, *values)
-            dropdown.grid(
-                row=i,
-                column=set.DROPDOWN_COLUMN,
-                sticky=set.DROPDOWN_STICKY,
-                padx=set.DROPDOWN_PADX
-            )
-            entries[label] = var
+            if values:
+                tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
+                    row=i,
+                    column=set.LABEL_NAME_COLUMN,
+                    sticky=set.LABEL_STICKY,
+                    pady=set.LABEL_PADY
+                )
+                var = tk.StringVar(value=values[0])
+                dropdown = tk.OptionMenu(frame, var, *values)
+                dropdown.grid(
+                    row=i,
+                    column=set.DROPDOWN_COLUMN,
+                    sticky=set.DROPDOWN_STICKY,
+                    padx=set.DROPDOWN_PADX
+                )
+                entries[label] = var
+            else:
+                tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
+                    row=i,
+                    column=set.LABEL_NAME_COLUMN,
+                    sticky=set.LABEL_STICKY,
+                    pady=set.LABEL_PADY
+                )
+                entry = tk.Entry(frame)
+                entry.grid(
+                    row=i,
+                    column=set.DROPDOWN_COLUMN,
+                    sticky=set.DROPDOWN_STICKY,
+                    padx=set.DROPDOWN_PADX
+                )
+                entries[label] = entry
 
             if label in ["Altezza", "Larghezza", "Spessore"]:
                 tk.Label(
@@ -133,23 +149,7 @@ class App:
                     sticky=set.LABEL_STICKY
                 )
 
-        # Поле для ввода длины
-        tk.Label(frame, text="Lunghezza", bg=set.LABEL_BG_COLOR).grid(
-            row=len(options),
-            column=0,
-            sticky="w",
-            pady=set.LABEL_PADY
-        )
-        lunghezza_entry = tk.Entry(frame)
-        lunghezza_entry.grid(row=len(options), column=1, sticky="ew", padx=5)
-        tk.Label(frame, text=set.LABEL_MM_TEXT, bg=set.LABEL_BG_COLOR).grid(
-            row=len(options),
-            column=2,
-            sticky="w"
-        )
-        entries["Lunghezza"] = lunghezza_entry
-
-        for i in range(3):
+        for i in range(set.COL_NUM):
             frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
     def create_fiancate_ui(self, window):
