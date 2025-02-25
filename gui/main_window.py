@@ -1,19 +1,16 @@
 import math
 import tkinter as tk
 
+from settings import settings as set
+
 
 class App:
     def __init__(self, root):
         self.root = root
-        self.root.title("SACMA")
-        self.root.geometry("500x250")
-        self.center_window(self.root, 600, 300)
-        self.buttons = [
-            "Fiancate", "Travi", "Tasselli", "Satellitare",
-            "Pianetti", "Gragliato", "Travi di battuta",
-            "Angolari per automatici", "Gravita leggera",
-            "Option di sicurezza"
-        ]
+        self.root.title(f"{set.MAIN_WIN_TITLE}")
+        self.root.geometry(f"{set.MAIN_WIN_WIDTH}x{set.MAIN_WIN_HEIGHT}")
+        self.center_window(self.root, set.MAIN_WIN_WIDTH, set.MAIN_WIN_HEIGHT)
+        self.buttons = set.MAIN_WIN_BUTTONS
 
         self.create_widgets()
 
