@@ -17,7 +17,7 @@ class App:
     def create_widgets(self):
         frame = tk.Frame(self.root)
         frame.pack(expand=True)
-        cols = 3
+        cols = set.MAIN_WIN_FRAME_COL_NUM
         rows = math.ceil(len(self.buttons) / cols)
 
         max_width = max(len(name) for name in self.buttons)
@@ -26,24 +26,24 @@ class App:
             btn = tk.Button(
                 frame,
                 text=name,
-                height=2,
+                height=set.BUTTON_HEIGHT,
                 width=max_width,
-                bg="#d9d9d9",
-                # relief="flat",  # no border
+                bg=set.BUTTON_COLOR,
+                relief=set.BUTTON_RELIEF,  # no border
                 command=lambda n=name: self.open_window(n)
             )
             btn.grid(
                 row=i // cols,
                 column=i % cols,
-                padx=10,
-                pady=10,
-                sticky="nsew"
+                padx=set.BUTTON_PADX,
+                pady=set.BUTTON_PADY,
+                sticky=set.BUTTON_STICKY
             )
 
         for i in range(cols):
-            self.root.columnconfigure(i, weight=1)
+            self.root.columnconfigure(i, weight=set.GRID_WEIGHT)
         for i in range(rows):
-            self.root.rowconfigure(i, weight=1)
+            self.root.rowconfigure(i, weight=set.GRID_WEIGHT)
 
     def open_window(self, name):
         self.root.withdraw()  # скрыть главное окно
