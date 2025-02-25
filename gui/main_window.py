@@ -2,6 +2,7 @@ import math
 import tkinter as tk
 
 from settings import settings as set
+from .window_creator import WindowCreator
 
 
 class App:
@@ -94,130 +95,17 @@ class App:
         )
 
     def create_travi_ui(self, window):
-        frame = tk.Frame(
-            window,
-            bg=set.FRAME_BG_COLOR,
-            padx=set.FRAME_PADX, pady=set.FRAME_PADY
-        )
-        frame.pack(expand=True, fill=tk.BOTH)
-
-        # Поля и варианты выбора
-        options = set.TRAVI_OPTIONS
-
-        entries = {}
-
-        for i, (label, values) in enumerate(options.items()):
-            if values:
-                tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
-                    row=i,
-                    column=set.LABEL_NAME_COLUMN,
-                    sticky=set.LABEL_STICKY,
-                    pady=set.LABEL_PADY
-                )
-                var = tk.StringVar(value=values[0])
-                dropdown = tk.OptionMenu(frame, var, *values)
-                dropdown.grid(
-                    row=i,
-                    column=set.DROPDOWN_COLUMN,
-                    sticky=set.DROPDOWN_STICKY,
-                    padx=set.DROPDOWN_PADX
-                )
-                entries[label] = var
-            else:
-                tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
-                    row=i,
-                    column=set.LABEL_NAME_COLUMN,
-                    sticky=set.LABEL_STICKY,
-                    pady=set.LABEL_PADY
-                )
-                entry = tk.Entry(frame)
-                entry.grid(
-                    row=i,
-                    column=set.DROPDOWN_COLUMN,
-                    sticky=set.DROPDOWN_STICKY,
-                    padx=set.DROPDOWN_PADX
-                )
-                entries[label] = entry
-
-            if label in set.dimensions_need_mm:
-                tk.Label(
-                    frame,
-                    text=set.LABEL_MM_TEXT,
-                    bg=set.LABEL_BG_COLOR
-                ).grid(
-                    row=i,
-                    column=set.LABEL_MM_COLUMN,
-                    sticky=set.LABEL_STICKY
-                )
-
-        for i in range(set.COL_NUM):
-            frame.columnconfigure(i, weight=set.GRID_WEIGHT)
+        creator = WindowCreator(window, set.TRAVI_OPTIONS, [set.LENGTH])
+        self.travi_entries = creator.create_ui()
 
     def create_fiancate_ui(self, window):
         window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
-        frame = tk.Frame(
+        creator = WindowCreator(
             window,
-            bg=set.FRAME_BG_COLOR,
-            padx=set.FRAME_PADX,
-            pady=set.FRAME_PADY
+            set.FIANCATE_SELECT_FIELDS,
+            set.FIANCATE_INPUT_FIELDS
         )
-        frame.pack(expand=True, fill=tk.BOTH)
-
-        # Поля и варианты выбора
-        options = set.FIANCATE_SELECT_FIELDS
-
-        entries = {}
-
-        for i, (label, values) in enumerate(options.items()):
-            tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
-                row=i,
-                column=set.LABEL_NAME_COLUMN,
-                sticky=set.LABEL_STICKY,
-                pady=set.LABEL_PADY
-            )
-            var = tk.StringVar(value=values[0])
-            dropdown = tk.OptionMenu(frame, var, *values)
-            dropdown.grid(
-                row=i,
-                column=set.DROPDOWN_COLUMN,
-                sticky=set.DROPDOWN_STICKY,
-                padx=set.DROPDOWN_PADX
-            )
-            entries[label] = var
-
-        input_fields = set.FIANCATE_INPUT_FIELDS
-
-        start_row = len(options)
-
-        for i, label in enumerate(input_fields):
-            tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
-                row=start_row + i,
-                column=set.LABEL_NAME_COLUMN,
-                sticky=set.LABEL_STICKY,
-                pady=set.LABEL_PADY
-            )
-            entry = tk.Entry(frame)
-            entry.grid(
-                row=start_row + i,
-                column=set.ENTRY_COLUMN,
-                sticky=set.ENTRY_STICKY,
-                padx=set.ENTRY_PADX
-            )
-            entries[label] = entry
-            if label in set.dimensions_need_mm:
-                tk.Label(
-                    frame,
-                    text=set.LABEL_MM_TEXT,
-                    bg=set.LABEL_BG_COLOR
-                ).grid(
-                    row=start_row + i,
-                    column=set.LABEL_MM_COLUMN,
-                    sticky=set.LABEL_STICKY
-                )
-
-    # Колонки подстраиваем под контент
-        for i in range(set.COL_NUM):
-            frame.columnconfigure(i, weight=set.GRID_WEIGHT)
+        self.fiancate_entries = creator.create_ui()
 
     def on_close(self, window):
         window.destroy()
