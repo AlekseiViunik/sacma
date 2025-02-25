@@ -29,7 +29,7 @@ class App:
                 height=set.BUTTON_HEIGHT,
                 width=max_width,
                 bg=set.BUTTON_COLOR,
-                relief=set.BUTTON_RELIEF,  # no border
+                relief=set.BUTTON_RELIEF,
                 command=lambda n=name: self.open_window(n)
             )
             btn.grid(
@@ -50,51 +50,54 @@ class App:
 
         new_window = tk.Toplevel(self.root)
         new_window.title(name)
-        new_window.geometry("400x300")
-        self.center_window(new_window, 400, 300)
+        new_window.geometry(f"{set.SECOND_WIN_WIDTH}x{set.SECOND_WIN_HEIGHT}")
+        self.center_window(
+            new_window,
+            set.SECOND_WIN_WIDTH,
+            set.SECOND_WIN_HEIGHT
+        )
 
-        if name == "Travi":
-            self.create_travi_ui(new_window)
-        elif name == "Fiancate":
-            new_window.geometry("400x450")
-            self.create_fiancate_ui(new_window)
+        method_name = f"create_{name.lower()}_ui"
+        method = getattr(self, method_name, None)
+
+        if method:
+            method(new_window)
         else:
             tk.Label(
                 new_window,
                 text=name,
-                font=("Arial", 14),
-                bg="#f0f0f0"
+                font=(set.LABEL_FONT_FAMILY, set.LABEL_FONT_SIZE),
+                bg=set.LABEL_BG_COLOR
             ).pack(expand=True)
 
         btn_invia = tk.Button(
             new_window,
-            text="Invia",
-            width=10,
-            bg="#d9d9d9"
+            text=set.BUTTON_INVIA_TITLE,
+            width=set.BUTTON_INVIA_WIDTH,
+            bg=set.BUTTON_COLOR,
+            relief=set.BUTTON_RELIEF,
         )
         btn_invia.pack(
-            side="bottom",
-            anchor="se",
-            padx=10,
-            pady=10
+            side=set.BUTTON_INVIA_SIDE,
+            anchor=set.BUTTON_INVIA_ANCHOR,
+            padx=set.BUTTON_PADX,
+            pady=set.BUTTON_PADY
         )
 
         new_window.protocol(
-            "WM_DELETE_WINDOW",
+            set.ON_CLOSING_WINDOW,
             lambda: self.on_close(new_window)
         )
 
     def create_travi_ui(self, window):
-        frame = tk.Frame(window, bg="#f0f0f0", padx=10, pady=10)
-        frame.pack(expand=True, fill="both")
+        frame = tk.Frame(
+            window,
+            bg=set.FRAME_BG_COLOR,
+            padx=set.FRAME_PADX, pady=set.FRAME_PADY)
+        frame.pack(expand=True, fill=tk.BOTH)
 
         # Поля и варианты выбора
-        options = {
-            "Tipo": ["TG", "C"],
-            "Altezza": [str(x) for x in range(50, 210, 10)],
-            "Larghezza": ["45", "50"],
-            "Spessore": ["1.2", "1.5", "2.0", "2.5", "3.0"]
-        }
+        options = set.TRAVI_OPTIONS
 
         entries = {}
 
@@ -134,10 +137,16 @@ class App:
         entries["Lunghezza"] = lunghezza_entry
 
         for i in range(3):
-            frame.columnconfigure(i, weight=1)
+            frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
     def create_fiancate_ui(self, window):
-        frame = tk.Frame(window, bg="#f0f0f0", padx=10, pady=10)
+        window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
+        frame = tk.Frame(
+            window,
+            bg=set.FRAME_BG_COLOR,
+            padx=set.FRAME_PADX,
+            pady=set.FRAME_PADY
+        )
         frame.pack(expand=True, fill="both")
 
         # Поля и варианты выбора
