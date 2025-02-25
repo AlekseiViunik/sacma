@@ -129,7 +129,7 @@ class App:
                     bg=set.LABEL_BG_COLOR
                 ).grid(
                     row=i,
-                    column=set.LABEL_NAME_COLUMN,
+                    column=set.LABEL_MM_COLUMN,
                     sticky=set.LABEL_STICKY
                 )
 
