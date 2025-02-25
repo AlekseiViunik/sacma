@@ -26,7 +26,7 @@ FIANCATE_WIN_WIDTH = 400
 FIANCATE_WIN_HEIGHT = 500
 
 # Travi window
-TRAVI_OPTIONS = {
+TRAVI_SELECT_FIELDS = {
     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
     "Altezza": [
         50, 60, 70, 80, 90, 100, 110, 120, 130,
@@ -34,8 +34,10 @@ TRAVI_OPTIONS = {
     ],
     "Larghezza": [45, 50],
     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-    "Lunghezza": ""
+    "Staffa speciale": ["No", "Sì"],
+    "Quantita": [">=1001", "<1001"],
 }
+TRAVI_INPUT_FIELDS = ["Lunghezza"]
 
 # Fiancate window
 FIANCATE_SELECT_FIELDS = {
