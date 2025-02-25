@@ -69,7 +69,12 @@ class App:
                 bg="#f0f0f0"
             ).pack(expand=True)
 
-        btn_invia = tk.Button(new_window, text="Invia", bg="#d9d9d9")
+        btn_invia = tk.Button(
+            new_window,
+            text="Invia",
+            width=10,
+            bg="#d9d9d9"
+        )
         btn_invia.pack(
             side="bottom",
             anchor="se",
@@ -141,6 +146,7 @@ class App:
         # Поля и варианты выбора
         options = {
             "Solo montante": ["No", "Sì"],
+            "Sismo resistente": ["No", "Sì"],
             "Sezione": [
                 "80/20",
                 "80/25",
