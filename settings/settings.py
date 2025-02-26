@@ -182,3 +182,7 @@ TRAVI_RULES = {
 TRAVI = "travi"
 PRICE = "Prezzo"
 WEIGHT = "Peso"
+
+# Messages
+PRICE_NOT_FOUND = "Prezzo non trovato"
+WEIGHT_NOT_FOUND = "Peso non trovato"

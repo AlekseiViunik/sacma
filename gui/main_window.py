@@ -139,8 +139,12 @@ class App:
         self.center_window(result_window, 300, 150)  # Центрируем окно
 
         # Формируем текст для отображения
-        prezzo_text = f"Prezzo: {cost} €" if cost else "Prezzo not found"
-        peso_text = f"Peso: {weight} Kg" if weight else "Peso not found"
+        prezzo_text = (
+            f"{set.PRICE}: {cost} €" if cost else set.PRICE_NOT_FOUND
+        )
+        peso_text = (
+            f"{set.WEIGHT}: {weight} Kg" if weight else set.WEIGHT_NOT_FOUND
+        )
 
         # Выводим текст
         tk.Label(
