@@ -35,7 +35,7 @@ TRAVI_SELECT_FIELDS = {
     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
     "Staffa speciale": ["No", "Sì"],
     "Quantita": [">=1001", "<=1000"],
-    "Appoggio*": ["No", "Sì"]
+    "Appoggio": ["No", "Sì"]
 }
 TRAVI_INPUT_FIELDS = ["Lunghezza"]
 
@@ -147,6 +147,17 @@ TRAVI_CELLS_APERTE = {
     "Peso": "E39"
 }
 
+TRAVI_CELLS_SAT = {
+    "Altezza": "B21",
+    "Spessore": "B23",
+    "Appoggio": "B27",
+    "Lunghezza": "B29",
+    "Staffa speciale": "B31",
+    "Quantita": "B33",
+    "Prezzo": "E21",
+    "Peso": "E23"
+}
+
 TRAVI_WORKSHEET = "Listino Travi"
 TRAVI_TYPE_KEY = "Tipo"
 TRAVI_TYPE_TG = "TG"
@@ -175,7 +186,8 @@ TRAVI_RULES = {
             "min": 1200,
             "max": 3600,
         }
-    }
+    },
+    "SAT": {}
 }
 
 # PART NAMES
