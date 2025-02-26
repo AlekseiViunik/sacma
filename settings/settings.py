@@ -26,6 +26,125 @@ FIANCATE_WIN_WIDTH = 400
 FIANCATE_WIN_HEIGHT = 500
 
 # Travi window
+FIELDS = {
+    "travi": {
+        "TG": {
+            "select": {
+                "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                "Altezza": [
+                    50, 60, 70, 80, 90, 100, 110, 120, 130,
+                    140, 150, 160, 170, 180, 190, 200
+                ],
+                "Larghezza": [45, 50],
+                "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+                "Staffa speciale": ["No", "Sì"],
+                "Quantita": [">=1001", "<=1000"],
+            },
+            "input": ["Lunghezza"]
+        },
+        "SAT": {
+            "select": {
+                "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                "Altezza": [
+                    50, 60, 70, 80, 90, 100, 110, 120, 130,
+                    140, 150, 160, 170, 180, 190, 200
+                ],
+                "Appoggio": ["No", "Sì"],
+                "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+                "Staffa speciale": ["No", "Sì"],
+                "Quantita": [">=1001", "<=1000"],
+            },
+            "input": ["Lunghezza"]
+        },
+        "APERTE": {
+            "select": {
+                "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                "Altezza": [
+                    50, 60, 70, 80, 90, 100, 110, 120, 130,
+                    140, 150, 160, 170, 180, 190, 200
+                ],
+                "Larghezza": [45, 50],
+                "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+                "Staffa speciale": ["No", "Sì"],
+                "Quantita": [">=1001", "<=1000"],
+            },
+            "input": ["Lunghezza"]
+        },
+        "SKID": {
+            "select": {
+                "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+            },
+            "input": ["Altezza", "Larghezza", "Lunghezza"]
+        }
+    },
+    "fiancate": {
+        "SISMO": {
+            "select": {
+                "Solo montante": ["No", "Sì"],
+                "Sismo resistente": ["No", "Sì"],
+                "Sezione": [
+                    "80/20",
+                    "80/25",
+                    "80/30",
+                    "100/20",
+                    "100/25",
+                    "100/30",
+                    "120/20",
+                    "120/25",
+                    "120/30",
+                    "120x110/20",
+                    "120x110/25",
+                    "120x110/30",
+                    "120x110/40"
+                ]
+            },
+            "input": [
+                "Altezza",
+                "N diagonali 10/10",
+                "N diagonali 15/10",
+                "N diagonali 20/10",
+                "N diagonali 25/10",
+                "N diagonali 30/10",
+                "N traversi 10/10",
+                "N traversi 15/10"
+            ]
+        },
+        "NONSISMPO": {
+            "select": {
+                "Solo montante": ["No", "Sì"],
+                "Sismo resistente": ["No", "Sì"],
+                "Sezione": [
+                    "80/20",
+                    "80/25",
+                    "80/30",
+                    "100/20",
+                    "100/25",
+                    "100/30",
+                    "120/20",
+                    "120/25",
+                    "120/30",
+                    "120x110/20",
+                    "120x110/25",
+                    "120x110/30",
+                    "120x110/40"
+                ]
+            },
+            "input": [
+                "Altezza",
+                "N diagonali 10/10",
+                "N diagonali 15/10",
+                "N diagonali 20/10",
+                "N diagonali 25/10",
+                "N diagonali 30/10",
+                "N traversi 10/10"
+            ]
+        }
+    }
+}
+
+CHANGING_FIELDS = ["Sismo resistente", "Tipo"]
+
 TRAVI_SELECT_FIELDS = {
     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
     "Altezza": [
@@ -150,6 +269,7 @@ TRAVI_CELLS_APERTE = {
 TRAVI_WORKSHEET = "Listino Travi"
 TRAVI_TYPE_KEY = "Tipo"
 TRAVI_TYPE_TG = "TG"
+TRAVI_TYPE_APERTE = "APERTE"
 TRAVI_TYPE_SAT = "SAT"
 
 TRAVI_RULES = {
@@ -163,5 +283,29 @@ TRAVI_RULES = {
             "min": 1200,
             "max": 3600,
         }
+    },
+    "APERTE": {
+        "altezza": {
+            "min": 70,
+            "max": 170
+        },
+        "lunghezza": {
+            "numeric": True,
+            "min": 1200,
+            "max": 3600,
+        }
     }
 }
+
+# PART NAMES
+TRAVI = "travi"
+FIANCATE = "fiancate"
+PRICE = "Prezzo"
+WEIGHT = "Peso"
+SELECT = "select"
+INPUT = "input"
+SISMO = "sismo"
+
+# Messages
+PRICE_NOT_FOUND = "Prezzo non trovato"
+WEIGHT_NOT_FOUND = "Peso non trovato"
