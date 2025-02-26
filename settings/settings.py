@@ -109,10 +109,11 @@ FIANCATE_INPUT_FIELDS = [
 TRAVI_SELECT_FIELDS = {
     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
     "Altezza": [
+        20, 25, 30, 35, 40, 45,
         50, 60, 70, 80, 90, 100, 110, 120, 130,
         140, 150, 160, 170, 180, 190, 200
     ],
-    "Larghezza": [45, 50],
+    "Larghezza": [30, 35, 40, 45, 50],
     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
     "Staffa speciale": ["No", "Sì"],
     "Quantita": [">=1001", "<=1000"],
@@ -168,6 +169,7 @@ TRAVI_TYPE_KEY = "Tipo"
 TRAVI_TYPE_TG = "TG"
 TRAVI_TYPE_APERTE = "APERTE"
 TRAVI_TYPE_SAT = "SAT"
+TRAVI_TYPE_PORTA_SKID = "PORTA SKID"
 
 TRAVI_RULES = {
     "TG": {
@@ -192,7 +194,8 @@ TRAVI_RULES = {
             "max": 3600,
         }
     },
-    "SAT": {}
+    "SAT": {},
+    "PORTA SKID": {}
 }
 
 # Dimensions
