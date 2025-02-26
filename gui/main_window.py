@@ -1,6 +1,7 @@
 import math
 import tkinter as tk
 
+from logic.excel_file_handler import ExcelFileHandler
 from settings import settings as set
 from .window_creator import WindowCreator
 
@@ -127,6 +128,35 @@ class App:
         window.geometry(f"{width}x{height}+{x}+{y}")
 
     def calculate(self, name):
-        for field, entry in self.entries.items():
-            value = entry.get() if isinstance(entry, tk.Entry) else entry.get()
-            print(f"{field}: {value}")
+        entries_dict = {
+            key: entry.get() for key, entry in self.entries.items()
+        }
+        excel = ExcelFileHandler(name, entries_dict)
+        cost, weight = excel.process_excel()
+
+        result_window = tk.Toplevel(self.root)
+        result_window.title("Risultato")  # Заголовок окна
+        self.center_window(result_window, 300, 150)  # Центрируем окно
+
+        # Формируем текст для отображения
+        prezzo_text = f"Prezzo: {cost} €" if cost else "Prezzo not found"
+        peso_text = f"Peso: {weight} Kg" if weight else "Peso not found"
+
+        # Выводим текст
+        tk.Label(
+            result_window,
+            text=prezzo_text,
+            font=("Arial", 12)
+        ).pack(pady=5)
+        tk.Label(
+            result_window,
+            text=peso_text,
+            font=("Arial", 12)
+        ).pack(pady=5)
+
+        # Кнопка "OK", которая закроет окно
+        tk.Button(
+            result_window,
+            text="OK",
+            command=result_window.destroy
+        ).pack(pady=10)
