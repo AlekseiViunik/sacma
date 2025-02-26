@@ -101,8 +101,8 @@ class App:
     def create_travi_ui(self, window):
         creator = WindowCreator(
             window,
-            set.FIELDS[set.TRAVI][set.TRAVI_TYPE_TG][set.SELECT],
-            set.FIELDS[set.TRAVI][set.TRAVI_TYPE_TG][set.INPUT]
+            set.TRAVI_SELECT_FIELDS,
+            set.TRAVI_INPUT_FIELDS
         )
         self.entries = creator.create_ui()
 
@@ -110,8 +110,8 @@ class App:
         window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
         creator = WindowCreator(
             window,
-            set.FIELDS[set.FIANCATE][set.SISMO][set.SELECT],
-            set.FIELDS[set.FIANCATE][set.SISMO][set.INPUT]
+            set.FIANCATE_SELECT_FIELDS,
+            set.FIANCATE_INPUT_FIELDS
         )
         self.entries = creator.create_ui()
 

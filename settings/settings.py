@@ -18,132 +18,12 @@ MAIN_WIN_BUTTONS = [
 
 # Secondary window
 SECOND_WIN_WIDTH = 400
-SECOND_WIN_HEIGHT = 300
+SECOND_WIN_HEIGHT = 400
 ON_CLOSING_WINDOW = "WM_DELETE_WINDOW"
 
 # Fiancate window
 FIANCATE_WIN_WIDTH = 400
 FIANCATE_WIN_HEIGHT = 500
-
-# Travi window
-FIELDS = {
-    "travi": {
-        "TG": {
-            "select": {
-                "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-                "Altezza": [
-                    50, 60, 70, 80, 90, 100, 110, 120, 130,
-                    140, 150, 160, 170, 180, 190, 200
-                ],
-                "Larghezza": [45, 50],
-                "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-                "Staffa speciale": ["No", "Sì"],
-                "Quantita": [">=1001", "<=1000"],
-            },
-            "input": ["Lunghezza"]
-        },
-        "SAT": {
-            "select": {
-                "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-                "Altezza": [
-                    50, 60, 70, 80, 90, 100, 110, 120, 130,
-                    140, 150, 160, 170, 180, 190, 200
-                ],
-                "Appoggio": ["No", "Sì"],
-                "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-                "Staffa speciale": ["No", "Sì"],
-                "Quantita": [">=1001", "<=1000"],
-            },
-            "input": ["Lunghezza"]
-        },
-        "APERTE": {
-            "select": {
-                "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-                "Altezza": [
-                    50, 60, 70, 80, 90, 100, 110, 120, 130,
-                    140, 150, 160, 170, 180, 190, 200
-                ],
-                "Larghezza": [45, 50],
-                "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-                "Staffa speciale": ["No", "Sì"],
-                "Quantita": [">=1001", "<=1000"],
-            },
-            "input": ["Lunghezza"]
-        },
-        "SKID": {
-            "select": {
-                "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-                "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-            },
-            "input": ["Altezza", "Larghezza", "Lunghezza"]
-        }
-    },
-    "fiancate": {
-        "SISMO": {
-            "select": {
-                "Solo montante": ["No", "Sì"],
-                "Sismo resistente": ["No", "Sì"],
-                "Sezione": [
-                    "80/20",
-                    "80/25",
-                    "80/30",
-                    "100/20",
-                    "100/25",
-                    "100/30",
-                    "120/20",
-                    "120/25",
-                    "120/30",
-                    "120x110/20",
-                    "120x110/25",
-                    "120x110/30",
-                    "120x110/40"
-                ]
-            },
-            "input": [
-                "Altezza",
-                "N diagonali 10/10",
-                "N diagonali 15/10",
-                "N diagonali 20/10",
-                "N diagonali 25/10",
-                "N diagonali 30/10",
-                "N traversi 10/10",
-                "N traversi 15/10"
-            ]
-        },
-        "NONSISMPO": {
-            "select": {
-                "Solo montante": ["No", "Sì"],
-                "Sismo resistente": ["No", "Sì"],
-                "Sezione": [
-                    "80/20",
-                    "80/25",
-                    "80/30",
-                    "100/20",
-                    "100/25",
-                    "100/30",
-                    "120/20",
-                    "120/25",
-                    "120/30",
-                    "120x110/20",
-                    "120x110/25",
-                    "120x110/30",
-                    "120x110/40"
-                ]
-            },
-            "input": [
-                "Altezza",
-                "N diagonali 10/10",
-                "N diagonali 15/10",
-                "N diagonali 20/10",
-                "N diagonali 25/10",
-                "N diagonali 30/10",
-                "N traversi 10/10"
-            ]
-        }
-    }
-}
-
-CHANGING_FIELDS = ["Sismo resistente", "Tipo"]
 
 TRAVI_SELECT_FIELDS = {
     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
@@ -155,6 +35,7 @@ TRAVI_SELECT_FIELDS = {
     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
     "Staffa speciale": ["No", "Sì"],
     "Quantita": [">=1001", "<=1000"],
+    "Appoggio*": ["No", "Sì"]
 }
 TRAVI_INPUT_FIELDS = ["Lunghezza"]
 
