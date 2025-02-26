@@ -136,6 +136,17 @@ TRAVI_CELLS_TG = {
     "Peso": "E6"
 }
 
+TRAVI_CELLS_APERTE = {
+    "Altezza": "B37",
+    "Larghezza": "B39",
+    "Spessore": "B41",
+    "Lunghezza": "B45",
+    "Staffa speciale": "B47",
+    "Quantita": "B49",
+    "Prezzo": "E37",
+    "Peso": "E39"
+}
+
 TRAVI_WORKSHEET = "Listino Travi"
 TRAVI_TYPE_KEY = "Tipo"
 TRAVI_TYPE_TG = "TG"
