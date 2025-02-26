@@ -135,3 +135,21 @@ TRAVI_CELLS_TG = {
     "Prezzo": "E4",
     "Peso": "E6"
 }
+
+TRAVI_WORKSHEET = "Listino Travi"
+TRAVI_TYPE_KEY = "Tipo"
+TRAVI_TYPE_TG = "TG"
+TRAVI_TYPE_SAT = "SAT"
+
+TRAVI_RULES = {
+    "TG": {
+        "altezza": {
+            "min": 70,
+            "max": 170
+        },
+        "lunghezza": {
+            "min": 1200,
+            "max": 3600
+        }
+    }
+}
