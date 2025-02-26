@@ -177,3 +177,8 @@ TRAVI_RULES = {
         }
     }
 }
+
+# PART NAMES
+TRAVI = "travi"
+PRICE = "Prezzo"
+WEIGHT = "Peso"

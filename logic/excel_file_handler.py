@@ -27,6 +27,8 @@ class ExcelFileHandler:
             match self.data[set.TRAVI_TYPE_KEY]:
                 case set.TRAVI_TYPE_TG:
                     data_prepared = self.prepare_dict(set.TRAVI_CELLS_TG)
+                case set.TRAVI_TYPE_APERTE:
+                    data_prepared = self.prepare_dict(set.TRAVI_CELLS_APERTE)
             return data_prepared
 
     def prepare_dict(self, cells):
@@ -42,11 +44,14 @@ class ExcelFileHandler:
         # TODO Переделать на словарь
         # TODO Добавить обработку для других типов полок
         # TODO Добавить докстринги
-        if self.part_of_the_shelf.lower() == "travi":
+        if self.part_of_the_shelf.lower() == set.TRAVI:
             match self.data[set.TRAVI_TYPE_KEY]:
                 case set.TRAVI_TYPE_TG:
-                    price_cell = set.TRAVI_CELLS_TG["Prezzo"]
-                    weight_cell = set.TRAVI_CELLS_TG["Peso"]
+                    price_cell = set.TRAVI_CELLS_TG[set.PRICE]
+                    weight_cell = set.TRAVI_CELLS_TG[set.WEIGHT]
+                case set.TRAVI_TYPE_APERTE:
+                    price_cell = set.TRAVI_CELLS_APERTE[set.PRICE]
+                    weight_cell = set.TRAVI_CELLS_APERTE[set.WEIGHT]
         return price_cell, weight_cell
 
     def process_excel(self):
