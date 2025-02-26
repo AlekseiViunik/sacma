@@ -26,7 +26,7 @@ FIANCATE_WIN_WIDTH = 400
 FIANCATE_WIN_HEIGHT = 500
 
 # Travi window
-TRAVI_OPTIONS = {
+TRAVI_SELECT_FIELDS = {
     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
     "Altezza": [
         50, 60, 70, 80, 90, 100, 110, 120, 130,
@@ -34,8 +34,10 @@ TRAVI_OPTIONS = {
     ],
     "Larghezza": [45, 50],
     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-    "Lunghezza": ""
+    "Staffa speciale": ["No", "Sì"],
+    "Quantita": [">=1001", "<=1000"],
 }
+TRAVI_INPUT_FIELDS = ["Lunghezza"]
 
 # Fiancate window
 FIANCATE_SELECT_FIELDS = {
@@ -121,3 +123,45 @@ WIDTH = "Larghezza"
 THICKNESS = "Spessore"
 LENGTH = "Lunghezza"
 dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH]
+
+# Excel data
+TRAVI_CELLS_TG = {
+    "Altezza": "B4",
+    "Larghezza": "B6",
+    "Spessore": "B8",
+    "Lunghezza": "B12",
+    "Staffa speciale": "B14",
+    "Quantita": "B16",
+    "Prezzo": "E4",
+    "Peso": "E6"
+}
+
+TRAVI_CELLS_APERTE = {
+    "Altezza": "B37",
+    "Larghezza": "B39",
+    "Spessore": "B41",
+    "Lunghezza": "B45",
+    "Staffa speciale": "B47",
+    "Quantita": "B49",
+    "Prezzo": "E37",
+    "Peso": "E39"
+}
+
+TRAVI_WORKSHEET = "Listino Travi"
+TRAVI_TYPE_KEY = "Tipo"
+TRAVI_TYPE_TG = "TG"
+TRAVI_TYPE_SAT = "SAT"
+
+TRAVI_RULES = {
+    "TG": {
+        "altezza": {
+            "min": 70,
+            "max": 170
+        },
+        "lunghezza": {
+            "numeric": True,
+            "min": 1200,
+            "max": 3600,
+        }
+    }
+}
