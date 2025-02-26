@@ -3,6 +3,7 @@ import win32com.client as win32
 
 from decimal import Decimal, ROUND_HALF_UP
 
+from logic.validator import Validator
 from settings import settings as set
 
 
@@ -14,9 +15,14 @@ class ExcelFileHandler:
 
     def prepare_data_for_excel(self):
         if self.part_of_the_shelf.lower() == "travi":
-            self.worksheet = "Listino Travi"
-            match self.data['Tipo']:
-                case "TG":
+            if not self.check_data(
+                set.TRAVI_RULES[self.data[set.TRAVI_TYPE_KEY]]
+            ):
+                return None
+
+            self.worksheet = set.TRAVI_WORKSHEET
+            match self.data[set.TRAVI_TYPE_KEY]:
+                case set.TRAVI_TYPE_TG:
                     data_prepared = self.prepare_dict(set.TRAVI_CELLS_TG)
             return data_prepared
 
@@ -37,10 +43,11 @@ class ExcelFileHandler:
         FILE_PATH = os.path.abspath(FILE_PATH)
 
         data_prepared = self.prepare_data_for_excel()
+        if not data_prepared:
+            return None, None
 
         excel = win32.Dispatch("Excel.Application")
         excel.Visible = False  # Запуск в фоновом режиме
-        # excel.DisplayAlerts = False
 
         wb = excel.Workbooks.Open(FILE_PATH, UpdateLinks=0)
 
@@ -58,23 +65,32 @@ class ExcelFileHandler:
         wb.RefreshAll()  # Обновляем связи
         excel.CalculateUntilAsyncQueriesDone()
 
-        value_e4 = sheet.Range("E4").Value
-        value_e6 = sheet.Range("E6").Value
+        price = sheet.Range("E4").Value
+        weight = sheet.Range("E6").Value
 
-        if value_e4 > 0:
-            value_e4 = Decimal(value_e4).quantize(
+        if price > 0:
+            price = Decimal(price).quantize(
                 Decimal("0.01"),
                 rounding=ROUND_HALF_UP
             )
-            value_e6 = Decimal(value_e6).quantize(
+            weight = Decimal(weight).quantize(
                 Decimal("0.01"),
                 rounding=ROUND_HALF_UP
             )
         else:
-            value_e4 = None
-            value_e6 = None
+            price = None
+            weight = None
 
         wb.Close(SaveChanges=False)
         excel.Quit()
 
-        return value_e4, value_e6
+        return price, weight
+
+    def check_data(self, rules):
+        for key, value in self.data.items():
+            key = key.lower()
+            if key in rules:
+                for rul_key, rul_value in rules[key].items():
+                    if not Validator().validate(rul_key, rul_value, value):
+                        return False
+        return True
