@@ -150,10 +150,22 @@ TRAVI_CELLS_APERTE = {
 TRAVI_WORKSHEET = "Listino Travi"
 TRAVI_TYPE_KEY = "Tipo"
 TRAVI_TYPE_TG = "TG"
+TRAVI_TYPE_APERTE = "APERTE"
 TRAVI_TYPE_SAT = "SAT"
 
 TRAVI_RULES = {
     "TG": {
+        "altezza": {
+            "min": 70,
+            "max": 170
+        },
+        "lunghezza": {
+            "numeric": True,
+            "min": 1200,
+            "max": 3600,
+        }
+    },
+    "APERTE": {
         "altezza": {
             "min": 70,
             "max": 170
