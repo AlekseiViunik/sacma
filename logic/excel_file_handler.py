@@ -31,6 +31,10 @@ class ExcelFileHandler:
                     data_prepared = self.prepare_dict(set.TRAVI_CELLS_APERTE)
                 case set.TRAVI_TYPE_SAT:
                     data_prepared = self.prepare_dict(set.TRAVI_CELLS_SAT)
+                case set.TRAVI_TYPE_PORTA_SKID:
+                    data_prepared = self.prepare_dict(
+                        set.TRAVI_CELLS_PORTA_SKID
+                    )
             return data_prepared
 
     def prepare_dict(self, cells):
@@ -57,6 +61,9 @@ class ExcelFileHandler:
                 case set.TRAVI_TYPE_SAT:
                     price_cell = set.TRAVI_CELLS_SAT[set.PRICE]
                     weight_cell = set.TRAVI_CELLS_SAT[set.WEIGHT]
+                case set.TRAVI_TYPE_PORTA_SKID:
+                    price_cell = set.TRAVI_CELLS_PORTA_SKID[set.PRICE]
+                    weight_cell = set.TRAVI_CELLS_PORTA_SKID[set.WEIGHT]
         return price_cell, weight_cell
 
     def process_excel(self):
