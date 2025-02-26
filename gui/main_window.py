@@ -81,7 +81,7 @@ class App:
         btn_invia = tk.Button(
             new_window,
             text=set.BUTTON_INVIA_TITLE,
-            width=set.BUTTON_INVIA_WIDTH,
+            width=set.BUTTON_WIDTH,
             bg=set.BUTTON_COLOR,
             relief=set.BUTTON_RELIEF,
             command=lambda n=name: self.calculate(n)
@@ -161,6 +161,8 @@ class App:
         # Кнопка "OK", которая закроет окно
         tk.Button(
             result_window,
+            width=set.BUTTON_WIDTH,
+            bg=set.BUTTON_COLOR,
             text="OK",
             command=result_window.destroy
         ).pack(pady=10)
