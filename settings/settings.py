@@ -35,7 +35,7 @@ TRAVI_SELECT_FIELDS = {
     "Larghezza": [45, 50],
     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
     "Staffa speciale": ["No", "Sì"],
-    "Quantita": [">=1001", "<1001"],
+    "Quantita": [">=1001", "<=1000"],
 }
 TRAVI_INPUT_FIELDS = ["Lunghezza"]
 
@@ -123,3 +123,15 @@ WIDTH = "Larghezza"
 THICKNESS = "Spessore"
 LENGTH = "Lunghezza"
 dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH]
+
+# Excel data
+TRAVI_CELLS_TG = {
+    "Altezza": "B4",
+    "Larghezza": "B6",
+    "Spessore": "B8",
+    "Lunghezza": "B12",
+    "Staffa speciale": "B14",
+    "Quantita": "B16",
+    "Prezzo": "E4",
+    "Peso": "E6"
+}
