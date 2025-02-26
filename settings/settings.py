@@ -148,8 +148,9 @@ TRAVI_RULES = {
             "max": 170
         },
         "lunghezza": {
+            "numeric": True,
             "min": 1200,
-            "max": 3600
+            "max": 3600,
         }
     }
 }

@@ -17,4 +17,7 @@ class Validator:
                     return False
                 if value > rul_value:
                     return False
+            case "numeric":
+                if not str(value).isnumeric():
+                    return False
         return True
