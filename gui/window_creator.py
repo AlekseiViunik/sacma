@@ -6,19 +6,19 @@ class WindowCreator:
     """Класс-помощник. Располагает виджеты на окнах.
     Attributes
     ----------
-    window : tk.Toplevel
-        Окно, с которым класс будет работать.
-    select_fields : Dict[string: List[Any]]
-        Поля для выбора из выпадающего списка.
-    input_fields : List[Any]
-        Поля для ручного ввода данных юзером.
+        window : tk.Toplevel
+            Окно, с которым класс будет работать.
+        select_fields : Dict[string: List[Any]]
+            Поля для выбора из выпадающего списка.
+        input_fields : List[Any]
+            Поля для ручного ввода данных юзером.
 
     Methods
     -------
-    create_ui()
-        Раскидывает виджеты по окну.
-    add_mm(frame, label, row)
-        Добавляет единицы измерения.
+        create_ui()
+            Раскидывает виджеты по окну.
+        add_mm(frame, label, row)
+            Добавляет единицы измерения.
     """
     def __init__(self, window, select_fields, input_fields):
         self.window = window
