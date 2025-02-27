@@ -38,4 +38,5 @@ class Validator:
                 if not str(value).isnumeric():
                     log.error(f"{rule_key}={value} is not numeric")
                     return False
+        log.info("Data's been checked. Everithing's OK!")
         return True
