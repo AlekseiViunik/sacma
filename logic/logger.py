@@ -13,7 +13,7 @@ os.makedirs(LOG_DIR, exist_ok=True)  # Создаём папку logs, если 
 LOG_FILE = os.path.join(LOG_DIR, set.LOG_FILE_NAME)
 
 
-def check_log_size():
+def check_log_size() -> None:
     """
     Метод проверяет текущий размер файла логирования перед стартом приложения.
     Если количество строк в файле превышает заданное, то файл очищается и
