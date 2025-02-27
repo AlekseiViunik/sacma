@@ -1,5 +1,6 @@
 import inspect
 import os
+import tkinter as tk
 import win32com.client as win32
 
 from decimal import Decimal, ROUND_HALF_UP
@@ -7,7 +8,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from logic.logger import logger as log
 from logic.validator import Validator
 from settings import settings as set
-from typing import List, Dict, Tuple, Any
+from typing import Dict, Tuple, Any
 
 
 class ExcelFileHandler:
@@ -41,9 +42,9 @@ class ExcelFileHandler:
                 преобразованием их в словарь.
     """
 
-    def __init__(self, part_of_the_shelf: str, data: Any):
+    def __init__(self, part_of_the_shelf: str, data: tk.Entry) -> None:
         self.part_of_the_shelf: str = part_of_the_shelf
-        self.data: List[Any] = data
+        self.data: tk.Entry = data
         self.worksheet: str | None = None
 
     def prepare_data_for_excel(self) -> Dict[str, Any] | None:
