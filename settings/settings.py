@@ -72,55 +72,173 @@ TRAVI_WIN_WIDTH = 400
 TRAVI_WIN_HEIGHT = 400
 
 
-# COMPONENTS
-# Frames
+# =============================== COMPONENTS ==================================
+# ================================= Frames ====================================
+
+# Background color. Default: "#f0f0f0"
 FRAME_BG_COLOR = "#f0f0f0"
+
+# Padding (axis X). Default: 10
 FRAME_PADX = 10
+
+# Padding (axis Y). Default: 10
 FRAME_PADY = 10
 
 
-# Buttons
+# ================================= Buttons ===================================
+
+# Height (in N strings). Default: 2
 BUTTON_HEIGHT = 2
+
+# Button color. Default: "#d9d9d9"
 BUTTON_COLOR = "#d9d9d9"
+
+# Padding (axis X). Default: 10
 BUTTON_PADX = 10
+
+# Padding (axis Y). Default: 10
 BUTTON_PADY = 10
+
+# Button extension in the grid. Default: "nsew"
+# Possible options:
+# s, n, w, e - put button close to the n/s/w/e edge of the grid
+# ns, we - extend button by vertical/horizontal
+# nsew - extend button by vertical and horizontal
 BUTTON_STICKY = "nsew"
+
+# Button frame. Default: "raised"
+# Possible options: flat, raised, sunken, groove, ridge
 BUTTON_RELIEF = "raised"
-# Invia button
+
+# =============================== Invia button ================================
+
+# Width. Default: 10
 BUTTON_WIDTH = 10
+
+# Button title. Default: "Invia"
 BUTTON_INVIA_TITLE = "Invia"
+
+# Where to put widget. Default: "bottom"
+# Possible options: top, bottom, left, right
 BUTTON_INVIA_SIDE = "bottom"
+
+# Anchor point inside of the SIDE param. Default: "se"
+# Possible options: s, n, w, e, ne, se, nw, ne, center
 BUTTON_INVIA_ANCHOR = "se"
 
-# Grid
+# =================================== Grid ====================================
+
+# Number of grid columns. Default: 3
 COL_NUM = 3
+
+# Controls grid column extension. Default: 1
+# If all columns have weight, their width will be calculated by formula:
+# GRID_WEIGHT/SUMMARY_GRID_WEIGHTS
 GRID_WEIGHT = 1
 
-# Labels
+# ================================== Labels ===================================
+
+# Background color. Default: "#f0f0f0"
 LABEL_BG_COLOR = "#f0f0f0"
+
+# Font family. Default "Arial"
 LABEL_FONT_FAMILY = "Arial"
+
+# Font size. Default: 14
 LABEL_FONT_SIZE = 14
+
+# Padding (axis X). Default: 5
 LABEL_PADY = 5
+
+# Text for dimensioning units label. Default: "mm"
 LABEL_MM_TEXT = "mm"
+
+# Number of the column where to put dimensioning units label
+# (starts from 0, out of COL_NUM total number).
+# Defaul: 2
 LABEL_MM_COLUMN = 2
+
+# Number of the column where to put entry name label
+# (starts from 0, out of COL_NUM total number).
+# Defaul: 0
 LABEL_NAME_COLUMN = 0
+
+# Label extension in the grid. Default: "w"
+# Possible options:
+# s, n, w, e - put widget close to the n/s/w/e edge of the grid
+# ns, we - extend widget by vertical/horizontal
+# nsew - extend widget by vertical and horizontal
 LABEL_STICKY = "w"
 
-# Dropdowns
+# ================================= Dropdowns =================================
+
+# Dropdown extension in the grid. Default: "ew"
+# Possible options:
+# s, n, w, e - put widget close to the n/s/w/e edge of the grid
+# ns, we - extend widget by vertical/horizontal
+# nsew - extend widget by vertical and horizontal
 DROPDOWN_STICKY = "ew"
+
+# Padding (axis X). Default: 5
 DROPDOWN_PADX = 5
+
+# Number of the column where to put dropdown
+# (starts from 0, out of COL_NUM total number).
+# Defaul: 1
 DROPDOWN_COLUMN = 1
 
-# Entries
+# ================================= Entries =================================
+
+# Entry extension in the grid. Default: "ew"
+# Possible options:
+# s, n, w, e - put widget close to the n/s/w/e edge of the grid
+# ns, we - extend widget by vertical/horizontal
+# nsew - extend widget by vertical and horizontal
 ENTRY_STICKY = "ew"
+
+# Number of the column where to put entry
+# (starts from 0, out of COL_NUM total number).
+# Defaul: 1
 ENTRY_COLUMN = 1
+
+# Padding (axis X). Default: 5
 ENTRY_PADX = 5
 
-# Methods
+
+# =================================== DATA ====================================
+# Data that needs to put widgets in the specified windows
+# ================================== Methods ==================================
+# These prefix and postfix are needed to generate method name
+
+# Default: "create_"  
 BUTTON_METHOD_PREFIX = "create_"
+
+# Default: "_ui"
 BUTTON_METHOD_POSTFIX = "_ui"
 
-# Fiancate data
+# =============================== Fiancate data ===============================
+
+# Data for dropdown select options
+# Default:
+# {
+#     "Solo montante": ["No", "Sì"],
+#     "Sismo resistente": ["No", "Sì"],
+#     "Sezione": [
+#         "80/20",
+#         "80/25",
+#         "80/30",
+#         "100/20",
+#         "100/25",
+#         "100/30",
+#         "120/20",
+#         "120/25",
+#         "120/30",
+#         "120x110/20",
+#         "120x110/25",
+#         "120x110/30",
+#         "120x110/40"
+#     ]
+# }
 FIANCATE_SELECT_FIELDS = {
     "Solo montante": ["No", "Sì"],
     "Sismo resistente": ["No", "Sì"],
@@ -140,6 +258,20 @@ FIANCATE_SELECT_FIELDS = {
         "120x110/40"
     ]
 }
+
+# Names of entries (put in the labels prior to entries)
+# Default:
+# [
+#     "Altezza",
+#     "N diagonali 10/10",
+#     "N diagonali 15/10",
+#     "N diagonali 20/10",
+#     "N diagonali 25/10",
+#     "N diagonali 30/10",
+#     "N traversi 10/10",
+#     "N traversi 15/10"
+# ]
+
 FIANCATE_INPUT_FIELDS = [
     "Altezza",
     "N diagonali 10/10",
