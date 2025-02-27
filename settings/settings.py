@@ -63,6 +63,15 @@ FIANCATE_WIN_WIDTH = 400
 # Height. Default: 500
 FIANCATE_WIN_HEIGHT = 500
 
+# ============================== Travi windows ================================
+
+# Width. Default: 400
+TRAVI_WIN_WIDTH = 400
+
+# Height. Default: 400
+TRAVI_WIN_HEIGHT = 400
+
+
 # COMPONENTS
 # Frames
 FRAME_BG_COLOR = "#f0f0f0"

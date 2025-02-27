@@ -104,6 +104,7 @@ class App:
         )
 
     def create_travi_ui(self, window):
+        window.geometry(f"{set.TRAVI_WIN_WIDTH}x{set.TRAVI_WIN_HEIGHT}")
         creator = WindowCreator(
             window,
             set.TRAVI_SELECT_FIELDS,
