@@ -3,6 +3,23 @@ from settings import settings as set
 
 
 class WindowCreator:
+    """Класс-помощник. Располагает виджеты на окнах.
+    Attributes
+    ----------
+        window : tk.Toplevel
+            Окно, с которым класс будет работать.
+        select_fields : Dict[String: List[Any]]
+            Поля для выбора из выпадающего списка.
+        input_fields : List[Any]
+            Поля для ручного ввода данных юзером.
+
+    Methods
+    -------
+        create_ui()
+            Раскидывает виджеты по окну.
+        add_mm(frame, label, row)
+            Добавляет единицы измерения.
+    """
     def __init__(self, window, select_fields, input_fields):
         self.window = window
         self.select_fields = select_fields
@@ -10,6 +27,14 @@ class WindowCreator:
         self.entries = {}
 
     def create_ui(self):
+        """Размещает виджеты на окне. Пользуется атрибутами класса. Виджеты
+        меняются в зависимости от имени окна, для которого нужноих разместить.
+
+        Return
+        ______
+            entries : tk.Entry
+                Массив введенных пользователем значений
+        """
         frame = tk.Frame(
             self.window,
             bg=set.FRAME_BG_COLOR,
@@ -67,6 +92,21 @@ class WindowCreator:
         return self.entries
 
     def add_mm(self, frame, label, row):
+        """Добавляет в конце поля для ввода или для выбора лейбл с единицей
+        измерения текущего параметра (по умолчанию 'мм').
+
+        Parameters
+        ----------
+            frame : tk.Frame
+                Фрейм, в котороом будет размещаться текущий лейбл.
+            label : String
+                Имя лейбла, по которому метод определяет, нужно ли ему
+                добавлять единицы измерения в конце.
+            row : int
+                Номер строки в сетке расположения виджетов, в которой
+                расположен текущий лейбл.
+        """
+
         if label in set.dimensions_need_mm:
             tk.Label(
                 frame,
