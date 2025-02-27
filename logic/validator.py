@@ -5,19 +5,17 @@ class Validator:
 
     @staticmethod
     def validate(rule_key, rule_value, value):
-        log.info(f"Check {rule_key} = {value}")
         match rule_key:
             case "min":
-                log.info(f"'{rule_key}' should be more than {rule_value}")
+                log.info(f"Should be more than {rule_value}")
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(f"{rule_key}={value} is not numeric")
+                    log.error(f"{value} is not numeric")
                     return False
                 if value < rule_value:
                     log.error(
-                        f"{rule_key}={value} is less than min possible"
-                        f"({rule_value})"
+                        f"{value} is less than min possible ({rule_value})"
                     )
                     return False
             case "max":
@@ -25,18 +23,17 @@ class Validator:
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(f"{rule_key}={value} is not numeric")
+                    log.error(f"{value} is not numeric")
                     return False
                 if value > rule_value:
                     log.error(
-                        f"{rule_key}={value} is greater than max possible"
-                        f"({rule_value})"
+                        f"{value} is greater than max possible ({rule_value})"
                     )
                     return False
             case "numeric":
-                log.info(f"'{rule_key}' should be numeric")
+                log.info("Should be numeric")
                 if not str(value).isnumeric():
-                    log.error(f"{rule_key}={value} is not numeric")
+                    log.error(f"{value} is not numeric")
                     return False
-        log.info("Data's been checked. Everithing's OK!")
+        log.info("This check is OK!")
         return True
