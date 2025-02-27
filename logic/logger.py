@@ -14,6 +14,11 @@ LOG_FILE = os.path.join(LOG_DIR, set.LOG_FILE_NAME)
 
 
 def check_log_size():
+    """
+    Метод проверяет текущий размер файла логирования перед стартом приложения.
+    Если количество строк в файле превышает заданное, то файл очищается и
+    начинает писаться заново.
+    """
     if os.path.exists(LOG_FILE):
         with open(LOG_FILE, "r", encoding=set.LOG_CODING) as f:
             lines = f.readlines()
