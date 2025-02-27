@@ -10,13 +10,50 @@ from settings import settings as set
 
 
 class ExcelFileHandler:
+    """Обработчик файлов Excel. Подгатавливает и отправляет данные,
+    выбранные/введенные юзером и возвращает результат.
+
+    Attributes
+    ----------
+        part_of_the_shelf : string
+            Элемент шкафа, для которого будет проводиться расчет цены
+        data : List[tk.Entry]
+            Список данных, выбранных/введенных юзером.
+        worksheet : string
+            Имя листа excel, где будут вбиваться данные и получаться результат.
+
+        Methods
+        -------
+            prepare_data_for_excel()
+                Вызывает проверку данных. Вызывает преобразование данных в
+                словарь.
+            prepare_dict(cells)
+                Преобразует tk.Entry в словарь. УБирает знаки, которые
+                отсутствуют в файле excel.
+            get_result_cells()
+                Получает адреса ячеек excel, в которых содержится результат.
+            process_excel()
+                Открывает файл excel. Вызывает методы подготовки данных.
+                Получает и округляет результат.
+            check_data(rules)
+                На основании заранее определенных правил проверяет данные перед
+                преобразованием их в словарь.
+    """
+
     def __init__(self, part_of_the_shelf, data):
         self.part_of_the_shelf = part_of_the_shelf
         self.data = data
         self.worksheet = None
 
     def prepare_data_for_excel(self):
-        # TODO Добавить докстринги
+        """Вызывает методы проверки данных и их конвертации из tk.Entry в
+        словарь. Использует свойства класса.
+
+        Return
+        ______
+            data_prepared : Dict[String: Any] | none
+                Преобразованные в словарь данные.
+        """
 
         log.info("Prepare data to insert it in excel")
 
@@ -43,7 +80,26 @@ class ExcelFileHandler:
             return data_prepared
 
     def prepare_dict(self, cells):
-        # TODO Добавить докстринги
+        """В имеющемся эксель файлы есть варианты <1000 и >1001. Это не совсем
+        логично, поэтому я заменил эти варианты для выбора пользователем на
+        более логичные <=1000 и >= 1001. Однако такой вариант не подойдет для
+        формул excel, которые я не могу поменять и поэтому явным образом в этом
+        методе удаляем у полей, которых это касается знаки '='. Также
+        преобразуем в словарь tk.Entry.
+
+        Parameters
+        __________
+            cells : Dict[String: String]
+                Массив хранящий соответствие имен лейблов для которых юзер
+                вводил данные номерам ячеек, куда эти данные должны быть
+                вставлены.
+
+        Return
+        ______
+            data_prepared : Dict[String: Any] | None
+                Преобразованные в словарь данные.
+        """
+
         log.info("Prepare dictionary where key is cell address")
         data_prepared = {}
         for name, cell in cells.items():
@@ -54,9 +110,18 @@ class ExcelFileHandler:
         return data_prepared
 
     def get_result_cells(self):
+        """Из имеющихся у нас данных получаем адреса ячеек, в которых хранятся
+        результаты необходимых расчетов.
+
+        Return
+        ______
+            price_cell : string
+                Адрес ячейки с расчитанной ценой.
+            wight_cell : string
+                Адрес ячейки с расчитанным весом.
+        """
+
         # TODO Переделать на словарь
-        # TODO Добавить обработку для других типов полок
-        # TODO Добавить докстринги
         log.info("Getting address of the price and weight cells")
         if self.part_of_the_shelf.lower() == set.TRAVI:
             match self.data[set.TRAVI_TYPE_KEY]:
@@ -77,8 +142,19 @@ class ExcelFileHandler:
         return price_cell, weight_cell
 
     def process_excel(self):
-        """Открывает Excel, записывает данные, сохраняет, затем открывает
-        снова, считывает результаты и закрывает файл."""
+        """Основной метод класса ExcelFileHandler. Открывает файл, записывает в
+        него данные (предварительно вызвав методы подготовки данных), обновляет
+        расчеты файла, получает цену и вес элемента шкафа, необходимые нам,
+        округляет и возвращает их.
+
+        Return
+        ______
+            price : Decimal
+                Цена элемента шкафа.
+            wight : Decimal
+                Вес элемента шкафа.
+        """
+
         log.info(
             f"The metod '{inspect.currentframe().f_code.co_name}' is called"
         )
@@ -101,6 +177,8 @@ class ExcelFileHandler:
         wb = excel.Workbooks.Open(FILE_PATH, UpdateLinks=0)
 
         log.info("Try to unprotect file and worksheet")
+
+        # TODO Maybe this action is not needed.
         try:
             wb.Unprotect()  # Снимаем защиту с книги
             log.info("File is unprotected.")
@@ -153,8 +231,21 @@ class ExcelFileHandler:
         return price, weight
 
     def check_data(self, rules):
-        # TODO Добавить докстринги
+        """Используя валидатор проверяет данные согласно определенным правилам,
+        указанным в файле настроек.
+
+        Parameters
+        __________
+            rules : Dict[String: Dict[String: Dict[String: Any]]]
+                Массив с набором правил валидации.
+
+        Return
+        ______
+            result : bool
+                Результат валидации данных.
+        """
         # TODO Move this method to the Validator
+        result = None
         log.info("Check data before preparing it")
         for key, value in self.data.items():
             key = key.lower()
@@ -164,5 +255,6 @@ class ExcelFileHandler:
                 for rul_key, rul_value in rules[key].items():
                     if not Validator().validate(rul_key, rul_value, value):
                         log.error(f"{key} hasn't passed")
-                        return False
-        return True
+                        result = False
+        result = True
+        return result
