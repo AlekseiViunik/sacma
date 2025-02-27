@@ -1,4 +1,7 @@
 import tkinter as tk
+
+from typing import Dict, List, Any
+
 from settings import settings as set
 
 
@@ -8,7 +11,7 @@ class WindowCreator:
     ----------
         window : tk.Toplevel
             Окно, с которым класс будет работать.
-        select_fields : Dict[String: List[Any]]
+        select_fields : Dict[str: List[Any]]
             Поля для выбора из выпадающего списка.
         input_fields : List[Any]
             Поля для ручного ввода данных юзером.
@@ -20,13 +23,18 @@ class WindowCreator:
         add_mm(frame, label, row)
             Добавляет единицы измерения.
     """
-    def __init__(self, window, select_fields, input_fields):
+    def __init__(
+        self,
+        window: tk.Toplevel,
+        select_fields: Dict[str, List[Any]],
+        input_fields: List[Any]
+    ) -> None:
         self.window = window
         self.select_fields = select_fields
         self.input_fields = input_fields
         self.entries = {}
 
-    def create_ui(self):
+    def create_ui(self) -> tk.Entry:
         """Размещает виджеты на окне. Пользуется атрибутами класса. Виджеты
         меняются в зависимости от имени окна, для которого нужноих разместить.
 
@@ -91,7 +99,7 @@ class WindowCreator:
 
         return self.entries
 
-    def add_mm(self, frame, label, row):
+    def add_mm(self, frame: tk.Frame, label: str, row: int) -> None:
         """Добавляет в конце поля для ввода или для выбора лейбл с единицей
         измерения текущего параметра (по умолчанию 'мм').
 

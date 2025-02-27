@@ -1,3 +1,5 @@
+from typing import Any
+
 from logic.logger import logger as log
 
 
@@ -11,7 +13,7 @@ class Validator:
     """
 
     @staticmethod
-    def validate(rule_key, rule_value, value):
+    def validate(rule_key: str, rule_value: Any, value: Any) -> bool:
         """ Метод валидации данных. Вызывается отдельно для каждого параметра.
 
         Parameters

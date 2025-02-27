@@ -1,5 +1,6 @@
 import inspect
 import os
+import tkinter as tk
 import win32com.client as win32
 
 from decimal import Decimal, ROUND_HALF_UP
@@ -7,6 +8,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from logic.logger import logger as log
 from logic.validator import Validator
 from settings import settings as set
+from typing import Dict, Tuple, Any
 
 
 class ExcelFileHandler:
@@ -15,14 +17,14 @@ class ExcelFileHandler:
 
     Attributes
     ----------
-        part_of_the_shelf : string
+        part_of_the_shelf : str
             Элемент шкафа, для которого будет проводиться расчет цены
         data : List[tk.Entry]
             Список данных, выбранных/введенных юзером.
-        worksheet : string
+        worksheet : str
             Имя листа excel, где будут вбиваться данные и получаться результат.
 
-        Methods
+    Methods
         -------
             prepare_data_for_excel()
                 Вызывает проверку данных. Вызывает преобразование данных в
@@ -40,18 +42,18 @@ class ExcelFileHandler:
                 преобразованием их в словарь.
     """
 
-    def __init__(self, part_of_the_shelf, data):
-        self.part_of_the_shelf = part_of_the_shelf
-        self.data = data
-        self.worksheet = None
+    def __init__(self, part_of_the_shelf: str, data: tk.Entry) -> None:
+        self.part_of_the_shelf: str = part_of_the_shelf
+        self.data: tk.Entry = data
+        self.worksheet: str | None = None
 
-    def prepare_data_for_excel(self):
+    def prepare_data_for_excel(self) -> Dict[str, Any] | None:
         """Вызывает методы проверки данных и их конвертации из tk.Entry в
         словарь. Использует свойства класса.
 
         Return
         ______
-            data_prepared : Dict[String: Any] | none
+            data_prepared : Dict[str, Any] | none
                 Преобразованные в словарь данные.
         """
 
@@ -79,7 +81,7 @@ class ExcelFileHandler:
             log.info("The data is prepared")
             return data_prepared
 
-    def prepare_dict(self, cells):
+    def prepare_dict(self, cells: Dict[str, str]) -> Dict[str, Any] | None:
         """В имеющемся эксель файлы есть варианты <1000 и >1001. Это не совсем
         логично, поэтому я заменил эти варианты для выбора пользователем на
         более логичные <=1000 и >= 1001. Однако такой вариант не подойдет для
@@ -89,14 +91,14 @@ class ExcelFileHandler:
 
         Parameters
         __________
-            cells : Dict[String: String]
+            cells : Dict[str, str]
                 Массив хранящий соответствие имен лейблов для которых юзер
                 вводил данные номерам ячеек, куда эти данные должны быть
                 вставлены.
 
         Return
         ______
-            data_prepared : Dict[String: Any] | None
+            data_prepared : Dict[str, Any] | None
                 Преобразованные в словарь данные.
         """
 
@@ -109,15 +111,15 @@ class ExcelFileHandler:
         log.info(f"Dictionary is prepared: {data_prepared}")
         return data_prepared
 
-    def get_result_cells(self):
+    def get_result_cells(self) -> Tuple[str, str]:
         """Из имеющихся у нас данных получаем адреса ячеек, в которых хранятся
         результаты необходимых расчетов.
 
         Return
         ______
-            price_cell : string
+            price_cell : str
                 Адрес ячейки с расчитанной ценой.
-            wight_cell : string
+            wight_cell : str
                 Адрес ячейки с расчитанным весом.
         """
 
@@ -141,7 +143,7 @@ class ExcelFileHandler:
         log.info(f"The weight cell is: {weight_cell}")
         return price_cell, weight_cell
 
-    def process_excel(self):
+    def process_excel(self) -> Tuple[Decimal, Decimal]:
         """Основной метод класса ExcelFileHandler. Открывает файл, записывает в
         него данные (предварительно вызвав методы подготовки данных), обновляет
         расчеты файла, получает цену и вес элемента шкафа, необходимые нам,
@@ -230,13 +232,13 @@ class ExcelFileHandler:
 
         return price, weight
 
-    def check_data(self, rules):
+    def check_data(self, rules: Dict[str, Dict[str, Any]]) -> bool:
         """Используя валидатор проверяет данные согласно определенным правилам,
         указанным в файле настроек.
 
         Parameters
         __________
-            rules : Dict[String: Dict[String: Dict[String: Any]]]
+            rules : Dict[str: Dict[str: Any]]
                 Массив с набором правил валидации.
 
         Return
