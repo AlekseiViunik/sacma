@@ -245,7 +245,6 @@ class ExcelFileHandler:
                 Результат валидации данных.
         """
         # TODO Move this method to the Validator
-        result = None
         log.info("Check data before preparing it")
         for key, value in self.data.items():
             key = key.lower()
@@ -255,7 +254,5 @@ class ExcelFileHandler:
                 for rul_key, rul_value in rules[key].items():
                     if not Validator().validate(rul_key, rul_value, value):
                         log.error(f"{key} hasn't passed")
-                        result = False
-                        return result
-        result = True
-        return result
+                        return False
+        return True
