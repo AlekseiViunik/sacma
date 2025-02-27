@@ -1,8 +1,36 @@
-# Main window
+"""
+===============================================================================
+================================              =================================
+================================ GUI SETTINGS =================================
+================================              =================================
+===============================================================================
+"""
+# ================================ WINDOWS ====================================
+# ============================== Main window ==================================
+
+# Width. Default: 600
 MAIN_WIN_WIDTH = 600
+
+# Height. Default: 300
 MAIN_WIN_HEIGHT = 300
+
+# Window title. Default: "SACMA"
 MAIN_WIN_TITLE = "SACMA"
 
+# Buttons on the main window.
+# Default:
+# [
+#     "Fiancate",
+#     "Travi",
+#     "Tasselli",
+#     "Satellitare",
+#     "Pianetti",
+#     "Grigliato",
+#     "Travi di battuta",
+#     "Angolari per automatici",
+#     "Gravita leggera",
+#     "Option di sicurezza"
+# ]
 MAIN_WIN_BUTTONS = [
     "Fiancate",
     "Travi",
@@ -16,13 +44,23 @@ MAIN_WIN_BUTTONS = [
     "Option di sicurezza"
 ]
 
-# Secondary window
+# ============================= Secondary windows =============================
+
+# Width. Default: 400
 SECOND_WIN_WIDTH = 400
+
+# Height. Default: 400
 SECOND_WIN_HEIGHT = 400
+
+# Name of the event which has to be handled. Default: "WM_DELETE_WINDOW"
 ON_CLOSING_WINDOW = "WM_DELETE_WINDOW"
 
-# Fiancate window
+# ============================= Fiancate windows ==============================
+
+# Width. Default: 400
 FIANCATE_WIN_WIDTH = 400
+
+# Height. Default: 500
 FIANCATE_WIN_HEIGHT = 500
 
 # COMPONENTS
