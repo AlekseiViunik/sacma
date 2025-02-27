@@ -1,6 +1,8 @@
+import inspect
 import math
 import tkinter as tk
 
+from logic.logger import logger as log
 from logic.excel_file_handler import ExcelFileHandler
 from settings import settings as set
 from .window_creator import WindowCreator
@@ -19,6 +21,7 @@ class App:
         self.create_widgets()
 
     def create_widgets(self):
+        log.info("Create widgets on main window")
         frame = tk.Frame(self.root)
         frame.pack(expand=True)
         cols = set.COL_NUM
@@ -51,6 +54,7 @@ class App:
             self.root.rowconfigure(i, weight=set.GRID_WEIGHT)
 
     def open_window(self, name):
+        log.info(f"Button {name} is pressed.")
         self.root.withdraw()  # скрыть главное окно
 
         new_window = tk.Toplevel(self.root)
@@ -67,6 +71,7 @@ class App:
             f"{set.BUTTON_METHOD_POSTFIX}"
         )
         method = getattr(self, method_name, None)
+        log.info(f"The method '{method_name}' is called")
 
         if method:
             method(new_window)
@@ -128,9 +133,13 @@ class App:
         window.geometry(f"{width}x{height}+{x}+{y}")
 
     def calculate(self, name):
+        log.info(
+            f"The metod '{inspect.currentframe().f_code.co_name}' is called"
+        )
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
+        log.info(f"Entries: {entries_dict}")
         excel = ExcelFileHandler(name, entries_dict)
         cost, weight = excel.process_excel()
 
