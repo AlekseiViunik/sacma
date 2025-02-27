@@ -216,7 +216,7 @@ ENTRY_PADX = 5
 # ================================== Methods ==================================
 # These prefix and postfix are needed to generate method name
 
-# Default: "create_" 
+# Default: "create_"
 BUTTON_METHOD_PREFIX = "create_"
 
 # Default: "_ui"
