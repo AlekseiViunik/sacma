@@ -45,7 +45,7 @@ class App:
     calculate(name)
         Запускает процесс обработки введенных данных и возвращает результат.
     """
-    def __init__(self, root):
+    def __init__(self, root: tk.Tk):
         self.root = root
         self.root.resizable(False, False)
         self.entries = {}
@@ -93,14 +93,14 @@ class App:
         for i in range(rows):
             self.root.rowconfigure(i, weight=set.GRID_WEIGHT)
 
-    def open_window(self, name):
+    def open_window(self, name: str):
         """Открывает базу второстепенного окна фреймом и кнопкой Invia.
         В зависимости от того, какая кнопка была нажата, вызывает частный
         вспомогательный метод для отрисовки компонентов.
 
         Parameters
         ----------
-            name: String
+            name: str
                 Имя окна. От него же зависит начинка окна виджетами.
         """
 
@@ -153,7 +153,7 @@ class App:
             lambda: self.on_close(new_window)
         )
 
-    def create_travi_ui(self, window):
+    def create_travi_ui(self, window: tk.Toplevel):
         """Частный случай отрисовки компонентов для конкретного окна (в данном)
         случае, если была нажата кнопка Travi.
 
@@ -189,7 +189,7 @@ class App:
         )
         self.entries = creator.create_ui()
 
-    def on_close(self, window):
+    def on_close(self, window: tk.Toplevel):
         """Обрабатывает закрытие переданного окна:
         1. Закрывает текущее окно,
         2. Возвращает скрытое главное окно.
@@ -202,7 +202,7 @@ class App:
         window.destroy()
         self.root.deiconify()  # вернуть главное окно
 
-    def center_window(self, window, width, height):
+    def center_window(self, window: tk.Toplevel, width: int, height: int):
         """Центрирует расположение открываемого окна относительно экрана
         компьютера.
 
@@ -222,7 +222,7 @@ class App:
         y = (screen_height - height) // 2
         window.geometry(f"{width}x{height}+{x}+{y}")
 
-    def calculate(self, name):
+    def calculate(self, name: str):
         """Запускает процесс обработки введенных данных и по окончании
         открывает окно с результатами.
 
