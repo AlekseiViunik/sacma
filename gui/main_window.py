@@ -9,6 +9,42 @@ from .window_creator import WindowCreator
 
 
 class App:
+    """Класс App используется для создания основного окна.
+
+    Основное применение - создание главного окна приложения и его кнопок,
+    Запус процесса обработки входных данных и вывод результата в отдельном
+    окне. Во время инициализации сразу же вызывает метод раскидывания виджетов
+    по окну.
+
+    Attributes
+    ----------
+    root : tk.Tk
+        Главное окно.
+    entries : Dict
+        список введенных значений.
+    buttons : List[string]
+        список кнопок, размещаемых на главном окне.
+
+    Methods
+    -------
+    create_widgets()
+        Раскидывает виджеты по окну.
+    open_window(name)
+        Открывает второстепенное окно с базовыми виджетами, одинаковыми для
+        всех такого рода окон.
+    create_travi_ui(window)
+        Наполняет открытое второстепенное окно характерными для этого типа
+        окна виджетами.
+    create_fiancate_ui(window)
+        Наполняет открытое второстепенное окно характерными для этого типа
+        окна виджетами.
+    on_close(window)
+        Обрабатывает кастомным образом закрытие передаваемого окна.
+    center_window(window, width, height)
+        Wtynhbhetn окно относительно экрана.
+    calculate(name)
+        Запускает процесс обработки введенных данных и возвращает результат.
+    """
     def __init__(self, root):
         self.root = root
         self.root.resizable(False, False)
@@ -21,6 +57,10 @@ class App:
         self.create_widgets()
 
     def create_widgets(self):
+        """Создает виджеты для главного окна. Сами виджеты подразумевают под
+        собой фреймы, кнопки, лейблы. Вызывать не надо - вызывается
+        автоматически."""
+
         log.info("Create widgets on main window")
         frame = tk.Frame(self.root)
         frame.pack(expand=True)
@@ -54,6 +94,16 @@ class App:
             self.root.rowconfigure(i, weight=set.GRID_WEIGHT)
 
     def open_window(self, name):
+        """Открывает базу второстепенного окна фреймом и кнопкой Invia.
+        В зависимости от того, какая кнопка была нажата, вызывает частный
+        вспомогательный метод для отрисовки компонентов.
+
+        Parameters
+        ----------
+            name: string
+                Имя окна. От него же зависит начинка окна виджетами.
+        """
+
         log.info(f"Button {name} is pressed.")
         self.root.withdraw()  # скрыть главное окно
 
@@ -104,6 +154,15 @@ class App:
         )
 
     def create_travi_ui(self, window):
+        """Частный случай отрисовки компонентов для конкретного окна (в данном)
+        случае, если была нажата кнопка Travi.
+
+        Parameters
+        ----------
+            window: tk.Toplevel
+                Окно, на котором будут размещаться компоненты.
+        """
+
         window.geometry(f"{set.TRAVI_WIN_WIDTH}x{set.TRAVI_WIN_HEIGHT}")
         creator = WindowCreator(
             window,
@@ -113,6 +172,15 @@ class App:
         self.entries = creator.create_ui()
 
     def create_fiancate_ui(self, window):
+        """Частный случай отрисовки компонентов для конкретного окна (в данном)
+        случае, если была нажата кнопка Fiancate.
+
+        Parameters
+        ----------
+            window: tk.Toplevel
+                Окно, на котором будут размещаться компоненты.
+        """
+
         window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
         creator = WindowCreator(
             window,
@@ -122,10 +190,31 @@ class App:
         self.entries = creator.create_ui()
 
     def on_close(self, window):
+        """Обрабатывает закрытие переданного окна:
+        1. Закрывает текущее окно,
+        2. Возвращает скрытое главное окно.
+
+        Parameters
+        ----------
+            window: tk.Toplevel
+                Закрываемое окно.
+        """
         window.destroy()
         self.root.deiconify()  # вернуть главное окно
 
     def center_window(self, window, width, height):
+        """Центрирует расположение открываемого окна относительно экрана
+        компьютера.
+
+        Parameters
+        ----------
+            window: tk.Toplevel
+                Центрируемое окно.
+            width: int
+                Ширина окна.
+            Height: int
+                Высота окна.
+        """
         window.update_idletasks()
         screen_width = window.winfo_screenwidth()
         screen_height = window.winfo_screenheight()
@@ -134,6 +223,15 @@ class App:
         window.geometry(f"{width}x{height}+{x}+{y}")
 
     def calculate(self, name):
+        """Запускает процесс обработки введенных данных и по окончании
+        открывает окно с результатами.
+
+        Parameters
+        ----------
+            name: string
+                Имя нажатой на главном окне кнопки и, по совместительству,
+                открытого нажатием этой кнопки окна.
+        """
         log.info(
             f"The metod '{inspect.currentframe().f_code.co_name}' is called"
         )
