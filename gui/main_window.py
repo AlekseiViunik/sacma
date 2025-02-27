@@ -22,7 +22,7 @@ class App:
         Главное окно.
     entries : Dict
         список введенных значений.
-    buttons : List[string]
+    buttons : List[String]
         список кнопок, размещаемых на главном окне.
 
     Methods
@@ -100,7 +100,7 @@ class App:
 
         Parameters
         ----------
-            name: string
+            name: String
                 Имя окна. От него же зависит начинка окна виджетами.
         """
 
@@ -228,7 +228,7 @@ class App:
 
         Parameters
         ----------
-            name: string
+            name: String
                 Имя нажатой на главном окне кнопки и, по совместительству,
                 открытого нажатием этой кнопки окна.
         """

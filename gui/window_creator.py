@@ -8,7 +8,7 @@ class WindowCreator:
     ----------
         window : tk.Toplevel
             Окно, с которым класс будет работать.
-        select_fields : Dict[string: List[Any]]
+        select_fields : Dict[String: List[Any]]
             Поля для выбора из выпадающего списка.
         input_fields : List[Any]
             Поля для ручного ввода данных юзером.
@@ -32,7 +32,7 @@ class WindowCreator:
 
         Return
         ______
-            entries : List[Entry]
+            entries : tk.Entry
                 Массив введенных пользователем значений
         """
         frame = tk.Frame(
@@ -99,7 +99,7 @@ class WindowCreator:
         ----------
             frame : tk.Frame
                 Фрейм, в котороом будет размещаться текущий лейбл.
-            label : string
+            label : String
                 Имя лейбла, по которому метод определяет, нужно ли ему
                 добавлять единицы измерения в конце.
             row : int

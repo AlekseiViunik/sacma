@@ -256,5 +256,6 @@ class ExcelFileHandler:
                     if not Validator().validate(rul_key, rul_value, value):
                         log.error(f"{key} hasn't passed")
                         result = False
+                        return result
         result = True
         return result
