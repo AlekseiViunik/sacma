@@ -205,12 +205,18 @@ ENTRY_COLUMN = 1
 ENTRY_PADX = 5
 
 
-# =================================== DATA ====================================
+"""
+===============================================================================
+====================================       ====================================
+==================================== LOGIC ====================================
+====================================       ====================================
+===============================================================================
+"""
 # Data that needs to put widgets in the specified windows
 # ================================== Methods ==================================
 # These prefix and postfix are needed to generate method name
 
-# Default: "create_"  
+# Default: "create_" 
 BUTTON_METHOD_PREFIX = "create_"
 
 # Default: "_ui"
@@ -283,8 +289,23 @@ FIANCATE_INPUT_FIELDS = [
     "N traversi 15/10"
 ]
 
-# TRAVI DATA
-# Fields to chose from
+# ================================ Travi data =================================
+
+# Data for dropdown select options.
+# Default:
+# {
+#     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
+#     "Altezza": [
+#         20, 25, 30, 35, 40, 45,
+#         50, 60, 70, 80, 90, 100, 110, 120, 130,
+#         140, 150, 160, 170, 180, 190, 200
+#     ],
+#     "Larghezza": [30, 35, 40, 45, 50],
+#     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+#     "Staffa speciale": ["No", "Sì"],
+#     "Quantita": [">=1001", "<=1000"],
+#     "Appoggio": ["No", "Sì"]
+# }
 TRAVI_SELECT_FIELDS = {
     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
     "Altezza": [
@@ -298,9 +319,22 @@ TRAVI_SELECT_FIELDS = {
     "Quantita": [">=1001", "<=1000"],
     "Appoggio": ["No", "Sì"]
 }
-# Fields to input
+
+# Names of entries (put in the labels prior to entries). Default: ["Lunghezza"]
 TRAVI_INPUT_FIELDS = ["Lunghezza"]
-# Cells in Excel addapted to the data of the travi TG
+
+# Cells in Excel addapted to the data of the travi TG.
+# Default:
+# {
+#     "Altezza": "B4",
+#     "Larghezza": "B6",
+#     "Spessore": "B8",
+#     "Lunghezza": "B12",
+#     "Staffa speciale": "B14",
+#     "Quantita": "B16",
+#     "Prezzo": "E4",
+#     "Peso": "E6"
+# }
 TRAVI_CELLS_TG = {
     "Altezza": "B4",
     "Larghezza": "B6",
@@ -311,7 +345,19 @@ TRAVI_CELLS_TG = {
     "Prezzo": "E4",
     "Peso": "E6"
 }
+
 # Cells in Excel addapted to the data of the travi APERTE
+# Default:
+# {
+#     "Altezza": "B37",
+#     "Larghezza": "B39",
+#     "Spessore": "B41",
+#     "Lunghezza": "B45",
+#     "Staffa speciale": "B47",
+#     "Quantita": "B49",
+#     "Prezzo": "E37",
+#     "Peso": "E39"
+# }
 TRAVI_CELLS_APERTE = {
     "Altezza": "B37",
     "Larghezza": "B39",
@@ -322,7 +368,19 @@ TRAVI_CELLS_APERTE = {
     "Prezzo": "E37",
     "Peso": "E39"
 }
+
 # Cells in Excel addapted to the data of the travi SAT
+# Default:
+# {
+#     "Altezza": "B21",
+#     "Spessore": "B23",
+#     "Appoggio": "B27",
+#     "Lunghezza": "B29",
+#     "Staffa speciale": "B31",
+#     "Quantita": "B33",
+#     "Prezzo": "E21",
+#     "Peso": "E23"
+# }
 TRAVI_CELLS_SAT = {
     "Altezza": "B21",
     "Spessore": "B23",
@@ -333,7 +391,17 @@ TRAVI_CELLS_SAT = {
     "Prezzo": "E21",
     "Peso": "E23"
 }
+
 # Cells in Excel addapted to the data of the travi PORTA SKID
+# Default:
+# {
+#     "Altezza": "B53",
+#     "Larghezza": "B55",
+#     "Spessore": "B57",
+#     "Lunghezza": "B61",
+#     "Prezzo": "E53",
+#     "Peso": "E55"
+# }
 TRAVI_CELLS_PORTA_SKID = {
     "Altezza": "B53",
     "Larghezza": "B55",
@@ -343,13 +411,54 @@ TRAVI_CELLS_PORTA_SKID = {
     "Peso": "E55"
 }
 
+# Name of the worksheet, that contains travi calculations
+# Default: "Listino Travi"
 TRAVI_WORKSHEET = "Listino Travi"
+
+# Key responsible for the travi type. Default: "Tipo"
 TRAVI_TYPE_KEY = "Tipo"
+
+# Name of TG travi type. Default: "TG"
 TRAVI_TYPE_TG = "TG"
+
+# Name of APERTE travi type. Default: "APERTE"
 TRAVI_TYPE_APERTE = "APERTE"
+
+# Name of SAT travi type. Default: "SAT"
 TRAVI_TYPE_SAT = "SAT"
+
+# Name of PORTA SKID travi type. Default: "PORTA SKID"
 TRAVI_TYPE_PORTA_SKID = "PORTA SKID"
 
+
+# Rules needed to check passed data.
+# Default:
+# {
+#     "TG": {
+#         "altezza": {
+#             "min": 70,
+#             "max": 170
+#         },
+#         "lunghezza": {
+#             "numeric": True,
+#             "min": 1200,
+#             "max": 3600,
+#         }
+#     },
+#     "APERTE": {
+#         "altezza": {
+#             "min": 70,
+#             "max": 170
+#         },
+#         "lunghezza": {
+#             "numeric": True,
+#             "min": 1200,
+#             "max": 3600,
+#         }
+#     },
+#     "SAT": {},
+#     "PORTA SKID": {}
+# }
 TRAVI_RULES = {
     "TG": {
         "altezza": {
@@ -377,25 +486,45 @@ TRAVI_RULES = {
     "PORTA SKID": {}
 }
 
-# Dimensions
+# =================================== NAMES ===================================
+
+# Default: "Altezza"
 HEIGHT = "Altezza"
+
+# Default: "Larghezza"
 WIDTH = "Larghezza"
+
+# Default: "Spessore"
 THICKNESS = "Spessore"
+
+# Default: "Lunghezza"
 LENGTH = "Lunghezza"
+
+# Dimensions that need to clarify dimensioning units
+# Default: [HEIGHT, WIDTH, THICKNESS, LENGTH]
 dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH]
 
-# PART NAMES
-TRAVI = "travi"
-FIANCATE = "fiancate"
-PRICE = "Prezzo"
-WEIGHT = "Peso"
-SELECT = "select"
-INPUT = "input"
-SISMO = "sismo"
 
-# Messages
+TRAVI = "travi"  # Default: "travi"
+FIANCATE = "fiancate"  # Default: "fiancate"
+PRICE = "Prezzo"  # Default: "Prezzo"
+WEIGHT = "Peso"  # Default: "Peso"
+SELECT = "select"  # Default: "select"
+INPUT = "input"  # Default: "input"
+SISMO = "sismo"  # Default: "sismo"
+
+# Default: "Prezzo non trovato"
 PRICE_NOT_FOUND = "Prezzo non trovato"
+
+# Default: "Peso non trovato"
 WEIGHT_NOT_FOUND = "Peso non trovato"
 
-# Logging
+# ================================== LOGGING ==================================
+
+# Max number of the log file lines. Default: 50000
 MAX_LOG_LINES = 50000
+
+# Log file name. Default: "app.log"
+LOG_FILE_NAME = "app.log"
+
+

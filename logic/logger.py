@@ -10,7 +10,7 @@ LOG_DIR = os.path.join(
     "logs"
 )
 os.makedirs(LOG_DIR, exist_ok=True)  # Создаём папку logs, если её нет
-LOG_FILE = os.path.join(LOG_DIR, "app.log")
+LOG_FILE = os.path.join(LOG_DIR, set.LOG_FILE_NAME)
 
 
 def check_log_size():
