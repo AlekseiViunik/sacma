@@ -527,4 +527,5 @@ MAX_LOG_LINES = 50000
 # Log file name. Default: "app.log"
 LOG_FILE_NAME = "app.log"
 
-
+# Log coding type. Default: "utf-8"
+LOG_CODING = "utf-8"
