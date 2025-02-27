@@ -217,3 +217,6 @@ SISMO = "sismo"
 # Messages
 PRICE_NOT_FOUND = "Prezzo non trovato"
 WEIGHT_NOT_FOUND = "Peso non trovato"
+
+# Logging
+MAX_LOG_LINES = 50000
