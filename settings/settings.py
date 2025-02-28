@@ -243,7 +243,7 @@ TRAVI_CHOICE = {
             "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
             "Staffa speciale": ["No", "Sì"],
             "Quantita": [">=1001", "<=1000"],
-            
+
         },
         'input': ['Lunghezza']
     },
