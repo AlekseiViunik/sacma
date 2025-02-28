@@ -167,7 +167,8 @@ class App:
         creator = WindowCreator(
             window,
             set.TRAVI_SELECT_FIELDS,
-            set.TRAVI_INPUT_FIELDS
+            set.TRAVI_INPUT_FIELDS,
+            set.TRAVI_ALWAYS_ON
         )
         self.entries = creator.create_ui()
 
@@ -185,7 +186,8 @@ class App:
         creator = WindowCreator(
             window,
             set.FIANCATE_SELECT_FIELDS,
-            set.FIANCATE_INPUT_FIELDS
+            set.FIANCATE_INPUT_FIELDS,
+            set.FIANCATE_ALWAYS_ON
         )
         self.entries = creator.create_ui()
 
