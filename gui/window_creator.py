@@ -51,29 +51,33 @@ class WindowCreator:
         always_on_frame = self.create_frame("always_on_frame")
         for i, (label, values) in enumerate(self.always_on.items()):
             if values:
-                self.create_component(always_on_frame, label, values, i)
+                self.create_component(
+                    always_on_frame,
+                    label, values,
+                    i,
+                    is_changing=True
+                )
 
         start_row = len(self.always_on)
 
         for i in range(set.COL_NUM):
             always_on_frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
-        self.frame = tk.Frame(
-            self.window,
-            bg=set.FRAME_BG_COLOR,
-            padx=set.FRAME_PADX,
-            pady=set.FRAME_PADY
-        )
-        self.frame.pack(fill=tk.X, padx=5, pady=2)
+        self.create_main_frame(start_row)
 
-        # ================Поля с выпадающими списками==========================
+    def create_main_frame(self, start_row: int) -> None:
+        """Создаёт или перерисовывает `main_frame`."""
+
         self.frame = self.create_frame("main_frame")
+
+        # Поля с выпадающими списками
         for i, (label, values) in enumerate(self.select_fields.items()):
             if values:
                 self.create_component(self.frame, label, values, start_row + i)
 
         start_row += len(self.select_fields)
 
+        # Поля для ввода
         for i, label in enumerate(self.input_fields):
             self.create_component(
                 self.frame,
@@ -86,7 +90,16 @@ class WindowCreator:
         for i in range(set.COL_NUM):
             self.frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
-        return self.entries
+    def on_dropdown_change(self, var: tk.StringVar) -> None:
+        """Обрабатывает изменение первого выпадающего списка."""
+        new_choice = var.get()
+
+        if new_choice in set.TRAVI_CHOICE:
+            self.select_fields = set.TRAVI_CHOICE[new_choice]["select"]
+            self.input_fields = set.TRAVI_CHOICE[new_choice]["input"]
+
+            # ✅ Перерисовываем `main_frame`
+            self.create_main_frame(start_row=len(self.always_on))
 
     def add_mm(self, frame: tk.Frame, label: str, row: int) -> None:
         """Добавляет в конце поля для ввода или для выбора лейбл с единицей
@@ -156,7 +169,8 @@ class WindowCreator:
         label: str,
         values: List[Any],
         row: int,
-        is_entry: bool = False
+        is_entry: bool = False,
+        is_changing: bool = False
     ) -> None:
         """Создаёт `Label` + `OptionMenu` или `Entry` для окна.
 
@@ -189,6 +203,8 @@ class WindowCreator:
             dropdown.config(width=15)
             dropdown.grid(row=row, column=1, sticky="ew", padx=5)
             self.entries[label] = var
+            if is_changing:
+                var.trace_add("write", lambda *_: self.on_dropdown_change(var))
 
         # Добавляем "мм", если нужно
         self.add_mm(frame, label, row)
