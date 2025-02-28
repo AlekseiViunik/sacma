@@ -36,6 +36,7 @@ class WindowCreator:
         self.always_on = always_on
         self.entries = {}
         self.frame = None
+        self.frames = {}
 
     def create_ui(self) -> tk.Entry:
         """Размещает виджеты на окне. Пользуется атрибутами класса. Виджеты
@@ -47,42 +48,13 @@ class WindowCreator:
                 Массив введенных пользователем значений
         """
         # ============================Always_on================================
-        always_on_frame = tk.Frame(
-            self.window,
-            bg=set.FRAME_BG_COLOR,
-            padx=set.FRAME_PADX,
-            pady=set.FRAME_PADY
-        )
-        always_on_frame.pack(fill=tk.X, padx=5, pady=2)
-
+        always_on_frame = self.create_frame("always_on_frame")
         for i, (label, values) in enumerate(self.always_on.items()):
-            if not values:
-                continue
-            tk.Label(
-                always_on_frame,
-                text=label,
-                bg=set.LABEL_BG_COLOR,
-                width=15,
-                anchor='w'
-            ).grid(
-                row=i,
-                column=set.LABEL_NAME_COLUMN,
-                sticky=set.LABEL_STICKY,
-                pady=set.LABEL_PADY
-            )
-            var = tk.StringVar(value=values[0])
-            dropdown = tk.OptionMenu(always_on_frame, var, *values)
-            dropdown.config(width=15)
-            dropdown.grid(
-                row=i,
-                column=set.DROPDOWN_COLUMN,
-                sticky=set.DROPDOWN_STICKY,
-                padx=set.DROPDOWN_PADX
-            )
-            self.entries[label] = var
-            self.add_mm(always_on_frame, label, i)
+            if values:
+                self.create_component(always_on_frame, label, values, i)
 
         start_row = len(self.always_on)
+
         for i in range(set.COL_NUM):
             always_on_frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
@@ -95,61 +67,22 @@ class WindowCreator:
         self.frame.pack(fill=tk.X, padx=5, pady=2)
 
         # ================Поля с выпадающими списками==========================
+        self.frame = self.create_frame("main_frame")
         for i, (label, values) in enumerate(self.select_fields.items()):
-            if not values:
-                continue
-            tk.Label(
-                self.frame,
-                text=label,
-                bg=set.LABEL_BG_COLOR,
-                width=15,
-                anchor='w'
-            ).grid(
-                row=start_row + i,
-                column=set.LABEL_NAME_COLUMN,
-                sticky=set.LABEL_STICKY,
-                pady=set.LABEL_PADY
-            )
-            var = tk.StringVar(value=values[0])
-            dropdown = tk.OptionMenu(self.frame, var, *values)
-            dropdown.config(width=15)
-            dropdown.grid(
-                row=start_row + i,
-                column=set.DROPDOWN_COLUMN,
-                sticky=set.DROPDOWN_STICKY,
-                padx=set.DROPDOWN_PADX
-            )
-            self.entries[label] = var
-            self.add_mm(self.frame, label, start_row + i)
+            if values:
+                self.create_component(self.frame, label, values, start_row + i)
 
-        start_row += len(self.select_fields)  # Начинаем после селектов
+        start_row += len(self.select_fields)
 
-        # ==================== Поля для ввода =================================
         for i, label in enumerate(self.input_fields):
-            row = start_row + i
-            tk.Label(
+            self.create_component(
                 self.frame,
-                text=label,
-                bg=set.LABEL_BG_COLOR,
-                width=15,
-                anchor='w'
-            ).grid(
-                row=row,
-                column=set.LABEL_NAME_COLUMN,
-                sticky=set.LABEL_STICKY,
-                pady=set.LABEL_PADY
+                label,
+                [],
+                start_row + i,
+                is_entry=True
             )
-            entry = tk.Entry(self.frame, width=15)
-            entry.grid(
-                row=start_row + i,
-                column=set.ENTRY_COLUMN,
-                sticky=set.ENTRY_STICKY,
-                padx=set.ENTRY_PADX
-            )
-            self.entries[label] = entry
-            self.add_mm(self.frame, label, row)
 
-        # Настройка растяжения колонок
         for i in range(set.COL_NUM):
             self.frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
@@ -192,3 +125,70 @@ class WindowCreator:
                 column=set.LABEL_MM_COLUMN,
                 sticky=set.LABEL_STICKY
             )
+
+    def create_frame(self, frame_name: str) -> tk.Frame:
+        """Создаёт или пересоздаёт фрейм.
+
+        Parameters
+        ----------
+        frame_name : str
+            Название фрейма.
+        """
+        # Если фрейм уже существует, удаляем его
+        if frame_name in self.frames:
+            self.frames[frame_name].destroy()
+
+        # Создаём новый фрейм
+        frame = tk.Frame(
+            self.window,
+            bg=set.FRAME_BG_COLOR,
+            padx=set.FRAME_PADX,
+            pady=set.FRAME_PADY
+        )
+        frame.pack(fill=tk.X, padx=5, pady=2)
+
+        self.frames[frame_name] = frame  # Сохраняем ссылку
+        return frame
+
+    def create_component(
+        self,
+        frame: tk.Frame,
+        label: str,
+        values: List[Any],
+        row: int,
+        is_entry: bool = False
+    ) -> None:
+        """Создаёт `Label` + `OptionMenu` или `Entry` для окна.
+
+        Parameters
+        ----------
+        frame : tk.Frame
+            Фрейм, в котором создаётся элемент.
+        label : str
+            Текст лейбла.
+        values : List[Any]
+            Список значений для `OptionMenu` (если это `Entry`, передаём `[]`).
+        row : int
+            Номер строки в `grid()`.
+        is_entry : bool, optional
+            Если `True`, создаёт `Entry` (по умолчанию `False`).
+        """
+
+        # Создаём `Label`
+        tk.Label(
+            frame, text=label, bg=set.LABEL_BG_COLOR, width=15, anchor="w"
+        ).grid(row=row, column=0, sticky="w", pady=2)
+
+        if is_entry:
+            entry = tk.Entry(frame, width=15)
+            entry.grid(row=row, column=1, sticky="ew", padx=5)
+            self.entries[label] = entry
+        else:
+            var = tk.StringVar(value=values[0])
+            dropdown = tk.OptionMenu(frame, var, *values)
+            dropdown.config(width=15)
+            dropdown.grid(row=row, column=1, sticky="ew", padx=5)
+            self.entries[label] = var
+
+        # Добавляем "мм", если нужно
+        self.add_mm(frame, label, row)
