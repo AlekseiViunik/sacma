@@ -166,8 +166,8 @@ class App:
         window.geometry(f"{set.TRAVI_WIN_WIDTH}x{set.TRAVI_WIN_HEIGHT}")
         creator = WindowCreator(
             window,
-            set.TRAVI_SELECT_FIELDS,
-            set.TRAVI_INPUT_FIELDS,
+            set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['select'],
+            set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['input'],
             set.TRAVI_ALWAYS_ON
         )
         creator.create_ui()
@@ -190,7 +190,8 @@ class App:
             set.FIANCATE_INPUT_FIELDS,
             set.FIANCATE_ALWAYS_ON
         )
-        self.entries = creator.create_ui()
+        creator.create_ui()
+        self.entries = creator.entries
 
     def on_close(self, window: tk.Toplevel) -> None:
         """Обрабатывает закрытие переданного окна:
