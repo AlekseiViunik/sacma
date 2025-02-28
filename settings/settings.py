@@ -207,6 +207,9 @@ ENTRY_PADX = 5
 # ================================= Choices =================================
 
 TRAVI_CHOICE = {
+    'always_on': {
+        "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
+    },
     'TG': {
         'select': {
             "Altezza": [
