@@ -33,6 +33,7 @@ class WindowCreator:
         self.select_fields = select_fields
         self.input_fields = input_fields
         self.entries = {}
+        self.frame = None
 
     def create_ui(self) -> tk.Entry:
         """Размещает виджеты на окне. Пользуется атрибутами класса. Виджеты
@@ -43,26 +44,26 @@ class WindowCreator:
             entries : tk.Entry
                 Массив введенных пользователем значений
         """
-        frame = tk.Frame(
+        self.frame = tk.Frame(
             self.window,
             bg=set.FRAME_BG_COLOR,
             padx=set.FRAME_PADX,
             pady=set.FRAME_PADY
         )
-        frame.pack(expand=True, fill=tk.BOTH)
+        self.frame.pack(expand=True, fill=tk.BOTH)
 
         # Поля с выпадающими списками
         for i, (label, values) in enumerate(self.select_fields.items()):
             if not values:
                 continue
-            tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
+            tk.Label(self.frame, text=label, bg=set.LABEL_BG_COLOR).grid(
                 row=i,
                 column=set.LABEL_NAME_COLUMN,
                 sticky=set.LABEL_STICKY,
                 pady=set.LABEL_PADY
             )
             var = tk.StringVar(value=values[0])
-            dropdown = tk.OptionMenu(frame, var, *values)
+            dropdown = tk.OptionMenu(self.frame, var, *values)
             dropdown.grid(
                 row=i,
                 column=set.DROPDOWN_COLUMN,
@@ -70,20 +71,20 @@ class WindowCreator:
                 padx=set.DROPDOWN_PADX
             )
             self.entries[label] = var
-            self.add_mm(frame, label, i)
+            self.add_mm(self.frame, label, i)
 
         start_row = len(self.select_fields)  # Начинаем после селектов
 
         # Поля для ввода
         for i, label in enumerate(self.input_fields):
             row = start_row + i
-            tk.Label(frame, text=label, bg=set.LABEL_BG_COLOR).grid(
+            tk.Label(self.frame, text=label, bg=set.LABEL_BG_COLOR).grid(
                 row=row,
                 column=set.LABEL_NAME_COLUMN,
                 sticky=set.LABEL_STICKY,
                 pady=set.LABEL_PADY
             )
-            entry = tk.Entry(frame)
+            entry = tk.Entry(self.frame)
             entry.grid(
                 row=start_row + i,
                 column=set.ENTRY_COLUMN,
@@ -91,11 +92,11 @@ class WindowCreator:
                 padx=set.ENTRY_PADX
             )
             self.entries[label] = entry
-            self.add_mm(frame, label, row)
+            self.add_mm(self.frame, label, row)
 
         # Настройка растяжения колонок
         for i in range(set.COL_NUM):
-            frame.columnconfigure(i, weight=set.GRID_WEIGHT)
+            self.frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
         return self.entries
 
