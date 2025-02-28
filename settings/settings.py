@@ -355,38 +355,6 @@ TRAVI_ALWAYS_ON = {
     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
 }
 
-
-# Data for dropdown select options.
-# Default:
-# {
-#     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-#     "Altezza": [
-#         20, 25, 30, 35, 40, 45,
-#         50, 60, 70, 80, 90, 100, 110, 120, 130,
-#         140, 150, 160, 170, 180, 190, 200
-#     ],
-#     "Larghezza": [30, 35, 40, 45, 50],
-#     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-#     "Staffa speciale": ["No", "Sì"],
-#     "Quantita": [">=1001", "<=1000"],
-#     "Appoggio": ["No", "Sì"]
-# }
-TRAVI_SELECT_FIELDS = {
-    "Altezza": [
-        20, 25, 30, 35, 40, 45,
-        50, 60, 70, 80, 90, 100, 110, 120, 130,
-        140, 150, 160, 170, 180, 190, 200
-    ],
-    "Larghezza": [30, 35, 40, 45, 50],
-    "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-    "Staffa speciale": ["No", "Sì"],
-    "Quantita": [">=1001", "<=1000"],
-    "Appoggio": ["No", "Sì"]
-}
-
-# Names of entries (put in the labels prior to entries). Default: ["Lunghezza"]
-TRAVI_INPUT_FIELDS = ["Lunghezza"]
-
 # Cells in Excel addapted to the data of the travi TG.
 # Default:
 # {
