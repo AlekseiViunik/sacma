@@ -204,6 +204,27 @@ ENTRY_COLUMN = 1
 # Padding (axis X). Default: 5
 ENTRY_PADX = 5
 
+# ================================= Choices =================================
+
+TRAVI_CHOICE = {
+    'TG': {
+        'select': {},
+        'input': []
+    },
+    'SAT': {
+        'select': {},
+        'input': []
+    },
+    'APERTE': {
+        'select': {},
+        'input': []
+    },
+    'PORTA SKID': {
+        'select': {},
+        'input': []
+    },
+}
+
 
 """
 ===============================================================================
@@ -223,6 +244,10 @@ BUTTON_METHOD_PREFIX = "create_"
 BUTTON_METHOD_POSTFIX = "_ui"
 
 # =============================== Fiancate data ===============================
+
+FIANCATE_ALWAYS_ON = {
+    "Sismo resistente": ["No", "Sì"]
+}
 
 # Data for dropdown select options
 # Default:
@@ -247,7 +272,6 @@ BUTTON_METHOD_POSTFIX = "_ui"
 # }
 FIANCATE_SELECT_FIELDS = {
     "Solo montante": ["No", "Sì"],
-    "Sismo resistente": ["No", "Sì"],
     "Sezione": [
         "80/20",
         "80/25",
@@ -291,6 +315,11 @@ FIANCATE_INPUT_FIELDS = [
 
 # ================================ Travi data =================================
 
+TRAVI_ALWAYS_ON = {
+    "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
+}
+
+
 # Data for dropdown select options.
 # Default:
 # {
@@ -307,7 +336,6 @@ FIANCATE_INPUT_FIELDS = [
 #     "Appoggio": ["No", "Sì"]
 # }
 TRAVI_SELECT_FIELDS = {
-    "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
     "Altezza": [
         20, 25, 30, 35, 40, 45,
         50, 60, 70, 80, 90, 100, 110, 120, 130,
