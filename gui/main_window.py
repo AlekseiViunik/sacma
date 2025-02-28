@@ -186,8 +186,8 @@ class App:
         window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
         creator = WindowCreator(
             window,
-            set.FIANCATE_CHOICE['non-sismoresistente']['select'],
-            set.FIANCATE_CHOICE['non-sismoresistente']['input'],
+            set.FIANCATE_CHOICE['No']['select'],
+            set.FIANCATE_CHOICE['No']['input'],
             set.FIANCATE_CHOICE['always_on']
         )
         creator.create_ui()
