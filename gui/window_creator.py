@@ -94,12 +94,16 @@ class WindowCreator:
         """Обрабатывает изменение первого выпадающего списка."""
         new_choice = var.get()
 
-        if new_choice in set.TRAVI_CHOICE:
-            self.select_fields = set.TRAVI_CHOICE[new_choice]["select"]
-            self.input_fields = set.TRAVI_CHOICE[new_choice]["input"]
+        match self.window.title().lower():
+            case set.TRAVI:
+                self.select_fields = set.TRAVI_CHOICE[new_choice]["select"]
+                self.input_fields = set.TRAVI_CHOICE[new_choice]["input"]
+            case set.FIANCATE:
+                self.select_fields = set.FIANCATE_CHOICE[new_choice]["select"]
+                self.input_fields = set.FIANCATE_CHOICE[new_choice]["input"]
 
-            # ✅ Перерисовываем `main_frame`
-            self.create_main_frame(start_row=len(self.always_on))
+        # ✅ Перерисовываем `main_frame`
+        self.create_main_frame(start_row=len(self.always_on))
 
     def add_mm(self, frame: tk.Frame, label: str, row: int) -> None:
         """Добавляет в конце поля для ввода или для выбора лейбл с единицей
