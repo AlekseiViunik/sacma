@@ -204,6 +204,125 @@ ENTRY_COLUMN = 1
 # Padding (axis X). Default: 5
 ENTRY_PADX = 5
 
+# ================================= Choices =================================
+
+TRAVI_CHOICE = {
+    "always_on": {
+        "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
+    },
+    "TG": {
+        "select": {
+            "Altezza": [
+                70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170
+            ],
+            "Larghezza": [45, 50],
+            "Spessore": [1.2, 1.5],
+            "Staffa speciale": ["No", "Sì"],
+            "Quantita": [">=1001", "<=1000"],
+        },
+        "input": ["Lunghezza"]
+    },
+    "SAT": {
+        "select": {
+            "Altezza": [
+                70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170
+            ],
+            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+            "Appoggio": ["No", "Sì"],
+            "Staffa speciale": ["No", "Sì"],
+            "Quantita": [">=1001", "<=1000"],
+        },
+        "input": ["Lunghezza"]
+    },
+    "APERTE": {
+        "select": {
+            "Altezza": [
+                70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170, 180, 190, 200
+            ],
+            "Larghezza": [20, 30, 35, 40, 45, 50],
+            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+            "Staffa speciale": ["No", "Sì"],
+            "Quantita": [">=1001", "<=1000"],
+
+        },
+        "input": ["Lunghezza"]
+    },
+    "PORTA SKID": {
+        "select": {
+            "Altezza": [
+                20, 25, 30, 35, 40, 45,
+                50, 60, 70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170, 180, 190, 200
+            ],
+            "Larghezza": [30, 35, 40, 45, 50],
+            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+        },
+        "input": ["Lunghezza"]
+    },
+}
+
+FIANCATE_CHOICE = {
+    "always_on": {
+        "Sismoresistenza": ["No", "Sì"]
+    },
+    "Sì": {
+        "select": {
+            "Solo montante": ["No", "Sì"],
+            "Sezione": [
+                "100/20",
+                "100/25",
+                "100/30",
+                "120/20",
+                "120/25",
+                "120/30",
+                "120x110/20",
+                "120x110/25",
+                "120x110/30",
+                "120x110/40"
+            ]
+        },
+        "input": [
+            "Profondità",
+            "Altezza",
+            "N diagonali 10/10",
+            "N diagonali 15/10",
+            "N diagonali 20/10",
+            "N diagonali 25/10",
+            "N diagonali 30/10",
+            "N traversi 10/10",
+            "N traversi 15/10"
+        ]
+    },
+    "No": {
+        "select": {
+            "Solo montante": ["No", "Sì"],
+            "Sezione": [
+                "80/20",
+                "80/25",
+                "80/30",
+                "100/20",
+                "100/25",
+                "100/30",
+                "120/20",
+                "120/25",
+                "120/30",
+                "120x110/20",
+                "120x110/25",
+                "120x110/30",
+                "120x110/40"
+            ]
+        },
+        "input": [
+            "Profondità",
+            "Altezza",
+            "N diagonali",
+        ]
+    }
+}
+
 
 """
 ===============================================================================
@@ -223,6 +342,10 @@ BUTTON_METHOD_PREFIX = "create_"
 BUTTON_METHOD_POSTFIX = "_ui"
 
 # =============================== Fiancate data ===============================
+
+FIANCATE_ALWAYS_ON = {
+    "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
+}
 
 # Data for dropdown select options
 # Default:
@@ -247,7 +370,6 @@ BUTTON_METHOD_POSTFIX = "_ui"
 # }
 FIANCATE_SELECT_FIELDS = {
     "Solo montante": ["No", "Sì"],
-    "Sismo resistente": ["No", "Sì"],
     "Sezione": [
         "80/20",
         "80/25",
@@ -290,38 +412,6 @@ FIANCATE_INPUT_FIELDS = [
 ]
 
 # ================================ Travi data =================================
-
-# Data for dropdown select options.
-# Default:
-# {
-#     "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-#     "Altezza": [
-#         20, 25, 30, 35, 40, 45,
-#         50, 60, 70, 80, 90, 100, 110, 120, 130,
-#         140, 150, 160, 170, 180, 190, 200
-#     ],
-#     "Larghezza": [30, 35, 40, 45, 50],
-#     "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-#     "Staffa speciale": ["No", "Sì"],
-#     "Quantita": [">=1001", "<=1000"],
-#     "Appoggio": ["No", "Sì"]
-# }
-TRAVI_SELECT_FIELDS = {
-    "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-    "Altezza": [
-        20, 25, 30, 35, 40, 45,
-        50, 60, 70, 80, 90, 100, 110, 120, 130,
-        140, 150, 160, 170, 180, 190, 200
-    ],
-    "Larghezza": [30, 35, 40, 45, 50],
-    "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-    "Staffa speciale": ["No", "Sì"],
-    "Quantita": [">=1001", "<=1000"],
-    "Appoggio": ["No", "Sì"]
-}
-
-# Names of entries (put in the labels prior to entries). Default: ["Lunghezza"]
-TRAVI_INPUT_FIELDS = ["Lunghezza"]
 
 # Cells in Excel addapted to the data of the travi TG.
 # Default:

@@ -166,10 +166,12 @@ class App:
         window.geometry(f"{set.TRAVI_WIN_WIDTH}x{set.TRAVI_WIN_HEIGHT}")
         creator = WindowCreator(
             window,
-            set.TRAVI_SELECT_FIELDS,
-            set.TRAVI_INPUT_FIELDS
+            set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['select'],
+            set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['input'],
+            set.TRAVI_CHOICE['always_on'],
         )
-        self.entries = creator.create_ui()
+        creator.create_ui()
+        self.entries = creator.entries
 
     def create_fiancate_ui(self, window: tk.Toplevel) -> None:
         """Частный случай отрисовки компонентов для конкретного окна (в данном)
@@ -184,10 +186,12 @@ class App:
         window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
         creator = WindowCreator(
             window,
-            set.FIANCATE_SELECT_FIELDS,
-            set.FIANCATE_INPUT_FIELDS
+            set.FIANCATE_CHOICE['No']['select'],
+            set.FIANCATE_CHOICE['No']['input'],
+            set.FIANCATE_CHOICE['always_on']
         )
-        self.entries = creator.create_ui()
+        creator.create_ui()
+        self.entries = creator.entries
 
     def on_close(self, window: tk.Toplevel) -> None:
         """Обрабатывает закрытие переданного окна:
