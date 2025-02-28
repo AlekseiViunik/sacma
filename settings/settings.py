@@ -266,9 +266,9 @@ TRAVI_CHOICE = {
 
 FIANCATE_CHOICE = {
     "always_on": {
-        "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
+        "Sismoresistenza": ["No", "Sì"]
     },
-    "sismoresistente": {
+    "Sì": {
         "select": {
             "Solo montante": ["No", "Sì"],
             "Sezione": [
@@ -296,7 +296,7 @@ FIANCATE_CHOICE = {
             "N traversi 15/10"
         ]
     },
-    "non-sismoresistente": {
+    "No": {
         "select": {
             "Solo montante": ["No", "Sì"],
             "Sezione": [
@@ -316,7 +316,7 @@ FIANCATE_CHOICE = {
             ]
         },
         "input": [
-            "Profondità"
+            "Profondità",
             "Altezza",
             "N diagonali",
         ]
