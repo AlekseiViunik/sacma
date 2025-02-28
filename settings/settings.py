@@ -285,7 +285,7 @@ FIANCATE_CHOICE = {
             ]
         },
         "input": [
-            "Profondità"
+            "Profondità",
             "Altezza",
             "N diagonali 10/10",
             "N diagonali 15/10",
