@@ -170,7 +170,8 @@ class App:
             set.TRAVI_INPUT_FIELDS,
             set.TRAVI_ALWAYS_ON
         )
-        self.entries = creator.create_ui()
+        creator.create_ui()
+        self.entries = creator.entries
 
     def create_fiancate_ui(self, window: tk.Toplevel) -> None:
         """Частный случай отрисовки компонентов для конкретного окна (в данном)
