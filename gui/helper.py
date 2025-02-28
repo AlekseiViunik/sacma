@@ -4,6 +4,8 @@ from typing import Tuple
 
 class Helper:
     """Вспомогательный класс с утилитарными методами."""
+    def __init__(self, root):
+        self.root = root
 
     @staticmethod
     def get_type_class_name(name: str) -> Tuple[str]:
@@ -39,3 +41,7 @@ class Helper:
             return class_
         except (ModuleNotFoundError, AttributeError):
             return False
+
+    def on_close(self, window):
+        window.destroy()
+        self.root.deiconify()
