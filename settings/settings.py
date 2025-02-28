@@ -207,11 +207,11 @@ ENTRY_PADX = 5
 # ================================= Choices =================================
 
 TRAVI_CHOICE = {
-    'always_on': {
+    "always_on": {
         "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
     },
-    'TG': {
-        'select': {
+    "TG": {
+        "select": {
             "Altezza": [
                 70, 80, 90, 100, 110, 120, 130,
                 140, 150, 160, 170
@@ -221,10 +221,10 @@ TRAVI_CHOICE = {
             "Staffa speciale": ["No", "Sì"],
             "Quantita": [">=1001", "<=1000"],
         },
-        'input': ['Lunghezza']
+        "input": ["Lunghezza"]
     },
-    'SAT': {
-        'select': {
+    "SAT": {
+        "select": {
             "Altezza": [
                 70, 80, 90, 100, 110, 120, 130,
                 140, 150, 160, 170
@@ -234,10 +234,10 @@ TRAVI_CHOICE = {
             "Staffa speciale": ["No", "Sì"],
             "Quantita": [">=1001", "<=1000"],
         },
-        'input': ['Lunghezza']
+        "input": ["Lunghezza"]
     },
-    'APERTE': {
-        'select': {
+    "APERTE": {
+        "select": {
             "Altezza": [
                 70, 80, 90, 100, 110, 120, 130,
                 140, 150, 160, 170, 180, 190, 200
@@ -248,10 +248,10 @@ TRAVI_CHOICE = {
             "Quantita": [">=1001", "<=1000"],
 
         },
-        'input': ['Lunghezza']
+        "input": ["Lunghezza"]
     },
-    'PORTA SKID': {
-        'select': {
+    "PORTA SKID": {
+        "select": {
             "Altezza": [
                 20, 25, 30, 35, 40, 45,
                 50, 60, 70, 80, 90, 100, 110, 120, 130,
@@ -260,8 +260,67 @@ TRAVI_CHOICE = {
             "Larghezza": [30, 35, 40, 45, 50],
             "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
         },
-        'input': ['Lunghezza']
+        "input": ["Lunghezza"]
     },
+}
+
+FIANCATE_CHOICE = {
+    "always_on": {
+        "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
+    },
+    "sismoresistente": {
+        "select": {
+            "Solo montante": ["No", "Sì"],
+            "Sezione": [
+                "100/20",
+                "100/25",
+                "100/30",
+                "120/20",
+                "120/25",
+                "120/30",
+                "120x110/20",
+                "120x110/25",
+                "120x110/30",
+                "120x110/40"
+            ]
+        },
+        "input": [
+            "Profondità"
+            "Altezza",
+            "N diagonali 10/10",
+            "N diagonali 15/10",
+            "N diagonali 20/10",
+            "N diagonali 25/10",
+            "N diagonali 30/10",
+            "N traversi 10/10",
+            "N traversi 15/10"
+        ]
+    },
+    "non-sismoresistente": {
+        "select": {
+            "Solo montante": ["No", "Sì"],
+            "Sezione": [
+                "80/20",
+                "80/25",
+                "80/30",
+                "100/20",
+                "100/25",
+                "100/30",
+                "120/20",
+                "120/25",
+                "120/30",
+                "120x110/20",
+                "120x110/25",
+                "120x110/30",
+                "120x110/40"
+            ]
+        },
+        "input": [
+            "Profondità"
+            "Altezza",
+            "N diagonali",
+        ]
+    }
 }
 
 
@@ -285,7 +344,7 @@ BUTTON_METHOD_POSTFIX = "_ui"
 # =============================== Fiancate data ===============================
 
 FIANCATE_ALWAYS_ON = {
-    "Sismo resistente": ["No", "Sì"]
+    "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
 }
 
 # Data for dropdown select options
