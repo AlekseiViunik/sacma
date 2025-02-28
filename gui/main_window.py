@@ -168,7 +168,7 @@ class App:
             window,
             set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['select'],
             set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['input'],
-            set.TRAVI_ALWAYS_ON
+            set.TRAVI_CHOICE['always_on'],
         )
         creator.create_ui()
         self.entries = creator.entries
