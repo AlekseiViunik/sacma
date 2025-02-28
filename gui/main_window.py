@@ -65,7 +65,6 @@ class App:
         frame = tk.Frame(self.root)
         frame.pack(expand=True)
         cols = set.COL_NUM
-        cols = set.COL_NUM
         rows = math.ceil(len(self.buttons) / cols)
 
         max_width = max(len(name) for name in self.buttons)
