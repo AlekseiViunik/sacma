@@ -354,10 +354,6 @@ FIANCATE_INPUT_FIELDS = [
 
 # ================================ Travi data =================================
 
-TRAVI_ALWAYS_ON = {
-    "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-}
-
 # Cells in Excel addapted to the data of the travi TG.
 # Default:
 # {
