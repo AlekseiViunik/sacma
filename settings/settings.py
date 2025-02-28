@@ -208,20 +208,56 @@ ENTRY_PADX = 5
 
 TRAVI_CHOICE = {
     'TG': {
-        'select': {},
-        'input': []
+        'select': {
+            "Altezza": [
+                70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170
+            ],
+            "Larghezza": [45, 50],
+            "Spessore": [1.2, 1.5],
+            "Staffa speciale": ["No", "Sì"],
+            "Quantita": [">=1001", "<=1000"],
+        },
+        'input': ['Lunghezza']
     },
     'SAT': {
-        'select': {},
-        'input': []
+        'select': {
+            "Altezza": [
+                70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170
+            ],
+            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+            "Appoggio": ["No", "Sì"],
+            "Staffa speciale": ["No", "Sì"],
+            "Quantita": [">=1001", "<=1000"],
+        },
+        'input': ['Lunghezza']
     },
     'APERTE': {
-        'select': {},
-        'input': []
+        'select': {
+            "Altezza": [
+                70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170, 180, 190, 200
+            ],
+            "Larghezza": [20, 30, 35, 40, 45, 50],
+            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+            "Staffa speciale": ["No", "Sì"],
+            "Quantita": [">=1001", "<=1000"],
+            
+        },
+        'input': ['Lunghezza']
     },
     'PORTA SKID': {
-        'select': {},
-        'input': []
+        'select': {
+            "Altezza": [
+                20, 25, 30, 35, 40, 45,
+                50, 60, 70, 80, 90, 100, 110, 120, 130,
+                140, 150, 160, 170, 180, 190, 200
+            ],
+            "Larghezza": [30, 35, 40, 45, 50],
+            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+        },
+        'input': ['Lunghezza']
     },
 }
 
