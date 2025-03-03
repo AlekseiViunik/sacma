@@ -6,7 +6,7 @@ from .helper import Helper
 from logic.logger import logger as log
 from logic.excel_file_handler import ExcelFileHandler
 from settings import settings as set
-from .window_creator import WindowCreator
+from .widget_creator import WidgetCreator
 
 
 class App:
@@ -171,7 +171,7 @@ class App:
         """
 
         window.geometry(f"{set.TRAVI_WIN_WIDTH}x{set.TRAVI_WIN_HEIGHT}")
-        creator = WindowCreator(
+        creator = WidgetCreator(
             window,
             set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['select'],
             set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['input'],
@@ -191,7 +191,7 @@ class App:
         """
 
         window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
-        creator = WindowCreator(
+        creator = WidgetCreator(
             window,
             set.FIANCATE_CHOICE['No']['select'],
             set.FIANCATE_CHOICE['No']['input'],
