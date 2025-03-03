@@ -1,7 +1,7 @@
 import tkinter as tk
 
 from gui.helper import Helper
-from gui.window_creator import WindowCreator
+from gui.widget_creator import WidgetCreator
 from logic.excel_file_handler import ExcelFileHandler
 from logic.logger import logger as log
 from settings import settings as set
@@ -13,20 +13,14 @@ class Travi(AbstractBaseType):
         super().__init__(root, type)
 
     def create_components(self):
-        select_options = (
-            self.type_choice[
-                "choices"
-            ][set.TRAVI_TYPE_TG]["available_params"]["select"]
+        select_options, input_options, always_on = (
+            (
+                self.get_default_options(set.TRAVI_TYPE_TG, option) for
+                option in ["select", "input", "always_on"]
+            )
         )
-        input_options = (
-            self.type_choice[
-                "choices"
-            ][set.TRAVI_TYPE_TG]["available_params"]["input"]
-        )
-        always_on = (
-            self.type_choice["always_on"]
-        )
-        creator = WindowCreator(
+
+        creator = WidgetCreator(
             self.window,
             select_options,
             input_options,
@@ -34,20 +28,8 @@ class Travi(AbstractBaseType):
         )
         creator.create_ui()
         self.entries = creator.entries
-        btn_invia = tk.Button(
-            self.window,
-            text=set.BUTTON_INVIA_TITLE,
-            width=set.BUTTON_WIDTH,
-            bg=set.BUTTON_COLOR,
-            relief=set.BUTTON_RELIEF,
-            command=self.calculate()
-        )
-        btn_invia.pack(
-                side=set.BUTTON_INVIA_SIDE,
-                anchor=set.BUTTON_INVIA_ANCHOR,
-                padx=set.BUTTON_PADX,
-                pady=set.BUTTON_PADY
-            )
+
+        creator.create_invia_button(self.calculate)
 
         self.window.protocol(
             set.ON_CLOSING_WINDOW,
