@@ -1,0 +1,213 @@
+{
+    "travi": {
+        "always_on": {
+            "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"]
+        },
+        "window_settings": {
+            "width": 400,
+            "height": 300
+        },
+        "choices": {
+            "TG": {
+                "available_params":{
+                    "select": {
+                        "height": [
+                            70, 80, 90, 100, 110, 120, 130,
+                            140, 150, 160, 170
+                        ],
+                        "base": [45, 50],
+                        "thickness": [1.2, 1.5],
+                        "special_hook": ["No", "Sì"],
+                        "amount": [">=1001", "<=1000"]
+                    },
+                    "input": ["Lunghezza"]
+                },
+                "rules":{
+                    "height": {
+                        "min": 70,
+                        "max": 170
+                    },
+                    "length": {
+                        "numeric": 1,
+                        "min": 1200,
+                        "max": 3600
+                    }
+                },
+                "cells_input":{
+                    "height": "B4",
+                    "base": "B6",
+                    "thickness": "B8",
+                    "length": "B12",
+                    "special_hook": "B14",
+                    "amount": "B16"
+                },
+                "cells_output":{
+                    "price": "E4",
+                    "weight": "E6"
+                }
+            },
+            "SAT": {
+                "available_params": {
+                    "select": {
+                        "height": [
+                            70, 80, 90, 100, 110, 120, 130,
+                            140, 150, 160, 170
+                        ],
+                        "thickness": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+                        "Appoggio": ["No", "Sì"],
+                        "special_hook": ["No", "Sì"],
+                        "amount": [">=1001", "<=1000"]
+                    },
+                    "input": ["Lunghezza"]
+                },
+                "rules":{},
+                "cells_input":{
+                    "height": "B21",
+                    "thickness": "B23",
+                    "support": "B27",
+                    "length": "B29",
+                    "special_hook": "B31",
+                    "amount": "B33"
+                },
+                "cells_output":{
+                    "price": "E21",
+                    "weight": "E23"
+                }
+            },
+            "APERTE": {
+                "available_params": {
+                    "select": {
+                        "height": [
+                            70, 80, 90, 100, 110, 120, 130,
+                            140, 150, 160, 170, 180, 190, 200
+                        ],
+                        "base": [20, 30, 35, 40, 45, 50],
+                        "thickness": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
+                        "special_hook": ["No", "Sì"],
+                        "amount": [">=1001", "<=1000"]
+                    },
+                    "input": ["Lunghezza"]
+                },
+                "rules":{
+                    "height": {
+                        "min": 70,
+                        "max": 170
+                    },
+                    "length": {
+                        "numeric": 1,
+                        "min": 1200,
+                        "max": 3600
+                    }
+                },
+                "cells_input": {
+                    "height": "B37",
+                    "base": "B39",
+                    "thickness": "B41",
+                    "length": "B45",
+                    "special_hook": "B47",
+                    "amount": "B49"
+                },
+                "cells_output": {
+                    "price": "E37",
+                    "weight": "E39"
+                }
+            },
+            "PORTA SKID": {
+                "available_params":{
+                    "select": {
+                        "height": [
+                            20, 25, 30, 35, 40, 45,
+                            50, 60, 70, 80, 90, 100, 110, 120, 130,
+                            140, 150, 160, 170, 180, 190, 200
+                        ],
+                        "base": [30, 35, 40, 45, 50],
+                        "thickness": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0]
+                    },
+                    "input": ["Lunghezza"]
+                },
+                "rules":{},
+                "cells_input":{
+                    "height": "B53",
+                    "base": "B55",
+                    "thickness": "B57",
+                    "length": "B61"
+                },
+                "cells_output":{
+                    "price": "E53",
+                    "weight": "E55"
+                }
+            }
+        }
+    },
+    "fiancate": {
+        "always_on": {
+            "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
+        },
+        "choices":{
+            "Sì": {
+                "available_params": {
+                    "select": {
+                    "Solo montante": ["No", "Sì"],
+                    "Sezione": [
+                        "100/20",
+                        "100/25",
+                        "100/30",
+                        "120/20",
+                        "120/25",
+                        "120/30",
+                        "120x110/20",
+                        "120x110/25",
+                        "120x110/30",
+                        "120x110/40"
+                    ]
+                    },
+                    "input": [
+                        "Profondità",
+                        "Altezza",
+                        "N diagonali 10/10",
+                        "N diagonali 15/10",
+                        "N diagonali 20/10",
+                        "N diagonali 25/10",
+                        "N diagonali 30/10",
+                        "N traversi 10/10",
+                        "N traversi 15/10"
+                    ]
+                },
+                "rules": {},
+                "cells_input": {},
+                "cells_output": {}
+            },
+            "No": {
+                "available_params": {
+                    "select": {
+                        "Solo montante": ["No", "Sì"],
+                        "Sezione": [
+                            "80/20",
+                            "80/25",
+                            "80/30",
+                            "100/20",
+                            "100/25",
+                            "100/30",
+                            "120/20",
+                            "120/25",
+                            "120/30",
+                            "120x110/20",
+                            "120x110/25",
+                            "120x110/30",
+                            "120x110/40"
+                        ]
+                    },
+                    "input": [
+                        "Profondità",
+                        "Altezza",
+                        "N diagonali"
+                    ]
+                },
+                "rules": {},
+                "cells_input":{},
+                "cells_output":{}
+            }
+        }
+        
+    }
+}
