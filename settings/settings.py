@@ -69,7 +69,7 @@ FIANCATE_WIN_HEIGHT = 500
 TRAVI_WIN_WIDTH = 400
 
 # Height. Default: 400
-TRAVI_WIN_HEIGHT = 400
+TRAVI_WIN_HEIGHT = 300
 
 
 # =============================== COMPONENTS ==================================
