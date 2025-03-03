@@ -1,5 +1,6 @@
 import tkinter as tk
 from abc import ABC, abstractmethod
+from typing import Dict, List
 
 from logic.json_file_handler import JsonFileHandler
 from gui.helper import Helper
@@ -43,6 +44,23 @@ class AbstractBaseType (ABC):
         y = (screen_height - height) // 2
         handled_window.geometry(f"{width}x{height}+{x}+{y}")
 
+    def get_default_options(
+        self,
+        default_choice: str,
+        option: str
+    ) -> Dict[str, List[str]]:
+        if (option == "alwais_on"):
+            return (self.type_choice[option])
+        return (
+            self.type_choice[
+                "choices"
+            ][default_choice]["available_params"][option]
+        )
+
     @abstractmethod
     def create_components(self) -> None:
+        pass
+
+    @abstractmethod
+    def calculate(self) -> None:
         pass
