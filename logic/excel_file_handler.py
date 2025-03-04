@@ -6,6 +6,7 @@ import win32com.client as win32
 from decimal import Decimal, ROUND_HALF_UP
 
 from logic.logger import logger as log
+from logic.translator import Translator
 from logic.validator import Validator
 from settings import settings as set
 from typing import Dict, Tuple, Any
@@ -43,12 +44,17 @@ class ExcelFileHandler:
     """
 
     def __init__(
-            self, part_of_the_shelf: str, data: tk.Entry, rules: Dict
+        self,
+        part_of_the_shelf: str,
+        data: tk.Entry,
+        rules: Dict,
+        worksheet: str | None
     ) -> None:
         self.part_of_the_shelf: str = part_of_the_shelf
         self.data: tk.Entry = data
         self.worksheet: str | None = None
-        self.rules = rules
+        self.rules = Translator().translate_dict(rules)
+        self.worksheet = worksheet
 
     def prepare_data_for_excel(self) -> Dict[str, Any] | None:
         """Вызывает методы проверки данных и их конвертации из tk.Entry в
@@ -61,13 +67,11 @@ class ExcelFileHandler:
         """
 
         log.info("Prepare data to insert it in excel")
+        if not self.check_data():
+            log.error("The data is wrong!")
+            return None
 
         if self.part_of_the_shelf.lower() == "travi":
-            if not self.check_data(
-                set.TRAVI_RULES[self.data[set.TRAVI_TYPE_KEY]]
-            ):
-                log.error("The data is wrong!")
-                return None
 
             self.worksheet = set.TRAVI_WORKSHEET
             match self.data[set.TRAVI_TYPE_KEY]:
@@ -235,7 +239,7 @@ class ExcelFileHandler:
 
         return price, weight
 
-    def check_data(self, rules: Dict[str, Dict[str, Any]]) -> bool:
+    def check_data(self) -> bool:
         """Используя валидатор проверяет данные согласно определенным правилам,
         указанным в файле настроек.
 
@@ -252,11 +256,11 @@ class ExcelFileHandler:
         # TODO Move this method to the Validator
         log.info("Check data before preparing it")
         for key, value in self.data.items():
-            key = key.lower()
+            key = key.capitalize()
             log.info(f"Check {key}")
-            if key in rules:
+            if key in self.rules:
                 log.info(f"Data to be checked is: {self.data}")
-                for rul_key, rul_value in rules[key].items():
+                for rul_key, rul_value in self.rules[key].items():
                     if not Validator().validate(rul_key, rul_value, value):
                         log.error(f"{key} hasn't passed")
                         return False
