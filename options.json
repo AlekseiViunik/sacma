@@ -54,7 +54,7 @@
                             140, 150, 160, 170
                         ],
                         "thickness": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-                        "Appoggio": ["No", "Sì"],
+                        "support": ["No", "Sì"],
                         "special_hook": ["No", "Sì"],
                         "amount": [">=1001", "<=1000"]
                     },
@@ -151,8 +151,8 @@
             "sismoresistente": {
                 "available_params": {
                     "select": {
-                        "Solo montante": ["No", "Sì"],
-                        "Sezione": [
+                        "only_strut": ["No", "Sì"],
+                        "section": [
                             "100/20",
                             "100/25",
                             "100/30",
@@ -184,8 +184,8 @@
             "non-sismoresistente": {
                 "available_params": {
                     "select": {
-                        "Solo montante": ["No", "Sì"],
-                        "Sezione": [
+                        "only_strut": ["No", "Sì"],
+                        "section": [
                             "80/20",
                             "80/25",
                             "80/30",
