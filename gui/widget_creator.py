@@ -23,22 +23,17 @@ class WidgetCreator:
         add_mm(frame, label, row)
             Добавляет единицы измерения.
     """
-    def __init__(
-        self,
-        window: tk.Toplevel,
-        select_fields: Dict[str, List[Any]],
-        input_fields: List[Any],
-        always_on: Dict[str, List[Any]] | List[Any]
-    ) -> None:
+    def __init__(self, window: tk.Toplevel, type_choice: Dict) -> None:
         self.window = window
-        self.select_fields = select_fields
-        self.input_fields = input_fields
-        self.always_on = always_on
+        self.type_choice = type_choice
+        self.always_on: Dict = type_choice["always_on"]
+        self.select_fields: Dict | None = None
+        self.input_fields: Dict | None = None
         self.entries = {}
         self.frame = None
         self.frames = {}
 
-    def create_ui(self) -> tk.Entry:
+    def create_ui(self) -> None:
         """Размещает виджеты на окне. Пользуется атрибутами класса. Виджеты
         меняются в зависимости от имени окна, для которого нужноих разместить.
 
@@ -67,6 +62,14 @@ class WidgetCreator:
 
     def create_main_frame(self, start_row: int) -> None:
         """Создаёт или перерисовывает `main_frame`."""
+        if not self.select_fields or not self.input_fields:
+            inizial_choice = None
+            for value in self.always_on.values():
+                if value:
+                    inizial_choice = value[0]
+                    break
+            self.get_select_fields(inizial_choice)
+            self.get_input_fields(inizial_choice)
 
         self.frame = self.create_frame("main_frame")
 
@@ -93,14 +96,8 @@ class WidgetCreator:
     def on_dropdown_change(self, var: tk.StringVar) -> None:
         """Обрабатывает изменение первого выпадающего списка."""
         new_choice = var.get()
-
-        match self.window.title().lower():
-            case set.TRAVI:
-                self.select_fields = set.TRAVI_CHOICE[new_choice]["select"]
-                self.input_fields = set.TRAVI_CHOICE[new_choice]["input"]
-            case set.FIANCATE:
-                self.select_fields = set.FIANCATE_CHOICE[new_choice]["select"]
-                self.input_fields = set.FIANCATE_CHOICE[new_choice]["input"]
+        self.get_select_fields(new_choice)
+        self.get_input_fields(new_choice)
 
         # ✅ Перерисовываем `main_frame`
         self.create_main_frame(start_row=len(self.always_on))
@@ -228,3 +225,13 @@ class WidgetCreator:
             padx=set.BUTTON_PADX,
             pady=set.BUTTON_PADY
         )
+
+    def get_select_fields(self, choice):
+        self.select_fields = self.type_choice["choices"][choice][
+            "available_params"
+        ]["select"]
+
+    def get_input_fields(self, choice):
+        self.input_fields = self.type_choice["choices"][choice][
+            "available_params"
+        ]["input"]
