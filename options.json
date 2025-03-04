@@ -143,23 +143,27 @@
         "always_on": {
             "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
         },
+        "window_settings": {
+            "width": 400,
+            "height": 400
+        },
         "choices":{
-            "Sì": {
+            "sismoresistente": {
                 "available_params": {
                     "select": {
-                    "Solo montante": ["No", "Sì"],
-                    "Sezione": [
-                        "100/20",
-                        "100/25",
-                        "100/30",
-                        "120/20",
-                        "120/25",
-                        "120/30",
-                        "120x110/20",
-                        "120x110/25",
-                        "120x110/30",
-                        "120x110/40"
-                    ]
+                        "Solo montante": ["No", "Sì"],
+                        "Sezione": [
+                            "100/20",
+                            "100/25",
+                            "100/30",
+                            "120/20",
+                            "120/25",
+                            "120/30",
+                            "120x110/20",
+                            "120x110/25",
+                            "120x110/30",
+                            "120x110/40"
+                        ]
                     },
                     "input": [
                         "Profondità",
@@ -177,7 +181,7 @@
                 "cells_input": {},
                 "cells_output": {}
             },
-            "No": {
+            "non-sismoresistente": {
                 "available_params": {
                     "select": {
                         "Solo montante": ["No", "Sì"],
