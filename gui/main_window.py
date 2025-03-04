@@ -6,7 +6,6 @@ from .helper import Helper
 from logic.logger import logger as log
 from logic.excel_file_handler import ExcelFileHandler
 from settings import settings as set
-from .widget_creator import WidgetCreator
 
 
 class App:
@@ -110,46 +109,6 @@ class App:
             instance.open_window()
         else:
             print(f"{instance} not found!")
-
-    def create_travi_ui(self, window: tk.Toplevel) -> None:
-        """Частный случай отрисовки компонентов для конкретного окна (в данном)
-        случае, если была нажата кнопка Travi.
-
-        Parameters
-        ----------
-            window: tk.Toplevel
-                Окно, на котором будут размещаться компоненты.
-        """
-
-        window.geometry(f"{set.TRAVI_WIN_WIDTH}x{set.TRAVI_WIN_HEIGHT}")
-        creator = WidgetCreator(
-            window,
-            set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['select'],
-            set.TRAVI_CHOICE[set.TRAVI_TYPE_TG]['input'],
-            set.TRAVI_CHOICE['always_on'],
-        )
-        creator.create_ui()
-        self.entries = creator.entries
-
-    def create_fiancate_ui(self, window: tk.Toplevel) -> None:
-        """Частный случай отрисовки компонентов для конкретного окна (в данном)
-        случае, если была нажата кнопка Fiancate.
-
-        Parameters
-        ----------
-            window: tk.Toplevel
-                Окно, на котором будут размещаться компоненты.
-        """
-
-        window.geometry(f"{set.FIANCATE_WIN_WIDTH}x{set.FIANCATE_WIN_HEIGHT}")
-        creator = WidgetCreator(
-            window,
-            set.FIANCATE_CHOICE['No']['select'],
-            set.FIANCATE_CHOICE['No']['input'],
-            set.FIANCATE_CHOICE['always_on']
-        )
-        creator.create_ui()
-        self.entries = creator.entries
 
     def on_close(self, window: tk.Toplevel) -> None:
         """Обрабатывает закрытие переданного окна:
