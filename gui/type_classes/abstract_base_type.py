@@ -4,6 +4,7 @@ from typing import Dict, List
 
 from logic.json_file_handler import JsonFileHandler
 from gui.helper import Helper
+from settings import settings as set
 
 
 class AbstractBaseType (ABC):
@@ -49,13 +50,47 @@ class AbstractBaseType (ABC):
         default_choice: str,
         option: str
     ) -> Dict[str, List[str]]:
-        if (option == "alwais_on"):
+        if (option == "always_on"):
             return (self.type_choice[option])
         return (
             self.type_choice[
                 "choices"
             ][default_choice]["available_params"][option]
         )
+
+    def open_response_window(self, cost, weight):
+        result_window = tk.Toplevel(self.root)
+        result_window.title("Risultato")  # Заголовок окна
+        self.center_window(300, 150, result_window)  # Центрируем окно
+
+        # Формируем текст для отображения
+        prezzo_text = (
+            f"{set.PRICE}: {cost} €" if cost else set.PRICE_NOT_FOUND
+        )
+        peso_text = (
+            f"{set.WEIGHT}: {weight} Kg" if weight else set.WEIGHT_NOT_FOUND
+        )
+
+        # Выводим текст
+        tk.Label(
+            result_window,
+            text=prezzo_text,
+            font=("Arial", 12)
+        ).pack(pady=5)
+        tk.Label(
+            result_window,
+            text=peso_text,
+            font=("Arial", 12)
+        ).pack(pady=5)
+
+        # Кнопка "OK", которая закроет окно
+        tk.Button(
+            result_window,
+            width=set.BUTTON_WIDTH,
+            bg=set.BUTTON_COLOR,
+            text="OK",
+            command=result_window.destroy
+        ).pack(pady=10)
 
     @abstractmethod
     def create_components(self) -> None:
