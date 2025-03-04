@@ -400,3 +400,20 @@ LOG_FILE_NAME = "app.log"
 
 # Log coding type. Default: "utf-8"
 LOG_CODING = "utf-8"
+
+# ================================ Translator =================================
+DICTIONARY = {
+    "height": "Altezza",
+    "width": "Larghezza",
+    "thickness": "Spessore",
+    "length": "Lunghezza",
+    "special_hook": "Staffa speciale",
+    "amount": "Quantità",
+    "price": "Prezzo",
+    "weight": "Peso",
+    "support": "Appoggio",
+    "base": "Base",
+    "only_strut": "Solo montante",
+    "section": "Sezione",
+    "type": "Tipo",
+}
