@@ -1,10 +1,8 @@
-import inspect
 import math
 import tkinter as tk
 
 from .helper import Helper
 from logic.logger import logger as log
-from logic.excel_file_handler import ExcelFileHandler
 from settings import settings as set
 
 
@@ -147,56 +145,3 @@ class App:
         x = (screen_width - width) // 2
         y = (screen_height - height) // 2
         window.geometry(f"{width}x{height}+{x}+{y}")
-
-    def calculate(self, name: str) -> None:
-        """Запускает процесс обработки введенных данных и по окончании
-        открывает окно с результатами.
-
-        Parameters
-        ----------
-            name: String
-                Имя нажатой на главном окне кнопки и, по совместительству,
-                открытого нажатием этой кнопки окна.
-        """
-        log.info(
-            f"The metod '{inspect.currentframe().f_code.co_name}' is called"
-        )
-        entries_dict = {
-            key: entry.get() for key, entry in self.entries.items()
-        }
-        log.info(f"Entries: {entries_dict}")
-        excel = ExcelFileHandler(name, entries_dict)
-        cost, weight = excel.process_excel()
-
-        result_window = tk.Toplevel(self.root)
-        result_window.title("Risultato")  # Заголовок окна
-        self.center_window(result_window, 300, 150)  # Центрируем окно
-
-        # Формируем текст для отображения
-        prezzo_text = (
-            f"{set.PRICE}: {cost} €" if cost else set.PRICE_NOT_FOUND
-        )
-        peso_text = (
-            f"{set.WEIGHT}: {weight} Kg" if weight else set.WEIGHT_NOT_FOUND
-        )
-
-        # Выводим текст
-        tk.Label(
-            result_window,
-            text=prezzo_text,
-            font=("Arial", 12)
-        ).pack(pady=5)
-        tk.Label(
-            result_window,
-            text=peso_text,
-            font=("Arial", 12)
-        ).pack(pady=5)
-
-        # Кнопка "OK", которая закроет окно
-        tk.Button(
-            result_window,
-            width=set.BUTTON_WIDTH,
-            bg=set.BUTTON_COLOR,
-            text="OK",
-            command=result_window.destroy
-        ).pack(pady=10)
