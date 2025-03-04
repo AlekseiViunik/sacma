@@ -1,4 +1,6 @@
 import importlib
+import sys
+from pathlib import Path
 from typing import Tuple
 
 
@@ -35,11 +37,17 @@ class Helper:
         class_name, class_file = Helper.get_type_class_name(name)
         module_path = f"gui.type_classes.{class_file}"
 
+        # ✅ Добавляем путь к `sys.path`, если его там нет
+        type_classes_path = str(Path(__file__).parent / "type_classes")
+        if type_classes_path not in sys.path:
+            sys.path.append(type_classes_path)
+
         try:
             module = importlib.import_module(module_path)
             class_ = getattr(module, class_name)
             return class_
-        except (ModuleNotFoundError, AttributeError):
+        except (ModuleNotFoundError, AttributeError) as e:
+            print(f"Ошибка: {e}")  # Для отладки
             return False
 
     def on_close(self, window):
