@@ -2,6 +2,7 @@ import tkinter as tk
 
 from typing import Dict, List, Any
 
+from logic.translator import Translator
 from settings import settings as set
 
 
@@ -227,11 +228,11 @@ class WidgetCreator:
         )
 
     def get_select_fields(self, choice):
-        self.select_fields = self.type_choice["choices"][choice][
-            "available_params"
-        ]["select"]
+        self.select_fields = Translator().translate_dict(
+            self.type_choice["choices"][choice]["available_params"]["select"]
+        )
 
     def get_input_fields(self, choice):
-        self.input_fields = self.type_choice["choices"][choice][
-            "available_params"
-        ]["input"]
+        self.input_fields = (
+            self.type_choice["choices"][choice]["available_params"]["input"]
+        )
