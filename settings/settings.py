@@ -268,7 +268,7 @@ FIANCATE_CHOICE = {
     "always_on": {
         "Sismoresistenza": ["No", "Sì"]
     },
-    "Sì": {
+    "sismoresistente": {
         "select": {
             "Solo montante": ["No", "Sì"],
             "Sezione": [
@@ -296,7 +296,7 @@ FIANCATE_CHOICE = {
             "N traversi 15/10"
         ]
     },
-    "No": {
+    "non-sismoresistente": {
         "select": {
             "Solo montante": ["No", "Sì"],
             "Sezione": [
@@ -590,9 +590,11 @@ THICKNESS = "Spessore"
 # Default: "Lunghezza"
 LENGTH = "Lunghezza"
 
+DEPTH = "Profondità"
+
 # Dimensions that need to clarify dimensioning units
 # Default: [HEIGHT, WIDTH, THICKNESS, LENGTH]
-dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH]
+dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH, DEPTH]
 
 
 TRAVI = "travi"  # Default: "travi"
