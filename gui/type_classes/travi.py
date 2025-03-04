@@ -12,7 +12,8 @@ class Travi(AbstractBaseType):
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
+        rules = self.type_choice["choices"][entries_dict["Tipo"]]["rules"]
         log.info(f"Entries: {entries_dict}")
-        excel = ExcelFileHandler(self.type, entries_dict)
+        excel = ExcelFileHandler(self.type, entries_dict, rules)
         cost, weight = excel.process_excel()
         self.open_response_window(cost, weight)
