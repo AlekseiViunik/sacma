@@ -39,6 +39,6 @@ class Travi(AbstractBaseType):
             key: entry.get() for key, entry in self.entries.items()
         }
         log.info(f"Entries: {entries_dict}")
-        excel = ExcelFileHandler(self.name, entries_dict)
+        excel = ExcelFileHandler(self.type, entries_dict)
         cost, weight = excel.process_excel()
         self.open_response_window(cost, weight)
