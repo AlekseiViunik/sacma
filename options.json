@@ -9,6 +9,7 @@
         },
         "choices": {
             "TG": {
+                "worksheet": "Listino Travi",
                 "available_params":{
                     "select": {
                         "height": [
@@ -47,6 +48,7 @@
                 }
             },
             "SAT": {
+                "worksheet": "Listino Travi",
                 "available_params": {
                     "select": {
                         "height": [
@@ -75,6 +77,7 @@
                 }
             },
             "APERTE": {
+                "worksheet": "Listino Travi",
                 "available_params": {
                     "select": {
                         "height": [
@@ -113,6 +116,7 @@
                 }
             },
             "PORTA SKID": {
+                "worksheet": "Listino Travi",
                 "available_params":{
                     "select": {
                         "height": [
@@ -149,6 +153,7 @@
         },
         "choices":{
             "sismoresistente": {
+                "worksheet": "Listino fiancate simische",
                 "available_params": {
                     "select": {
                         "only_strut": ["No", "Sì"],
@@ -182,6 +187,7 @@
                 "cells_output": {}
             },
             "non-sismoresistente": {
+                "worksheet": "Listino fiancate tradizionali",
                 "available_params": {
                     "select": {
                         "only_strut": ["No", "Sì"],
