@@ -2,6 +2,7 @@ import tkinter as tk
 from abc import ABC, abstractmethod
 from typing import Dict, List
 
+from gui.widget_creator import WidgetCreator
 from logic.json_file_handler import JsonFileHandler
 from gui.helper import Helper
 from settings import settings as set
@@ -44,6 +45,21 @@ class AbstractBaseType (ABC):
         x = (screen_width - width) // 2
         y = (screen_height - height) // 2
         handled_window.geometry(f"{width}x{height}+{x}+{y}")
+
+    def create_components(self):
+        creator = WidgetCreator(
+            self.window,
+            self.type_choice
+        )
+        creator.create_ui()
+        self.entries = creator.entries
+
+        creator.create_invia_button(self.calculate)
+
+        self.window.protocol(
+            set.ON_CLOSING_WINDOW,
+            lambda: Helper(self.root).on_close(self.window)
+        )
 
     def get_default_options(
         self,
@@ -91,10 +107,6 @@ class AbstractBaseType (ABC):
             text="OK",
             command=result_window.destroy
         ).pack(pady=10)
-
-    @abstractmethod
-    def create_components(self) -> None:
-        pass
 
     @abstractmethod
     def calculate(self) -> None:
