@@ -72,8 +72,6 @@ class ExcelFileHandler:
             return None
 
         if self.part_of_the_shelf.lower() == "travi":
-
-            self.worksheet = set.TRAVI_WORKSHEET
             match self.data[set.TRAVI_TYPE_KEY]:
                 case set.TRAVI_TYPE_TG:
                     data_prepared = self.prepare_dict(set.TRAVI_CELLS_TG)
