@@ -42,10 +42,13 @@ class ExcelFileHandler:
                 преобразованием их в словарь.
     """
 
-    def __init__(self, part_of_the_shelf: str, data: tk.Entry) -> None:
+    def __init__(
+            self, part_of_the_shelf: str, data: tk.Entry, rules: Dict
+    ) -> None:
         self.part_of_the_shelf: str = part_of_the_shelf
         self.data: tk.Entry = data
         self.worksheet: str | None = None
+        self.rules = rules
 
     def prepare_data_for_excel(self) -> Dict[str, Any] | None:
         """Вызывает методы проверки данных и их конвертации из tk.Entry в
