@@ -53,8 +53,8 @@ class ExcelFileHandler:
         data: Dict[str, str],
         rules: Dict,
         worksheet: str,
-        cells_input: Dict[str, str],
-        cells_output: Dict[str, str]
+        cells_input: Dict[str, str] = None,
+        cells_output: Dict[str, str] = None
     ) -> None:
         self.data = data
         self.rules: Dict[str, Dict[str, Any]] | Dict[None] = (
@@ -63,29 +63,25 @@ class ExcelFileHandler:
         self.worksheet = worksheet
         self.cells_input: Dict[str, str] = (
             Translator().translate_dict(cells_input)
+            if cells_input
+            else None
         )
         self.cells_output: Dict[str, str] = cells_output
 
-    def prepare_data(self) -> Dict[str, Any] | None:
+    def prepare_data(self) -> Dict[str, Any]:
         """
         В имеющемся эксель файлы есть варианты <1000 и >1001. Это не совсем
         логично, поэтому я заменил эти варианты для выбора пользователем на
         более логичные <=1000 и >= 1001. Однако такой вариант не подойдет для
         формул excel, которые я не могу поменять и поэтому явным образом в этом
         методе удаляем у полей, которых это касается знаки '='. Также
-        преобразуем в словарь tk.Entry. Также проводим валидацию данных.
+        преобразуем в словарь tk.Entry.
 
         Returns
         -------
-        data_prepared : Dict[str, Any] | None
+        data_prepared : Dict[str, Any]
             Отвалидированные и подготовленные для дальнейшей обработки данные.
-            Или None, если данные не прошли валидацию.
         """
-        log.info("Check data before insert it in excel")
-        # Проверяем данные перед вставкой в excel
-        if not self.check_data():
-            log.error("The data is wrong!")
-            return None
 
         log.info("The data is correct")
         log.info("Prepare dictionary where key is cell address")
@@ -99,12 +95,12 @@ class ExcelFileHandler:
         log.info(f"Dictionary is prepared: {data_prepared}")
         return data_prepared
 
-    def process_excel(self) -> Tuple[Decimal, Decimal]:
+    def process_excel(self) -> Tuple[Decimal | None, Decimal | None]:
         """
         Основной метод класса ExcelFileHandler. Открывает файл, записывает в
         него данные (предварительно вызвав методы подготовки данных), обновляет
         расчеты файла, получает цену и вес элемента шкафа, необходимые нам,
-        округляет и возвращает их.
+        округляет и возвращает их. Также проводим валидацию данных.
 
         Returns
         -------
@@ -123,9 +119,10 @@ class ExcelFileHandler:
         FILE_PATH = os.path.join(BASE_DIR, "..", "files", "listini.xlsx")
         FILE_PATH = os.path.abspath(FILE_PATH)
 
-        # Подготавливаем данные для записи в Excel
-        data_prepared = self.prepare_data()
-        if not data_prepared:
+        log.info("Check data before insert it in excel")
+        # Проверяем данные перед вставкой в excel
+        if not self.check_data():
+            log.error("The data is wrong!")
             return None, None
 
         # Открываем Excel
@@ -140,17 +137,24 @@ class ExcelFileHandler:
 
         sheet = wb.Sheets(self.worksheet)
 
-        log.info("Insert prepared data to the excel worksheet")
-        for cell, value in data_prepared.items():
-            log.info(
-                f"Insert {value} in the {cell} cell of the worksheet"
-                f"'{self.worksheet}'"
-            )
-            sheet.Range(cell).Value = value
+        if self.cells_input:
+            # Подготавливаем данные для записи в Excel
+            if self.cells_input:
+                data_prepared = self.prepare_data()
+                if not data_prepared:
+                    return None, None
+            # Вставляем данные в Excel
+            log.info("Insert prepared data to the excel worksheet")
+            for cell, value in data_prepared.items():
+                log.info(
+                    f"Insert {value} in the {cell} cell of the worksheet"
+                    f"'{self.worksheet}'"
+                )
+                sheet.Range(cell).Value = value
 
-        log.info("Refresh table data to recalculate formulas")
-        wb.RefreshAll()  # Обновляем связи
-        excel.CalculateUntilAsyncQueriesDone()
+            log.info("Refresh table data to recalculate formulas")
+            wb.RefreshAll()  # Обновляем связи
+            excel.CalculateUntilAsyncQueriesDone()
 
         log.info("Getting price and weight")
         price = sheet.Range(self.cells_output["price"]).Value
