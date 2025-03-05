@@ -63,5 +63,15 @@ class Validator:
                 if not str(value).isnumeric():
                     log.error(f"{value} is not numeric")
                     return False
+            case "multiple":
+                log.info(f"Should be multiple of {rule_value}")
+                try:
+                    value = int(value)
+                except ValueError:
+                    log.error(f"{value} is not numeric")
+                    return False
+                if value % rule_value != 0:
+                    log.error(f"{value} is not multiple of {rule_value}")
+                    return False
         log.info("This check is OK!")
         return True
