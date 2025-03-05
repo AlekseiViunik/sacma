@@ -228,11 +228,14 @@
         },
         "choices": {
             "standart": {
-                "select": {
-                    "thickness": [0.6, 0.7, 0.8, 0.9],
-                    "depth": [100, 150, 300]
+                "worksheet": "Listino Pianetti",
+                "available_params": {
+                    "select": {
+                        "thickness": [0.6, 0.7, 0.8, 0.9],
+                        "depth": [100, 150, 300]
+                    },
+                    "input": ["Lunghezza"]
                 },
-                "input": ["Lunghezza"],
                 "rules": {
                     "length": {
                         "numeric": 1,
@@ -252,7 +255,5 @@
                 }
             }
         }
-
-
     }
 }
