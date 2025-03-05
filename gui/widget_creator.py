@@ -108,6 +108,8 @@ class WidgetCreator:
                 if value:
                     inizial_choice = value[0]
                     break
+            if not inizial_choice:
+                inizial_choice = "standart"
             self.get_select_fields(inizial_choice)
             self.get_input_fields(inizial_choice)
 
