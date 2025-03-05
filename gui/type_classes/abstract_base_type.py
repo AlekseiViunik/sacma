@@ -35,7 +35,11 @@ class AbstractBaseType (ABC):
         self.window_height = self.type_choice['window_settings']['height']
         geometry = f"{self.window_width}x{self.window_height}"
         self.window.geometry(geometry)
-        self.center_window(self.window_width, self.window_height)
+        Helper.center_window(
+            self.window_width,
+            self.window_height,
+            self.window
+        )
         self.create_components()
 
     def center_window(self, width: int, height: int, window=None) -> None:
@@ -70,10 +74,10 @@ class AbstractBaseType (ABC):
         Открывает окно с результатом расчётов.
         Parameters
         ----------
-            cost : Decimal
-                Результат расчёта цены.
-            weight : Decimal
-                Результат расчёта веса.
+        cost : Decimal
+            Результат расчёта цены.
+        weight : Decimal
+            Результат расчёта веса.
         """
 
         # Открываем окно

@@ -1,39 +1,91 @@
 import importlib
+import tkinter as tk
 import sys
 from pathlib import Path
 from typing import Tuple
 
 
 class Helper:
-    """Вспомогательный класс с утилитарными методами."""
-    def __init__(self, root):
+    """
+    Вспомогательный класс с утилитарными методами.
+
+    Attributes
+    ----------
+    root : tk.Tk
+        Главное окно
+
+    Methods
+    -------
+    on_close(window)
+        Обрабатывает закрытие окна.
+    get_type_class_name(name)
+        Преобразует строку в имя класса в CamelCase и имя модуля класса.
+    get_class_name_if_exists(name)
+        Проверяет, существует ли класс с переданным именем.
+    """
+
+    def __init__(self, root: tk.Tk) -> None:
         self.root = root
 
-    @staticmethod
-    def get_type_class_name(name: str) -> Tuple[str]:
-        """Преобразует строку в имя класса в CamelCase.
-
-        Примеры:
-        --------
-            "this is a class" → "ThisIsAClass",
-            "travi di battuta" → "TraviDiBattuta"
+    def on_close(self, window: tk.Toplevel) -> None:
+        """
+        Обрабатывает закрытие окна. Когда окно закрывается, то главное окно,
+        которое было скрыто, снова становится видимым.
 
         Parameters
         ----------
-            name : str
-                Исходная строка.
+        window : tk.Toplevel
+            Окно, которое нужно закрыть.
+        """
+        window.destroy()
+        self.root.deiconify()
+
+    @staticmethod
+    def get_type_class_name(name: str) -> Tuple[str]:
+        """
+        Преобразует строку в имя класса в CamelCase.
+        Также преобразует ту же строку в имя файла в snake_case.
+
+        Примеры:
+        --------
+        "this is a class" → "ThisIsAClass" и "this_is_a_class",
+        "travi di battuta" → "TraviDiBattuta" и "travi_di_battuta".
+
+        Parameters
+        ----------
+        name : str
+            Исходная строка.
 
         Returns
         -------
-            str
-                Строка в CamelCase (как имя класса).
+        Tuple[str]
+            Кортеж из одной строки в CamelCase (как имя класса) и второй в
+            snake_case (как имя файла).
         """
         class_file = "_".join(word.lower() for word in name.split())
         class_name = "".join(word.capitalize() for word in name.split())
         return class_name, class_file
 
     @staticmethod
-    def get_class_name_if_exists(name):
+    def get_class_name_if_exists(name: str) -> bool | type:
+        """
+        Проверяет, существует ли класс с переданным именем. Если существует,
+        то возвращает его, иначе возвращает False. Проверка осуществляется
+        путем попытки импортировать модуль файла с классом и получения имени
+        класса из этого модуля. Если модуль не найден или в нём нет класса
+        с переданным именем, то возвращается False.
+
+        Parameters
+        ----------
+        name : str
+            Имя предполагаемого класса.
+
+        Returns
+        -------
+        bool | type
+            Возвращает класс, если он существует, иначе возвращает False.
+
+        """
         class_name, class_file = Helper.get_type_class_name(name)
         module_path = f"gui.type_classes.{class_file}"
 
@@ -46,10 +98,18 @@ class Helper:
             module = importlib.import_module(module_path)
             class_ = getattr(module, class_name)
             return class_
-        except (ModuleNotFoundError, AttributeError) as e:
-            print(f"Ошибка: {e}")  # Для отладки
+        except (ModuleNotFoundError, AttributeError):
             return False
 
-    def on_close(self, window):
-        window.destroy()
-        self.root.deiconify()
+    @staticmethod
+    def center_window(
+        width: int,
+        height: int,
+        window: tk.Toplevel | tk.Tk
+    ) -> None:
+        window.update_idletasks()
+        screen_width = window.winfo_screenwidth()
+        screen_height = window.winfo_screenheight()
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
+        window.geometry(f"{width}x{height}+{x}+{y}")

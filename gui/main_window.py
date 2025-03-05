@@ -49,8 +49,12 @@ class App:
         self.entries = {}
         self.root.title(f"{set.MAIN_WIN_TITLE}")
         self.root.geometry(f"{set.MAIN_WIN_WIDTH}x{set.MAIN_WIN_HEIGHT}")
-        self.center_window(self.root, set.MAIN_WIN_WIDTH, set.MAIN_WIN_HEIGHT)
         self.buttons = set.MAIN_WIN_BUTTONS
+        Helper.center_window(
+            set.MAIN_WIN_WIDTH,
+            set.MAIN_WIN_HEIGHT,
+            self.root
+        )
 
         self.create_widgets()
 
@@ -93,7 +97,9 @@ class App:
     def open_window(self, name: str) -> None:
         """Открывает базу второстепенного окна фреймом и кнопкой Invia.
         В зависимости от того, какая кнопка была нажата, вызывает частный
-        вспомогательный метод для отрисовки компонентов.
+        вспомогательный метод для отрисовки компонентов. Будет работать,
+        только если существует модуль с классом, имя которого совпадает с
+        переданным в параметры именем.
 
         Parameters
         ----------
@@ -106,42 +112,4 @@ class App:
         if instance:
             instance.open_window()
         else:
-            print(f"{instance} not found!")
-
-    def on_close(self, window: tk.Toplevel) -> None:
-        """Обрабатывает закрытие переданного окна:
-        1. Закрывает текущее окно,
-        2. Возвращает скрытое главное окно.
-
-        Parameters
-        ----------
-            window: tk.Toplevel
-                Закрываемое окно.
-        """
-        window.destroy()
-        self.root.deiconify()  # вернуть главное окно
-
-    def center_window(
-        self,
-        window: tk.Toplevel,
-        width: int,
-        height: int
-    ) -> None:
-        """Центрирует расположение открываемого окна относительно экрана
-        компьютера.
-
-        Parameters
-        ----------
-            window: tk.Toplevel
-                Центрируемое окно.
-            width: int
-                Ширина окна.
-            Height: int
-                Высота окна.
-        """
-        window.update_idletasks()
-        screen_width = window.winfo_screenwidth()
-        screen_height = window.winfo_screenheight()
-        x = (screen_width - width) // 2
-        y = (screen_height - height) // 2
-        window.geometry(f"{width}x{height}+{x}+{y}")
+            log.info(f"Class {instance} not found!")
