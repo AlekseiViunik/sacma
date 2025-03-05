@@ -8,7 +8,6 @@ from decimal import Decimal, ROUND_HALF_UP
 from logic.logger import logger as log
 from logic.translator import Translator
 from logic.validator import Validator
-from settings import settings as set
 from typing import Dict, Tuple, Any
 
 
@@ -48,45 +47,19 @@ class ExcelFileHandler:
         part_of_the_shelf: str,
         data: tk.Entry,
         rules: Dict,
-        worksheet: str | None
+        worksheet: str | None,
+        cells_input: Dict[str, str],
+        cells_output: Dict[str, str]
     ) -> None:
         self.part_of_the_shelf: str = part_of_the_shelf
         self.data: tk.Entry = data
         self.worksheet: str | None = None
         self.rules = Translator().translate_dict(rules)
+        self.cells_input = Translator().translate_dict(cells_input)
+        self.cells_output = cells_output
         self.worksheet = worksheet
 
-    def prepare_data_for_excel(self) -> Dict[str, Any] | None:
-        """Вызывает методы проверки данных и их конвертации из tk.Entry в
-        словарь. Использует свойства класса.
-
-        Return
-        ______
-            data_prepared : Dict[str, Any] | none
-                Преобразованные в словарь данные.
-        """
-
-        log.info("Prepare data to insert it in excel")
-        if not self.check_data():
-            log.error("The data is wrong!")
-            return None
-
-        if self.part_of_the_shelf.lower() == "travi":
-            match self.data[set.TRAVI_TYPE_KEY]:
-                case set.TRAVI_TYPE_TG:
-                    data_prepared = self.prepare_dict(set.TRAVI_CELLS_TG)
-                case set.TRAVI_TYPE_APERTE:
-                    data_prepared = self.prepare_dict(set.TRAVI_CELLS_APERTE)
-                case set.TRAVI_TYPE_SAT:
-                    data_prepared = self.prepare_dict(set.TRAVI_CELLS_SAT)
-                case set.TRAVI_TYPE_PORTA_SKID:
-                    data_prepared = self.prepare_dict(
-                        set.TRAVI_CELLS_PORTA_SKID
-                    )
-            log.info("The data is prepared")
-            return data_prepared
-
-    def prepare_dict(self, cells: Dict[str, str]) -> Dict[str, Any] | None:
+    def prepare_data(self) -> Dict[str, Any] | None:
         """В имеющемся эксель файлы есть варианты <1000 и >1001. Это не совсем
         логично, поэтому я заменил эти варианты для выбора пользователем на
         более логичные <=1000 и >= 1001. Однако такой вариант не подойдет для
@@ -106,47 +79,23 @@ class ExcelFileHandler:
             data_prepared : Dict[str, Any] | None
                 Преобразованные в словарь данные.
         """
+        log.info("Check data before insert it in excel")
+        # Проверяем данные перед вставкой в excel
+        if not self.check_data():
+            log.error("The data is wrong!")
+            return None
 
+        log.info("The data is correct")
         log.info("Prepare dictionary where key is cell address")
+
+        # Подготавливаем данные для записи в Excel
         data_prepared = {}
-        for name, cell in cells.items():
+        for name, cell in self.cells_input.items():
             if name in self.data:
                 self.data[name] = self.data[name].replace("=", "").strip()
                 data_prepared[cell] = self.data[name]
         log.info(f"Dictionary is prepared: {data_prepared}")
         return data_prepared
-
-    def get_result_cells(self) -> Tuple[str, str]:
-        """Из имеющихся у нас данных получаем адреса ячеек, в которых хранятся
-        результаты необходимых расчетов.
-
-        Return
-        ______
-            price_cell : str
-                Адрес ячейки с расчитанной ценой.
-            wight_cell : str
-                Адрес ячейки с расчитанным весом.
-        """
-
-        # TODO Переделать на словарь
-        log.info("Getting address of the price and weight cells")
-        if self.part_of_the_shelf.lower() == set.TRAVI:
-            match self.data[set.TRAVI_TYPE_KEY]:
-                case set.TRAVI_TYPE_TG:
-                    price_cell = set.TRAVI_CELLS_TG[set.PRICE]
-                    weight_cell = set.TRAVI_CELLS_TG[set.WEIGHT]
-                case set.TRAVI_TYPE_APERTE:
-                    price_cell = set.TRAVI_CELLS_APERTE[set.PRICE]
-                    weight_cell = set.TRAVI_CELLS_APERTE[set.WEIGHT]
-                case set.TRAVI_TYPE_SAT:
-                    price_cell = set.TRAVI_CELLS_SAT[set.PRICE]
-                    weight_cell = set.TRAVI_CELLS_SAT[set.WEIGHT]
-                case set.TRAVI_TYPE_PORTA_SKID:
-                    price_cell = set.TRAVI_CELLS_PORTA_SKID[set.PRICE]
-                    weight_cell = set.TRAVI_CELLS_PORTA_SKID[set.WEIGHT]
-        log.info(f"The price cell is: {price_cell}")
-        log.info(f"The weight cell is: {weight_cell}")
-        return price_cell, weight_cell
 
     def process_excel(self) -> Tuple[Decimal, Decimal]:
         """Основной метод класса ExcelFileHandler. Открывает файл, записывает в
@@ -172,7 +121,7 @@ class ExcelFileHandler:
         FILE_PATH = os.path.abspath(FILE_PATH)
 
         # Подготавливаем данные для записи в Excel
-        data_prepared = self.prepare_data_for_excel()
+        data_prepared = self.prepare_data()
         if not data_prepared:
             return None, None
 
@@ -180,20 +129,11 @@ class ExcelFileHandler:
         log.info("Open excel file")
         excel = win32.Dispatch("Excel.Application")
         excel.Visible = False  # Запуск в фоновом режиме
+
         # Без обновления связей
         wb = excel.Workbooks.Open(FILE_PATH, UpdateLinks=0)
 
         log.info("Try to unprotect file and worksheet")
-
-        # TODO Maybe this action is not needed.
-        try:
-            wb.Unprotect()  # Снимаем защиту с книги
-            log.info("File is unprotected.")
-            wb.Sheets(self.worksheet).Unprotect()  # Снимаем защиту с листа
-            log.info("Worksheet is unprotected.")
-        except Exception:
-            log.info("Haven't managed to unprotect")
-            pass
 
         sheet = wb.Sheets(self.worksheet)
 
@@ -209,22 +149,17 @@ class ExcelFileHandler:
         wb.RefreshAll()  # Обновляем связи
         excel.CalculateUntilAsyncQueriesDone()
 
-        price_cell, weight_cell = self.get_result_cells()
         log.info("Getting price and weight")
-        price = sheet.Range(price_cell).Value
-        weight = sheet.Range(weight_cell).Value
+        price = sheet.Range(self.cells_output["price"]).Value
+        weight = sheet.Range(self.cells_output["weight"]).Value
 
-        # TODO Вынести в отдельный метод
+        # Округляем цену и вес
         log.info("Rounding up price and weight")
         if price > 0:
-            price = Decimal(price).quantize(
+            price, weight = (Decimal(unit).quantize(
                 Decimal("0.01"),
                 rounding=ROUND_HALF_UP
-            )
-            weight = Decimal(weight).quantize(
-                Decimal("0.01"),
-                rounding=ROUND_HALF_UP
-            )
+            ) for unit in [price, weight])
         else:
             price = None
             weight = None
@@ -232,8 +167,11 @@ class ExcelFileHandler:
         log.info(f"The price is {price}")
         log.info(f"The weight is {weight}")
 
+        # Закрываем файл без сохранения
+        log.info("Close the file without saving")
         wb.Close(SaveChanges=False)
         excel.Quit()
+        log.info("File is closed")
 
         return price, weight
 
