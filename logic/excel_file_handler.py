@@ -44,14 +44,12 @@ class ExcelFileHandler:
 
     def __init__(
         self,
-        part_of_the_shelf: str,
         data: tk.Entry,
         rules: Dict,
         worksheet: str | None,
         cells_input: Dict[str, str],
         cells_output: Dict[str, str]
     ) -> None:
-        self.part_of_the_shelf: str = part_of_the_shelf
         self.data: tk.Entry = data
         self.worksheet: str | None = None
         self.rules = Translator().translate_dict(rules)

@@ -30,7 +30,6 @@ class Travi(AbstractBaseType):
         )
         log.info(f"Entries: {entries_dict}")
         excel = ExcelFileHandler(
-            self.type,
             entries_dict,
             rules,
             worksheet,
