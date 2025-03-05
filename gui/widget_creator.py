@@ -10,39 +10,69 @@ class WidgetCreator:
     """Класс-помощник. Располагает виджеты на окнах.
     Attributes
     ----------
-        window : tk.Toplevel
-            Окно, с которым класс будет работать.
-        select_fields : Dict[str: List[Any]]
-            Поля для выбора из выпадающего списка.
-        input_fields : List[Any]
-            Поля для ручного ввода данных юзером.
+    window : tk.Toplevel
+        Окно, с которым класс будет работать.
+    type_choice : Dict
+        Набор параметров для выбранного типа элементов.
+    always_on : Dict[str: List[str]]
+        Поля, которые не должны быть перерисованы в случае выбора других
+        параметров.
+    select_fields : Dict[str: List[Any]]
+        Поля для выбора из выпадающего списка.
+    input_fields : List[Any]
+        Поля для ручного ввода данных юзером.
+    entries : Dict[str: tk.Entry]
+        Список введенных/выбранных пользователем значений.
+    frame : tk.Frame
+        Фрейм, в котором будут размещены виджеты.
+    frames : Dict[str: tk.Frame]
+        Словарь с фреймами. Для понимания, надо ли удалять фрейм перед его
+        отрисовкой, или он уже отрисован.
 
     Methods
     -------
-        create_ui()
-            Раскидывает виджеты по окну.
-        add_mm(frame, label, row)
-            Добавляет единицы измерения.
+    create_ui()
+        Раскидывает виджеты по окну.
+    create_main_frame(start_row)
+        Получает параметры главного фрейма и создаёт или перерисовывает
+        его.
+    on_dropdown_change(var)
+        Обрабатывает изменение первого выпадающего списка.
+    add_mm(frame, label, row)
+        Добавляет в конце поля для ввода или для выбора лейбл с единицей
+        измерения текущего параметра (по умолчанию 'мм').
+    create_frame(frame_name)
+        Создаёт или пересоздаёт фрейм с заданными параметрами.
+    create_component(frame, label, values, row, is_entry, is_changing)
+        Создаёт `Label` + `OptionMenu` или `Entry` для окна.
+    create_invia_button(callback)
+        Создаёт кнопку "Invia" для окна.
+    get_select_fields(choice)
+        Получает параметры для полей с выпадающим списком.
+    get_input_fields(choice)
+        Получает параметры для полей ввода.
     """
-    def __init__(self, window: tk.Toplevel, type_choice: Dict) -> None:
+    def __init__(
+        self,
+        window: tk.Toplevel,
+        type_choice: Dict[str, Any]
+    ) -> None:
         self.window = window
         self.type_choice = type_choice
-        self.always_on: Dict = type_choice["always_on"]
-        self.select_fields: Dict | None = None
-        self.input_fields: Dict | None = None
-        self.entries = {}
-        self.frame = None
-        self.frames = {}
+        self.always_on: Dict[str, List[str]] = type_choice["always_on"]
+        self.select_fields: Dict[str, Any] | None = None
+        self.input_fields: Dict[str, Any] | None = None
+        self.entries: Dict[str, tk.Entry] = {}
+        self.frame: tk.Frame = None
+        self.frames: Dict[str, tk.Frame] = {}
 
     def create_ui(self) -> None:
-        """Размещает виджеты на окне. Пользуется атрибутами класса. Виджеты
-        меняются в зависимости от имени окна, для которого нужноих разместить.
-
-        Return
-        ______
-            entries : tk.Entry
-                Массив введенных пользователем значений
         """
+        Размещает фреймы с виджетами на окне. Пользуется атрибутами класса.
+        Виджеты меняются в зависимости от имени окна, для которого нужноих
+        разместить.
+        """
+
         # ============================Always_on================================
         always_on_frame = self.create_frame("always_on_frame")
         for i, (label, values) in enumerate(self.always_on.items()):
@@ -58,11 +88,20 @@ class WidgetCreator:
 
         for i in range(set.COL_NUM):
             always_on_frame.columnconfigure(i, weight=set.GRID_WEIGHT)
-
+        # ============================Main_frame================================
         self.create_main_frame(start_row)
 
     def create_main_frame(self, start_row: int) -> None:
-        """Создаёт или перерисовывает `main_frame`."""
+        """
+        Создаёт или перерисовывает главный фрейм. Сначала создает поля с
+        выпадающими списками, затем поля для ввода данных.
+
+        Parameters
+        ----------
+        start_row : int
+            Номер строки сетки, с которой начнется размещение виджетов.
+        """
+        # Если виджет отрисовывается первый раз, получаем параметры
         if not self.select_fields or not self.input_fields:
             inizial_choice = None
             for value in self.always_on.values():
@@ -72,6 +111,7 @@ class WidgetCreator:
             self.get_select_fields(inizial_choice)
             self.get_input_fields(inizial_choice)
 
+        # Создаём или пересоздаём фрейм
         self.frame = self.create_frame("main_frame")
 
         # Поля с выпадающими списками
@@ -91,11 +131,20 @@ class WidgetCreator:
                 is_entry=True
             )
 
+        # Конфигурируем сетку
         for i in range(set.COL_NUM):
             self.frame.columnconfigure(i, weight=set.GRID_WEIGHT)
 
     def on_dropdown_change(self, var: tk.StringVar) -> None:
-        """Обрабатывает изменение первого выпадающего списка."""
+        """
+        Обрабатывает изменение первого выпадающего списка.
+        Если выбор изменился, перерисовывает главный фрейм.
+
+        Parameters
+        ----------
+        var : tk.StringVar
+            Новое значение выпадающего списка.
+        """
         new_choice = var.get()
         self.get_select_fields(new_choice)
         self.get_input_fields(new_choice)
@@ -148,6 +197,11 @@ class WidgetCreator:
         ----------
         frame_name : str
             Название фрейма.
+
+        Returns
+        -------
+        tk.Frame
+            Созданный фрейм.
         """
         # Если фрейм уже существует, удаляем его
         if frame_name in self.frames:
@@ -188,6 +242,9 @@ class WidgetCreator:
             Номер строки в `grid()`.
         is_entry : bool, optional
             Если `True`, создаёт `Entry` (по умолчанию `False`).
+        is_changing : bool, optional
+            Если `True`, добавляет слежение за изменением значения
+            `OptionMenu` (по умолчанию `False`).
         """
 
         # Создаём `Label`
@@ -211,7 +268,17 @@ class WidgetCreator:
         # Добавляем "мм", если нужно
         self.add_mm(frame, label, row)
 
-    def create_invia_button(self, callback) -> None:
+    def create_invia_button(self, callback: callable) -> None:
+        """
+        Создаёт кнопку "Invia" для окна, нажатие которой запускает
+        процесс расчетов через excel файл искомых значений и вывода
+        результата на экран путем открытия нового окна.
+
+        Parameters
+        ----------
+        callback : callable
+            Функция, которая будет вызвана при нажатии на кнопки.
+        """
         btn_invia = tk.Button(
             self.window,
             text=set.BUTTON_INVIA_TITLE,
@@ -227,12 +294,28 @@ class WidgetCreator:
             pady=set.BUTTON_PADY
         )
 
-    def get_select_fields(self, choice):
+    def get_select_fields(self, choice: str) -> None:
+        """
+        Получает параметры для полей с выпадающим списком.
+
+        Parameters
+        ----------
+        choice : str
+            Выбор, произведенный в always_on выпадающем списке.
+        """
         self.select_fields = Translator().translate_dict(
             self.type_choice["choices"][choice]["available_params"]["select"]
         )
 
-    def get_input_fields(self, choice):
+    def get_input_fields(self, choice: str) -> None:
+        """
+        Получает параметры для полей ввода.
+
+        Parameters
+        ----------
+        choice : str
+            Выбор, произведенный в always_on выпадающем списке.
+        """
         self.input_fields = (
             self.type_choice["choices"][choice]["available_params"]["input"]
         )
