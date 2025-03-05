@@ -24,7 +24,7 @@ class Translator:
         only_keys : bool, optional
             Если True, то переводит только ключи словаря. По умолчанию True.
             (это задел на будущее)
-        
+
         Returns
         -------
         Dict[str, Any] | None
