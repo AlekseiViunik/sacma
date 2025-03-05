@@ -1,4 +1,3 @@
-
 from logic.excel_file_handler import ExcelFileHandler
 from logic.logger import logger as log
 from abstract_base_type import AbstractBaseType
