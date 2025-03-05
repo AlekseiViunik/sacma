@@ -1,6 +1,5 @@
 import inspect
 import os
-import tkinter as tk
 import win32com.client as win32
 
 from decimal import Decimal, ROUND_HALF_UP
@@ -12,70 +11,75 @@ from typing import Dict, Tuple, Any
 
 
 class ExcelFileHandler:
-    """Обработчик файлов Excel. Подгатавливает и отправляет данные,
+    """
+    Обработчик файлов Excel. Подгатавливает и отправляет данные,
     выбранные/введенные юзером и возвращает результат.
 
     Attributes
     ----------
-        part_of_the_shelf : str
-            Элемент шкафа, для которого будет проводиться расчет цены
-        data : List[tk.Entry]
-            Список данных, выбранных/введенных юзером.
-        worksheet : str
-            Имя листа excel, где будут вбиваться данные и получаться результат.
+    data : Dict[str, str]
+        Значения полей выбранные/введенные юзером.
+    rules : Dict[str, Dict[str, Any]] | Dict[None]
+        Правила валидации выбранных/введенных данных.
+    worksheet : str
+        Имя листа excel, где будут вбиваться данные и получаться результат.
+    cells_input : Dict[str, str]
+        Соответствие имен лейблов для которых юзер вводил данные номерам
+        ячеек, куда эти данные должны быть вставлены.
+    cells_output : Dict[str, str]
+        Соответствие имен лейблов окна результата номерам ячеек, где
+        находится результат.
 
     Methods
-        -------
-            prepare_data_for_excel()
-                Вызывает проверку данных. Вызывает преобразование данных в
-                словарь.
-            prepare_dict(cells)
-                Преобразует tk.Entry в словарь. УБирает знаки, которые
-                отсутствуют в файле excel.
-            get_result_cells()
-                Получает адреса ячеек excel, в которых содержится результат.
-            process_excel()
-                Открывает файл excel. Вызывает методы подготовки данных.
-                Получает и округляет результат.
-            check_data(rules)
-                На основании заранее определенных правил проверяет данные перед
-                преобразованием их в словарь.
+    -------
+    prepare_data_for_excel()
+        Вызывает проверку данных. Вызывает преобразование данных в
+        словарь.
+    prepare_dict(cells)
+        Преобразует tk.Entry в словарь. УБирает знаки, которые
+        отсутствуют в файле excel.
+    get_result_cells()
+        Получает адреса ячеек excel, в которых содержится результат.
+    process_excel()
+        Открывает файл excel. Вызывает методы подготовки данных.
+        Получает и округляет результат.
+    check_data(rules)
+        На основании заранее определенных правил проверяет данные перед
+        преобразованием их в словарь.
     """
 
     def __init__(
         self,
-        data: tk.Entry,
+        data: Dict[str, str],
         rules: Dict,
-        worksheet: str | None,
+        worksheet: str,
         cells_input: Dict[str, str],
         cells_output: Dict[str, str]
     ) -> None:
-        self.data: tk.Entry = data
-        self.worksheet: str | None = None
-        self.rules = Translator().translate_dict(rules)
-        self.cells_input = Translator().translate_dict(cells_input)
-        self.cells_output = cells_output
+        self.data = data
+        self.rules: Dict[str, Dict[str, Any]] | Dict[None] = (
+            Translator().translate_dict(rules)
+        )
         self.worksheet = worksheet
+        self.cells_input: Dict[str, str] = (
+            Translator().translate_dict(cells_input)
+        )
+        self.cells_output: Dict[str, str] = cells_output
 
     def prepare_data(self) -> Dict[str, Any] | None:
-        """В имеющемся эксель файлы есть варианты <1000 и >1001. Это не совсем
+        """
+        В имеющемся эксель файлы есть варианты <1000 и >1001. Это не совсем
         логично, поэтому я заменил эти варианты для выбора пользователем на
         более логичные <=1000 и >= 1001. Однако такой вариант не подойдет для
         формул excel, которые я не могу поменять и поэтому явным образом в этом
         методе удаляем у полей, которых это касается знаки '='. Также
-        преобразуем в словарь tk.Entry.
+        преобразуем в словарь tk.Entry. Также проводим валидацию данных.
 
-        Parameters
-        __________
-            cells : Dict[str, str]
-                Массив хранящий соответствие имен лейблов для которых юзер
-                вводил данные номерам ячеек, куда эти данные должны быть
-                вставлены.
-
-        Return
-        ______
-            data_prepared : Dict[str, Any] | None
-                Преобразованные в словарь данные.
+        Returns
+        -------
+        data_prepared : Dict[str, Any] | None
+            Отвалидированные и подготовленные для дальнейшей обработки данные.
+            Или None, если данные не прошли валидацию.
         """
         log.info("Check data before insert it in excel")
         # Проверяем данные перед вставкой в excel
@@ -96,17 +100,18 @@ class ExcelFileHandler:
         return data_prepared
 
     def process_excel(self) -> Tuple[Decimal, Decimal]:
-        """Основной метод класса ExcelFileHandler. Открывает файл, записывает в
+        """
+        Основной метод класса ExcelFileHandler. Открывает файл, записывает в
         него данные (предварительно вызвав методы подготовки данных), обновляет
         расчеты файла, получает цену и вес элемента шкафа, необходимые нам,
         округляет и возвращает их.
 
-        Return
-        ______
-            price : Decimal
-                Цена элемента шкафа.
-            wight : Decimal
-                Вес элемента шкафа.
+        Returns
+        -------
+        price : Decimal
+            Цена элемента шкафа.
+        wight : Decimal
+            Вес элемента шкафа.
         """
 
         log.info(
@@ -174,18 +179,14 @@ class ExcelFileHandler:
         return price, weight
 
     def check_data(self) -> bool:
-        """Используя валидатор проверяет данные согласно определенным правилам,
+        """
+        Используя валидатор проверяет данные согласно определенным правилам,
         указанным в файле настроек.
 
-        Parameters
-        __________
-            rules : Dict[str: Dict[str: Any]]
-                Массив с набором правил валидации.
-
-        Return
-        ______
-            result : bool
-                Результат валидации данных.
+        Returns
+        -------
+        bool
+            Результат валидации данных.
         """
         # TODO Move this method to the Validator
         log.info("Check data before preparing it")
