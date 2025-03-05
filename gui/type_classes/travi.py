@@ -16,7 +16,20 @@ class Travi(AbstractBaseType):
         worksheet = (
             self.type_choice["choices"][entries_dict["Tipo"]]["worksheet"]
         )
+        cells_input = (
+            self.type_choice["choices"][entries_dict["Tipo"]]["cells_input"]
+        )
+        cells_output = (
+            self.type_choice["choices"][entries_dict["Tipo"]]["cells_output"]
+        )
         log.info(f"Entries: {entries_dict}")
-        excel = ExcelFileHandler(self.type, entries_dict, rules, worksheet)
+        excel = ExcelFileHandler(
+            self.type,
+            entries_dict,
+            rules,
+            worksheet,
+            cells_input,
+            cells_output
+        )
         cost, weight = excel.process_excel()
         self.open_response_window(cost, weight)
