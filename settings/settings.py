@@ -275,3 +275,11 @@ DICTIONARY = {
     "price": "Prezzo",
     "weight": "Peso"
 }
+
+
+# ================================== Icons ====================================
+PNG_ICON_FILEPATH = "assets/icon.png"
+PNG_ICON_FILENAME = "icon.png"
+ICO_ICON_FILEPATH = "assets/icon32x32.ico"
+ICO_ICON_FILENAME = "icon32x32.ico"
+ICONS_FOLDER_NAME = "assets"
