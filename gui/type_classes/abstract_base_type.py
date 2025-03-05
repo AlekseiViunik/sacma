@@ -10,7 +10,45 @@ from settings import settings as set
 
 
 class AbstractBaseType (ABC):
-    """Базовый класс для всех типов элементов."""
+    """
+    Базовый класс для всех типов элементов.
+    Содержит базовый функционал для создания окна для любого типа элементов,
+    отображенных в виде кнопок на главном окне и имеющих свой класс,
+    унаследованный от этого.
+
+
+    Attributes
+    ----------
+    root : tk.Tk
+        Главное окно.
+    type : str
+        Тип выбранного элемента (имя нажатой кнопки).
+    window : tk.Toplevel
+        Созданное окно для ввода данных элемента.
+    type_choice : Dict
+        Набор параметров для выбранного типа элементов.
+    window_width : int
+        Ширина созданного окна.
+    window_height : int
+        Высота созданного окна.
+    entries : Dict
+        Список введенных значений.
+    json : JsonFileHandler
+        Объект для работы с JSON-файлами.
+    helper : Helper
+        Объект для работы с вспомогательными методами.
+
+    Methods
+    -------
+    open_window()
+        Создает и центрирует новое окно с заголовком и базовыми компонентами.
+    create_components()
+        Создает и раскидывает компоненты окна.
+    open_response_window(cost, weight)
+        Открывает окно с результатом расчётов.
+    calculate()
+        Расчёт стоимости и веса. Для каждого класса свой.
+    """
 
     def __init__(self, root: tk.Tk, type: str) -> None:
         self.root = root
@@ -43,16 +81,6 @@ class AbstractBaseType (ABC):
         )
         self.create_components()
 
-    def center_window(self, width: int, height: int, window=None) -> None:
-        """Центрирует окно относительно экрана."""
-        handled_window = window if window else self.window
-        handled_window.update_idletasks()
-        screen_width = handled_window.winfo_screenwidth()
-        screen_height = handled_window.winfo_screenheight()
-        x = (screen_width - width) // 2
-        y = (screen_height - height) // 2
-        handled_window.geometry(f"{width}x{height}+{x}+{y}")
-
     def create_components(self) -> None:
         """Создаёт компоненты окна. Использует Widget creator для размещения
         виджетов и кнопки Invia. Перезаписывает свойство класса entries."""
@@ -84,7 +112,7 @@ class AbstractBaseType (ABC):
         # Открываем окно
         result_window = tk.Toplevel(self.root)
         result_window.title("Risultato")  # Заголовок окна
-        self.center_window(300, 150, result_window)  # Центрируем окно
+        Helper.center_window(300, 150, result_window)  # Центрируем окно
 
         # Формируем текст для отображения
         prezzo_text = (
