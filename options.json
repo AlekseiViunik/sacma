@@ -255,5 +255,130 @@
                 }
             }
         }
+    },
+    "grigliato": {
+        "always_on": {
+            "Tipo": ["Grigliato", "Bugnato"]
+        },
+         "window_settings": {
+             "width": 400,
+             "height": 250
+        },
+        "choices": {
+            "Grigliato": {
+                "worksheet": "Listino Grigliato",
+                "available_params": {
+                    "select": {
+                        "thickness": [1.2, 1.5, 2.0],
+                        "base": ["250x50", "270x50", "270x40"]
+                    },
+                    "input": ["Lunghezza"]
+                },
+                "rules": {
+                    "length": {
+                        "numeric": 1,
+                        "multiple": 10,
+                        "min": 680,
+                        "max": 6000
+                    }
+                },
+                "cells_input": {},
+                "cells_output": {
+                    "250x50": {
+                        "1.2": {
+                            "price": "E10",
+                            "weight": "C10"
+                        },
+                        "1.5": {
+                            "price": "E11",
+                            "weight": "C11"
+                        },
+                        "2.0": {
+                            "price": "E12",
+                            "weight": "C12"
+                        }
+                    },
+                    "270x50": {
+                        "1.2": {
+                            "price": "E21",
+                            "weight": "C21"
+                        },
+                        "1.5": {
+                            "price": "E22",
+                            "weight": "C22"
+                        },
+                        "2.0": {
+                            "price": "E23",
+                            "weight": "C23"
+                        }
+                    },
+                    "270x40": {
+                        "1.2": {
+                            "price": "E32",
+                            "weight": "C32"
+                        },
+                        "1.5": {
+                            "price": "E33",
+                            "weight": "C33"
+                        },
+                        "2.0": {
+                            "price": "E34",
+                            "weight": "C34"
+                        }
+                    }
+                }
+            },
+            "Bugnato": {
+                "worksheet": "Listino Grigliato",
+                "available_params": {
+                    "select": {
+                        "thickness": [2.0, 3.0],
+                        "base": ["250x50", "270x50", "270x40"]
+                    },
+                    "input": ["Lunghezza"]
+                },
+                "rules": {
+                    "length": {
+                        "numeric": 1,
+                        "multiple": 10,
+                        "min": 680,
+                        "max": 6000
+                    }
+                },
+                "cells_input": {},
+                "cells_output": {
+                    "250x50": {
+                        "2.0": {
+                            "price": "E13",
+                            "weight": "C13"
+                        },
+                        "3.0": {
+                            "price": "E14",
+                            "weight": "C14"
+                        }
+                    },
+                    "270x50": {
+                        "2.0": {
+                            "price": "E24",
+                            "weight": "C24"
+                        },
+                        "3.0": {
+                            "price": "E25",
+                            "weight": "C25"
+                        }
+                    },
+                    "270x40": {
+                        "2.0": {
+                            "price": "E35",
+                            "weight": "C35"
+                        },
+                        "3.0": {
+                            "price": "E36",
+                            "weight": "C36"
+                        }
+                    } 
+                }
+            }
+        }
     }
 }
