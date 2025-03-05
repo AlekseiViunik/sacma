@@ -1,6 +1,6 @@
 import tkinter as tk
 from abc import ABC, abstractmethod
-from typing import Dict, List
+from decimal import Decimal
 
 from gui.widget_creator import WidgetCreator
 from logic.json_file_handler import JsonFileHandler
@@ -12,7 +12,6 @@ class AbstractBaseType (ABC):
     """Базовый класс для всех типов элементов."""
 
     def __init__(self, root: tk.Tk, type: str) -> None:
-        """Инициализация базовых свойств."""
         self.root = root
         self.type = type
         self.window = None  # Окно, которое будет создаваться при открытии
@@ -24,7 +23,10 @@ class AbstractBaseType (ABC):
         self.helper: Helper = Helper(self.root)
 
     def open_window(self) -> None:
-        """Создаёт новое окно с заголовком и базовыми компонентами."""
+        """
+        Создаёт и центрирует новое окно с заголовком и базовыми компонентами.
+        Вызывает метод создания компонентов.
+        """
         self.type_choice = self.json.read_value_by_key(self.type.lower())
         self.root.withdraw()
         self.window = tk.Toplevel(self.root)
@@ -46,7 +48,9 @@ class AbstractBaseType (ABC):
         y = (screen_height - height) // 2
         handled_window.geometry(f"{width}x{height}+{x}+{y}")
 
-    def create_components(self):
+    def create_components(self) -> None:
+        """Создаёт компоненты окна. Использует Widget creator для размещения
+        виджетов и кнопки Invia. Перезаписывает свойство класса entries."""
         creator = WidgetCreator(
             self.window,
             self.type_choice
@@ -61,20 +65,18 @@ class AbstractBaseType (ABC):
             lambda: Helper(self.root).on_close(self.window)
         )
 
-    def get_default_options(
-        self,
-        default_choice: str,
-        option: str
-    ) -> Dict[str, List[str]]:
-        if (option == "always_on"):
-            return (self.type_choice[option])
-        return (
-            self.type_choice[
-                "choices"
-            ][default_choice]["available_params"][option]
-        )
+    def open_response_window(self, cost: Decimal, weight: Decimal) -> None:
+        """
+        Открывает окно с результатом расчётов.
+        Parameters
+        ----------
+            cost : Decimal
+                Результат расчёта цены.
+            weight : Decimal
+                Результат расчёта веса.
+        """
 
-    def open_response_window(self, cost, weight):
+        # Открываем окно
         result_window = tk.Toplevel(self.root)
         result_window.title("Risultato")  # Заголовок окна
         self.center_window(300, 150, result_window)  # Центрируем окно
@@ -110,4 +112,5 @@ class AbstractBaseType (ABC):
 
     @abstractmethod
     def calculate(self) -> None:
+        """Расчёт стоимости и веса. Для каждого класса свой."""
         pass
