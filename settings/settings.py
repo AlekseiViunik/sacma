@@ -192,94 +192,6 @@ ENTRY_PADX = 5
 
 # ================================ Travi data =================================
 
-# Cells in Excel addapted to the data of the travi TG.
-# Default:
-# {
-#     "Altezza": "B4",
-#     "Larghezza": "B6",
-#     "Spessore": "B8",
-#     "Lunghezza": "B12",
-#     "Staffa speciale": "B14",
-#     "Quantita": "B16",
-#     "Prezzo": "E4",
-#     "Peso": "E6"
-# }
-TRAVI_CELLS_TG = {
-    "Altezza": "B4",
-    "Larghezza": "B6",
-    "Spessore": "B8",
-    "Lunghezza": "B12",
-    "Staffa speciale": "B14",
-    "Quantita": "B16",
-    "Prezzo": "E4",
-    "Peso": "E6"
-}
-
-# Cells in Excel addapted to the data of the travi APERTE
-# Default:
-# {
-#     "Altezza": "B37",
-#     "Larghezza": "B39",
-#     "Spessore": "B41",
-#     "Lunghezza": "B45",
-#     "Staffa speciale": "B47",
-#     "Quantita": "B49",
-#     "Prezzo": "E37",
-#     "Peso": "E39"
-# }
-TRAVI_CELLS_APERTE = {
-    "Altezza": "B37",
-    "Larghezza": "B39",
-    "Spessore": "B41",
-    "Lunghezza": "B45",
-    "Staffa speciale": "B47",
-    "Quantita": "B49",
-    "Prezzo": "E37",
-    "Peso": "E39"
-}
-
-# Cells in Excel addapted to the data of the travi SAT
-# Default:
-# {
-#     "Altezza": "B21",
-#     "Spessore": "B23",
-#     "Appoggio": "B27",
-#     "Lunghezza": "B29",
-#     "Staffa speciale": "B31",
-#     "Quantita": "B33",
-#     "Prezzo": "E21",
-#     "Peso": "E23"
-# }
-TRAVI_CELLS_SAT = {
-    "Altezza": "B21",
-    "Spessore": "B23",
-    "Appoggio": "B27",
-    "Lunghezza": "B29",
-    "Staffa speciale": "B31",
-    "Quantita": "B33",
-    "Prezzo": "E21",
-    "Peso": "E23"
-}
-
-# Cells in Excel addapted to the data of the travi PORTA SKID
-# Default:
-# {
-#     "Altezza": "B53",
-#     "Larghezza": "B55",
-#     "Spessore": "B57",
-#     "Lunghezza": "B61",
-#     "Prezzo": "E53",
-#     "Peso": "E55"
-# }
-TRAVI_CELLS_PORTA_SKID = {
-    "Altezza": "B53",
-    "Larghezza": "B55",
-    "Spessore": "B57",
-    "Lunghezza": "B61",
-    "Prezzo": "E53",
-    "Peso": "E55"
-}
-
 # Name of the worksheet, that contains travi calculations
 # Default: "Listino Travi"
 TRAVI_WORKSHEET = "Listino Travi"
@@ -298,62 +210,6 @@ TRAVI_TYPE_SAT = "SAT"
 
 # Name of PORTA SKID travi type. Default: "PORTA SKID"
 TRAVI_TYPE_PORTA_SKID = "PORTA SKID"
-
-
-# Rules needed to check passed data.
-# Default:
-# {
-#     "TG": {
-#         "altezza": {
-#             "min": 70,
-#             "max": 170
-#         },
-#         "lunghezza": {
-#             "numeric": True,
-#             "min": 1200,
-#             "max": 3600,
-#         }
-#     },
-#     "APERTE": {
-#         "altezza": {
-#             "min": 70,
-#             "max": 170
-#         },
-#         "lunghezza": {
-#             "numeric": True,
-#             "min": 1200,
-#             "max": 3600,
-#         }
-#     },
-#     "SAT": {},
-#     "PORTA SKID": {}
-# }
-TRAVI_RULES = {
-    "TG": {
-        "altezza": {
-            "min": 70,
-            "max": 170
-        },
-        "lunghezza": {
-            "numeric": True,
-            "min": 1200,
-            "max": 3600,
-        }
-    },
-    "APERTE": {
-        "altezza": {
-            "min": 70,
-            "max": 170
-        },
-        "lunghezza": {
-            "numeric": True,
-            "min": 1200,
-            "max": 3600,
-        }
-    },
-    "SAT": {},
-    "PORTA SKID": {}
-}
 
 # =================================== NAMES ===================================
 
@@ -416,4 +272,6 @@ DICTIONARY = {
     "only_strut": "Solo montante",
     "section": "Sezione",
     "type": "Tipo",
+    "price": "Prezzo",
+    "weight": "Peso"
 }
