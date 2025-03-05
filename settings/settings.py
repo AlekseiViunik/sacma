@@ -46,30 +46,8 @@ MAIN_WIN_BUTTONS = [
 
 # ============================= Secondary windows =============================
 
-# Width. Default: 400
-SECOND_WIN_WIDTH = 400
-
-# Height. Default: 400
-SECOND_WIN_HEIGHT = 400
-
 # Name of the event which has to be handled. Default: "WM_DELETE_WINDOW"
 ON_CLOSING_WINDOW = "WM_DELETE_WINDOW"
-
-# ============================= Fiancate windows ==============================
-
-# Width. Default: 400
-FIANCATE_WIN_WIDTH = 400
-
-# Height. Default: 500
-FIANCATE_WIN_HEIGHT = 500
-
-# ============================== Travi windows ================================
-
-# Width. Default: 400
-TRAVI_WIN_WIDTH = 400
-
-# Height. Default: 400
-TRAVI_WIN_HEIGHT = 400
 
 
 # =============================== COMPONENTS ==================================
@@ -204,126 +182,6 @@ ENTRY_COLUMN = 1
 # Padding (axis X). Default: 5
 ENTRY_PADX = 5
 
-# ================================= Choices =================================
-
-TRAVI_CHOICE = {
-    "always_on": {
-        "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"],
-    },
-    "TG": {
-        "select": {
-            "Altezza": [
-                70, 80, 90, 100, 110, 120, 130,
-                140, 150, 160, 170
-            ],
-            "Larghezza": [45, 50],
-            "Spessore": [1.2, 1.5],
-            "Staffa speciale": ["No", "Sì"],
-            "Quantita": [">=1001", "<=1000"],
-        },
-        "input": ["Lunghezza"]
-    },
-    "SAT": {
-        "select": {
-            "Altezza": [
-                70, 80, 90, 100, 110, 120, 130,
-                140, 150, 160, 170
-            ],
-            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-            "Appoggio": ["No", "Sì"],
-            "Staffa speciale": ["No", "Sì"],
-            "Quantita": [">=1001", "<=1000"],
-        },
-        "input": ["Lunghezza"]
-    },
-    "APERTE": {
-        "select": {
-            "Altezza": [
-                70, 80, 90, 100, 110, 120, 130,
-                140, 150, 160, 170, 180, 190, 200
-            ],
-            "Larghezza": [20, 30, 35, 40, 45, 50],
-            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-            "Staffa speciale": ["No", "Sì"],
-            "Quantita": [">=1001", "<=1000"],
-
-        },
-        "input": ["Lunghezza"]
-    },
-    "PORTA SKID": {
-        "select": {
-            "Altezza": [
-                20, 25, 30, 35, 40, 45,
-                50, 60, 70, 80, 90, 100, 110, 120, 130,
-                140, 150, 160, 170, 180, 190, 200
-            ],
-            "Larghezza": [30, 35, 40, 45, 50],
-            "Spessore": [1.2, 1.5, 2.0, 2.5, 3.0, 4.0],
-        },
-        "input": ["Lunghezza"]
-    },
-}
-
-FIANCATE_CHOICE = {
-    "always_on": {
-        "Sismoresistenza": ["No", "Sì"]
-    },
-    "Sì": {
-        "select": {
-            "Solo montante": ["No", "Sì"],
-            "Sezione": [
-                "100/20",
-                "100/25",
-                "100/30",
-                "120/20",
-                "120/25",
-                "120/30",
-                "120x110/20",
-                "120x110/25",
-                "120x110/30",
-                "120x110/40"
-            ]
-        },
-        "input": [
-            "Profondità",
-            "Altezza",
-            "N diagonali 10/10",
-            "N diagonali 15/10",
-            "N diagonali 20/10",
-            "N diagonali 25/10",
-            "N diagonali 30/10",
-            "N traversi 10/10",
-            "N traversi 15/10"
-        ]
-    },
-    "No": {
-        "select": {
-            "Solo montante": ["No", "Sì"],
-            "Sezione": [
-                "80/20",
-                "80/25",
-                "80/30",
-                "100/20",
-                "100/25",
-                "100/30",
-                "120/20",
-                "120/25",
-                "120/30",
-                "120x110/20",
-                "120x110/25",
-                "120x110/30",
-                "120x110/40"
-            ]
-        },
-        "input": [
-            "Profondità",
-            "Altezza",
-            "N diagonali",
-        ]
-    }
-}
-
-
 """
 ===============================================================================
 ====================================       ====================================
@@ -331,175 +189,8 @@ FIANCATE_CHOICE = {
 ====================================       ====================================
 ===============================================================================
 """
-# Data that needs to put widgets in the specified windows
-# ================================== Methods ==================================
-# These prefix and postfix are needed to generate method name
-
-# Default: "create_"
-BUTTON_METHOD_PREFIX = "create_"
-
-# Default: "_ui"
-BUTTON_METHOD_POSTFIX = "_ui"
-
-# =============================== Fiancate data ===============================
-
-FIANCATE_ALWAYS_ON = {
-    "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
-}
-
-# Data for dropdown select options
-# Default:
-# {
-#     "Solo montante": ["No", "Sì"],
-#     "Sismo resistente": ["No", "Sì"],
-#     "Sezione": [
-#         "80/20",
-#         "80/25",
-#         "80/30",
-#         "100/20",
-#         "100/25",
-#         "100/30",
-#         "120/20",
-#         "120/25",
-#         "120/30",
-#         "120x110/20",
-#         "120x110/25",
-#         "120x110/30",
-#         "120x110/40"
-#     ]
-# }
-FIANCATE_SELECT_FIELDS = {
-    "Solo montante": ["No", "Sì"],
-    "Sezione": [
-        "80/20",
-        "80/25",
-        "80/30",
-        "100/20",
-        "100/25",
-        "100/30",
-        "120/20",
-        "120/25",
-        "120/30",
-        "120x110/20",
-        "120x110/25",
-        "120x110/30",
-        "120x110/40"
-    ]
-}
-
-# Names of entries (put in the labels prior to entries)
-# Default:
-# [
-#     "Altezza",
-#     "N diagonali 10/10",
-#     "N diagonali 15/10",
-#     "N diagonali 20/10",
-#     "N diagonali 25/10",
-#     "N diagonali 30/10",
-#     "N traversi 10/10",
-#     "N traversi 15/10"
-# ]
-
-FIANCATE_INPUT_FIELDS = [
-    "Altezza",
-    "N diagonali 10/10",
-    "N diagonali 15/10",
-    "N diagonali 20/10",
-    "N diagonali 25/10",
-    "N diagonali 30/10",
-    "N traversi 10/10",
-    "N traversi 15/10"
-]
 
 # ================================ Travi data =================================
-
-# Cells in Excel addapted to the data of the travi TG.
-# Default:
-# {
-#     "Altezza": "B4",
-#     "Larghezza": "B6",
-#     "Spessore": "B8",
-#     "Lunghezza": "B12",
-#     "Staffa speciale": "B14",
-#     "Quantita": "B16",
-#     "Prezzo": "E4",
-#     "Peso": "E6"
-# }
-TRAVI_CELLS_TG = {
-    "Altezza": "B4",
-    "Larghezza": "B6",
-    "Spessore": "B8",
-    "Lunghezza": "B12",
-    "Staffa speciale": "B14",
-    "Quantita": "B16",
-    "Prezzo": "E4",
-    "Peso": "E6"
-}
-
-# Cells in Excel addapted to the data of the travi APERTE
-# Default:
-# {
-#     "Altezza": "B37",
-#     "Larghezza": "B39",
-#     "Spessore": "B41",
-#     "Lunghezza": "B45",
-#     "Staffa speciale": "B47",
-#     "Quantita": "B49",
-#     "Prezzo": "E37",
-#     "Peso": "E39"
-# }
-TRAVI_CELLS_APERTE = {
-    "Altezza": "B37",
-    "Larghezza": "B39",
-    "Spessore": "B41",
-    "Lunghezza": "B45",
-    "Staffa speciale": "B47",
-    "Quantita": "B49",
-    "Prezzo": "E37",
-    "Peso": "E39"
-}
-
-# Cells in Excel addapted to the data of the travi SAT
-# Default:
-# {
-#     "Altezza": "B21",
-#     "Spessore": "B23",
-#     "Appoggio": "B27",
-#     "Lunghezza": "B29",
-#     "Staffa speciale": "B31",
-#     "Quantita": "B33",
-#     "Prezzo": "E21",
-#     "Peso": "E23"
-# }
-TRAVI_CELLS_SAT = {
-    "Altezza": "B21",
-    "Spessore": "B23",
-    "Appoggio": "B27",
-    "Lunghezza": "B29",
-    "Staffa speciale": "B31",
-    "Quantita": "B33",
-    "Prezzo": "E21",
-    "Peso": "E23"
-}
-
-# Cells in Excel addapted to the data of the travi PORTA SKID
-# Default:
-# {
-#     "Altezza": "B53",
-#     "Larghezza": "B55",
-#     "Spessore": "B57",
-#     "Lunghezza": "B61",
-#     "Prezzo": "E53",
-#     "Peso": "E55"
-# }
-TRAVI_CELLS_PORTA_SKID = {
-    "Altezza": "B53",
-    "Larghezza": "B55",
-    "Spessore": "B57",
-    "Lunghezza": "B61",
-    "Prezzo": "E53",
-    "Peso": "E55"
-}
 
 # Name of the worksheet, that contains travi calculations
 # Default: "Listino Travi"
@@ -520,62 +211,6 @@ TRAVI_TYPE_SAT = "SAT"
 # Name of PORTA SKID travi type. Default: "PORTA SKID"
 TRAVI_TYPE_PORTA_SKID = "PORTA SKID"
 
-
-# Rules needed to check passed data.
-# Default:
-# {
-#     "TG": {
-#         "altezza": {
-#             "min": 70,
-#             "max": 170
-#         },
-#         "lunghezza": {
-#             "numeric": True,
-#             "min": 1200,
-#             "max": 3600,
-#         }
-#     },
-#     "APERTE": {
-#         "altezza": {
-#             "min": 70,
-#             "max": 170
-#         },
-#         "lunghezza": {
-#             "numeric": True,
-#             "min": 1200,
-#             "max": 3600,
-#         }
-#     },
-#     "SAT": {},
-#     "PORTA SKID": {}
-# }
-TRAVI_RULES = {
-    "TG": {
-        "altezza": {
-            "min": 70,
-            "max": 170
-        },
-        "lunghezza": {
-            "numeric": True,
-            "min": 1200,
-            "max": 3600,
-        }
-    },
-    "APERTE": {
-        "altezza": {
-            "min": 70,
-            "max": 170
-        },
-        "lunghezza": {
-            "numeric": True,
-            "min": 1200,
-            "max": 3600,
-        }
-    },
-    "SAT": {},
-    "PORTA SKID": {}
-}
-
 # =================================== NAMES ===================================
 
 # Default: "Altezza"
@@ -590,9 +225,11 @@ THICKNESS = "Spessore"
 # Default: "Lunghezza"
 LENGTH = "Lunghezza"
 
+DEPTH = "Profondità"
+
 # Dimensions that need to clarify dimensioning units
 # Default: [HEIGHT, WIDTH, THICKNESS, LENGTH]
-dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH]
+dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH, DEPTH]
 
 
 TRAVI = "travi"  # Default: "travi"
@@ -619,3 +256,22 @@ LOG_FILE_NAME = "app.log"
 
 # Log coding type. Default: "utf-8"
 LOG_CODING = "utf-8"
+
+# ================================ Translator =================================
+DICTIONARY = {
+    "height": "Altezza",
+    "width": "Larghezza",
+    "thickness": "Spessore",
+    "length": "Lunghezza",
+    "special_hook": "Staffa speciale",
+    "amount": "Quantità",
+    "price": "Prezzo",
+    "weight": "Peso",
+    "support": "Appoggio",
+    "base": "Base",
+    "only_strut": "Solo montante",
+    "section": "Sezione",
+    "type": "Tipo",
+    "price": "Prezzo",
+    "weight": "Peso"
+}

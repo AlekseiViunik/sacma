@@ -1,160 +1,117 @@
 import inspect
 import os
-import tkinter as tk
 import win32com.client as win32
 
 from decimal import Decimal, ROUND_HALF_UP
 
 from logic.logger import logger as log
+from logic.translator import Translator
 from logic.validator import Validator
-from settings import settings as set
 from typing import Dict, Tuple, Any
 
 
 class ExcelFileHandler:
-    """Обработчик файлов Excel. Подгатавливает и отправляет данные,
+    """
+    Обработчик файлов Excel. Подгатавливает и отправляет данные,
     выбранные/введенные юзером и возвращает результат.
 
     Attributes
     ----------
-        part_of_the_shelf : str
-            Элемент шкафа, для которого будет проводиться расчет цены
-        data : List[tk.Entry]
-            Список данных, выбранных/введенных юзером.
-        worksheet : str
-            Имя листа excel, где будут вбиваться данные и получаться результат.
+    data : Dict[str, str]
+        Значения полей выбранные/введенные юзером.
+    rules : Dict[str, Dict[str, Any]] | Dict[None]
+        Правила валидации выбранных/введенных данных.
+    worksheet : str
+        Имя листа excel, где будут вбиваться данные и получаться результат.
+    cells_input : Dict[str, str]
+        Соответствие имен лейблов для которых юзер вводил данные номерам
+        ячеек, куда эти данные должны быть вставлены.
+    cells_output : Dict[str, str]
+        Соответствие имен лейблов окна результата номерам ячеек, где
+        находится результат.
 
     Methods
-        -------
-            prepare_data_for_excel()
-                Вызывает проверку данных. Вызывает преобразование данных в
-                словарь.
-            prepare_dict(cells)
-                Преобразует tk.Entry в словарь. УБирает знаки, которые
-                отсутствуют в файле excel.
-            get_result_cells()
-                Получает адреса ячеек excel, в которых содержится результат.
-            process_excel()
-                Открывает файл excel. Вызывает методы подготовки данных.
-                Получает и округляет результат.
-            check_data(rules)
-                На основании заранее определенных правил проверяет данные перед
-                преобразованием их в словарь.
+    -------
+    prepare_data_for_excel()
+        Вызывает проверку данных. Вызывает преобразование данных в
+        словарь.
+    prepare_dict(cells)
+        Преобразует tk.Entry в словарь. УБирает знаки, которые
+        отсутствуют в файле excel.
+    get_result_cells()
+        Получает адреса ячеек excel, в которых содержится результат.
+    process_excel()
+        Открывает файл excel. Вызывает методы подготовки данных.
+        Получает и округляет результат.
+    check_data(rules)
+        На основании заранее определенных правил проверяет данные перед
+        преобразованием их в словарь.
     """
 
-    def __init__(self, part_of_the_shelf: str, data: tk.Entry) -> None:
-        self.part_of_the_shelf: str = part_of_the_shelf
-        self.data: tk.Entry = data
-        self.worksheet: str | None = None
+    def __init__(
+        self,
+        data: Dict[str, str],
+        rules: Dict,
+        worksheet: str,
+        cells_input: Dict[str, str],
+        cells_output: Dict[str, str]
+    ) -> None:
+        self.data = data
+        self.rules: Dict[str, Dict[str, Any]] | Dict[None] = (
+            Translator().translate_dict(rules)
+        )
+        self.worksheet = worksheet
+        self.cells_input: Dict[str, str] = (
+            Translator().translate_dict(cells_input)
+        )
+        self.cells_output: Dict[str, str] = cells_output
 
-    def prepare_data_for_excel(self) -> Dict[str, Any] | None:
-        """Вызывает методы проверки данных и их конвертации из tk.Entry в
-        словарь. Использует свойства класса.
-
-        Return
-        ______
-            data_prepared : Dict[str, Any] | none
-                Преобразованные в словарь данные.
+    def prepare_data(self) -> Dict[str, Any] | None:
         """
-
-        log.info("Prepare data to insert it in excel")
-
-        if self.part_of_the_shelf.lower() == "travi":
-            if not self.check_data(
-                set.TRAVI_RULES[self.data[set.TRAVI_TYPE_KEY]]
-            ):
-                log.error("The data is wrong!")
-                return None
-
-            self.worksheet = set.TRAVI_WORKSHEET
-            match self.data[set.TRAVI_TYPE_KEY]:
-                case set.TRAVI_TYPE_TG:
-                    data_prepared = self.prepare_dict(set.TRAVI_CELLS_TG)
-                case set.TRAVI_TYPE_APERTE:
-                    data_prepared = self.prepare_dict(set.TRAVI_CELLS_APERTE)
-                case set.TRAVI_TYPE_SAT:
-                    data_prepared = self.prepare_dict(set.TRAVI_CELLS_SAT)
-                case set.TRAVI_TYPE_PORTA_SKID:
-                    data_prepared = self.prepare_dict(
-                        set.TRAVI_CELLS_PORTA_SKID
-                    )
-            log.info("The data is prepared")
-            return data_prepared
-
-    def prepare_dict(self, cells: Dict[str, str]) -> Dict[str, Any] | None:
-        """В имеющемся эксель файлы есть варианты <1000 и >1001. Это не совсем
+        В имеющемся эксель файлы есть варианты <1000 и >1001. Это не совсем
         логично, поэтому я заменил эти варианты для выбора пользователем на
         более логичные <=1000 и >= 1001. Однако такой вариант не подойдет для
         формул excel, которые я не могу поменять и поэтому явным образом в этом
         методе удаляем у полей, которых это касается знаки '='. Также
-        преобразуем в словарь tk.Entry.
+        преобразуем в словарь tk.Entry. Также проводим валидацию данных.
 
-        Parameters
-        __________
-            cells : Dict[str, str]
-                Массив хранящий соответствие имен лейблов для которых юзер
-                вводил данные номерам ячеек, куда эти данные должны быть
-                вставлены.
-
-        Return
-        ______
-            data_prepared : Dict[str, Any] | None
-                Преобразованные в словарь данные.
+        Returns
+        -------
+        data_prepared : Dict[str, Any] | None
+            Отвалидированные и подготовленные для дальнейшей обработки данные.
+            Или None, если данные не прошли валидацию.
         """
+        log.info("Check data before insert it in excel")
+        # Проверяем данные перед вставкой в excel
+        if not self.check_data():
+            log.error("The data is wrong!")
+            return None
 
+        log.info("The data is correct")
         log.info("Prepare dictionary where key is cell address")
+
+        # Подготавливаем данные для записи в Excel
         data_prepared = {}
-        for name, cell in cells.items():
+        for name, cell in self.cells_input.items():
             if name in self.data:
                 self.data[name] = self.data[name].replace("=", "").strip()
                 data_prepared[cell] = self.data[name]
         log.info(f"Dictionary is prepared: {data_prepared}")
         return data_prepared
 
-    def get_result_cells(self) -> Tuple[str, str]:
-        """Из имеющихся у нас данных получаем адреса ячеек, в которых хранятся
-        результаты необходимых расчетов.
-
-        Return
-        ______
-            price_cell : str
-                Адрес ячейки с расчитанной ценой.
-            wight_cell : str
-                Адрес ячейки с расчитанным весом.
-        """
-
-        # TODO Переделать на словарь
-        log.info("Getting address of the price and weight cells")
-        if self.part_of_the_shelf.lower() == set.TRAVI:
-            match self.data[set.TRAVI_TYPE_KEY]:
-                case set.TRAVI_TYPE_TG:
-                    price_cell = set.TRAVI_CELLS_TG[set.PRICE]
-                    weight_cell = set.TRAVI_CELLS_TG[set.WEIGHT]
-                case set.TRAVI_TYPE_APERTE:
-                    price_cell = set.TRAVI_CELLS_APERTE[set.PRICE]
-                    weight_cell = set.TRAVI_CELLS_APERTE[set.WEIGHT]
-                case set.TRAVI_TYPE_SAT:
-                    price_cell = set.TRAVI_CELLS_SAT[set.PRICE]
-                    weight_cell = set.TRAVI_CELLS_SAT[set.WEIGHT]
-                case set.TRAVI_TYPE_PORTA_SKID:
-                    price_cell = set.TRAVI_CELLS_PORTA_SKID[set.PRICE]
-                    weight_cell = set.TRAVI_CELLS_PORTA_SKID[set.WEIGHT]
-        log.info(f"The price cell is: {price_cell}")
-        log.info(f"The weight cell is: {weight_cell}")
-        return price_cell, weight_cell
-
     def process_excel(self) -> Tuple[Decimal, Decimal]:
-        """Основной метод класса ExcelFileHandler. Открывает файл, записывает в
+        """
+        Основной метод класса ExcelFileHandler. Открывает файл, записывает в
         него данные (предварительно вызвав методы подготовки данных), обновляет
         расчеты файла, получает цену и вес элемента шкафа, необходимые нам,
         округляет и возвращает их.
 
-        Return
-        ______
-            price : Decimal
-                Цена элемента шкафа.
-            wight : Decimal
-                Вес элемента шкафа.
+        Returns
+        -------
+        price : Decimal
+            Цена элемента шкафа.
+        wight : Decimal
+            Вес элемента шкафа.
         """
 
         log.info(
@@ -167,7 +124,7 @@ class ExcelFileHandler:
         FILE_PATH = os.path.abspath(FILE_PATH)
 
         # Подготавливаем данные для записи в Excel
-        data_prepared = self.prepare_data_for_excel()
+        data_prepared = self.prepare_data()
         if not data_prepared:
             return None, None
 
@@ -175,20 +132,11 @@ class ExcelFileHandler:
         log.info("Open excel file")
         excel = win32.Dispatch("Excel.Application")
         excel.Visible = False  # Запуск в фоновом режиме
+
         # Без обновления связей
         wb = excel.Workbooks.Open(FILE_PATH, UpdateLinks=0)
 
         log.info("Try to unprotect file and worksheet")
-
-        # TODO Maybe this action is not needed.
-        try:
-            wb.Unprotect()  # Снимаем защиту с книги
-            log.info("File is unprotected.")
-            wb.Sheets(self.worksheet).Unprotect()  # Снимаем защиту с листа
-            log.info("Worksheet is unprotected.")
-        except Exception:
-            log.info("Haven't managed to unprotect")
-            pass
 
         sheet = wb.Sheets(self.worksheet)
 
@@ -204,22 +152,17 @@ class ExcelFileHandler:
         wb.RefreshAll()  # Обновляем связи
         excel.CalculateUntilAsyncQueriesDone()
 
-        price_cell, weight_cell = self.get_result_cells()
         log.info("Getting price and weight")
-        price = sheet.Range(price_cell).Value
-        weight = sheet.Range(weight_cell).Value
+        price = sheet.Range(self.cells_output["price"]).Value
+        weight = sheet.Range(self.cells_output["weight"]).Value
 
-        # TODO Вынести в отдельный метод
+        # Округляем цену и вес
         log.info("Rounding up price and weight")
         if price > 0:
-            price = Decimal(price).quantize(
+            price, weight = (Decimal(unit).quantize(
                 Decimal("0.01"),
                 rounding=ROUND_HALF_UP
-            )
-            weight = Decimal(weight).quantize(
-                Decimal("0.01"),
-                rounding=ROUND_HALF_UP
-            )
+            ) for unit in [price, weight])
         else:
             price = None
             weight = None
@@ -227,33 +170,32 @@ class ExcelFileHandler:
         log.info(f"The price is {price}")
         log.info(f"The weight is {weight}")
 
+        # Закрываем файл без сохранения
+        log.info("Close the file without saving")
         wb.Close(SaveChanges=False)
         excel.Quit()
+        log.info("File is closed")
 
         return price, weight
 
-    def check_data(self, rules: Dict[str, Dict[str, Any]]) -> bool:
-        """Используя валидатор проверяет данные согласно определенным правилам,
+    def check_data(self) -> bool:
+        """
+        Используя валидатор проверяет данные согласно определенным правилам,
         указанным в файле настроек.
 
-        Parameters
-        __________
-            rules : Dict[str: Dict[str: Any]]
-                Массив с набором правил валидации.
-
-        Return
-        ______
-            result : bool
-                Результат валидации данных.
+        Returns
+        -------
+        bool
+            Результат валидации данных.
         """
         # TODO Move this method to the Validator
         log.info("Check data before preparing it")
         for key, value in self.data.items():
-            key = key.lower()
+            key = key.capitalize()
             log.info(f"Check {key}")
-            if key in rules:
+            if key in self.rules:
                 log.info(f"Data to be checked is: {self.data}")
-                for rul_key, rul_value in rules[key].items():
+                for rul_key, rul_value in self.rules[key].items():
                     if not Validator().validate(rul_key, rul_value, value):
                         log.error(f"{key} hasn't passed")
                         return False
