@@ -1,6 +1,7 @@
 import tkinter as tk
 from abc import ABC, abstractmethod
 from decimal import Decimal
+from typing import Any, Dict
 
 from gui.widget_creator import WidgetCreator
 from logic.json_file_handler import JsonFileHandler
@@ -14,8 +15,8 @@ class AbstractBaseType (ABC):
     def __init__(self, root: tk.Tk, type: str) -> None:
         self.root = root
         self.type = type
-        self.window = None  # Окно, которое будет создаваться при открытии
-        self.type_choice = None   # Доступные варианты выбора типа
+        self.window: tk.Toplevel = None
+        self.type_choice: Dict[str, Any] = None
         self.window_width: int = 0
         self.window_height: int = 0
         self.entries: tk.Entry = None
