@@ -1,5 +1,10 @@
 import math
 import tkinter as tk
+import os
+import sys
+import ctypes
+
+from PIL import Image, ImageTk
 
 from .helper import Helper
 from logic.logger import logger as log
@@ -44,6 +49,7 @@ class App:
             self.root
         )
 
+        self.set_window_icon()
         self.create_widgets()
 
     def create_widgets(self) -> None:
@@ -101,3 +107,30 @@ class App:
             instance.open_window()
         else:
             log.info(f"Class {instance} not found!")
+
+    def set_window_icon(self):
+        """Sets up the window icons."""
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
+            'SACMA'
+        )
+
+        if getattr(sys, 'frozen', False):
+            # If it run as an executable file
+            icon_path_png = os.path.join(
+                sys._MEIPASS,
+                set.ICONS_FOLDER_NAME,
+                set.PNG_ICON_FILENAME
+            )
+            icon_path_ico = os.path.join(
+                sys._MEIPASS,
+                set.ICONS_FOLDER_NAME,
+                set.ICO_ICON_FILENAME
+            )
+        else:
+            # If it runs as a python app
+            icon_path_png = set.PNG_ICON_FILEPATH
+            icon_path_ico = set.ICO_ICON_FILEPATH
+
+        self.icon = ImageTk.PhotoImage(Image.open(icon_path_png))
+        self.root.iconphoto(True, self.icon)
+        self.root.iconbitmap(icon_path_ico)
