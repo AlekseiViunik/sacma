@@ -8,7 +8,13 @@ class Travi(AbstractBaseType):
     def __init__(self, root, type):
         super().__init__(root, type)
 
-    def calculate(self):
+    def calculate(self) -> None:
+        """Метод обработки данных, указанных полльзователем.
+        1. Преобразует entries в словарь.
+        2. Создает объект ExcelFileHandler.
+        3. Вызывает метод process_excel у созданного объекта.
+        4. Открывает окно с результатами.
+        """
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
