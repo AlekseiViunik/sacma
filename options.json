@@ -286,48 +286,46 @@
                 "cells_output": {
                     "250x50": {
                         "1.2": {
-                            "price": "D10",
+                            "price": "E10",
                             "weight": "C10"
                         },
                         "1.5": {
-                            "price": "D11",
+                            "price": "E11",
                             "weight": "C11"
                         },
                         "2.0": {
-                            "price": "D12",
+                            "price": "E12",
                             "weight": "C12"
                         }
                     },
                     "270x50": {
                         "1.2": {
-                            "price": "D21",
+                            "price": "E21",
                             "weight": "C21"
                         },
                         "1.5": {
-                            "price": "D22",
+                            "price": "E22",
                             "weight": "C22"
                         },
                         "2.0": {
-                            "price": "D23",
+                            "price": "E23",
                             "weight": "C23"
                         }
                     },
                     "270x40": {
                         "1.2": {
-                            "price": "D32",
+                            "price": "E32",
                             "weight": "C32"
                         },
                         "1.5": {
-                            "price": "D33",
+                            "price": "E33",
                             "weight": "C33"
                         },
                         "2.0": {
-                            "price": "D34",
+                            "price": "E34",
                             "weight": "C34"
                         }
                     }
-                    
-                    
                 }
             },
             "Bugnato": {
@@ -351,31 +349,31 @@
                 "cells_output": {
                     "250x50": {
                         "2.0": {
-                            "price": "D13",
+                            "price": "E13",
                             "weight": "C13"
                         },
                         "3.0": {
-                            "price": "D14",
+                            "price": "E14",
                             "weight": "C14"
                         }
                     },
                     "270x50": {
                         "2.0": {
-                            "price": "D24",
+                            "price": "E24",
                             "weight": "C24"
                         },
                         "3.0": {
-                            "price": "D25",
+                            "price": "E25",
                             "weight": "C25"
                         }
                     },
                     "270x40": {
                         "2.0": {
-                            "price": "D35",
+                            "price": "E35",
                             "weight": "C35"
                         },
                         "3.0": {
-                            "price": "D36",
+                            "price": "E36",
                             "weight": "C36"
                         }
                     } 
