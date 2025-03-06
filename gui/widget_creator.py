@@ -227,10 +227,11 @@ class WidgetCreator:
         self,
         frame: tk.Frame,
         label: str,
-        values: List[Any],
+        values: list | None,
         row: int,
         is_entry: bool = False,
-        is_changing: bool = False
+        is_changing: bool = False,
+        is_hide: bool = False
     ) -> None:
         """Создаёт `Label` + `OptionMenu` или `Entry` для окна.
 
@@ -257,7 +258,10 @@ class WidgetCreator:
         ).grid(row=row, column=0, sticky="w", pady=2)
 
         if is_entry:
-            entry = tk.Entry(frame, width=15)
+            if is_hide:
+                entry = tk.Entry(frame, width=15, show="*")
+            else:
+                entry = tk.Entry(frame, width=15)
             entry.grid(row=row, column=1, sticky="ew", padx=5)
             self.entries[label] = entry
         else:
