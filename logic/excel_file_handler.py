@@ -7,7 +7,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from logic.logger import logger as log
 from logic.translator import Translator
 from logic.validator import Validator
-from typing import Dict, Tuple, Any
+from typing import Dict, Any
 
 
 class ExcelFileHandler:
@@ -95,7 +95,7 @@ class ExcelFileHandler:
         log.info(f"Dictionary is prepared: {data_prepared}")
         return data_prepared
 
-    def process_excel(self) -> Tuple[Decimal | None, Decimal | None]:
+    def process_excel(self) -> dict:
         """
         Основной метод класса ExcelFileHandler. Открывает файл, записывает в
         него данные (предварительно вызвав методы подготовки данных), обновляет
@@ -123,7 +123,7 @@ class ExcelFileHandler:
         # Проверяем данные перед вставкой в excel
         if not self.check_data():
             log.error("The data is wrong!")
-            return None, None
+            return {"price": None, "weight": None}
 
         # Открываем Excel
         log.info("Open excel file")
@@ -156,31 +156,14 @@ class ExcelFileHandler:
             wb.RefreshAll()  # Обновляем связи
             excel.CalculateUntilAsyncQueriesDone()
 
-        log.info("Getting price and weight")
-        price = sheet.Range(self.cells_output["price"]).Value
-        weight = sheet.Range(self.cells_output["weight"]).Value
-
-        # Округляем цену и вес
-        log.info("Rounding up price and weight")
-        if price > 0:
-            price, weight = (Decimal(unit).quantize(
-                Decimal("0.01"),
-                rounding=ROUND_HALF_UP
-            ) for unit in [price, weight])
-        else:
-            price = None
-            weight = None
-
-        log.info(f"The price is {price}")
-        log.info(f"The weight is {weight}")
-
+        data = self.get_data_from_excel(sheet)
         # Закрываем файл без сохранения
         log.info("Close the file without saving")
         wb.Close(SaveChanges=False)
         excel.Quit()
         log.info("File is closed")
 
-        return price, weight
+        return data
 
     def check_data(self) -> bool:
         """
@@ -204,3 +187,27 @@ class ExcelFileHandler:
                         log.error(f"{key} hasn't passed")
                         return False
         return True
+
+    def get_data_from_excel(self, sheet) -> tuple:
+        log.info("Getting excel data")
+        excel_data = {
+            key: sheet.Range(self.cells_output[key]).Value
+            for key in self.cells_output
+        }
+
+        # Округляем
+        log.info("Rounding up data")
+        for key, value in excel_data.items():
+            print(value)
+            print(str(value).isnumeric())
+            print(int(value) > 0)
+            if (
+                value and
+                str(value).replace(".", "", 1).isdigit() and
+                float(value) > 0
+            ):
+                excel_data[key] = Decimal(value).quantize(
+                    Decimal("0.01"),
+                    rounding=ROUND_HALF_UP
+                )
+        return excel_data
