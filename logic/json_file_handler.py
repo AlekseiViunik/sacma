@@ -2,6 +2,7 @@ import json
 from typing import Any
 
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class JsonFileHandler:
@@ -52,3 +53,12 @@ class JsonFileHandler:
     def load_whole_file(self):
         with open(self.file, "r", encoding="utf-8") as f:
             return json.load(f)
+
+    def write_into_file(self, key="", key2="", value="") -> None:
+        data = self.load_whole_file()
+        if not key2:
+            data[key] = value
+        else:
+            data[key][key2] = value
+        with open(set.AUTH_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4)
