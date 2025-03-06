@@ -28,7 +28,8 @@ class LoginWindow:
                 None,
                 row,
                 is_entry=True,
-                is_hide=set.LOGIN_ENTRIES[label]["is_hide"]
+                is_hide=set.LOGIN_ENTRIES[label]["is_hide"],
+                default_value=self.get_default_value(label)
             )
             row += 1
         self.creator.create_button("Login", self.login)
@@ -58,3 +59,9 @@ class LoginWindow:
         """Обрабатывает ручное закрытие окна."""
         self.auth_successful = False  # Если закрыли окно — вход не выполнен
         self.root.destroy()
+
+    def get_default_value(self, key):
+        if set.LOGIN_ENTRIES[key]["default_value"]:
+            return auth().load_last_user()
+        else:
+            return ""
