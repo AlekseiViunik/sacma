@@ -1,4 +1,4 @@
-from gui.login_window import LoginWindow
+from gui.auth_window import AuthWindow
 from gui.main_window import App
 from logic.logger import logger, check_log_size
 
@@ -10,7 +10,7 @@ if __name__ == "__main__":
     logger.info("============================================================")
 
     root = tk.Tk()
-    login_window = LoginWindow(root)
+    login_window = AuthWindow(root)
     root.mainloop()
 
     if login_window.auth_successful:  # ✅ Проверяем успешность авторизации
