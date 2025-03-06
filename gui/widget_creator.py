@@ -277,7 +277,7 @@ class WidgetCreator:
         # Добавляем "мм", если нужно
         self.add_mm(frame, label, row)
 
-    def create_button(self, name, callback: callable) -> None:
+    def create_button(self, name, callback: callable, anchor=None) -> None:
         """
         Создаёт кнопку "Invia" для окна, нажатие которой запускает
         процесс расчетов через excel файл искомых значений и вывода
@@ -289,7 +289,7 @@ class WidgetCreator:
             Функция, которая будет вызвана при нажатии на кнопки.
         """
 
-        btn_invia = tk.Button(
+        button = tk.Button(
             self.window,
             text=name,
             width=set.BUTTON_WIDTH,
@@ -297,9 +297,9 @@ class WidgetCreator:
             relief=set.BUTTON_RELIEF,
             command=callback
         )
-        btn_invia.pack(
+        button.pack(
             side=set.BUTTON_INVIA_SIDE,
-            anchor=set.BUTTON_INVIA_ANCHOR,
+            anchor=set.BUTTON_INVIA_ANCHOR if not anchor else anchor,
             padx=set.BUTTON_PADX,
             pady=set.BUTTON_PADY
         )
