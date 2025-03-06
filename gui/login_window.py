@@ -12,11 +12,11 @@ class LoginWindow:
         self.root.geometry("300x180")
         self.root.resizable(False, False)
 
-        tk.Label(root, text="Логин:").pack(pady=5)
+        tk.Label(root, text="Login:").pack(pady=5)
         self.username_entry = tk.Entry(root)
         self.username_entry.pack(pady=5)
 
-        tk.Label(root, text="Пароль:").pack(pady=5)
+        tk.Label(root, text="Password:").pack(pady=5)
         self.password_entry = tk.Entry(root, show="*")
         self.password_entry.pack(pady=5)
 
