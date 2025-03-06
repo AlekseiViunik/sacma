@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from logic.authenticator import Authenticator as auth
+from gui.helper import Helper
 
 
 class LoginWindow:
@@ -9,8 +10,10 @@ class LoginWindow:
     def __init__(self, root):
         self.root = root
         self.root.title("Aouthorization")
-        self.root.geometry("300x180")
+        self.root.geometry("300x200")
         self.root.resizable(False, False)
+
+        Helper.center_window(300, 200, self.root)
 
         tk.Label(root, text="Login:").pack(pady=5)
         self.username_entry = tk.Entry(root)
@@ -31,4 +34,6 @@ class LoginWindow:
             auth.save_last_user(username)
             self.root.destroy()  # Закрываем окно авторизации
         else:
-            messagebox.showerror("Ошибка", "Неверный логин или пароль!")
+            messagebox.showerror(
+                "Errore", "Username or password e` sbagliato!"
+            )
