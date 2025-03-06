@@ -1,6 +1,5 @@
 import tkinter as tk
 from abc import ABC, abstractmethod
-from decimal import Decimal
 from typing import Any, Dict
 
 from gui.widget_creator import WidgetCreator
@@ -98,7 +97,7 @@ class AbstractBaseType (ABC):
             lambda: Helper(self.root).on_close(self.window)
         )
 
-    def open_response_window(self, cost: Decimal, weight: Decimal) -> None:
+    def open_response_window(self, data: dict) -> None:
         """
         Открывает окно с результатом расчётов.
         Parameters
@@ -114,25 +113,25 @@ class AbstractBaseType (ABC):
         result_window.title("Risultato")  # Заголовок окна
         Helper.center_window(300, 150, result_window)  # Центрируем окно
 
-        # Формируем текст для отображения
-        prezzo_text = (
-            f"{set.PRICE}: {cost} €" if cost else set.PRICE_NOT_FOUND
-        )
-        peso_text = (
-            f"{set.WEIGHT}: {weight} Kg" if weight else set.WEIGHT_NOT_FOUND
-        )
+        for key, value in data.items():
+            if key == "price":
+                text = (
+                    f"{set.PRICE}: {value} €" if value else set.PRICE_NOT_FOUND
+                )
+            elif key == "weight":
+                text = (
+                    f"{set.WEIGHT}: {value} Kg"
+                    if value else set.WEIGHT_NOT_FOUND
+                )
+            else:
+                text = f"{key}: {value}" if value else "NOT_FOUND"
 
-        # Выводим текст
-        tk.Label(
-            result_window,
-            text=prezzo_text,
-            font=("Arial", 12)
-        ).pack(pady=5)
-        tk.Label(
-            result_window,
-            text=peso_text,
-            font=("Arial", 12)
-        ).pack(pady=5)
+            # Выводим текст
+            tk.Label(
+                result_window,
+                text=text,
+                font=("Arial", 12)
+            ).pack(pady=5)
 
         # Кнопка "OK", которая закроет окно
         tk.Button(
