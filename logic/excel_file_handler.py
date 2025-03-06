@@ -198,9 +198,6 @@ class ExcelFileHandler:
         # Округляем
         log.info("Rounding up data")
         for key, value in excel_data.items():
-            print(value)
-            print(str(value).isnumeric())
-            print(int(value) > 0)
             if (
                 value and
                 str(value).replace(".", "", 1).isdigit() and
