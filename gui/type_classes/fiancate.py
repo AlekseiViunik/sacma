@@ -6,4 +6,4 @@ class Fiancate(AbstractBaseType):
         super().__init__(root, type)
 
     def calculate(self):
-        self.open_response_window(100.15, 10.5)
+        self.open_response_window({"price": 100.15, "weight": 10.5})
