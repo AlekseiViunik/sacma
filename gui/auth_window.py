@@ -5,7 +5,7 @@ from gui.helper import Helper
 from settings import settings as set
 
 
-class LoginWindow:
+class AuthWindow:
     """Окно авторизации."""
 
     def __init__(self, root):
@@ -20,7 +20,7 @@ class LoginWindow:
         Helper.center_window(300, 200, self.root)
 
         frame = self.creator.create_frame("login")
-        row = 1
+        row = set.LOGIN_START_ROW
         for label in set.LOGIN_ENTRIES.keys():
             self.creator.create_component(
                 frame,
@@ -46,7 +46,7 @@ class LoginWindow:
         password = entries_dict["Password"]
 
         if auth.verify_user(username, password):
-            auth.save_last_user(username)
+            auth().save_last_user(username)
             self.auth_successful = True
             self.root.destroy()  # Закрываем окно авторизации
         else:
