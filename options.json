@@ -380,5 +380,70 @@
                 }
             }
         }
+    },
+    "angolari per automatici": {
+        "always_on": {
+            "pattini": ["Senza", "Con"]
+        },
+        "window_settings": {
+            "width": 400,
+            "height": 250
+        },
+        "choices": {
+            "Senza": {
+                "worksheet": "Angolari per automatici",
+                "available_params": {
+                    "select": {
+                        "section": ["50x50", "50x56", "50x65", "50x78", "50x90"],
+                        "thickness": [1.5, 2.0, 2.5, 3.0]
+                    },
+                    "input": ["Lunghezza"]
+                },
+                "rules": {
+                    "length": {
+                        "numeric": 1
+                    }
+                },
+                "cells_input": {
+                    "section": "B3",
+                    "thickness": "B5",
+                    "length": "B7"
+                },
+                "cells_output": {
+                    "price": "E3",
+                    "weight": "E5"
+                }
+            },
+            "Con": {
+                "worksheet": "Angolari per automatici",
+                "available_params": {
+                    "select": {
+                        "section": ["50x50", "50x56", "50x65", "50x78", "50x90"],
+                        "thickness": [1.5, 2.0, 2.5, 3.0]
+                    },
+                    "input": ["Lunghezza", "N pattini"]
+                },
+                "rules": {
+                    "length": {
+                        "numeric": 1
+                    },
+                    "skates": {
+                        "numeric": 1,
+                        "natural": 1
+                    }
+                },
+                "cells_input": {
+                    "section": "B14",
+                    "thickness": "B16",
+                    "length": "B18",
+                    "n_skates": "B22"
+                },
+                "cells_output": {
+                    "price": "E14",
+                    "price_skates": "E16",
+                    "weight": "E18"
+                }
+            }
+        }
     }
 }
