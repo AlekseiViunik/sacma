@@ -7,14 +7,15 @@ if __name__ == "__main__":
     import tkinter as tk
     check_log_size()
 
-    root = tk.Tk()
-
-    # Открываем окно авторизации
-    login_window = LoginWindow(root)
-    root.mainloop()
-
     logger.info("============================================================")
 
     root = tk.Tk()
-    app = App(root)
+    login_window = LoginWindow(root)
     root.mainloop()
+
+    if login_window.auth_successful:  # ✅ Проверяем успешность авторизации
+        root = tk.Tk()
+        app = App(root)
+        root.mainloop()
+    else:
+        logger.info("Application closed due to unsuccessful login")
