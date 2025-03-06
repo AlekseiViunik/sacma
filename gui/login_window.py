@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter import messagebox
 from gui.widget_creator import WidgetCreator
 from logic.authenticator import Authenticator as auth
@@ -16,24 +15,34 @@ class LoginWindow:
         self.root.resizable(False, False)
         self.auth_successful = False
         self.creator = WidgetCreator(self.root, None)
+        self.entries = None
 
         Helper.center_window(300, 200, self.root)
 
-        tk.Label(root, text="Login:").pack(pady=5)
-        self.username_entry = tk.Entry(root)
-        self.username_entry.pack(pady=5)
-
-        tk.Label(root, text="Password:").pack(pady=5)
-        self.password_entry = tk.Entry(root, show="*")
-        self.password_entry.pack(pady=5)
-
+        frame = self.creator.create_frame("login")
+        row = 1
+        for label in set.LOGIN_ENTRIES.keys():
+            self.creator.create_component(
+                frame,
+                label,
+                None,
+                row,
+                is_entry=True,
+                is_hide=set.LOGIN_ENTRIES[label]["is_hide"]
+            )
+            row += 1
         self.creator.create_button("Login", self.login)
         self.root.protocol(set.ON_CLOSING_WINDOW, self.on_close)
 
     def login(self):
         """Обрабатывает попытку входа."""
-        username = self.username_entry.get()
-        password = self.password_entry.get()
+        self.entries = self.creator.entries
+        entries_dict = {
+            key: entry.get() for key, entry in self.entries.items()
+        }
+
+        username = entries_dict["Login"]
+        password = entries_dict["Password"]
 
         if auth.verify_user(username, password):
             auth.save_last_user(username)
@@ -43,6 +52,7 @@ class LoginWindow:
             messagebox.showerror(
                 "Errore", "Username or password e` sbagliato!"
             )
+        pass
 
     def on_close(self):
         """Обрабатывает ручное закрытие окна."""
