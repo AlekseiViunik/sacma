@@ -8,7 +8,7 @@ class LoginWindow:
 
     def __init__(self, root):
         self.root = root
-        self.root.title("Авторизация")
+        self.root.title("Aouthorization")
         self.root.geometry("300x180")
         self.root.resizable(False, False)
 
