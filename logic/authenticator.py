@@ -18,6 +18,9 @@ class Authenticator:
 
         return self.file_handler.load_whole_file()
 
+    def load_last_user(self):
+        return self.file_handler.read_value_by_key("lastUser")
+
     @staticmethod
     def hash_password(password: str) -> str:
         """Хеширует пароль с помощью SHA-256."""
