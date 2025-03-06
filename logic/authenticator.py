@@ -34,26 +34,24 @@ class Authenticator:
 
         return users_data["users"].get(username) == hashed_password
 
-    @staticmethod
-    def save_last_user(username: str) -> None:
+    def save_last_user(self, username: str) -> None:
         """Сохраняет последнего вошедшего пользователя."""
-        users_data = Authenticator().load_users()
-        users_data["lastUser"] = username
+        self.file_handler.write_into_file(key="lastUser", value=username)
 
-        with open(set.AUTH_FILE, "w", encoding="utf-8") as f:
-            json.dump(users_data, f, indent=4)
-
-    @staticmethod
-    def register_user(username: str, password: str) -> bool:
+    def register_user(self, username: str, password: str) -> bool:
         """Регистрирует нового пользователя (если его нет)."""
         users_data = Authenticator().load_users()
 
         if username in users_data["users"]:
             return False  # Пользователь уже существует
 
-        users_data["users"][username] = Authenticator().hash_password(password)
+        users_data["users"][username] = self.file_handler.write_into_file(
+            "users",
+            username,
+            Authenticator().hash_password(password)
+        )
 
         with open(set.AUTH_FILE, "w", encoding="utf-8") as f:
             json.dump(users_data, f, indent=4)
 
-        return True  # Успешно зарегистрирован
+        return True
