@@ -90,7 +90,7 @@ class AbstractBaseType (ABC):
         creator.create_ui()
         self.entries = creator.entries
 
-        creator.create_invia_button(self.calculate)
+        creator.create_button("Invia", self.calculate)
 
         self.window.protocol(
             set.ON_CLOSING_WINDOW,

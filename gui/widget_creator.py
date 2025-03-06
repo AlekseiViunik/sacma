@@ -54,12 +54,14 @@ class WidgetCreator:
     """
     def __init__(
         self,
-        window: tk.Toplevel,
-        type_choice: Dict[str, Any]
+        window: tk.Toplevel | tk.Tk,
+        type_choice: dict | None
     ) -> None:
         self.window = window
         self.type_choice = type_choice
-        self.always_on: Dict[str, List[str]] = type_choice["always_on"]
+        self.always_on: Dict[str, List[str]] = (
+            type_choice["always_on"] if type_choice else None
+        )
         self.select_fields: Dict[str, Any] | None = None
         self.input_fields: Dict[str, Any] | None = None
         self.entries: Dict[str, tk.Entry] = {}
@@ -270,7 +272,7 @@ class WidgetCreator:
         # Добавляем "мм", если нужно
         self.add_mm(frame, label, row)
 
-    def create_invia_button(self, callback: callable) -> None:
+    def create_button(self, name, callback: callable) -> None:
         """
         Создаёт кнопку "Invia" для окна, нажатие которой запускает
         процесс расчетов через excel файл искомых значений и вывода
@@ -281,9 +283,10 @@ class WidgetCreator:
         callback : callable
             Функция, которая будет вызвана при нажатии на кнопки.
         """
+
         btn_invia = tk.Button(
             self.window,
-            text=set.BUTTON_INVIA_TITLE,
+            text=name,
             width=set.BUTTON_WIDTH,
             bg=set.BUTTON_COLOR,
             relief=set.BUTTON_RELIEF,
