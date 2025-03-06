@@ -427,7 +427,7 @@
                     "length": {
                         "numeric": 1
                     },
-                    "skates": {
+                    "n_skates": {
                         "numeric": 1,
                         "natural": 1
                     }
