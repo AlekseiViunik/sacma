@@ -280,6 +280,7 @@ DICTIONARY = {
 
 # ===================================Login=====================================
 AUTH_FILE = "auth.json"
+LOGIN_START_ROW = 1
 LOGIN_ENTRIES = {
     "Login": {
         "is_hide": False,
