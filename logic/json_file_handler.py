@@ -48,3 +48,7 @@ class JsonFileHandler:
         except json.JSONDecodeError:
             log.error(f"❌ Ошибка чтения JSON в файле '{self.file}'.")
             return None
+
+    def load_whole_file(self):
+        with open(self.file, "r", encoding="utf-8") as f:
+            return json.load(f)
