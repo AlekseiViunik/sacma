@@ -231,7 +231,8 @@ class WidgetCreator:
         row: int,
         is_entry: bool = False,
         is_changing: bool = False,
-        is_hide: bool = False
+        is_hide: bool = False,
+        default_value: str = ""
     ) -> None:
         """Создаёт `Label` + `OptionMenu` или `Entry` для окна.
 
@@ -258,12 +259,12 @@ class WidgetCreator:
         ).grid(row=row, column=0, sticky="w", pady=2)
 
         if is_entry:
+            entry_var = tk.StringVar(value=default_value)
+            entry = tk.Entry(frame, width=15, textvariable=entry_var)
             if is_hide:
-                entry = tk.Entry(frame, width=15, show="*")
-            else:
-                entry = tk.Entry(frame, width=15)
+                entry.config(show="*")
             entry.grid(row=row, column=1, sticky="ew", padx=5)
-            self.entries[label] = entry
+            self.entries[label] = entry_var
         else:
             var = tk.StringVar(value=values[0])
             dropdown = tk.OptionMenu(frame, var, *values)
