@@ -33,13 +33,17 @@ class Grigliato(AbstractBaseType):
             worksheet,
             cells_output=cells_output,
         )
-        cost_m, weight_m = excel.process_excel()
+        excel_data = excel.process_excel()
+
         cost, weight = self.calculate_total_cost(
-            cost_m,
-            weight_m,
+            excel_data["price"],
+            excel_data["weight"],
             entries_dict["Lunghezza"]
-        ) if cost_m and weight_m else (None, None)
-        self.open_response_window(cost, weight)
+        ) if excel_data["price"] and excel_data["weight"] else (None, None)
+
+        excel_data["price"] = cost
+        excel_data["weight"] = weight
+        self.open_response_window(excel_data)
 
     def evaluate_output_cells(
         self,

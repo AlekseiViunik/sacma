@@ -35,5 +35,5 @@ class Travi(AbstractBaseType):
             cells_input,
             cells_output
         )
-        cost, weight = excel.process_excel()
-        self.open_response_window(cost, weight)
+        excel_data = excel.process_excel()
+        self.open_response_window(excel_data)
