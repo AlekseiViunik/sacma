@@ -281,6 +281,12 @@ DICTIONARY = {
 # ===================================Login=====================================
 AUTH_FILE = "auth.json"
 LOGIN_ENTRIES = {
-    "Login": {"is_hide": False},
-    "Password": {"is_hide": True}
+    "Login": {
+        "is_hide": False,
+        "default_value": True
+    },
+    "Password": {
+        "is_hide": True,
+        "default_value": False
+    }
 }
