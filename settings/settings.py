@@ -273,5 +273,7 @@ DICTIONARY = {
     "section": "Sezione",
     "type": "Tipo",
     "price": "Prezzo",
-    "weight": "Peso"
+    "weight": "Peso",
+    "skates": "Pattini",
+    "n_skates": "N pattini",
 }
