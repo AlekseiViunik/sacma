@@ -277,3 +277,6 @@ DICTIONARY = {
     "skates": "Pattini",
     "n_skates": "N pattini",
 }
+
+# ===================================Login=====================================
+AUTH_FILE = "auth.json"
