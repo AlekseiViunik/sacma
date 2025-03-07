@@ -20,8 +20,11 @@ class AbstractBaseType (ABC):
     ----------
     root : tk.Tk
         Главное окно.
-    type : str
+    type : str | None
         Тип выбранного элемента (имя нажатой кнопки).
+    entry_widgets : list
+        Список виджетов с полем для ввода, которые рисуются в окне, если не
+        передан type_choice
     window : tk.Toplevel
         Созданное окно для ввода данных элемента.
     type_choice : Dict
@@ -31,7 +34,7 @@ class AbstractBaseType (ABC):
     window_height : int
         Высота созданного окна.
     entries : Dict
-        Список введенных значений.
+        Словарь с введенными значениями.
     json : JsonFileHandler
         Объект для работы с JSON-файлами.
     helper : Helper
@@ -46,7 +49,8 @@ class AbstractBaseType (ABC):
     open_response_window(cost, weight)
         Открывает окно с результатом расчётов.
     calculate()
-        Расчёт стоимости и веса. Для каждого класса свой.
+        Обработка нажатия кнопки. Для каждого класса своя. Должна быть
+        переписана.
     """
 
     def __init__(
@@ -75,6 +79,15 @@ class AbstractBaseType (ABC):
         """
         Создаёт и центрирует новое окно с заголовком и базовыми компонентами.
         Вызывает метод создания компонентов.
+
+        Parameters
+        ----------
+        title : str
+            Имя окна
+        window_width : int
+            Ширина окна
+        window_height : int
+            Высота окна
         """
 
         self.root.withdraw()
@@ -100,8 +113,10 @@ class AbstractBaseType (ABC):
         self.create_components()
 
     def create_components(self) -> None:
-        """Создаёт компоненты окна. Использует Widget creator для размещения
-        виджетов и кнопки Invia. Перезаписывает свойство класса entries."""
+        """
+        Создаёт компоненты окна. Использует Widget creator для размещения
+        виджетов и кнопки. Перезаписывает свойство класса entries.
+        """
 
         creator = WidgetCreator(
             self.window,
@@ -138,10 +153,8 @@ class AbstractBaseType (ABC):
         Открывает окно с результатом расчётов.
         Parameters
         ----------
-        cost : Decimal
-            Результат расчёта цены.
-        weight : Decimal
-            Результат расчёта веса.
+        data : dict
+            Результат расчёта цены и веса. Допускает и другие значения.
         """
 
         # Открываем окно
@@ -160,7 +173,7 @@ class AbstractBaseType (ABC):
                     if value else set.WEIGHT_NOT_FOUND
                 )
             else:
-                text = f"{key}: {value}" if value else "NOT_FOUND"
+                text = f"{key}: {value}" if value else "NOT FOUND"
 
             # Выводим текст
             tk.Label(
@@ -180,5 +193,7 @@ class AbstractBaseType (ABC):
 
     @abstractmethod
     def calculate(self) -> None:
-        """Расчёт стоимости и веса. Для каждого класса свой."""
+        """
+        Выполнение действия при нажатии на кнопку. Для каждого класса свое.
+        """
         pass
