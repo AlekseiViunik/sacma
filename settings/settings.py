@@ -295,3 +295,4 @@ LOGIN_ENTRIES = {
 }
 CREATE_USER_TITLE = "Create user"
 CREATE_USER_ENTRIES = ["Username", "Password", "Repeat password"]
+PRODUCTION_MODE_ON = False
