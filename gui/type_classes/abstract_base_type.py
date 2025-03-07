@@ -49,9 +49,15 @@ class AbstractBaseType (ABC):
         Расчёт стоимости и веса. Для каждого класса свой.
     """
 
-    def __init__(self, root: tk.Tk, type: str) -> None:
+    def __init__(
+        self,
+        root: tk.Tk,
+        type: str | None = None,
+        entry_widgets: list = None
+    ) -> None:
         self.root = root
         self.type = type
+        self.entry_widgets = entry_widgets
         self.window: tk.Toplevel = None
         self.type_choice: Dict[str, Any] = None
         self.window_width: int = 0
@@ -60,17 +66,30 @@ class AbstractBaseType (ABC):
         self.json: JsonFileHandler = JsonFileHandler("options.json")
         self.helper: Helper = Helper(self.root)
 
-    def open_window(self) -> None:
+    def open_window(
+        self,
+        title: str = "Title",
+        window_width: int = 300,
+        window_height: int = 300
+    ) -> None:
         """
         Создаёт и центрирует новое окно с заголовком и базовыми компонентами.
         Вызывает метод создания компонентов.
         """
-        self.type_choice = self.json.read_value_by_key(self.type.lower())
+
         self.root.withdraw()
         self.window = tk.Toplevel(self.root)
-        self.window.title(self.type.capitalize())
-        self.window_width = self.type_choice['window_settings']['width']
-        self.window_height = self.type_choice['window_settings']['height']
+        if self.type:
+            self.type_choice = self.json.read_value_by_key(self.type.lower())
+            self.window.title(self.type.capitalize())
+            self.window_width = self.type_choice['window_settings']['width']
+            self.window_height = self.type_choice['window_settings']['height']
+        else:
+            self.type_choice = None
+            self.window.title = title
+            self.window_width = window_width
+            self.window_height = window_height
+
         geometry = f"{self.window_width}x{self.window_height}"
         self.window.geometry(geometry)
         Helper.center_window(
@@ -83,14 +102,31 @@ class AbstractBaseType (ABC):
     def create_components(self) -> None:
         """Создаёт компоненты окна. Использует Widget creator для размещения
         виджетов и кнопки Invia. Перезаписывает свойство класса entries."""
+
         creator = WidgetCreator(
             self.window,
             self.type_choice
         )
-        creator.create_ui()
-        self.entries = creator.entries
+        if self.type_choice:
+            creator.create_ui()
+            creator.create_button("Invia", self.calculate)
 
-        creator.create_button("Invia", self.calculate)
+        else:
+            frame = creator.create_frame(self.window.title)
+            for i, label in enumerate(self.entry_widgets):
+                creator.create_component(
+                    frame,
+                    label,
+                    [],
+                    i,
+                    is_entry=True,
+                    is_hide=True if "password" in label.lower() else False
+                )
+            for i in range(set.COL_NUM):
+                frame.columnconfigure(i, weight=set.GRID_WEIGHT)
+            creator.create_button("Creare", self.calculate)
+
+        self.entries = creator.entries
 
         self.window.protocol(
             set.ON_CLOSING_WINDOW,
