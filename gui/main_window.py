@@ -1,6 +1,9 @@
 import math
 import tkinter as tk
 
+from gui.create_user_window import CreateUserWindow
+from gui.widget_creator import WidgetCreator
+
 from .helper import Helper
 from logic.logger import logger as log
 from settings import settings as set
@@ -22,6 +25,9 @@ class App:
         список введенных значений.
     buttons : List[String]
         список кнопок, размещаемых на главном окне.
+    creator : WidgetCreator
+        объект класса WidgetCreator ответственного за создание и размещение
+        виджетов
 
     Methods
     -------
@@ -30,14 +36,17 @@ class App:
     open_window(name)
         Открывает второстепенное окно с базовыми виджетами, одинаковыми для
         всех такого рода окон.
+    open_create_user_window()
+        Открывает окно создание юзеров, которое отличается от других окон.
     """
     def __init__(self, root: tk.Tk) -> None:
         self.root = root
         self.root.resizable(False, False)
-        self.entries = {}
+        self.entries: dict = {}
         self.root.title(f"{set.MAIN_WIN_TITLE}")
         self.root.geometry(f"{set.MAIN_WIN_WIDTH}x{set.MAIN_WIN_HEIGHT}")
-        self.buttons = set.MAIN_WIN_BUTTONS
+        self.buttons: list = set.MAIN_WIN_BUTTONS
+        self.creator = WidgetCreator(self.root)
         Helper.center_window(
             set.MAIN_WIN_WIDTH,
             set.MAIN_WIN_HEIGHT,
@@ -47,9 +56,11 @@ class App:
         self.create_widgets()
 
     def create_widgets(self) -> None:
-        """Создает виджеты для главного окна. Сами виджеты подразумевают под
+        """
+        Создает виджеты для главного окна. Сами виджеты подразумевают под
         собой фреймы, кнопки, лейблы. Вызывать не надо - вызывается
-        автоматически."""
+        автоматически.
+        """
 
         log.info("Create widgets on main window")
         frame = tk.Frame(self.root)
@@ -82,8 +93,15 @@ class App:
         for i in range(rows):
             self.root.rowconfigure(i, weight=set.GRID_WEIGHT)
 
+        self.creator.create_button(
+            "Create user",
+            self.open_create_user_window,
+            "s"
+        )
+
     def open_window(self, name: str) -> None:
-        """Открывает базу второстепенного окна фреймом и кнопкой Invia.
+        """
+        Открывает базу второстепенного окна фреймом и кнопкой Invia.
         В зависимости от того, какая кнопка была нажата, вызывает частный
         вспомогательный метод для отрисовки компонентов. Будет работать,
         только если существует модуль с классом, имя которого совпадает с
@@ -101,3 +119,13 @@ class App:
             instance.open_window()
         else:
             log.info(f"Class {instance} not found!")
+
+    def open_create_user_window(self) -> None:
+        """
+        Создает окно с полями для ввода логина и пароля нового пользователя.
+        """
+        create_user = CreateUserWindow(
+            self.root,
+            entry_widgets=set.CREATE_USER_ENTRIES
+        )
+        create_user.open_window()

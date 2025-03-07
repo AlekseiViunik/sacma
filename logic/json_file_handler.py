@@ -2,6 +2,7 @@ import json
 from typing import Any
 
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class JsonFileHandler:
@@ -15,8 +16,12 @@ class JsonFileHandler:
 
     Methods
     -------
-    read_value_by_key(key: str) -> Any
+    read_value_by_key(key: str)
         Читает JSON и возвращает значение по переданному ключу.
+    load_whole_file()
+        Возвращает файл целиком
+    write_into_file(key, key2, value)
+        Записывает данные в файл
     """
 
     def __init__(self, file: str):
@@ -48,3 +53,36 @@ class JsonFileHandler:
         except json.JSONDecodeError:
             log.error(f"❌ Ошибка чтения JSON в файле '{self.file}'.")
             return None
+
+    def load_whole_file(self) -> json:
+        """
+        Возвращает все данные файла.
+
+        Returns
+        -------
+        json
+            Данные файла.
+        """
+        with open(self.file, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def write_into_file(self, key="", key2="", value="") -> None:
+        """
+        Записывает данные в файл.
+
+        Parameters
+        ----------
+        key : str
+            Ключ первого уровня для записи.
+        key2 : str | None
+            Ключ второго уровня
+        value: str
+            Значение, которое нужно записать.
+        """
+        data = self.load_whole_file()
+        if not key2:
+            data[key] = value
+        else:
+            data[key][key2] = value
+        with open(set.AUTH_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4)

@@ -1,5 +1,3 @@
-from typing import Dict, Any
-
 from settings import settings as set
 
 
@@ -7,19 +5,26 @@ class Translator:
     """
     Класс для перевода отдельных наиболее часто используемых слов в коде.
     Переводит с английского на итальянский.
+
+    Methods
+    -------
+    translate_dict(value, only_keys)
+        Переводит ключи словаря идлди весь словарь с английского на
+        итальянский.
     """
 
     @staticmethod
     def translate_dict(
-        value: Dict[str, Any],
-        only_keys=True
-    ) -> Dict[str, Any] | None:
+        value: dict,
+        only_keys: bool = True
+    ) -> dict | None:
         """
         Переводит ключи словаря с английского на итальянский.
+        В будущем сможет переводитьт также и значения.
 
         Parameters
         ----------
-        value : Dict[str, Any]
+        value : dict
             Словарь, который нужно перевести.
         only_keys : bool, optional
             Если True, то переводит только ключи словаря. По умолчанию True.
@@ -27,7 +32,7 @@ class Translator:
 
         Returns
         -------
-        Dict[str, Any] | None
+        dict | None
             Возвращает словарь с переведенными ключами или None, если передан
             пустой словарь.
         """

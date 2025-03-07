@@ -1,7 +1,5 @@
 import tkinter as tk
 
-from typing import Dict, List, Any
-
 from logic.translator import Translator
 from settings import settings as set
 
@@ -12,20 +10,20 @@ class WidgetCreator:
     ----------
     window : tk.Toplevel
         Окно, с которым класс будет работать.
-    type_choice : Dict
+    type_choice : dict | None
         Набор параметров для выбранного типа элементов.
-    always_on : Dict[str: List[str]]
+    always_on : dict | None
         Поля, которые не должны быть перерисованы в случае выбора других
         параметров.
-    select_fields : Dict[str: List[Any]]
+    select_fields : dict | None
         Поля для выбора из выпадающего списка.
-    input_fields : List[Any]
+    input_fields : list | None
         Поля для ручного ввода данных юзером.
-    entries : Dict[str: tk.Entry]
-        Список введенных/выбранных пользователем значений.
+    entries : dict
+        Список введенных пользователем значений.
     frame : tk.Frame
         Фрейм, в котором будут размещены виджеты.
-    frames : Dict[str: tk.Frame]
+    frames : dict
         Словарь с фреймами. Для понимания, надо ли удалять фрейм перед его
         отрисовкой, или он уже отрисован.
 
@@ -43,9 +41,12 @@ class WidgetCreator:
         измерения текущего параметра (по умолчанию 'мм').
     create_frame(frame_name)
         Создаёт или пересоздаёт фрейм с заданными параметрами.
-    create_component(frame, label, values, row, is_entry, is_changing)
+    create_component(
+        frame, label, values, row, is_entry, is_changing, is_hide,
+        default_value
+    )
         Создаёт `Label` + `OptionMenu` или `Entry` для окна.
-    create_invia_button(callback)
+    create_button(name, callback, anchor)
         Создаёт кнопку "Invia" для окна.
     get_select_fields(choice)
         Получает параметры для полей с выпадающим списком.
@@ -54,17 +55,19 @@ class WidgetCreator:
     """
     def __init__(
         self,
-        window: tk.Toplevel,
-        type_choice: Dict[str, Any]
+        window: tk.Toplevel | tk.Tk,
+        type_choice: dict | None = None
     ) -> None:
         self.window = window
         self.type_choice = type_choice
-        self.always_on: Dict[str, List[str]] = type_choice["always_on"]
-        self.select_fields: Dict[str, Any] | None = None
-        self.input_fields: Dict[str, Any] | None = None
-        self.entries: Dict[str, tk.Entry] = {}
+        self.always_on: dict | None = (
+            type_choice["always_on"] if type_choice else None
+        )
+        self.select_fields: dict | None = None
+        self.input_fields: list | None = None
+        self.entries: dict = {}
         self.frame: tk.Frame = None
-        self.frames: Dict[str, tk.Frame] = {}
+        self.frames: dict = {}
 
     def create_ui(self) -> None:
         """
@@ -155,7 +158,8 @@ class WidgetCreator:
         self.create_main_frame(start_row=len(self.always_on))
 
     def add_mm(self, frame: tk.Frame, label: str, row: int) -> None:
-        """Добавляет в конце поля для ввода или для выбора лейбл с единицей
+        """
+        Добавляет в конце поля для ввода или для выбора лейбл с единицей
         измерения текущего параметра (по умолчанию 'мм').
 
         Parameters
@@ -193,7 +197,8 @@ class WidgetCreator:
             )
 
     def create_frame(self, frame_name: str) -> tk.Frame:
-        """Создаёт или пересоздаёт фрейм.
+        """
+        Создаёт или пересоздаёт фрейм.
 
         Parameters
         ----------
@@ -225,12 +230,15 @@ class WidgetCreator:
         self,
         frame: tk.Frame,
         label: str,
-        values: List[Any],
+        values: list | None,
         row: int,
         is_entry: bool = False,
-        is_changing: bool = False
+        is_changing: bool = False,
+        is_hide: bool = False,
+        default_value: str = ""
     ) -> None:
-        """Создаёт `Label` + `OptionMenu` или `Entry` для окна.
+        """
+        Создаёт `Label` + `OptionMenu` или `Entry` для окна.
 
         Parameters
         ----------
@@ -247,6 +255,11 @@ class WidgetCreator:
         is_changing : bool, optional
             Если `True`, добавляет слежение за изменением значения
             `OptionMenu` (по умолчанию `False`).
+        is_hide : bool, optional
+            Если `True`, маскирует вводимые в поле символы (по умолчанию
+            False).
+        defailt_value : str, optional
+            Значение, уже присутствующее в поле для ввода.
         """
 
         # Создаём `Label`
@@ -255,9 +268,12 @@ class WidgetCreator:
         ).grid(row=row, column=0, sticky="w", pady=2)
 
         if is_entry:
-            entry = tk.Entry(frame, width=15)
+            entry_var = tk.StringVar(value=default_value)
+            entry = tk.Entry(frame, width=15, textvariable=entry_var)
+            if is_hide:
+                entry.config(show="*")
             entry.grid(row=row, column=1, sticky="ew", padx=5)
-            self.entries[label] = entry
+            self.entries[label] = entry_var
         else:
             var = tk.StringVar(value=values[0])
             dropdown = tk.OptionMenu(frame, var, *values)
@@ -270,28 +286,37 @@ class WidgetCreator:
         # Добавляем "мм", если нужно
         self.add_mm(frame, label, row)
 
-    def create_invia_button(self, callback: callable) -> None:
+    def create_button(
+        self,
+        name: str,
+        callback: callable,
+        anchor: str | None = None
+    ) -> None:
         """
-        Создаёт кнопку "Invia" для окна, нажатие которой запускает
-        процесс расчетов через excel файл искомых значений и вывода
-        результата на экран путем открытия нового окна.
+        Создаёт кнопку для окна, нажатие которой запускает
+        процесс, определенный для этой кнопки.
 
         Parameters
         ----------
+        name : str
+            Имя кнопки
         callback : callable
             Функция, которая будет вызвана при нажатии на кнопки.
+        anchor : str | None, optional
+            Привязка кнопки к краю окна.
         """
-        btn_invia = tk.Button(
+
+        button = tk.Button(
             self.window,
-            text=set.BUTTON_INVIA_TITLE,
+            text=name,
             width=set.BUTTON_WIDTH,
             bg=set.BUTTON_COLOR,
             relief=set.BUTTON_RELIEF,
             command=callback
         )
-        btn_invia.pack(
+        button.pack(
             side=set.BUTTON_INVIA_SIDE,
-            anchor=set.BUTTON_INVIA_ANCHOR,
+            anchor=set.BUTTON_INVIA_ANCHOR if not anchor else anchor,
             padx=set.BUTTON_PADX,
             pady=set.BUTTON_PADY
         )

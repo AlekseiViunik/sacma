@@ -277,3 +277,19 @@ DICTIONARY = {
     "skates": "Pattini",
     "n_skates": "N pattini",
 }
+
+# ===================================Login=====================================
+AUTH_FILE = "auth.json"
+LOGIN_START_ROW = 1
+LOGIN_ENTRIES = {
+    "Login": {
+        "is_hide": False,
+        "default_value": True
+    },
+    "Password": {
+        "is_hide": True,
+        "default_value": False
+    }
+}
+CREATE_USER_TITLE = "Create user"
+CREATE_USER_ENTRIES = ["Username", "Password", "Repeat password"]

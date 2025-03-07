@@ -20,8 +20,11 @@ class AbstractBaseType (ABC):
     ----------
     root : tk.Tk
         Главное окно.
-    type : str
+    type : str | None
         Тип выбранного элемента (имя нажатой кнопки).
+    entry_widgets : list
+        Список виджетов с полем для ввода, которые рисуются в окне, если не
+        передан type_choice
     window : tk.Toplevel
         Созданное окно для ввода данных элемента.
     type_choice : Dict
@@ -31,7 +34,7 @@ class AbstractBaseType (ABC):
     window_height : int
         Высота созданного окна.
     entries : Dict
-        Список введенных значений.
+        Словарь с введенными значениями.
     json : JsonFileHandler
         Объект для работы с JSON-файлами.
     helper : Helper
@@ -46,12 +49,19 @@ class AbstractBaseType (ABC):
     open_response_window(cost, weight)
         Открывает окно с результатом расчётов.
     calculate()
-        Расчёт стоимости и веса. Для каждого класса свой.
+        Обработка нажатия кнопки. Для каждого класса своя. Должна быть
+        переписана.
     """
 
-    def __init__(self, root: tk.Tk, type: str) -> None:
+    def __init__(
+        self,
+        root: tk.Tk,
+        type: str | None = None,
+        entry_widgets: list = None
+    ) -> None:
         self.root = root
         self.type = type
+        self.entry_widgets = entry_widgets
         self.window: tk.Toplevel = None
         self.type_choice: Dict[str, Any] = None
         self.window_width: int = 0
@@ -60,17 +70,39 @@ class AbstractBaseType (ABC):
         self.json: JsonFileHandler = JsonFileHandler("options.json")
         self.helper: Helper = Helper(self.root)
 
-    def open_window(self) -> None:
+    def open_window(
+        self,
+        title: str = "Title",
+        window_width: int = 300,
+        window_height: int = 300
+    ) -> None:
         """
         Создаёт и центрирует новое окно с заголовком и базовыми компонентами.
         Вызывает метод создания компонентов.
+
+        Parameters
+        ----------
+        title : str
+            Имя окна
+        window_width : int
+            Ширина окна
+        window_height : int
+            Высота окна
         """
-        self.type_choice = self.json.read_value_by_key(self.type.lower())
+
         self.root.withdraw()
         self.window = tk.Toplevel(self.root)
-        self.window.title(self.type.capitalize())
-        self.window_width = self.type_choice['window_settings']['width']
-        self.window_height = self.type_choice['window_settings']['height']
+        if self.type:
+            self.type_choice = self.json.read_value_by_key(self.type.lower())
+            self.window.title(self.type.capitalize())
+            self.window_width = self.type_choice['window_settings']['width']
+            self.window_height = self.type_choice['window_settings']['height']
+        else:
+            self.type_choice = None
+            self.window.title = title
+            self.window_width = window_width
+            self.window_height = window_height
+
         geometry = f"{self.window_width}x{self.window_height}"
         self.window.geometry(geometry)
         Helper.center_window(
@@ -81,16 +113,35 @@ class AbstractBaseType (ABC):
         self.create_components()
 
     def create_components(self) -> None:
-        """Создаёт компоненты окна. Использует Widget creator для размещения
-        виджетов и кнопки Invia. Перезаписывает свойство класса entries."""
+        """
+        Создаёт компоненты окна. Использует Widget creator для размещения
+        виджетов и кнопки. Перезаписывает свойство класса entries.
+        """
+
         creator = WidgetCreator(
             self.window,
             self.type_choice
         )
-        creator.create_ui()
-        self.entries = creator.entries
+        if self.type_choice:
+            creator.create_ui()
+            creator.create_button("Invia", self.calculate)
 
-        creator.create_invia_button(self.calculate)
+        else:
+            frame = creator.create_frame(self.window.title)
+            for i, label in enumerate(self.entry_widgets):
+                creator.create_component(
+                    frame,
+                    label,
+                    [],
+                    i,
+                    is_entry=True,
+                    is_hide=True if "password" in label.lower() else False
+                )
+            for i in range(set.COL_NUM):
+                frame.columnconfigure(i, weight=set.GRID_WEIGHT)
+            creator.create_button("Creare", self.calculate)
+
+        self.entries = creator.entries
 
         self.window.protocol(
             set.ON_CLOSING_WINDOW,
@@ -102,10 +153,8 @@ class AbstractBaseType (ABC):
         Открывает окно с результатом расчётов.
         Parameters
         ----------
-        cost : Decimal
-            Результат расчёта цены.
-        weight : Decimal
-            Результат расчёта веса.
+        data : dict
+            Результат расчёта цены и веса. Допускает и другие значения.
         """
 
         # Открываем окно
@@ -124,7 +173,7 @@ class AbstractBaseType (ABC):
                     if value else set.WEIGHT_NOT_FOUND
                 )
             else:
-                text = f"{key}: {value}" if value else "NOT_FOUND"
+                text = f"{key}: {value}" if value else "NOT FOUND"
 
             # Выводим текст
             tk.Label(
@@ -144,5 +193,7 @@ class AbstractBaseType (ABC):
 
     @abstractmethod
     def calculate(self) -> None:
-        """Расчёт стоимости и веса. Для каждого класса свой."""
+        """
+        Выполнение действия при нажатии на кнопку. Для каждого класса свое.
+        """
         pass
