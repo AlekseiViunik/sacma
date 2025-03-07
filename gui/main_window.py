@@ -1,6 +1,9 @@
 import math
 import tkinter as tk
 
+from gui.create_user_window import CreateUserWindow
+from gui.widget_creator import WidgetCreator
+
 from .helper import Helper
 from logic.logger import logger as log
 from settings import settings as set
@@ -38,6 +41,7 @@ class App:
         self.root.title(f"{set.MAIN_WIN_TITLE}")
         self.root.geometry(f"{set.MAIN_WIN_WIDTH}x{set.MAIN_WIN_HEIGHT}")
         self.buttons = set.MAIN_WIN_BUTTONS
+        self.creator = WidgetCreator(self.root)
         Helper.center_window(
             set.MAIN_WIN_WIDTH,
             set.MAIN_WIN_HEIGHT,
@@ -82,6 +86,12 @@ class App:
         for i in range(rows):
             self.root.rowconfigure(i, weight=set.GRID_WEIGHT)
 
+        self.creator.create_button(
+            "Create user",
+            self.open_create_user_window,
+            "s"
+        )
+
     def open_window(self, name: str) -> None:
         """Открывает базу второстепенного окна фреймом и кнопкой Invia.
         В зависимости от того, какая кнопка была нажата, вызывает частный
@@ -101,3 +111,10 @@ class App:
             instance.open_window()
         else:
             log.info(f"Class {instance} not found!")
+
+    def open_create_user_window(self):
+        create_user = CreateUserWindow(
+            self.root,
+            entry_widgets=set.CREATE_USER_ENTRIES
+        )
+        create_user.open_window()
