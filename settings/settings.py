@@ -227,9 +227,11 @@ LENGTH = "Lunghezza"
 
 DEPTH = "Profondità"
 
+BASE = "Base"
+
 # Dimensions that need to clarify dimensioning units
 # Default: [HEIGHT, WIDTH, THICKNESS, LENGTH]
-dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH, DEPTH]
+dimensions_need_mm = [HEIGHT, WIDTH, THICKNESS, LENGTH, DEPTH, BASE]
 
 
 TRAVI = "travi"  # Default: "travi"
