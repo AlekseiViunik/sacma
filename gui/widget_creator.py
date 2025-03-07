@@ -55,7 +55,7 @@ class WidgetCreator:
     def __init__(
         self,
         window: tk.Toplevel | tk.Tk,
-        type_choice: dict | None
+        type_choice: dict | None = None
     ) -> None:
         self.window = window
         self.type_choice = type_choice
