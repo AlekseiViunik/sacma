@@ -6,6 +6,24 @@ from logic.authenticator import Authenticator
 
 
 class CreateUserWindow(AbstractBaseType):
+    """
+    Класс для окна регистрации пользователя.
+
+    Attriutes
+    ---------
+    root : tk.Tk
+        Главное окно.
+    type : str
+        Тип. В данном классе не нужен. Стоит тут как заглушка
+    entry_widgets : list
+        Список виджетов с полями для ввода.
+
+    Methods
+    -------
+    calculate()
+        Обработка процесса регистрации нового юзера.
+    """
+
     def __init__(
         self,
         root: tk.Tk,

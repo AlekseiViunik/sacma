@@ -17,7 +17,7 @@ class Authenticator:
 
         return self.file_handler.load_whole_file()
 
-    def load_last_user(self):
+    def load_last_user(self) -> str:
         return self.file_handler.read_value_by_key("lastUser")
 
     @staticmethod

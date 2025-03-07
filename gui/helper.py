@@ -20,8 +20,10 @@ class Helper:
         Обрабатывает закрытие окна.
     get_type_class_name(name)
         Преобразует строку в имя класса в CamelCase и имя модуля класса.
-    get_class_name_if_exists(name)
+    get_class_name_if_exists(name, path)
         Проверяет, существует ли класс с переданным именем.
+    center_window()
+        Центрирует окно на экране.
     """
 
     def __init__(self, root: tk.Tk) -> None:
@@ -74,6 +76,7 @@ class Helper:
         путем попытки импортировать модуль файла с классом и получения имени
         класса из этого модуля. Если модуль не найден или в нём нет класса
         с переданным именем, то возвращается False.
+        Если path не передан, использует стандартный.
 
         Parameters
         ----------
@@ -107,6 +110,20 @@ class Helper:
         height: int,
         window: tk.Toplevel | tk.Tk
     ) -> None:
+        """
+        Центрирует окно относительно экрана компьютера. Основываясь на размерах
+        самого окна. Меняет при этом размеры самого окна
+
+        Parameters
+        ----------
+        width : int
+            Ширина окна
+        Height : int
+            Высота окна
+        window : tk.Toplevel
+            Окно, которое необходимо центрировать
+        """
+
         window.update_idletasks()
         screen_width = window.winfo_screenwidth()
         screen_height = window.winfo_screenheight()

@@ -1,7 +1,5 @@
 import tkinter as tk
 
-from typing import Dict, List, Any
-
 from logic.translator import Translator
 from settings import settings as set
 
@@ -12,20 +10,20 @@ class WidgetCreator:
     ----------
     window : tk.Toplevel
         Окно, с которым класс будет работать.
-    type_choice : Dict
+    type_choice : dict | None
         Набор параметров для выбранного типа элементов.
-    always_on : Dict[str: List[str]]
+    always_on : dict | None
         Поля, которые не должны быть перерисованы в случае выбора других
         параметров.
-    select_fields : Dict[str: List[Any]]
+    select_fields : dict | None
         Поля для выбора из выпадающего списка.
-    input_fields : List[Any]
+    input_fields : list | None
         Поля для ручного ввода данных юзером.
-    entries : Dict[str: tk.Entry]
-        Список введенных/выбранных пользователем значений.
+    entries : dict
+        Список введенных пользователем значений.
     frame : tk.Frame
         Фрейм, в котором будут размещены виджеты.
-    frames : Dict[str: tk.Frame]
+    frames : dict
         Словарь с фреймами. Для понимания, надо ли удалять фрейм перед его
         отрисовкой, или он уже отрисован.
 
@@ -43,9 +41,12 @@ class WidgetCreator:
         измерения текущего параметра (по умолчанию 'мм').
     create_frame(frame_name)
         Создаёт или пересоздаёт фрейм с заданными параметрами.
-    create_component(frame, label, values, row, is_entry, is_changing)
+    create_component(
+        frame, label, values, row, is_entry, is_changing, is_hide,
+        default_value
+    )
         Создаёт `Label` + `OptionMenu` или `Entry` для окна.
-    create_invia_button(callback)
+    create_button(name, callback, anchor)
         Создаёт кнопку "Invia" для окна.
     get_select_fields(choice)
         Получает параметры для полей с выпадающим списком.
@@ -59,14 +60,14 @@ class WidgetCreator:
     ) -> None:
         self.window = window
         self.type_choice = type_choice
-        self.always_on: Dict[str, List[str]] = (
+        self.always_on: dict | None = (
             type_choice["always_on"] if type_choice else None
         )
-        self.select_fields: Dict[str, Any] | None = None
-        self.input_fields: Dict[str, Any] | None = None
-        self.entries: Dict[str, tk.Entry] = {}
+        self.select_fields: dict | None = None
+        self.input_fields: list | None = None
+        self.entries: dict = {}
         self.frame: tk.Frame = None
-        self.frames: Dict[str, tk.Frame] = {}
+        self.frames: dict = {}
 
     def create_ui(self) -> None:
         """
@@ -157,7 +158,8 @@ class WidgetCreator:
         self.create_main_frame(start_row=len(self.always_on))
 
     def add_mm(self, frame: tk.Frame, label: str, row: int) -> None:
-        """Добавляет в конце поля для ввода или для выбора лейбл с единицей
+        """
+        Добавляет в конце поля для ввода или для выбора лейбл с единицей
         измерения текущего параметра (по умолчанию 'мм').
 
         Parameters
@@ -195,7 +197,8 @@ class WidgetCreator:
             )
 
     def create_frame(self, frame_name: str) -> tk.Frame:
-        """Создаёт или пересоздаёт фрейм.
+        """
+        Создаёт или пересоздаёт фрейм.
 
         Parameters
         ----------
@@ -234,7 +237,8 @@ class WidgetCreator:
         is_hide: bool = False,
         default_value: str = ""
     ) -> None:
-        """Создаёт `Label` + `OptionMenu` или `Entry` для окна.
+        """
+        Создаёт `Label` + `OptionMenu` или `Entry` для окна.
 
         Parameters
         ----------
@@ -251,6 +255,11 @@ class WidgetCreator:
         is_changing : bool, optional
             Если `True`, добавляет слежение за изменением значения
             `OptionMenu` (по умолчанию `False`).
+        is_hide : bool, optional
+            Если `True`, маскирует вводимые в поле символы (по умолчанию
+            False).
+        defailt_value : str, optional
+            Значение, уже присутствующее в поле для ввода.
         """
 
         # Создаём `Label`
@@ -277,16 +286,24 @@ class WidgetCreator:
         # Добавляем "мм", если нужно
         self.add_mm(frame, label, row)
 
-    def create_button(self, name, callback: callable, anchor=None) -> None:
+    def create_button(
+        self,
+        name: str,
+        callback: callable,
+        anchor: str | None = None
+    ) -> None:
         """
-        Создаёт кнопку "Invia" для окна, нажатие которой запускает
-        процесс расчетов через excel файл искомых значений и вывода
-        результата на экран путем открытия нового окна.
+        Создаёт кнопку для окна, нажатие которой запускает
+        процесс, определенный для этой кнопки.
 
         Parameters
         ----------
+        name : str
+            Имя кнопки
         callback : callable
             Функция, которая будет вызвана при нажатии на кнопки.
+        anchor : str | None, optional
+            Привязка кнопки к краю окна.
         """
 
         button = tk.Button(
