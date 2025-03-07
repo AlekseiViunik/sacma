@@ -67,7 +67,7 @@ class Helper:
         return class_name, class_file
 
     @staticmethod
-    def get_class_name_if_exists(name: str) -> bool | type:
+    def get_class_name_if_exists(name: str, path="") -> bool | type:
         """
         Проверяет, существует ли класс с переданным именем. Если существует,
         то возвращает его, иначе возвращает False. Проверка осуществляется
@@ -87,7 +87,7 @@ class Helper:
 
         """
         class_name, class_file = Helper.get_type_class_name(name)
-        module_path = f"gui.type_classes.{class_file}"
+        module_path = f"gui.type_classes.{class_file}" if not path else path
 
         # ✅ Добавляем путь к `sys.path`, если его там нет
         type_classes_path = str(Path(__file__).parent / "type_classes")
