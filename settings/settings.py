@@ -291,3 +291,5 @@ LOGIN_ENTRIES = {
         "default_value": False
     }
 }
+CREATE_USER_TITLE = "Create user"
+CREATE_USER_ENTRIES = ["Username", "Password", "Repeat password"]
