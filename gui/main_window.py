@@ -29,7 +29,7 @@ class App:
         объект класса WidgetCreator ответственного за создание и размещение
         виджетов
 
-    Methods
+    Methods (все приватные)
     -------
     create_widgets()
         Раскидывает виджеты по главному окну.
@@ -38,6 +38,8 @@ class App:
         всех такого рода окон.
     open_create_user_window()
         Открывает окно создание юзеров, которое отличается от других окон.
+    check_if_class_exists(name)
+        Проверяет, существует ли класс с названием кнопки.
     """
     def __init__(self, root: tk.Tk) -> None:
         self.root = root
@@ -53,9 +55,11 @@ class App:
             self.root
         )
 
-        self.create_widgets()
+        self.__create_widgets()
 
-    def create_widgets(self) -> None:
+# ============================== Private Methods ==============================
+
+    def __create_widgets(self) -> None:
         """
         Создает виджеты для главного окна. Сами виджеты подразумевают под
         собой фреймы, кнопки, лейблы. Вызывать не надо - вызывается
@@ -78,7 +82,12 @@ class App:
                 width=max_width,
                 bg=set.BUTTON_COLOR,
                 relief=set.BUTTON_RELIEF,
-                command=lambda n=name: self.open_window(n)
+                state=(
+                    tk.NORMAL
+                    if self.__check_if_class_exists(name)
+                    else tk.DISABLED
+                ),
+                command=lambda n=name: self.__open_window(n)
             )
             btn.grid(
                 row=i // cols,
@@ -95,11 +104,39 @@ class App:
 
         self.creator.create_button(
             "Create user",
-            self.open_create_user_window,
+            self.__open_create_user_window,
             "s"
         )
 
-    def open_window(self, name: str) -> None:
+    def __check_if_class_exists(self, name: str) -> object | bool:
+        """
+        Проверяет, существует ли класс. Если существует, возвращает его.
+        В противном случае возвращает False.
+
+        Parameters
+        ----------
+        name : str
+            Имя кнопки/класса
+
+        Returns
+        -------
+        object | bool
+            Возвращает объект класса или False, если класс не найден
+        """
+        class_name = Helper.get_class_name_if_exists(name)
+        return class_name(self.root, name) if class_name else False
+
+    def __open_create_user_window(self) -> None:
+        """
+        Создает окно с полями для ввода логина и пароля нового пользователя.
+        """
+        create_user = CreateUserWindow(
+            self.root,
+            entry_widgets=set.CREATE_USER_ENTRIES
+        )
+        create_user.open_window()
+
+    def __open_window(self, name: str) -> None:
         """
         Открывает базу второстепенного окна фреймом и кнопкой Invia.
         В зависимости от того, какая кнопка была нажата, вызывает частный
@@ -112,20 +149,8 @@ class App:
             name: str
                 Имя окна. От него же зависит начинка окна виджетами.
         """
-
-        class_name = Helper.get_class_name_if_exists(name)
-        instance = class_name(self.root, name) if class_name else None
+        instance = self.__check_if_class_exists(name)
         if instance:
             instance.open_window()
         else:
             log.info(f"Class {instance} not found!")
-
-    def open_create_user_window(self) -> None:
-        """
-        Создает окно с полями для ввода логина и пароля нового пользователя.
-        """
-        create_user = CreateUserWindow(
-            self.root,
-            entry_widgets=set.CREATE_USER_ENTRIES
-        )
-        create_user.open_window()
