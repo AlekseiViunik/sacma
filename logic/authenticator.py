@@ -1,4 +1,3 @@
-import json
 import hashlib
 import os
 
@@ -50,8 +49,5 @@ class Authenticator:
             username,
             Authenticator().hash_password(password)
         )
-
-        with open(set.AUTH_FILE, "w", encoding="utf-8") as f:
-            json.dump(users_data, f, indent=4)
 
         return True
