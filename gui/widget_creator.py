@@ -69,14 +69,13 @@ class WidgetCreator:
         self.frame: tk.Frame = None
         self.frames: dict = {}
 
-    def create_ui(self) -> None:
+    def create_always_on(self) -> None:
         """
         Размещает фреймы с виджетами на окне. Пользуется атрибутами класса.
         Виджеты меняются в зависимости от имени окна, для которого нужноих
         разместить.
         """
 
-        # ============================Always_on================================
         always_on_frame = self.create_frame("always_on_frame")
         for i, (label, values) in enumerate(self.always_on.items()):
             if values:
@@ -91,8 +90,8 @@ class WidgetCreator:
 
         for i in range(set.COL_NUM):
             always_on_frame.columnconfigure(i, weight=set.GRID_WEIGHT)
-        # ============================Main_frame================================
-        self.create_main_frame(start_row)
+
+        return start_row
 
     def create_main_frame(self, start_row: int) -> None:
         """
@@ -139,6 +138,36 @@ class WidgetCreator:
         # Конфигурируем сетку
         for i in range(set.COL_NUM):
             self.frame.columnconfigure(i, weight=set.GRID_WEIGHT)
+
+    def create_frame(self, frame_name: str) -> tk.Frame:
+        """
+        Создаёт или пересоздаёт фрейм.
+
+        Parameters
+        ----------
+        frame_name : str
+            Название фрейма.
+
+        Returns
+        -------
+        tk.Frame
+            Созданный фрейм.
+        """
+        # Если фрейм уже существует, удаляем его
+        if frame_name in self.frames:
+            self.frames[frame_name].destroy()
+
+        # Создаём новый фрейм
+        frame = tk.Frame(
+            self.window,
+            bg=set.FRAME_BG_COLOR,
+            padx=set.FRAME_PADX,
+            pady=set.FRAME_PADY
+        )
+        frame.pack(fill=tk.X, padx=5, pady=2)
+
+        self.frames[frame_name] = frame  # Сохраняем ссылку
+        return frame
 
     def on_dropdown_change(self, var: tk.StringVar) -> None:
         """
@@ -195,36 +224,6 @@ class WidgetCreator:
                 column=set.LABEL_MM_COLUMN,
                 sticky=set.LABEL_STICKY
             )
-
-    def create_frame(self, frame_name: str) -> tk.Frame:
-        """
-        Создаёт или пересоздаёт фрейм.
-
-        Parameters
-        ----------
-        frame_name : str
-            Название фрейма.
-
-        Returns
-        -------
-        tk.Frame
-            Созданный фрейм.
-        """
-        # Если фрейм уже существует, удаляем его
-        if frame_name in self.frames:
-            self.frames[frame_name].destroy()
-
-        # Создаём новый фрейм
-        frame = tk.Frame(
-            self.window,
-            bg=set.FRAME_BG_COLOR,
-            padx=set.FRAME_PADX,
-            pady=set.FRAME_PADY
-        )
-        frame.pack(fill=tk.X, padx=5, pady=2)
-
-        self.frames[frame_name] = frame  # Сохраняем ссылку
-        return frame
 
     def create_component(
         self,
