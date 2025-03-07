@@ -145,7 +145,8 @@
     },
     "fiancate": {
         "always_on": {
-            "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
+            "Sismoresistenza": ["non-sismoresistente", "sismoresistente"],
+            "Tratti": [1, 2, 3]
         },
         "window_settings": {
             "width": 400,
