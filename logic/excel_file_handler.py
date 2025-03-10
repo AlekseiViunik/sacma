@@ -87,13 +87,20 @@ class ExcelFileHandler:
 
         # Открываем Excel
         log.info("Open excel file")
-        excel = win32.Dispatch("Excel.Application")
-        excel.Visible = False  # Запуск в фоновом режиме
+        try:
+            excel = win32.Dispatch("Excel.Application")
+            excel.Visible = False  # Запуск в фоновом режиме
+            log.info(f"File path is {FILE_PATH}")
+        except Exception as e:
+            log.error(f"Ошибка при запуске Excel: {e}")
 
         # Без обновления связей
         wb = excel.Workbooks.Open(FILE_PATH, UpdateLinks=0)
 
-        log.info("Try to unprotect file and worksheet")
+        if wb:
+            log.info("Excel is opened")
+        else:
+            log.error("Didn't manage to open excel")
 
         sheet = wb.Sheets(self.worksheet)
 
