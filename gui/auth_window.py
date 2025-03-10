@@ -5,6 +5,7 @@ from gui.widget_creator import WidgetCreator
 from logic.authenticator import Authenticator as auth
 from gui.helper import Helper
 from settings import settings as set
+from logic.logger import logger as log
 
 
 class AuthWindow:
@@ -70,15 +71,17 @@ class AuthWindow:
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
-
+        log.info(f"Access attempt. Credentials are {entries_dict}")
         username = entries_dict["Login"]
         password = entries_dict["Password"]
 
         if auth.verify_user(username, password):
+            log.info("User verified")
             auth().save_last_user(username)
             self.auth_successful = True
             self.root.destroy()  # Закрываем окно авторизации
         else:
+            log.error("Credentials are wrong")
             messagebox.showerror(
                 "Errore", "Username or password e` sbagliato!"
             )
