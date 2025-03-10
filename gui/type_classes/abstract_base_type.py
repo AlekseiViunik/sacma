@@ -28,13 +28,13 @@ class AbstractBaseType (ABC):
         передан type_choice
     window : tk.Toplevel
         Созданное окно для ввода данных элемента.
-    type_choice : Dict
+    type_choice : dict
         Набор параметров для выбранного типа элементов.
     window_width : int
         Ширина созданного окна.
     window_height : int
         Высота созданного окна.
-    entries : Dict
+    entries : dict
         Словарь с введенными значениями.
     json : JsonFileHandler
         Объект для работы с JSON-файлами.

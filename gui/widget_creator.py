@@ -340,7 +340,7 @@ class WidgetCreator:
             Фрейм, в котором создаётся элемент.
         label : str
             Текст лейбла.
-        values : List[Any]
+        values : list
             Список значений для `OptionMenu` (если это `Entry`, передаём `[]`).
         row : int
             Номер строки в `grid()`.

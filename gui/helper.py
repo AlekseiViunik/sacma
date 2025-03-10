@@ -60,7 +60,7 @@ class Helper:
 
         Returns
         -------
-        Tuple[str]
+        tuple
             Кортеж из одной строки в CamelCase (как имя класса) и второй в
             snake_case (как имя файла).
         """
