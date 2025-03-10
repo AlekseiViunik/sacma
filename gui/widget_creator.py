@@ -2,6 +2,7 @@ import tkinter as tk
 
 from logic.translator import Translator
 from settings import settings as set
+from logic.logger import logger as log
 
 
 class WidgetCreator:
@@ -176,7 +177,7 @@ class WidgetCreator:
 
         for i in range(set.COL_NUM):
             always_on_frame.columnconfigure(i, weight=set.GRID_WEIGHT)
-
+        log.info("Always_on frame is created")
         return start_row
 
     def create_main_frame(self, start_row: int) -> None:
@@ -190,6 +191,7 @@ class WidgetCreator:
             Номер строки сетки, с которой начнется размещение виджетов.
         """
         # Если виджет отрисовывается первый раз, получаем параметры
+        log.info("Get initial params")
         if not self.select_fields or not self.input_fields:
             inizial_choice = None
             for value in self.always_on.values():
@@ -199,12 +201,16 @@ class WidgetCreator:
             if not inizial_choice:
                 inizial_choice = "standart"
             self.get_select_fields(inizial_choice)
+            log.info(f"Select fields are: {self.select_fields}")
             self.get_input_fields(inizial_choice)
+            log.info(f"Input fields are: {self.input_fields}")
 
         # Создаём или пересоздаём фрейм
         self.frame = self.create_frame("main_frame")
+        log.info("Main frame is created!")
 
         # Поля с выпадающими списками
+        log.info("Create choice widgets")
         for i, (label, values) in enumerate(self.select_fields.items()):
             if values:
                 self.create_component(self.frame, label, values, start_row + i)
@@ -212,6 +218,7 @@ class WidgetCreator:
         start_row += len(self.select_fields)
 
         # Поля для ввода
+        log.info("Create input widgets")
         for i, label in enumerate(self.input_fields):
             self.create_component(
                 self.frame,
@@ -266,7 +273,9 @@ class WidgetCreator:
             Новое значение выпадающего списка.
         """
         new_choice = var.get()
+        log.info(f"New choice has been selected: {new_choice}")
         if not new_choice.isnumeric():
+            log.info("It is not numeric. So rerender the main frame")
             self.get_select_fields(new_choice)
             self.get_input_fields(new_choice)
             # ✅ Перерисовываем `main_frame`
@@ -289,6 +298,9 @@ class WidgetCreator:
                 расположен текущий лейбл.
         """
 
+        log.info(
+            f"Add dimensioning units {set.LABEL_MM_TEXT} to the fields"
+        )
         if label in set.dimensions_need_mm:
             tk.Label(
                 frame,
