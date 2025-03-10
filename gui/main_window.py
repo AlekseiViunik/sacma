@@ -108,6 +108,8 @@ class App:
             "s"
         )
 
+        log.info("Widgets are created")
+
     def __check_if_class_exists(self, name: str) -> object | bool:
         """
         Проверяет, существует ли класс. Если существует, возвращает его.
@@ -123,6 +125,7 @@ class App:
         object | bool
             Возвращает объект класса или False, если класс не найден
         """
+        log.info("Check if class exists")
         class_name = Helper.get_class_name_if_exists(name)
         return class_name(self.root, name) if class_name else False
 
@@ -130,6 +133,8 @@ class App:
         """
         Создает окно с полями для ввода логина и пароля нового пользователя.
         """
+
+        log.info("Open user creation window")
         create_user = CreateUserWindow(
             self.root,
             entry_widgets=set.CREATE_USER_ENTRIES
@@ -149,8 +154,10 @@ class App:
             name: str
                 Имя окна. От него же зависит начинка окна виджетами.
         """
+        log.info(f"Trying to open window {name}")
         instance = self.__check_if_class_exists(name)
         if instance:
+            log.info("Class is found. Openning the window.")
             instance.open_window()
         else:
-            log.info(f"Class {instance} not found!")
+            log.error(f"Class {instance} not found!")
