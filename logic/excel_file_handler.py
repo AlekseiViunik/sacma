@@ -148,6 +148,7 @@ class ExcelFileHandler:
                     if not Validator().validate(rul_key, rul_value, value):
                         log.error(f"{key} hasn't passed")
                         return False
+        log.info("The data is correct")
         return True
 
     def __prepare_data(self) -> dict:
@@ -165,14 +166,14 @@ class ExcelFileHandler:
             Отвалидированные и подготовленные для дальнейшей обработки данные.
         """
 
-        log.info("The data is correct")
         log.info("Prepare dictionary where key is cell address")
 
         # Подготавливаем данные для записи в Excel
         data_prepared = {}
         for name, cell in self.cells_input.items():
-            if name in self.data:
-                self.data[name] = self.data[name].replace("=", "").strip()
+            if name in self.data.keys():
+                if isinstance(self.data[name], str):
+                    self.data[name] = self.data[name].replace("=", "").strip()
                 data_prepared[cell] = self.data[name]
         log.info(f"Dictionary is prepared: {data_prepared}")
         return data_prepared

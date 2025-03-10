@@ -278,6 +278,21 @@ DICTIONARY = {
     "weight": "Peso",
     "skates": "Pattini",
     "n_skates": "N pattini",
+    "n_diagonals": "N diagonali",
+    "traits": "Tratti",
+    "depth": "Profondità",
+    "n_diagonals_15/10": "N diagonali 15/10",
+    "n_diagonals_20/10": "N diagonali 20/10",
+    "n_diagonals_25/10": "N diagonali 25/10",
+    "n_diagonals_30/10": "N diagonali 30/10",
+    "n_traverse_10/10": "N traversi 10/10",
+    "n_traverse_15/10": "N traversi 15/10",
+    "diagonal_15/10": "Diagonale 15/10",
+    "diagonal_20/10": "Diagonale 20/10",
+    "diagonal_25/10": "Diagonale 25/10",
+    "diagonal_30/10": "Diagonale 30/10",
+    "traverse_10/10": "Traverse 10/10",
+    "traverse_15/10": "Traverse 15/10",
 }
 
 # ===================================Login=====================================
@@ -295,3 +310,4 @@ LOGIN_ENTRIES = {
 }
 CREATE_USER_TITLE = "Create user"
 CREATE_USER_ENTRIES = ["Username", "Password", "Repeat password"]
+PRODUCTION_MODE_ON = False

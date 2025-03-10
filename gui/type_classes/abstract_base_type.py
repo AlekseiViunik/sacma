@@ -1,6 +1,5 @@
 import tkinter as tk
 from abc import ABC, abstractmethod
-from typing import Any, Dict
 
 from gui.widget_creator import WidgetCreator
 from logic.json_file_handler import JsonFileHandler
@@ -63,7 +62,7 @@ class AbstractBaseType (ABC):
         self.type = type
         self.entry_widgets = entry_widgets
         self.window: tk.Toplevel = None
-        self.type_choice: Dict[str, Any] = None
+        self.type_choice: dict = None
         self.window_width: int = 0
         self.window_height: int = 0
         self.entries: tk.Entry = None
@@ -123,7 +122,8 @@ class AbstractBaseType (ABC):
             self.type_choice
         )
         if self.type_choice:
-            creator.create_ui()
+            row = creator.create_always_on()
+            creator.create_main_frame(row)
             creator.create_button("Invia", self.calculate)
 
         else:

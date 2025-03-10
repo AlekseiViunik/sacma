@@ -145,49 +145,19 @@
     },
     "fiancate": {
         "always_on": {
-            "Sismoresistenza": ["non-sismoresistente", "sismoresistente"]
+            "Sismoresistenza": [
+                "non-sismo",
+                "sismo"
+            ],
+            "Tratti": [1, 2, 3]
         },
         "window_settings": {
             "width": 400,
-            "height": 400
+            "height": 450
         },
         "choices":{
-            "sismoresistente": {
+            "sismo": {
                 "worksheet": "Listino fiancate simische",
-                "available_params": {
-                    "select": {
-                        "only_strut": ["No", "Sì"],
-                        "section": [
-                            "100/20",
-                            "100/25",
-                            "100/30",
-                            "120/20",
-                            "120/25",
-                            "120/30",
-                            "120x110/20",
-                            "120x110/25",
-                            "120x110/30",
-                            "120x110/40"
-                        ]
-                    },
-                    "input": [
-                        "Profondità",
-                        "Altezza",
-                        "N diagonali 10/10",
-                        "N diagonali 15/10",
-                        "N diagonali 20/10",
-                        "N diagonali 25/10",
-                        "N diagonali 30/10",
-                        "N traversi 10/10",
-                        "N traversi 15/10"
-                    ]
-                },
-                "rules": {},
-                "cells_input": {},
-                "cells_output": {}
-            },
-            "non-sismoresistente": {
-                "worksheet": "Listino fiancate tradizionali",
                 "available_params": {
                     "select": {
                         "only_strut": ["No", "Sì"],
@@ -210,12 +180,102 @@
                     "input": [
                         "Profondità",
                         "Altezza",
-                        "N diagonali"
+                        "N diagonali 15/10",
+                        "N diagonali 20/10",
+                        "N diagonali 25/10",
+                        "N diagonali 30/10",
+                        "N traversi 10/10",
+                        "N traversi 15/10"
                     ]
                 },
                 "rules": {},
-                "cells_input":{},
-                "cells_output":{}
+                "cells_input": {
+                    "depth": "D3",
+                    "height": "D5",
+                    "n_diagonals_15/10": "D6",
+                    "n_diagonals_20/10": "D7",
+                    "n_diagonals_25/10": "D8",
+                    "n_diagonals_30/10": "D9",
+                    "n_traverse_10/10": "D10",
+                    "n_traverse_15/10": "D11",
+                    "section": "D13",
+                    "traits": "D4"
+                },
+                "cells_output": {
+                    "price": "C72",
+                    "weight": "C73"
+                },
+                "additional": {
+                    "sections": {
+                        "80/20": 1,
+                        "80/25": 2,
+                        "80/30": 3,
+                        "100/20": 4,
+                        "100/25": 5,
+                        "100/30": 6,
+                        "120/20": 7,
+                        "120/25": 8,
+                        "120/30": 9,
+                        "120x110/20": 10,
+                        "120x110/25": 11,
+                        "120x110/30": 12,
+                        "120x110/40": 13
+                    }
+                }
+            },
+            "non-sismo": {
+                "worksheet": "Listino fiancate tradizionali",
+                "available_params": {
+                    "select": {
+                        "only_strut": ["No", "Sì"],
+                        "section": [
+                            "80/20",
+                            "80/25",
+                            "80/30",
+                            "100/20",
+                            "100/25",
+                            "100/30",
+                            "120/20",
+                            "120/25",
+                            "120/30"
+                        ]
+                    },
+                    "input": [
+                        "Profondità",
+                        "Altezza",
+                        "N diagonali"
+                    ]
+                },
+                "rules": {
+                    "height": {
+                        "max": 10850,
+                        "multiple": 75
+                    }
+                },
+                "cells_input": {
+                    "depth": "D3",
+                    "height": "D5",
+                    "n_diagonals": "D6",
+                    "section": "D7",
+                    "traits": "D4"
+                },
+                "cells_output": {
+                    "price": "C51",
+                    "weight": "C52"
+                },
+                "additional": {
+                    "sections": {
+                        "80/20": 2,
+                        "80/25": 3,
+                        "80/30": 4,
+                        "100/20": 5,
+                        "100/25": 6,
+                        "100/30": 7,
+                        "120/20": 8,
+                        "120/25": 9,
+                        "120/30": 10
+                    }
+                }
             }
         }
         
