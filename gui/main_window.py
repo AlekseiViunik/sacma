@@ -21,9 +21,9 @@ class App:
     ----------
     root : tk.Tk
         Главное окно.
-    entries : Dict
+    entries : dict
         список введенных значений.
-    buttons : List[String]
+    buttons : list
         список кнопок, размещаемых на главном окне.
     creator : WidgetCreator
         объект класса WidgetCreator ответственного за создание и размещение
@@ -31,14 +31,14 @@ class App:
 
     Methods (все приватные)
     -------
-    create_widgets()
+    __create_widgets()
         Раскидывает виджеты по главному окну.
-    open_window(name)
+    __open_window(name)
         Открывает второстепенное окно с базовыми виджетами, одинаковыми для
         всех такого рода окон.
-    open_create_user_window()
+    __open_create_user_window()
         Открывает окно создание юзеров, которое отличается от других окон.
-    check_if_class_exists(name)
+    __check_if_class_exists(name)
         Проверяет, существует ли класс с названием кнопки.
     """
     def __init__(self, root: tk.Tk) -> None:
