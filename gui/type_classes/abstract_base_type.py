@@ -1,10 +1,11 @@
 import tkinter as tk
+
 from abc import ABC, abstractmethod
 
+from gui.helper import Helper
 from gui.widget_creator import WidgetCreator
 from logic.json_file_handler import JsonFileHandler
 from logic.logger import logger as log
-from gui.helper import Helper
 from settings import settings as set
 
 
@@ -27,13 +28,13 @@ class AbstractBaseType (ABC):
         передан type_choice
     window : tk.Toplevel
         Созданное окно для ввода данных элемента.
-    type_choice : Dict
+    type_choice : dict
         Набор параметров для выбранного типа элементов.
     window_width : int
         Ширина созданного окна.
     window_height : int
         Высота созданного окна.
-    entries : Dict
+    entries : dict
         Словарь с введенными значениями.
     json : JsonFileHandler
         Объект для работы с JSON-файлами.

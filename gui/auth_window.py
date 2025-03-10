@@ -1,11 +1,12 @@
 import tkinter as tk
 
 from tkinter import messagebox
+
+from gui.helper import Helper
 from gui.widget_creator import WidgetCreator
 from logic.authenticator import Authenticator as auth
-from gui.helper import Helper
-from settings import settings as set
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class AuthWindow:
@@ -53,7 +54,7 @@ class AuthWindow:
                 None,
                 row,
                 is_entry=True,
-                is_hide=set.LOGIN_ENTRIES[label]["is_hide"],
+                is_hide=set.LOGIN_ENTRIES[label]['is_hide'],
                 default_value=self.get_default_value(label)
             )
             row += 1
@@ -72,8 +73,8 @@ class AuthWindow:
             key: entry.get() for key, entry in self.entries.items()
         }
         log.info(f"Access attempt. Credentials are {entries_dict}")
-        username = entries_dict["Login"]
-        password = entries_dict["Password"]
+        username = entries_dict['Login']
+        password = entries_dict['Password']
 
         if auth.verify_user(username, password):
             log.info("User verified")
@@ -114,7 +115,7 @@ class AuthWindow:
             будет возвращена пустая строка.
         """
 
-        if set.LOGIN_ENTRIES[key]["default_value"]:
+        if set.LOGIN_ENTRIES[key]['default_value']:
             return auth().load_last_user()
         else:
             return ""

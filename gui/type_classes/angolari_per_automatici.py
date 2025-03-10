@@ -1,7 +1,8 @@
 from decimal import Decimal
+
+from abstract_base_type import AbstractBaseType
 from logic.excel_file_handler import ExcelFileHandler
 from logic.logger import logger as log
-from abstract_base_type import AbstractBaseType
 
 
 class AngolariPerAutomatici(AbstractBaseType):
@@ -19,11 +20,11 @@ class AngolariPerAutomatici(AbstractBaseType):
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
-        data = self.type_choice["choices"][entries_dict["pattini"]]
-        rules = data["rules"]
-        worksheet = data["worksheet"]
-        cells_input = data["cells_input"]
-        cells_output = data["cells_output"]
+        data = self.type_choice['choices'][entries_dict['pattini']]
+        rules = data['rules']
+        worksheet = data['worksheet']
+        cells_input = data['cells_input']
+        cells_output = data['cells_output']
         log.info(f"Entries: {entries_dict}")
         excel = ExcelFileHandler(
             entries_dict,
@@ -38,7 +39,8 @@ class AngolariPerAutomatici(AbstractBaseType):
         self.open_response_window(excel_data)
 
     def calculate_total_cost(self, data: dict) -> dict:
-        """Метод для вычисления общей стоимости и веса.
+        """
+        Метод для вычисления общей стоимости и веса.
 
         Parameters
         ----------
@@ -51,6 +53,6 @@ class AngolariPerAutomatici(AbstractBaseType):
         dict
             Словарь с итоговой ценой и весом.
         """
-        price = Decimal(data["price"]) + Decimal(data["price_skates"])
-        weight = data["weight"]
-        return {"price": price, "weight": weight}
+        price = Decimal(data['price']) + Decimal(data['price_skates'])
+        weight = data['weight']
+        return {'price': price, 'weight': weight}

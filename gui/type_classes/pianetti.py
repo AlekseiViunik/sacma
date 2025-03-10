@@ -1,6 +1,6 @@
+from abstract_base_type import AbstractBaseType
 from logic.excel_file_handler import ExcelFileHandler
 from logic.logger import logger as log
-from abstract_base_type import AbstractBaseType
 
 
 class Pianetti(AbstractBaseType):
@@ -8,7 +8,8 @@ class Pianetti(AbstractBaseType):
         super().__init__(root, type)
 
     def calculate(self) -> None:
-        """Метод обработки данных, указанных полльзователем.
+        """
+        Метод обработки данных, указанных полльзователем.
         1. Преобразует entries в словарь.
         2. Создает объект ExcelFileHandler.
         3. Вызывает метод process_excel у созданного объекта.
@@ -17,11 +18,11 @@ class Pianetti(AbstractBaseType):
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
-        data = self.type_choice["choices"]["standart"]
-        rules = data["rules"]
-        worksheet = data["worksheet"]
-        cells_input = data["cells_input"]
-        cells_output = data["cells_output"]
+        data = self.type_choice['choices']['standart']
+        rules = data['rules']
+        worksheet = data['worksheet']
+        cells_input = data['cells_input']
+        cells_output = data['cells_output']
         log.info(f"Entries: {entries_dict}")
         excel = ExcelFileHandler(
             entries_dict,

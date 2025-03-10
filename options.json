@@ -1,7 +1,7 @@
 {
     "travi": {
         "always_on": {
-            "Tipo": ["TG", "SAT", "APERTE", "PORTA SKID"]
+            "tipo": ["TG", "SAT", "APERTE", "PORTA SKID"]
         },
         "window_settings": {
             "width": 400,
@@ -145,11 +145,11 @@
     },
     "fiancate": {
         "always_on": {
-            "Sismoresistenza": [
+            "sismoresistenza": [
                 "non-sismo",
                 "sismo"
             ],
-            "Tratti": [1, 2, 3]
+            "tratti": [1, 2, 3]
         },
         "window_settings": {
             "width": 400,
@@ -318,7 +318,7 @@
     },
     "grigliato": {
         "always_on": {
-            "Tipo": ["Grigliato", "Bugnato"]
+            "tipo": ["Grigliato", "Bugnato"]
         },
          "window_settings": {
              "width": 400,

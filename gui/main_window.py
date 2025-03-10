@@ -2,15 +2,15 @@ import math
 import tkinter as tk
 
 from gui.create_user_window import CreateUserWindow
+from gui.helper import Helper
 from gui.widget_creator import WidgetCreator
-
-from .helper import Helper
 from logic.logger import logger as log
 from settings import settings as set
 
 
 class App:
-    """Класс App используется для создания основного окна.
+    """
+    Класс App используется для создания основного окна.
 
     Основное применение - создание главного окна приложения и его кнопок,
     Запус процесса обработки входных данных и вывод результата в отдельном
@@ -57,7 +57,7 @@ class App:
 
         self.__create_widgets()
 
-# ============================== Private Methods ==============================
+# ============================== Приватные методы =============================
 
     def __create_widgets(self) -> None:
         """
