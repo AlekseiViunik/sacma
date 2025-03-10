@@ -358,7 +358,11 @@ class WidgetCreator:
 
         # Создаём `Label`
         tk.Label(
-            frame, text=label, bg=set.LABEL_BG_COLOR, width=15, anchor="w"
+            frame,
+            text=label.capitalize(),
+            bg=set.LABEL_BG_COLOR,
+            width=15,
+            anchor="w"
         ).grid(row=row, column=0, sticky="w", pady=2)
 
         if is_entry:

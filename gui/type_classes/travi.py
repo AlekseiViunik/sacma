@@ -18,15 +18,15 @@ class Travi(AbstractBaseType):
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
-        rules = self.type_choice['choices'][entries_dict['Tipo']]['rules']
+        rules = self.type_choice['choices'][entries_dict['tipo']]['rules']
         worksheet = (
-            self.type_choice['choices'][entries_dict['Tipo']]['worksheet']
+            self.type_choice['choices'][entries_dict['tipo']]['worksheet']
         )
         cells_input = (
-            self.type_choice['choices'][entries_dict['Tipo']]['cells_input']
+            self.type_choice['choices'][entries_dict['tipo']]['cells_input']
         )
         cells_output = (
-            self.type_choice['choices'][entries_dict['Tipo']]['cells_output']
+            self.type_choice['choices'][entries_dict['tipo']]['cells_output']
         )
         log.info(f"Entries: {entries_dict}")
         excel = ExcelFileHandler(

@@ -22,7 +22,7 @@ class Grigliato(AbstractBaseType):
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
-        data = self.type_choice['choices'][entries_dict['Tipo']]
+        data = self.type_choice['choices'][entries_dict['tipo']]
         rules = data['rules']
         worksheet = data['worksheet']
         cells_output = self.evaluate_output_cells(
