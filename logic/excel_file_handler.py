@@ -137,7 +137,7 @@ class ExcelFileHandler:
 
         return data
 
-# ============================ Private Methods ================================
+# ============================ Приватные методы ===============================
 
     def __check_data(self) -> bool:
         """
@@ -149,7 +149,7 @@ class ExcelFileHandler:
         bool
             Результат валидации данных.
         """
-        # TODO Move this method to the Validator
+        # TODO Перенести эту проверку в Валидатор
         log.info("Check data before preparing it")
         for key, value in self.data.items():
             key = key.capitalize()
