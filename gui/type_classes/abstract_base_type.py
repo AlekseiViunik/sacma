@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 from gui.widget_creator import WidgetCreator
 from logic.json_file_handler import JsonFileHandler
+from logic.logger import logger as log
 from gui.helper import Helper
 from settings import settings as set
 
@@ -88,7 +89,7 @@ class AbstractBaseType (ABC):
         window_height : int
             Высота окна
         """
-
+        log.info(f"Opening window '{title}'")
         self.root.withdraw()
         self.window = tk.Toplevel(self.root)
         if self.type:
@@ -109,6 +110,7 @@ class AbstractBaseType (ABC):
             self.window_height,
             self.window
         )
+        log.info("Widow is opened. Create components")
         self.create_components()
 
     def create_components(self) -> None:
@@ -122,8 +124,11 @@ class AbstractBaseType (ABC):
             self.type_choice
         )
         if self.type_choice:
+            log.info("Create always_on widgets")
             row = creator.create_always_on()
+            log.info("Create main frame")
             creator.create_main_frame(row)
+            log.info("Create 'Invia' button")
             creator.create_button("Invia", self.calculate)
 
         else:
@@ -147,6 +152,7 @@ class AbstractBaseType (ABC):
             set.ON_CLOSING_WINDOW,
             lambda: Helper(self.root).on_close(self.window)
         )
+        log.info("Components are created!")
 
     def open_response_window(self, data: dict) -> None:
         """
@@ -158,6 +164,7 @@ class AbstractBaseType (ABC):
         """
 
         # Открываем окно
+        log.info("Open response window")
         result_window = tk.Toplevel(self.root)
         result_window.title("Risultato")  # Заголовок окна
         Helper.center_window(300, 150, result_window)  # Центрируем окно
@@ -181,6 +188,7 @@ class AbstractBaseType (ABC):
                 text=text,
                 font=("Arial", 12)
             ).pack(pady=5)
+            log.info(f"Text is {text}")
 
         # Кнопка "OK", которая закроет окно
         tk.Button(
