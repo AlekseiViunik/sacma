@@ -68,6 +68,92 @@ class WidgetCreator:
         self.entries: dict = {}
         self.frame: tk.Frame = None
         self.frames: dict = {}
+        self.changing_frames_amount = 1
+
+    def create_frames(self):
+        if 'changing_frames' in self.frames:
+            for frame in self.frames['changing_frames'].values():
+                frame.destroy()
+            self.frames.pop('changing_frames')
+        if 'always_on' not in self.frames and self.always_on:
+            frame = tk.Frame(
+                self.window,
+                bg=set.FRAME_BG_COLOR,
+                padx=set.FRAME_PADX,
+                pady=set.FRAME_PADY
+            )
+            frame.grid(row=1, column=1, padx=5, pady=2, sticky='ew')
+            self.frames['always_on'] = {}
+            self.frames['always_on']['frame'] = frame
+        frame_no = 1
+        while frame_no <= self.changing_frames_amount:
+            frame = tk.Frame(
+                self.window,
+                bg=set.FRAME_BG_COLOR,
+                padx=set.FRAME_PADX,
+                pady=set.FRAME_PADY
+            )
+            frame.grid(row=2, column=frame_no, padx=5, pady=2, sticky='ew')
+            frame_name = f"frame{frame_no}"
+            if 'changing_frames' not in self.frames:
+                self.frames['changing_frames'] = {}
+            self.frames['changing_frames'][frame_name] = frame
+            frame_no += 1
+
+    def add_widgets_to_frames(self):
+        for type, frames in self.frames.items():
+            if type == "always_on":
+                for i, (label, values) in enumerate(self.always_on.items()):
+                    if values:
+                        self.create_component(
+                            frames["frame"],
+                            label,
+                            values,
+                            i,
+                            is_changing=True
+                        )
+
+                        for j in range(set.COL_NUM):
+                            frames["frame"].columnconfigure(
+                                j, weight=set.GRID_WEIGHT
+                            )
+            else:
+                if not self.select_fields or not self.input_fields:
+                    inizial_choice = None
+                    for value in self.always_on.values():
+                        if value:
+                            inizial_choice = value[0]
+                            break
+                    if not inizial_choice:
+                        inizial_choice = "standart"
+                    self.get_select_fields(inizial_choice)
+                    self.get_input_fields(inizial_choice)
+
+                for frame in self.frames["changing_frames"].values():
+                    start_row = 1
+                    for i, (label, values) in enumerate(
+                        self.select_fields.items()
+                    ):
+                        if values:
+                            self.create_component(
+                                self.frame, label, values, start_row + i
+                            )
+
+                    start_row += len(self.select_fields)
+
+                # Поля для ввода
+                for i, label in enumerate(self.input_fields):
+                    self.create_component(
+                        self.frame,
+                        label,
+                        [],
+                        start_row + i,
+                        is_entry=True
+                    )
+
+                # Конфигурируем сетку
+                for i in range(set.COL_NUM):
+                    frames['frame1'].columnconfigure(i, weight=set.GRID_WEIGHT)
 
     def create_always_on(self) -> None:
         """
@@ -180,11 +266,11 @@ class WidgetCreator:
             Новое значение выпадающего списка.
         """
         new_choice = var.get()
-        self.get_select_fields(new_choice)
-        self.get_input_fields(new_choice)
-
-        # ✅ Перерисовываем `main_frame`
-        self.create_main_frame(start_row=len(self.always_on))
+        if not new_choice.isnumeric():
+            self.get_select_fields(new_choice)
+            self.get_input_fields(new_choice)
+            # ✅ Перерисовываем `main_frame`
+            self.create_main_frame(start_row=len(self.always_on))
 
     def add_mm(self, frame: tk.Frame, label: str, row: int) -> None:
         """
