@@ -1,5 +1,6 @@
 import inspect
 import os
+import sys
 import win32com.client as win32
 
 from decimal import Decimal, ROUND_HALF_UP
@@ -75,8 +76,13 @@ class ExcelFileHandler:
         )
 
         # TODO Файл должен в будущем браться из облака и обновляться 1 раз/день
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        FILE_PATH = os.path.join(BASE_DIR, "..", "files", "listini.xlsx")
+        # Определяем, где находится исполняемый файл (или скрипт)
+        if getattr(sys, 'frozen', False):  # Если запущено как .exe
+            BASE_DIR = os.path.dirname(sys.executable)
+            FILE_PATH = os.path.join(BASE_DIR, "files", "listini.xlsx")
+        else:  # Если запущено как .py
+            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+            FILE_PATH = os.path.join(BASE_DIR, "..", "files", "listini.xlsx")
         FILE_PATH = os.path.abspath(FILE_PATH)
 
         log.info("Check data before insert it in excel")
@@ -94,13 +100,13 @@ class ExcelFileHandler:
         except Exception as e:
             log.error(f"Ошибка при запуске Excel: {e}")
 
+        log.info("Excel is opened")
         # Без обновления связей
-        wb = excel.Workbooks.Open(FILE_PATH, UpdateLinks=0)
-
-        if wb:
+        try:
+            wb = excel.Workbooks.Open(FILE_PATH, UpdateLinks=0)
             log.info("Excel is opened")
-        else:
-            log.error("Didn't manage to open excel")
+        except Exception as e:
+            log.error(f"Didn't manage to open excel: {e}")
 
         sheet = wb.Sheets(self.worksheet)
 
