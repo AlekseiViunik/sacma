@@ -43,7 +43,19 @@ class Grigliato(AbstractBaseType):
 
         excel_data["price"] = cost
         excel_data["weight"] = weight
-        self.open_response_window(excel_data)
+
+        if entries_dict['Base'] == "270x40":
+            excel_data["price"] = None
+            excel_data["weight"] = None
+            self.open_response_window(
+                excel_data,
+                "ATTENZIONE: Per la base 270x40 contatare la sede!"
+            )
+        else:
+            self.open_response_window(
+                excel_data,
+                "ATTENZIONE: Per grandi quantitativi contatare la sede!"
+            )
 
     def evaluate_output_cells(
         self,
