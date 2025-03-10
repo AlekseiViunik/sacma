@@ -1,11 +1,12 @@
 import tkinter as tk
 
 from tkinter import messagebox
+
+from gui.helper import Helper
 from gui.widget_creator import WidgetCreator
 from logic.authenticator import Authenticator as auth
-from gui.helper import Helper
-from settings import settings as set
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class AuthWindow:

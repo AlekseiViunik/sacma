@@ -8,7 +8,6 @@ from decimal import Decimal, ROUND_HALF_UP
 from logic.logger import logger as log
 from logic.translator import Translator
 from logic.validator import Validator
-from typing import Dict, Any
 
 
 class ExcelFileHandler:
@@ -40,25 +39,25 @@ class ExcelFileHandler:
 
     def __init__(
         self,
-        data: Dict[str, str],
-        rules: Dict,
+        data: dict,
+        rules: dict,
         worksheet: str,
-        cells_input: Dict[str, str] = None,
-        cells_output: Dict[str, str] = None
+        cells_input: dict | None = None,
+        cells_output: dict | None = None
     ) -> None:
         self.data = data
-        self.rules: Dict[str, Dict[str, Any]] | Dict[None] = (
+        self.rules: dict | None = (
             Translator().translate_dict(rules)
         )
         self.worksheet = worksheet
-        self.cells_input: Dict[str, str] = (
+        self.cells_input: dict | None = (
             Translator().translate_dict(cells_input)
             if cells_input
             else None
         )
-        self.cells_output: Dict[str, str] = cells_output
+        self.cells_output: dict = cells_output
 
-    def process_excel(self) -> tuple:
+    def process_excel(self) -> dict:
         """
         Основной метод класса ExcelFileHandler. Открывает файл, записывает в
         него данные (предварительно вызвав методы подготовки данных), обновляет
@@ -175,7 +174,7 @@ class ExcelFileHandler:
 
         Returns
         -------
-        data_prepared : Dict[str, Any]
+        data_prepared : dict
             Отвалидированные и подготовленные для дальнейшей обработки данные.
         """
 
@@ -192,6 +191,20 @@ class ExcelFileHandler:
         return data_prepared
 
     def __get_data_from_excel(self, sheet) -> dict:
+        """
+        Получаем и округляем цену и вес из таблицы excel.
+        При необходимости получаем и другие данные.
+
+        Parameters
+        ----------
+        sheet : win32.Dispatch.Workbooks.Sheets
+            Текущий лист excel.
+
+        Returns
+        -------
+        excel_data : dict
+            Словарь полученными из excel данными.
+        """
         log.info("Getting excel data")
         excel_data = {
             key: sheet.Range(self.cells_output[key]).Value

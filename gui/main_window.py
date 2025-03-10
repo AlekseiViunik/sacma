@@ -2,9 +2,8 @@ import math
 import tkinter as tk
 
 from gui.create_user_window import CreateUserWindow
+from gui.helper import Helper
 from gui.widget_creator import WidgetCreator
-
-from .helper import Helper
 from logic.logger import logger as log
 from settings import settings as set
 

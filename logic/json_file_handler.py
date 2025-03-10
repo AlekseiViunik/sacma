@@ -1,4 +1,5 @@
 import json
+
 from typing import Any
 
 from logic.logger import logger as log
@@ -27,7 +28,7 @@ class JsonFileHandler:
     def __init__(self, file: str):
         self.file = file
 
-    def read_value_by_key(self, key: str) -> Any:
+    def read_value_by_key(self, key: str) -> Any | None:
         """
         Читает JSON и возвращает значение по переданному ключу.
 

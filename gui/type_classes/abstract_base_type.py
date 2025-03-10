@@ -1,10 +1,11 @@
 import tkinter as tk
+
 from abc import ABC, abstractmethod
 
+from gui.helper import Helper
 from gui.widget_creator import WidgetCreator
 from logic.json_file_handler import JsonFileHandler
 from logic.logger import logger as log
-from gui.helper import Helper
 from settings import settings as set
 
 

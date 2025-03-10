@@ -1,7 +1,4 @@
-# import tkinter as tk
-# from settings import settings as set
 from abstract_base_type import AbstractBaseType
-# from gui.widget_creator import WidgetCreator
 from logic.excel_file_handler import ExcelFileHandler
 from logic.logger import logger as log
 

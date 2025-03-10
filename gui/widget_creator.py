@@ -1,8 +1,8 @@
 import tkinter as tk
 
+from logic.logger import logger as log
 from logic.translator import Translator
 from settings import settings as set
-from logic.logger import logger as log
 
 
 class WidgetCreator:

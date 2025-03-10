@@ -1,4 +1,5 @@
 import tkinter as tk
+
 from tkinter import messagebox
 
 from gui.type_classes.abstract_base_type import AbstractBaseType

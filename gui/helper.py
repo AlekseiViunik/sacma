@@ -1,8 +1,8 @@
 import importlib
 import tkinter as tk
 import sys
+
 from pathlib import Path
-from typing import Tuple
 
 
 class Helper:
@@ -43,7 +43,7 @@ class Helper:
         self.root.deiconify()
 
     @staticmethod
-    def get_type_class_name(name: str) -> Tuple[str]:
+    def get_type_class_name(name: str) -> tuple:
         """
         Преобразует строку в имя класса в CamelCase.
         Также преобразует ту же строку в имя файла в snake_case.

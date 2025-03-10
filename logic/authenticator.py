@@ -2,8 +2,8 @@ import hashlib
 import os
 
 from logic.json_file_handler import JsonFileHandler
-from settings import settings as set
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class Authenticator:
