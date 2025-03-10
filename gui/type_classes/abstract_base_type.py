@@ -154,7 +154,7 @@ class AbstractBaseType (ABC):
         )
         log.info("Components are created!")
 
-    def open_response_window(self, data: dict) -> None:
+    def open_response_window(self, data: dict, warning=None) -> None:
         """
         Открывает окно с результатом расчётов.
         Parameters
@@ -189,6 +189,14 @@ class AbstractBaseType (ABC):
                 font=("Arial", 12)
             ).pack(pady=5)
             log.info(f"Text is {text}")
+        if warning:
+            Helper.center_window(450, 200, result_window)
+            tk.Label(
+                result_window,
+                text=warning,
+                font=("Arial", 12)
+            ).pack(pady=5)
+            log.info(f"Warning text is {warning}")
 
         # Кнопка "OK", которая закроет окно
         tk.Button(
