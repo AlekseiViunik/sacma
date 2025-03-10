@@ -1,14 +1,20 @@
 import logging
 import os
+import sys
 
 from settings import settings as set
 
 # Путь к файлу логов
-LOG_DIR = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "..",
-    "logs"
-)
+if getattr(sys, 'frozen', False):
+    BASE_DIR = os.path.dirname(sys.executable)
+    LOG_DIR = os.path.join(BASE_DIR, "logs")
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    LOG_DIR = os.path.join(
+        BASE_DIR,
+        "..",
+        "logs"
+    )
 os.makedirs(LOG_DIR, exist_ok=True)  # Создаём папку logs, если её нет
 LOG_FILE = os.path.join(LOG_DIR, set.LOG_FILE_NAME)
 
