@@ -505,5 +505,43 @@
                 }
             }
         }
+    },
+    "travi di battuta": {
+        "always_on": {},
+         "window_settings": {
+             "width": 400,
+             "height": 250
+        },
+        "choices": {
+            "standart": {
+                "worksheet": "Travi di battuta",
+                "available_params": {
+                    "select": {
+                        "type": ["Tubolare 60x40x2", "Tubolare 80x40x2", "C battuta posteriore"],
+                        "standart_hook": ["No", "Sì"],
+                        "amount": [">=501", "<=500"],
+                        "fold": ["No", "Sì"]
+                    },
+                    "input": ["Lunghezza"]
+                },
+                "rules": {
+                    "length": {
+                        "numeric": 1,
+                        "multiple": 10
+                    }
+                },
+                "cells_input":{
+                    "type": "B5",
+                    "length": "B7",
+                    "standart_hook": "B9",
+                    "amount": "B11",
+                    "fold": "B13"
+                },
+                "cells_output":{
+                    "price": "B15",
+                    "weight": "B16"
+                }
+            }
+        }
     }
 }
