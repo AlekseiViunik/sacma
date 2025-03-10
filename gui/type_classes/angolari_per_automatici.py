@@ -37,24 +37,19 @@ class AngolariPerAutomatici(AbstractBaseType):
             excel_data = self.calculate_total_cost(excel_data)
         self.open_response_window(excel_data)
 
-    def calculate_total_cost(self, data: dict) -> tuple:
+    def calculate_total_cost(self, data: dict) -> dict:
         """Метод для вычисления общей стоимости и веса.
 
         Parameters
         ----------
-            cost_m : Decimal
-                стоимость за метр.
-            weight_m : Decimal
-                вес за метр.
-            length : Decimal
-                длина.
+        data : dict
+            Словарь с данными цены за элемент, цены за доп. элементы и
+            весом элемента.
 
         Return
         ------
-            cost : Decimal
-                общая стоимость.
-            weight : Decimal
-                общий вес.
+        dict
+            Словарь с итоговой ценой и весом.
         """
         price = Decimal(data["price"]) + Decimal(data["price_skates"])
         weight = data["weight"]

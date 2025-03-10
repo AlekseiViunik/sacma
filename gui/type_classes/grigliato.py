@@ -12,9 +12,11 @@ class Grigliato(AbstractBaseType):
         """
         Метод обработки данных, указанных полльзователем.
         1. Преобразует entries в словарь.
-        2. Создает объект ExcelFileHandler.
-        3. Вызывает метод process_excel у созданного объекта.
-        4. Открывает окно с результатами.
+        2. Определяет ячейки вывода.
+        3. Создает объект ExcelFileHandler.
+        4. Вызывает метод process_excel у созданного объекта.
+        5. Считает итоговую стоимость.
+        6. Открывает окно с результатами.
         """
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
@@ -62,7 +64,8 @@ class Grigliato(AbstractBaseType):
         cells_output: dict,
         entries_dict: dict
     ) -> dict:
-        """Метод для вычисления ячеек вывода.
+        """
+        Метод для вычисления ячеек вывода.
 
         Parameters
         ----------

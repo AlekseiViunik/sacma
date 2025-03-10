@@ -154,13 +154,19 @@ class AbstractBaseType (ABC):
         )
         log.info("Components are created!")
 
-    def open_response_window(self, data: dict, warning=None) -> None:
+    def open_response_window(
+        self,
+        data: dict,
+        warning: str = None
+    ) -> None:
         """
         Открывает окно с результатом расчётов.
         Parameters
         ----------
         data : dict
             Результат расчёта цены и веса. Допускает и другие значения.
+        warning : str, optional
+            Текст предупреждения, отображающийся после цены и веса.
         """
 
         # Открываем окно
