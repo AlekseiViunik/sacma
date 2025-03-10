@@ -22,11 +22,11 @@ class Grigliato(AbstractBaseType):
         entries_dict = {
             key: entry.get() for key, entry in self.entries.items()
         }
-        data = self.type_choice["choices"][entries_dict["Tipo"]]
-        rules = data["rules"]
-        worksheet = data["worksheet"]
+        data = self.type_choice['choices'][entries_dict['Tipo']]
+        rules = data['rules']
+        worksheet = data['worksheet']
         cells_output = self.evaluate_output_cells(
-            data["cells_output"],
+            data['cells_output'],
             entries_dict
         )
         log.info(f"Entries: {entries_dict}")
@@ -39,17 +39,17 @@ class Grigliato(AbstractBaseType):
         excel_data = excel.process_excel()
 
         cost, weight = self.calculate_total_cost(
-            excel_data["price"],
-            excel_data["weight"],
-            entries_dict["Lunghezza"]
-        ) if excel_data["price"] and excel_data["weight"] else (None, None)
+            excel_data['price'],
+            excel_data['weight'],
+            entries_dict['Lunghezza']
+        ) if excel_data['price'] and excel_data['weight'] else (None, None)
 
-        excel_data["price"] = cost
-        excel_data["weight"] = weight
+        excel_data['price'] = cost
+        excel_data['weight'] = weight
 
         if entries_dict['Base'] == "270x40":
-            excel_data["price"] = None
-            excel_data["weight"] = None
+            excel_data['price'] = None
+            excel_data['weight'] = None
             self.open_response_window(
                 excel_data,
                 "ATTENZIONE: Per la base 270x40 contatare la sede!"
@@ -82,11 +82,11 @@ class Grigliato(AbstractBaseType):
         """
         cells = {
             "price": cells_output[
-                entries_dict["Base"]
-            ][entries_dict["Spessore"]]["price"],
+                entries_dict['Base']
+            ][entries_dict['Spessore']]['price'],
             "weight": cells_output[
-                entries_dict["Base"]
-            ][entries_dict["Spessore"]]["weight"],
+                entries_dict['Base']
+            ][entries_dict['Spessore']]['weight'],
         }
         return cells
 
@@ -96,7 +96,8 @@ class Grigliato(AbstractBaseType):
         weight_m: Decimal,
         length
     ) -> tuple:
-        """Метод для вычисления общей стоимости и веса.
+        """
+        Метод для вычисления общей стоимости и веса.
 
         Parameters
         ----------

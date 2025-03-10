@@ -7,12 +7,16 @@ from settings import settings as set
 
 
 class Authenticator:
-    """Класс для управления авторизацией пользователей."""
+    """
+    Класс для управления авторизацией пользователей.
+    """
     def __init__(self):
         self.file_handler = JsonFileHandler(set.AUTH_FILE)
 
     def load_users(self):
-        """Загружает пользователей из auth.json."""
+        """
+        Загружает пользователей из auth.json.
+        """
         if not os.path.exists(set.AUTH_FILE):
             return {"users": {}, "lastUser": ""}
 
@@ -26,33 +30,41 @@ class Authenticator:
 
     @staticmethod
     def hash_password(password: str) -> str:
-        """Хеширует пароль с помощью SHA-256."""
+        """
+        Хеширует пароль с помощью SHA-256.
+        """
         log.info("Hashing the pass")
         return hashlib.sha256(password.encode()).hexdigest()
 
     @staticmethod
     def verify_user(username: str, password: str) -> bool:
-        """Проверяет логин и пароль пользователя."""
+        """
+        Проверяет логин и пароль пользователя.
+        """
         users_data = Authenticator().load_users()
         hashed_password = Authenticator().hash_password(password)
         log.info(f"Check if the user {username} with pass '{password}' exists")
-        return users_data["users"].get(username) == hashed_password
+        return users_data['users'].get(username) == hashed_password
 
     def save_last_user(self, username: str) -> None:
-        """Сохраняет последнего вошедшего пользователя."""
+        """
+        Сохраняет последнего вошедшего пользователя.
+        """
         log.info("Save last user")
         self.file_handler.write_into_file(key="lastUser", value=username)
 
     def register_user(self, username: str, password: str) -> bool:
-        """Регистрирует нового пользователя (если его нет)."""
+        """
+        Регистрирует нового пользователя (если его нет).
+        """
 
         users_data = Authenticator().load_users()
 
-        if username in users_data["users"]:
+        if username in users_data['users']:
             return False  # Пользователь уже существует
 
-        users_data["users"][username] = self.file_handler.write_into_file(
-            "users",
+        users_data['users'][username] = self.file_handler.write_into_file(
+            'users',
             username,
             Authenticator().hash_password(password)
         )

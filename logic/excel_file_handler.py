@@ -76,7 +76,7 @@ class ExcelFileHandler:
 
         # TODO Файл должен в будущем браться из облака и обновляться 1 раз/день
         # Определяем, где находится исполняемый файл (или скрипт)
-        if getattr(sys, 'frozen', False):  # Если запущено как .exe
+        if getattr(sys, "frozen", False):  # Если запущено как .exe
             BASE_DIR = os.path.dirname(sys.executable)
             FILE_PATH = os.path.join(BASE_DIR, "files", "listini.xlsx")
         else:  # Если запущено как .py
