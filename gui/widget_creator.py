@@ -298,9 +298,6 @@ class WidgetCreator:
                 расположен текущий лейбл.
         """
 
-        log.info(
-            f"Add dimensioning units {set.LABEL_MM_TEXT} to the fields"
-        )
         if label in set.dimensions_need_mm:
             tk.Label(
                 frame,
