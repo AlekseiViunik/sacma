@@ -18,9 +18,12 @@ if __name__ == "__main__":
     logger.info("============================================================")
 
     if set.PRODUCTION_MODE_ON:
+        logger.info("Trying to acces the app")
         login_window = start_app(AuthWindow)
 
-        if login_window.auth_successful:  # ✅ Проверяем успешность авторизации
+        if login_window.auth_successful:
+            # ✅ Проверяем успешность авторизации
+            logger.info("Login is successful")
             start_app(App)
         else:
             logger.info("Application closed due to unsuccessful login")
