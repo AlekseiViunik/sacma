@@ -3,6 +3,7 @@ import os
 
 from logic.json_file_handler import JsonFileHandler
 from settings import settings as set
+from logic.logger import logger as log
 
 
 class Authenticator:
@@ -18,11 +19,15 @@ class Authenticator:
         return self.file_handler.load_whole_file()
 
     def load_last_user(self) -> str:
+        last_user = ""
+        if last_user := self.file_handler.read_value_by_key("lastUser"):
+            log.info(f"Last user found {last_user}")
         return self.file_handler.read_value_by_key("lastUser")
 
     @staticmethod
     def hash_password(password: str) -> str:
         """Хеширует пароль с помощью SHA-256."""
+        log.info("Hashing the pass")
         return hashlib.sha256(password.encode()).hexdigest()
 
     @staticmethod
@@ -30,15 +35,17 @@ class Authenticator:
         """Проверяет логин и пароль пользователя."""
         users_data = Authenticator().load_users()
         hashed_password = Authenticator().hash_password(password)
-
+        log.info(f"Check if the user {username} with pass '{password}' exists")
         return users_data["users"].get(username) == hashed_password
 
     def save_last_user(self, username: str) -> None:
         """Сохраняет последнего вошедшего пользователя."""
+        log.info("Save last user")
         self.file_handler.write_into_file(key="lastUser", value=username)
 
     def register_user(self, username: str, password: str) -> bool:
         """Регистрирует нового пользователя (если его нет)."""
+
         users_data = Authenticator().load_users()
 
         if username in users_data["users"]:
