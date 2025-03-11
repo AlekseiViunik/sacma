@@ -632,5 +632,103 @@
                 }
             }
         }
+    },
+    "option di sicurezza": {
+        "always_on": {
+            "tipo": ["TESTATE", "PARACOLPI", "GUARDRAIL"]
+        },
+        "window_settings": {
+             "width": 500,
+             "height": 200
+        },
+        "choices": {
+            "TESTATE": {
+                "worksheet": "Paracolpi",
+                "available_params": {
+                    "select": {
+                        "tipo elemento": ["Monofronte", "Bifronte"],
+                        "Inviti inclinati?": [
+                            "Sì",
+                            "No, curve calandrate sez. UNP 100 R=350" 
+                        ]
+                    },
+                    "input": [],
+                    "rules": {},
+                    "cells_input": {},
+                    "cells_output": {
+                        "Monofronte": {
+                            "price": "B24",
+                            "weight": "D24"
+                        },
+                        "Bifronte": {
+                            "price": "B25",
+                            "weight": "D25"
+                        },
+                        "Curve calandrate sez. UNP 100 R=350": {
+                            "price": "B28",
+                            "weight": "D28"
+                        }
+                    }
+                }
+            },
+            "PARACOLPI": {
+                "worksheet": "Paracolpi",
+                "available_params": {
+                    "select": {
+                        "tipo elemento": [
+                            "Frontale per montante serie 80",
+                            "Frontale per montante serie 100",
+                            "Angolare per monttante serie 80/100",
+                            "Angolare frontale tipo Metelli"
+                        ]
+                    },
+                    "input": [],
+                    "rules": {},
+                    "cells_input": {},
+                    "cells_output": {
+                        "Frontale per montante serie 80": {
+                            "price": "B31",
+                            "weight": "D31"
+                        },
+                        "Frontale per montante serie 100": {
+                            "price": "B32",
+                            "weight": "D32"
+                        },
+                        "Angolare per monttante serie 80/100": {
+                            "price": "B33",
+                            "weight": "D33"
+                        },
+                        "Angolare frontale tipo Metelli": {
+                            "price": "B34",
+                            "weight": "D34"
+                        }                        
+                    }
+                }
+            },
+            "GUARDRAIL": {
+                "worksheet": "Paracolpi",
+                "available_params": {
+                    "select": {
+                        "tipo elemento": [
+                            "Bifronte (2 paracolpi + Sigma 255x3)",
+                            "Monofronte (2 paracolpi + Sigma 255x3)"
+                        ]
+                    },
+                    "input": [],
+                    "rules": {},
+                    "cells_input": {},
+                    "cells_output": {
+                        "Bifronte (2 paracolpi + Sigma 255x3)": {
+                            "price": "B38",
+                            "weight": "D38"
+                        },
+                        "Monofronte (2 paracolpi + Sigma 255x3)": {
+                            "price": "B39",
+                            "weight": "D39"
+                        }
+                    }
+                }
+            }
+        }
     }
 }
