@@ -1,10 +1,9 @@
 from gui.auth_window import AuthWindow
-from gui.main_window import App
 from logic.logger import logger, check_log_size
 from settings import settings as set
 
 
-def start_app(window: AuthWindow | App) -> None:
+def start_app(window) -> None:
     root = tk.Tk()
     app = window(root)
     root.mainloop()
@@ -17,6 +16,13 @@ if __name__ == "__main__":
 
     logger.info("============================================================")
 
+    if set.CUSTOM_IMPLEMENTATION:
+        from interface.custom_app import CustomApp
+        main_window = CustomApp
+    else:
+        from gui.main_window import App
+        main_window = App
+
     if set.PRODUCTION_MODE_ON:
         logger.info("Trying to acces the app")
         login_window = start_app(AuthWindow)
@@ -24,8 +30,8 @@ if __name__ == "__main__":
         if login_window.auth_successful:
             # ✅ Проверяем успешность авторизации
             logger.info("Login is successful")
-            start_app(App)
+            start_app(main_window)
         else:
             logger.info("Application closed due to unsuccessful login")
     else:
-        start_app(App)
+        start_app(main_window)
