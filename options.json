@@ -508,7 +508,7 @@
     },
     "travi di battuta": {
         "always_on": {},
-         "window_settings": {
+        "window_settings": {
              "width": 400,
              "height": 250
         },
@@ -540,6 +540,95 @@
                 "cells_output":{
                     "price": "B15",
                     "weight": "B16"
+                }
+            }
+        }
+    },
+    "satellitare": {
+        "always_on": {
+            "tipo": ["AUTOMHA", "Altro"]
+        },
+        "window_settings": {
+             "width": 450,
+             "height": 150
+        },
+        "choices": {
+            "AUTOMHA": {
+                "worksheet": "Satellitare",
+                "available_params": {
+                    "select": {
+                        "element": ["Profilo a 'Z' 50x190x60x2", "Profilo a 'Z' 50x190x60x2.5","Profilo a 'Z' 50x190x60x3"]
+                    },
+                    "input": [],
+                    "rules": {},
+                    "cells_input": {},
+                    "cells_output": {
+                        "Profilo a 'Z' 50x190x60x2": {
+                            "price": "D7",
+                            "weight": "L7"
+                        },
+                        "Profilo a 'Z' 50x190x60x2.5": {
+                            "price": "D8",
+                            "weight": "L8"
+                        },
+                        "Profilo a 'Z' 50x190x60x3": {
+                            "price": "D9",
+                            "weight": "L9"
+                        }
+                    }
+                }
+            },
+            "Altro": {
+                "worksheet": "Satellitare",
+                "window_settings": {
+                    "width": 450,
+                    "height": 150
+                },
+                "available_params": {
+                    "select": {
+                        "element": [
+                            "Battute posteriori per pallet e satellite",
+                            "Battute posteriori solo pallet",
+                            "Angolare zincato di fissaggio 'Z'",
+                            "Mensola di ingresso",
+                            "Giunti",
+                            "Inviti satellitare",
+                            "DISTANZIALI L=1368mm"
+                        ]
+                    },
+                    "input": [],
+                    "rules": {},
+                    "cells_input": {},
+                    "cells_output": {
+                        "Battute posteriori per pallet e satellite": {
+                            "price": "D10",
+                            "weight": "L10"
+                        },
+                        "Battute posteriori solo pallet": {
+                            "price": "D14",
+                            "weight": "L14"
+                        },
+                        "Angolare zincato di fissaggio 'Z'": {
+                            "price": "D11",
+                            "weight": "L11"
+                        },
+                        "Mensola di ingresso": {
+                            "price": "D12",
+                            "weight": "L12"
+                        },
+                        "Giunti": {
+                            "price": "D13",
+                            "weight": "L13"
+                        },
+                        "Inviti satellitare": {
+                            "price": "D15",
+                            "weight": "L15"
+                        },
+                        "DISTANZIALI L=1368mm": {
+                            "price": "D16",
+                            "weight": "L16"
+                        }
+                    }
                 }
             }
         }
