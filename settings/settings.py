@@ -294,7 +294,9 @@ DICTIONARY = {
     "diagonal_30/10": "Diagonale 30/10",
     "traverse_10/10": "Traverse 10/10",
     "traverse_15/10": "Traverse 15/10",
-    "fold": "Piega"
+    "fold": "Piega",
+    "profile": "Profilo",
+    "element": "Elemento"
 }
 
 # ===================================Login=====================================
