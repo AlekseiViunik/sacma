@@ -175,8 +175,7 @@ class WidgetCreator:
 
         start_row = len(self.always_on)
 
-        for i in range(set.COL_NUM):
-            always_on_frame.columnconfigure(i, weight=set.GRID_WEIGHT)
+        self.__configure_frame(always_on_frame)
         log.info("Always_on frame is created")
         return start_row
 
@@ -191,8 +190,8 @@ class WidgetCreator:
             Номер строки сетки, с которой начнется размещение виджетов.
         """
         # Если виджет отрисовывается первый раз, получаем параметры
-        log.info("Get initial params")
-        if not self.select_fields or not self.input_fields:
+        if self.select_fields is None or self.input_fields is None:
+            log.info("Get initial params")
             inizial_choice = None
             for value in self.always_on.values():
                 if value:
@@ -229,8 +228,7 @@ class WidgetCreator:
             )
 
         # Конфигурируем сетку
-        for i in range(set.COL_NUM):
-            self.frame.columnconfigure(i, weight=set.GRID_WEIGHT)
+        self.__configure_frame(self.frame)
 
     def create_frame(self, frame_name: str) -> tk.Frame:
         """
@@ -361,7 +359,7 @@ class WidgetCreator:
             frame,
             text=label.capitalize(),
             bg=set.LABEL_BG_COLOR,
-            width=15,
+            width=13,
             anchor="w"
         ).grid(row=row, column=0, sticky="w", pady=2)
 
@@ -444,3 +442,13 @@ class WidgetCreator:
         self.input_fields = (
             self.type_choice['choices'][choice]['available_params']['input']
         )
+
+    def __configure_frame(self, frame: tk.Toplevel):
+        for i in range(set.COL_NUM):
+            if i == 0:
+                weight = 6
+            elif i == 1:
+                weight = 20
+            else:
+                weight = 4
+            frame.columnconfigure(i, weight=weight)
