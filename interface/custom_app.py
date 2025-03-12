@@ -1,12 +1,20 @@
 import sys
 
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton
+
 from interface.windows.settings_window import SettingsWindow
+from handlers.json_handler import JsonHandler
+
+CONFIG_FILE = "windows_configs/main_window.json"
 
 
 class CustomApp(QWidget):
     def __init__(self):
         super().__init__()
+        self.width = 450
+        self.height = 150
+        self.config_json_handler = JsonHandler(CONFIG_FILE)
+        self.creator = None
         self.init_ui()
 
     def init_ui(self):
