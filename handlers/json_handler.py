@@ -43,3 +43,13 @@ class JsonHandler:
                     result[key] = data.get(key, "")
 
         return result
+
+    def rewrite_file(self, data: dict) -> None:
+        with open("settings.json", "w", encoding="utf-8") as f:
+            json.dump(
+                {
+                    key: field.text()
+                    for key, field in data.items()
+                },
+                f, indent=4, ensure_ascii=False
+            )
