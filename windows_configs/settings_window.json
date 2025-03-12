@@ -1,0 +1,40 @@
+{
+    "columns_in_row": 3,
+    "row_1": {
+        "column_1": {
+            "type": "label",
+            "text": "Select excel file:"
+        },
+        "column_2": {
+            "type": "input",
+            "default_value": "Enter the path",
+            "width": 250
+        },
+        "column_3": {
+            "type": "button",
+            "text": "Browse",
+            "callback": "browse_file",
+            "params": {
+                "target_input": "row_1.column_2"
+            }
+        }
+    },
+    "row_2": {
+        "column_1": {
+            "type": "button",
+            "text": "Save",
+            "width": 150,
+            "height": 40,
+            "callback": "save_settings",
+            "params": {}
+        },
+        "column_3": {
+            "type": "button",
+            "text": "Cancel",
+            "width": 150,
+            "height": 40,
+            "callback": "close_window",
+            "params": {}
+        }
+    }
+}
