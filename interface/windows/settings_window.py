@@ -1,69 +1,58 @@
-import json
-import os
+# import json
+# import os
+
 from PyQt6.QtWidgets import (
     QWidget,
-    QVBoxLayout,
-    QLabel,
-    QLineEdit,
-    QPushButton,
-    QFileDialog,
-    QHBoxLayout
+    # QFileDialog,
 )
 
+from handlers.json_handler import JsonHandler
+from interface.creator import Creator
+from interface.helper import Helper
+
 SETTINGS_FILE = "settings.json"
+CONFIG_FILE = "windows_configs/settings_window.json"
 
 
 class SettingsWindow(QWidget):
     def __init__(self):
         super().__init__()
+        self.width = 450
+        self.height = 150
+        self.settings_json_handler = JsonHandler(SETTINGS_FILE)
+        self.config_json_handler = JsonHandler(CONFIG_FILE)
+
         self.init_ui()
 
     def init_ui(self):
+
         self.setWindowTitle("Настройки")
-        self.setGeometry(200, 200, 350, 150)
-        layout = QVBoxLayout()
+        Helper.move_window_to_center(self)
 
-        self.label = QLabel("Путь к Excel файлу:")
-
-        file_layout = QHBoxLayout()
-        self.input_field = QLineEdit()
-        self.browse_button = QPushButton("Обзор")
-        self.browse_button.clicked.connect(self.browse_file)
-
-        file_layout.addWidget(self.input_field)
-        file_layout.addWidget(self.browse_button)
-
-        self.save_button = QPushButton("Сохранить")
-        self.save_button.clicked.connect(self.save_settings)
-
-        self.cancel_button = QPushButton("Отмена")
-        self.cancel_button.clicked.connect(self.close)
-
-        layout.addWidget(self.label)
-        layout.addLayout(file_layout)
-        layout.addWidget(self.save_button)
-        layout.addWidget(self.cancel_button)
+        config = self.config_json_handler.get_all_data()
+        creator = Creator(config, self)
+        layout = creator.create_window_layout()
 
         self.setLayout(layout)
 
-    def load_settings(self):
-        if os.path.exists(SETTINGS_FILE):
-            with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
-                settings = json.load(f)
-                self.input_field.setText(settings.get("excel_path", ""))
+    # def load_settings(self):
+    #     if os.path.exists(SETTINGS_FILE):
+    #         with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
+    #             settings: json = json.load(f)
+    #             self.input_excel_path.setText(settings.get("excel_path", ""))
 
-    def save_settings(self):
-        settings = {"excel_path": self.input_field.text()}
-        with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
-            json.dump(settings, f, indent=4)
-        self.close()
+    # def save_settings(self):
+    #     settings = {"excel_path": self.input_excel_path.text()}
+    #     with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
+    #         json.dump(settings, f, indent=4)
+    #     self.close()
 
-    def browse_file(self):
-        file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            "Выбрать файл",
-            "",
-            "Excel Files (*.xlsx *.xls)"
-        )
-        if file_path:
-            self.input_field.setText(file_path)
+    # def browse_file(self, filter, input):
+    #     file_path, _ = QFileDialog.getOpenFileName(
+    #         self,
+    #         "Выбрать файл",
+    #         "",
+    #         filter
+    #     )
+    #     if file_path:
+    #         input.setText(file_path)
