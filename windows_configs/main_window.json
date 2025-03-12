@@ -1,0 +1,20 @@
+{
+    "window_title": "SACMA",
+    "window_width": 450,
+    "window_height": 400,
+    "layout": {
+        "type": "vertical",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "widgets": {
+                        "row_1": {
+                            
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
