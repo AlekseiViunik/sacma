@@ -35,7 +35,7 @@ class SettingsWindow(QWidget):
         Helper.move_window_to_center(self)
 
         self.creator = Creator(config, self)
-        layout = self.creator.create_window_layout()
+        layout = self.creator.create_widget_layout()
 
         self.setLayout(layout)
 
