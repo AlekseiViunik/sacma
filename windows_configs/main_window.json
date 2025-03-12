@@ -12,7 +12,7 @@
                     "widgets": [
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Fiancate",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -20,7 +20,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Travi",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -28,7 +28,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Tasselli",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -36,7 +36,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Satellitare",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -44,7 +44,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Pianetti",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -52,7 +52,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Grigliato",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -60,7 +60,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Travi di battuta",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -68,7 +68,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Angolari per automatici",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -76,7 +76,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Gravità leggera",
                             "width": 150,
                             "height": 40,
                             "callback": "",
@@ -84,7 +84,7 @@
                         },
                         {
                             "type": "button",
-                            "text": "Save",
+                            "text": "Option di sicurezza",
                             "width": 150,
                             "height": 40,
                             "callback": "",
