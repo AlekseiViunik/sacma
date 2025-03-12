@@ -23,18 +23,16 @@ class Creator:
                         column_num = int(column[7:])
                         widget = self.__create_widget(
                             widget_config,
-                            row_num,
-                            column_num
                         )
                         grid_layout.addWidget(widget, row_num, column_num)
         return grid_layout
 
-    def __create_widget(self, config, row, column):
-        match config["type"]:
+    def __create_widget(self, config):
+        match config['type']:
             case "label":
                 widget = self.__create_label(config)
             case "input":
-                widget = self.__create_input(config, row, column)
+                widget = self.__create_input(config)
             case "button":
                 widget = self.__create_button(config)
             case _:
@@ -42,9 +40,9 @@ class Creator:
         return widget
 
     def __create_label(self, config: dict) -> QLabel:
-        return QLabel(config["text"])
+        return QLabel(config['text'])
 
-    def __create_input(self, config: dict, row, column) -> QLineEdit:
+    def __create_input(self, config: dict) -> QLineEdit:
         input_field = QLineEdit()
         for param, value in config.items():
             match param:
@@ -54,11 +52,11 @@ class Creator:
                     input_field.setFixedHeight(int(value))
                 case "default_value":
                     input_field.setPlaceholderText(value)
-        self.input_fields[f"{row}.{column}"] = input_field
+        self.input_fields[config['name']] = input_field
         return input_field
 
     def __create_button(self, config: dict) -> QPushButton:
-        button = QPushButton(config["text"])
+        button = QPushButton(config['text'])
         for param, value in config.items():
             match param:
                 case "width":
@@ -82,7 +80,7 @@ class Creator:
         elif callback_name == "save_settings":
             button.clicked.connect(self.__save_settings)
 
-    def __browse_file(self, target_input):
+    def __browse_file(self, target_input: QLineEdit):
         from PyQt6.QtWidgets import QFileDialog
         file_path, _ = QFileDialog.getOpenFileName(
             None,
@@ -92,6 +90,7 @@ class Creator:
         )
         if file_path and target_input in self.input_fields:
             self.input_fields[target_input].setText(file_path)
+            self.input_fields[target_input].setPlaceholderText(file_path)
 
     def __save_settings(self):
         import json
