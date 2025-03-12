@@ -35,9 +35,7 @@ class SettingsWindow(QWidget):
         Helper.move_window_to_center(self)
 
         self.creator = Creator(config, self)
-        layout = self.creator.create_widget_layout()
-
-        self.setLayout(layout)
+        self.creator.create_widget_layout(self)
 
     def connect_callback(self, button, callback_name, params):
         if callback_name == "close_window":
