@@ -1,5 +1,7 @@
 {
-    "columns_in_row": 3,
+    "window_title": "Настройки",
+    "window_width": 450,
+    "window_height": 150,
     "row_1": {
         "column_1": {
             "type": "label",
