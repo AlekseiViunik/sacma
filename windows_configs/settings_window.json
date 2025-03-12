@@ -3,47 +3,59 @@
     "window_width": 450,
     "window_height": 150,
     "layout": {
-        "type": "grid",
-        "columns": 3,
+        "type": "vertical",
         "widgets": [
             {
-                "type": "label",
-                "text": "Select excel file:",
-                "column": "first"
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Select excel file:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "excel_path",
+                            "default_value": "Enter the path",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Browse",
+                            "callback": "browse_file",
+                            "height": 40,
+                            "params": {
+                                "target_input": "excel_path"
+                            },
+                            "column": "last"
+                        }
+                    ]
+                }
             },
             {
-                "type": "input",
-                "name": "excel_path",
-                "default_value": "Enter the path",
-                "width": 250,
-                "height": 40,
-                "column": "current"
-            },
-            {
-                "type": "button",
-                "text": "Browse",
-                "callback": "browse_file",
-                "height": 40,
-                "params": {
-                    "target_input": "excel_path"
-                },
-                "column": "last"
-            },
-            {
-                "type": "button",
-                "text": "Save",
-                "width": 150,
-                "height": 40,
-                "callback": "save_settings",
-                "column": "first"
-            },
-            {
-                "type": "button",
-                "text": "Cancel",
-                "width": 150,
-                "height": 40,
-                "callback": "close_window",
-                "column": "last"
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "callback": "save_settings",
+                            "width": 150,
+                            "height": 40
+                        },
+                        {
+                            "type": "button",
+                            "text": "Cancel",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "close_window"
+                        }
+                    ]
+                }
             }
         ]
     }
