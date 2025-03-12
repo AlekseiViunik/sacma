@@ -2,42 +2,47 @@
     "window_title": "Настройки",
     "window_width": 450,
     "window_height": 150,
-    "row_1": {
-        "column_1": {
-            "type": "label",
-            "text": "Select excel file:"
-        },
-        "column_2": {
-            "type": "input",
-            "name": "excel_path",
-            "default_value": "Enter the path",
-            "width": 250
-        },
-        "column_3": {
-            "type": "button",
-            "text": "Browse",
-            "callback": "browse_file",
-            "params": {
-                "target_input": "excel_path"
+    "layout": {
+        "type": "grid",
+        "columns": 3,
+        "widgets": [
+            {
+                "type": "label",
+                "text": "Select excel file:",
+                "column": "first"
+            },
+            {
+                "type": "input",
+                "name": "excel_path",
+                "default_value": "Enter the path",
+                "width": 250,
+                "column": "current"
+            },
+            {
+                "type": "button",
+                "text": "Browse",
+                "callback": "browse_file",
+                "params": {
+                    "target_input": "excel_path"
+                },
+                "column": "last"
+            },
+            {
+                "type": "button",
+                "text": "Save",
+                "width": 150,
+                "height": 40,
+                "callback": "save_settings",
+                "column": "first"
+            },
+            {
+                "type": "button",
+                "text": "Cancel",
+                "width": 150,
+                "height": 40,
+                "callback": "close_window",
+                "column": "last"
             }
-        }
-    },
-    "row_2": {
-        "column_1": {
-            "type": "button",
-            "text": "Save",
-            "width": 150,
-            "height": 40,
-            "callback": "save_settings",
-            "params": {}
-        },
-        "column_3": {
-            "type": "button",
-            "text": "Cancel",
-            "width": 150,
-            "height": 40,
-            "callback": "close_window",
-            "params": {}
-        }
+        ]
     }
 }
