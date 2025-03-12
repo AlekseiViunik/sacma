@@ -7,6 +7,7 @@
         },
         "column_2": {
             "type": "input",
+            "name": "excel_path",
             "default_value": "Enter the path",
             "width": 250
         },
@@ -15,7 +16,7 @@
             "text": "Browse",
             "callback": "browse_file",
             "params": {
-                "target_input": "row_1.column_2"
+                "target_input": "excel_path"
             }
         }
     },
