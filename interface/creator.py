@@ -153,4 +153,10 @@ class Creator:
 
             if widget_pos == "last":
                 return current_row, positions['last']
+
+            if widget_pos == "middle":
+                if current_col < (col_amount - 1) // 2:
+                    current_col = (col_amount - 1) // 2
+                return current_row, current_col
+
         return current_row, current_col
