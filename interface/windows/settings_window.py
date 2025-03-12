@@ -3,7 +3,8 @@
 
 from PyQt6.QtWidgets import (
     QWidget,
-    # QFileDialog,
+    QLineEdit,
+    QFileDialog,
 )
 
 from handlers.json_handler import JsonHandler
@@ -21,6 +22,7 @@ class SettingsWindow(QWidget):
         self.height = 150
         self.settings_json_handler = JsonHandler(SETTINGS_FILE)
         self.config_json_handler = JsonHandler(CONFIG_FILE)
+        self.creator = None
 
         self.init_ui()
 
@@ -30,29 +32,35 @@ class SettingsWindow(QWidget):
         Helper.move_window_to_center(self)
 
         config = self.config_json_handler.get_all_data()
-        creator = Creator(config, self)
-        layout = creator.create_window_layout()
+        self.creator = Creator(config, self)
+        layout = self.creator.create_window_layout()
 
         self.setLayout(layout)
 
-    # def load_settings(self):
-    #     if os.path.exists(SETTINGS_FILE):
-    #         with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
-    #             settings: json = json.load(f)
-    #             self.input_excel_path.setText(settings.get("excel_path", ""))
+    def connect_callback(self, button, callback_name, params):
+        if callback_name == "close_window":
+            button.clicked.connect(self.close)
+        elif callback_name == "browse_file":
+            target_input = params.get("target_input")
+            button.clicked.connect(lambda: self.browse_file(target_input))
+        elif callback_name == "save_settings":
+            button.clicked.connect(self.save_settings)
 
-    # def save_settings(self):
-    #     settings = {"excel_path": self.input_excel_path.text()}
-    #     with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
-    #         json.dump(settings, f, indent=4)
-    #     self.close()
+    def browse_file(self, target_input: QLineEdit):
+        file_path, _ = QFileDialog.getOpenFileName(
+            None,
+            "Выбрать файл",
+            "",
+            "Excel Files (*.xlsx *.xls)"
+        )
+        if file_path and target_input in self.creator.input_fields:
+            self.creator.input_fields[target_input].setText(file_path)
+            self.creator.input_fields[target_input].setPlaceholderText(
+                file_path
+            )
 
-    # def browse_file(self, filter, input):
-    #     file_path, _ = QFileDialog.getOpenFileName(
-    #         self,
-    #         "Выбрать файл",
-    #         "",
-    #         filter
-    #     )
-    #     if file_path:
-    #         input.setText(file_path)
+    def save_settings(self):
+        self.settings_json_handler.rewrite_file(
+            self.creator.input_fields
+        )
+        self.close()

@@ -64,43 +64,9 @@ class Creator:
                 case "height":
                     button.setFixedHeight(int(value))
                 case "callback":
-                    self.__connect_callback(
+                    self.parent_window.connect_callback(
                         button,
                         value,
                         config.get("params", {})
                     )
         return button
-
-    def __connect_callback(self, button, callback_name, params):
-        if callback_name == "close_window" and self.parent_window:
-            button.clicked.connect(self.parent_window.close)
-        elif callback_name == "browse_file":
-            target_input = params.get("target_input")
-            button.clicked.connect(lambda: self.__browse_file(target_input))
-        elif callback_name == "save_settings":
-            button.clicked.connect(self.__save_settings)
-
-    def __browse_file(self, target_input: QLineEdit):
-        from PyQt6.QtWidgets import QFileDialog
-        file_path, _ = QFileDialog.getOpenFileName(
-            None,
-            "Выбрать файл",
-            "",
-            "Excel Files (*.xlsx *.xls)"
-        )
-        if file_path and target_input in self.input_fields:
-            self.input_fields[target_input].setText(file_path)
-            self.input_fields[target_input].setPlaceholderText(file_path)
-
-    def __save_settings(self):
-        import json
-        with open("settings.json", "w", encoding="utf-8") as f:
-            json.dump(
-                {
-                    key: field.text()
-                    for key, field in self.input_fields.items()
-                },
-                f, indent=4, ensure_ascii=False
-            )
-        if self.parent_window:
-            self.parent_window.close()
