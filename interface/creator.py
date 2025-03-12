@@ -13,19 +13,39 @@ class Creator:
         self.parent_window = parent_window  # Нужно для закрытия окна
         self.input_fields = {}
 
-    def create_window_layout(self) -> QGridLayout:
-        grid_layout = QGridLayout()
+    def create_widget_layout(self) -> QGridLayout:
         if self.config:
-            for row in self.config.keys():
-                if "row_" in row:
-                    row_num = int(row[4:])
-                    for column, widget_config in self.config[row].items():
-                        column_num = int(column[7:])
-                        widget = self.__create_widget(
-                            widget_config,
-                        )
-                        grid_layout.addWidget(widget, row_num, column_num)
-        return grid_layout
+            window_layout = self.__create_layout(self.config['layout'])
+            self.__add_widgets(
+                window_layout,
+                self.config['layout']['type'],
+                self.config['layout']['widgets'],
+                self.config['layout'].get('columns')
+            )
+        return window_layout
+
+    def __add_widgets(
+        self,
+        layout,
+        layout_type,
+        widgets_configs,
+        columns=None
+    ):
+        match layout_type:
+            case "grid":
+                current_row = 0
+                current_column = 0
+                for widget_config in widgets_configs:
+                    current_row, current_column = self.__get_widget_pos(
+                        current_row,
+                        current_column,
+                        columns,
+                        widget_config.get('column')
+                    )
+                    widget = self.__create_widget(widget_config)
+
+                    layout.addWidget(widget, current_row, current_column)
+                    current_column = current_column + 1
 
     def __create_widget(self, config):
         match config['type']:
@@ -38,6 +58,16 @@ class Creator:
             case _:
                 widget = None
         return widget
+
+    def __create_layout(self, layout_config):
+        match layout_config["type"]:
+            case "grid":
+                return QGridLayout()
+            case "vertical":
+                pass
+            case "horisontal":
+                pass
+        return None
 
     def __create_label(self, config: dict) -> QLabel:
         return QLabel(config['text'])
@@ -70,3 +100,32 @@ class Creator:
                         config.get("params", {})
                     )
         return button
+
+    def __get_widget_pos(
+        self,
+        current_row: int,
+        current_col: int,
+        col_amount: int,
+        widget_pos: str = None
+    ):
+        positions = {
+            "first": 0,
+            "last": col_amount - 1,
+            "current": current_col
+        }
+        if current_col == col_amount:
+            current_row += 1
+            current_col = 0
+
+        if widget_pos:
+            if widget_pos == "first":
+                if current_col > 0:
+                    current_row += 1
+                return current_row, positions['first']
+
+            if widget_pos == "current":
+                return current_row, positions['current']
+
+            if widget_pos == "last":
+                return current_row, positions['last']
+        return current_row, current_col
