@@ -8,11 +8,110 @@
             {
                 "layout": {
                     "type": "grid",
-                    "widgets": {
-                        "row_1": {
-                            
+                    "columns": 3,
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "",
+                            "column": "current"
                         }
-                    }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Настройки",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_settings"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Create user",
+                            "width": 150,
+                            "height": 40,
+                            "callback": ""
+                        }
+                    ]
                 }
             }
         ]
