@@ -1,7 +1,7 @@
 {
     "window_title": "SACMA",
     "window_width": 450,
-    "window_height": 400,
+    "window_height": 300,
     "layout": {
         "type": "vertical",
         "widgets": [
