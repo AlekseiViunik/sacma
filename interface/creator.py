@@ -13,16 +13,16 @@ class Creator:
         self.parent_window = parent_window  # Нужно для закрытия окна
         self.input_fields = {}
 
-    def create_widget_layout(self) -> QGridLayout:
+    def create_widget_layout(self, window) -> QGridLayout:
         if self.config:
-            window_layout = self.__create_layout(self.config['layout'])
+            layout = self.__create_layout(self.config['layout'])
             self.__add_widgets(
-                window_layout,
+                layout,
                 self.config['layout']['type'],
                 self.config['layout']['widgets'],
                 self.config['layout'].get('columns')
             )
-        return window_layout
+        window.setLayout(layout)
 
     def __add_widgets(
         self,
