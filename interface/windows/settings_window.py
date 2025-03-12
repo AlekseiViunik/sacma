@@ -18,8 +18,8 @@ CONFIG_FILE = "windows_configs/settings_window.json"
 class SettingsWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.width = 450
-        self.height = 150
+        self.window_width = 0
+        self.window_height = 0
         self.settings_json_handler = JsonHandler(SETTINGS_FILE)
         self.config_json_handler = JsonHandler(CONFIG_FILE)
         self.creator = None
@@ -27,11 +27,13 @@ class SettingsWindow(QWidget):
         self.init_ui()
 
     def init_ui(self):
+        config = self.config_json_handler.get_all_data()
 
-        self.setWindowTitle("Настройки")
+        self.setWindowTitle(config['window_title'])
+        self.window_width = int(config['window_width'])
+        self.window_height = int(config['window_height'])
         Helper.move_window_to_center(self)
 
-        config = self.config_json_handler.get_all_data()
         self.creator = Creator(config, self)
         layout = self.creator.create_window_layout()
 
