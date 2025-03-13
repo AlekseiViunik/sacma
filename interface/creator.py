@@ -22,6 +22,9 @@ class Creator:
         self.parent_window = parent_window  # Нужно для закрытия окна
         self.input_fields = {}
         self.chosen_fields = {}
+        self.default_values = {}
+        self.current_changing_value = None
+        self.dependencies = {}
 
     def create_widget_layout(
         self,
@@ -60,6 +63,8 @@ class Creator:
                 current_row = 0
                 current_column = 0
                 for widget_config in widgets_configs:
+                    if not self.__check_if_widget_is_active(widget_config):
+                        continue
                     current_row, current_column = self.__get_widget_pos(
                         current_row,
                         current_column,
@@ -76,6 +81,8 @@ class Creator:
                     current_column = current_column + 1
             case "vertical" | "horizontal":
                 for widget_config in widgets_configs:
+                    if not self.__check_if_widget_is_active(widget_config):
+                        continue
                     self.__create_widget(widget_config, layout)
 
     def __create_widget(
@@ -102,15 +109,20 @@ class Creator:
                     widget = self.__create_dropdown(config)
                 case _:
                     widget = None
-            if row is not None and column is not None:
-                layout.addWidget(widget, row, column)
-            else:
-                layout.addWidget(widget)
+            if widget:
+                if row is not None and column is not None:
+                    layout.addWidget(widget, row, column)
+                else:
+                    layout.addWidget(widget)
 
     def __create_layout(
         self,
         layout_config: dict
     ) -> QHBoxLayout | QVBoxLayout | QGridLayout | None:
+        if layout_config.get('depends_on'):
+            self.current_changing_value = self.default_values[
+                layout_config['depends_on']
+            ]
         match layout_config["type"]:
             case "grid":
                 return QGridLayout()
@@ -154,10 +166,14 @@ class Creator:
 
     def __create_dropdown(self, config: dict):
         dropdown = QComboBox()
+        self.default_values[config['name']] = config['default_value']
         for param, value in config.items():
             match param:
                 case "options":
-                    dropdown.addItems(value)
+                    if value.get('always'):
+                        dropdown.addItems(value['always'])
+                    else:
+                        dropdown.addItems(value[self.current_changing_value])
                 case "width":
                     dropdown.setFixedWidth(int(value))
                 case "height":
@@ -165,6 +181,11 @@ class Creator:
                 case "default_value":
                     dropdown.setCurrentText(str(value))
         self.chosen_fields[config['name']] = dropdown
+
+        if config.get('change_widgets'):
+            dropdown.currentIndexChanged.connect(
+                lambda: self.__update_dependent_layouts(config['name'])
+            )
         return dropdown
 
     def __get_widget_pos(
@@ -201,3 +222,16 @@ class Creator:
                 return current_row, current_col
 
         return current_row, current_col
+
+    def __update_dependent_layouts(self, name):
+        print("Stop here")
+        pass
+
+    def __check_if_widget_is_active(self, config):
+        if (
+            config.get('active_when') and
+            self.current_changing_value and
+            self.current_changing_value not in config['active_when']
+        ):
+            return False
+        return True
