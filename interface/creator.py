@@ -1,11 +1,13 @@
 from typing import Any
 from PyQt6.QtWidgets import (
+    QComboBox,
     QGridLayout,
     QHBoxLayout,
     QLabel,
     QLineEdit,
     QPushButton,
-    QVBoxLayout
+    QVBoxLayout,
+    QWidget
 )
 
 
@@ -19,10 +21,11 @@ class Creator:
         self.config = config
         self.parent_window = parent_window  # Нужно для закрытия окна
         self.input_fields = {}
+        self.chosen_fields = {}
 
     def create_widget_layout(
         self,
-        window: QHBoxLayout | QVBoxLayout | QGridLayout,
+        window: QHBoxLayout | QVBoxLayout | QGridLayout | QWidget,
         layout_config: dict
     ) -> None:
         """
@@ -95,6 +98,8 @@ class Creator:
                     widget = self.__create_input(config)
                 case "button":
                     widget = self.__create_button(config)
+                case "dropdown":
+                    widget = self.__create_dropdown(config)
                 case _:
                     widget = None
             if row is not None and column is not None:
@@ -146,6 +151,21 @@ class Creator:
                         config.get("params", {})
                     )
         return button
+
+    def __create_dropdown(self, config: dict):
+        dropdown = QComboBox()
+        for param, value in config.items():
+            match param:
+                case "options":
+                    dropdown.addItems(value)
+                case "width":
+                    dropdown.setFixedWidth(int(value))
+                case "height":
+                    dropdown.setFixedHeight(int(value))
+                case "default_value":
+                    dropdown.setCurrentText(str(value))
+        self.chosen_fields[config['name']] = dropdown
+        return dropdown
 
     def __get_widget_pos(
         self,
