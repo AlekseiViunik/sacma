@@ -45,7 +45,7 @@ class CustomApp(QWidget):
                 params['json_file_path'],
                 self
             )
-            input_window.init_ui()
+        input_window.show()
 
     def connect_callback(
         self,
