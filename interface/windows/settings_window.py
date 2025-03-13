@@ -1,6 +1,3 @@
-# import json
-# import os
-
 from PyQt6.QtWidgets import (
     QWidget,
     QLineEdit,
