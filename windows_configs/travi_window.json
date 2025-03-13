@@ -1,9 +1,10 @@
 {
     "window_title": "Travi",
-    "window_width": 450,
+    "window_width": 350,
     "window_height": 300,
     "layout": {
         "type": "vertical",
+        "name": "base_layout",
         "widgets": [
             {
                 "layout": {
@@ -18,13 +19,18 @@
                         },
                         {
                             "type": "dropdown",
-                            "width": 250,
-                            "height": 40,
+                            "width": 150,
+                            "height": 20,
                             "name": "type",
                             "default_value": "TG",
                             "options": {"always": ["TG", "SAT", "APERTE", "PORTA SKID"]},
-                            "changes": 1,
+                            "change_widgets": 1,
                             "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
                         }
                     ]
                 }
@@ -33,6 +39,7 @@
                 "layout": {
                     "type": "grid",
                     "columns": 3,
+                    "name": "main_layout",
                     "depends_on": "type",
                     "widgets": [
                         {
@@ -44,8 +51,8 @@
                         {
                             "type": "dropdown",
                             "name": "height",
-                            "width": 250,
-                            "height": 40,
+                            "width": 150,
+                            "height": 20,
                             "default_value": "70",
                             "column": "current",
                             "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
@@ -71,8 +78,8 @@
                         {
                             "type": "dropdown",
                             "name": "base",
-                            "width": 250,
-                            "height": 40,
+                            "width": 150,
+                            "height": 20,
                             "default_value": "45",
                             "active_when": ["TG", "APERTE", "PORTA SKID"],
                             "options": {
@@ -97,8 +104,8 @@
                         {
                             "type": "dropdown",
                             "name": "support",
-                            "width": 250,
-                            "height": 40,
+                            "width": 150,
+                            "height": 20,
                             "default_value": "45",
                             "active_when": ["SAT"],
                             "options": {
@@ -115,8 +122,8 @@
                         {
                             "type": "dropdown",
                             "name": "thickness",
-                            "width": 250,
-                            "height": 40,
+                            "width": 150,
+                            "height": 20,
                             "default_value": "1.2",
                             "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
                             "options": {
@@ -142,8 +149,8 @@
                         {
                             "type": "dropdown",
                             "name": "special_hook",
-                            "width": 250,
-                            "height": 40,
+                            "width": 150,
+                            "height": 20,
                             "default_value": "No",
                             "active_when": ["TG", "SAT", "APERTE"],
                             "options": {
@@ -162,8 +169,8 @@
                         {
                             "type": "dropdown",
                             "name": "amount",
-                            "width": 250,
-                            "height": 40,
+                            "width": 150,
+                            "height": 20,
                             "default_value": ">=1001",
                             "active_when": ["TG", "SAT", "APERTE"],
                             "options": {
@@ -183,8 +190,8 @@
                             "type": "input",
                             "name": "length",
                             "default_value": "Enter the length",
-                            "width": 250,
-                            "height": 40,
+                            "width": 150,
+                            "height": 20,
                             "column": "current",
                             "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
                         },
@@ -201,7 +208,18 @@
                 "layout": {
                     "type":"grid",
                     "columns": 3,
+                    "name": "bttom_layout",
                     "widgets": [
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "current"
+                        },
                         {
                             "type": "button",
                             "text": "Invia",
