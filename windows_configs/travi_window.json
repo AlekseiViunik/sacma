@@ -1,0 +1,217 @@
+{
+    "window_title": "Travi",
+    "window_width": 450,
+    "window_height": 300,
+    "layout": {
+        "type": "vertical",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "changing",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Tipo",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "width": 250,
+                            "height": 40,
+                            "name": "type",
+                            "default_value": "TG",
+                            "options": {"always": ["TG", "SAT", "APERTE", "PORTA SKID"]},
+                            "changes": 1,
+                            "column": "current"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "depends_on": "type",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Altezza",
+                            "column": "first",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "height",
+                            "width": 250,
+                            "height": 40,
+                            "default_value": "70",
+                            "column": "current",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "options": {
+                                "TG": ["70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170"],
+                                "SAT": ["70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170"],
+                                "APERTE": ["70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"],
+                                "PORTA SKID": ["20", "25", "30", "35", "40", "45", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"]
+                            }
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "Base",
+                            "column": "first",
+                            "active_when": ["TG", "APERTE", "PORTA SKID"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "base",
+                            "width": 250,
+                            "height": 40,
+                            "default_value": "45",
+                            "active_when": ["TG", "APERTE", "PORTA SKID"],
+                            "options": {
+                                "TG": ["45", "50"],
+                                "APERTE": ["20", "30", "35", "40", "45", "50"],
+                                "PORTA SKID": ["30", "35", "40", "45", "50"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "Appoggio",
+                            "column": "first",
+                            "active_when": ["SAT"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "support",
+                            "width": 250,
+                            "height": 40,
+                            "default_value": "45",
+                            "active_when": ["SAT"],
+                            "options": {
+                                "SAT": ["No", "Sì"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Spessore",
+                            "column": "first",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "thickness",
+                            "width": 250,
+                            "height": 40,
+                            "default_value": "1.2",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "options": {
+                                "TG": ["1.2", "1.5"],
+                                "SAT": ["1.2", "1.5", "2.0", "2.5", "3.0", "4.0"],
+                                "APERTE": ["1.2", "1.5", "2.0", "2.5", "3.0", "4.0"],
+                                "PORTA SKID": ["1.2", "1.5", "2.0", "2.5", "3.0", "4.0"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "Staffa speciale",
+                            "column": "first",
+                            "active_when": ["TG", "SAT", "APERTE"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "special_hook",
+                            "width": 250,
+                            "height": 40,
+                            "default_value": "No",
+                            "active_when": ["TG", "SAT", "APERTE"],
+                            "options": {
+                                "TG": ["No", "Sì"],
+                                "SAT": ["No", "Sì"],
+                                "APERTE": ["No", "Sì"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Quantità",
+                            "column": "first",
+                            "active_when": ["TG", "SAT", "APERTE"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "amount",
+                            "width": 250,
+                            "height": 40,
+                            "default_value": ">=1001",
+                            "active_when": ["TG", "SAT", "APERTE"],
+                            "options": {
+                                "TG": [">=1001", "<=1000"],
+                                "SAT": [">=1001", "<=1000"],
+                                "APERTE": [">=1001", "<=1000"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Lunghezza",
+                            "column": "first",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                        },
+                        {
+                            "type": "input",
+                            "name": "length",
+                            "default_value": "Enter the length",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last",
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                        }
+                    ]        
+                }
+            },
+            {
+                "layout": {
+                    "type":"grid",
+                    "columns": 3,
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Invia",
+                            "height": 40,
+                            "params": {},
+                            "column": "last"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
