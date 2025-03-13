@@ -1,3 +1,4 @@
+from typing import Any
 from PyQt6.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
@@ -10,12 +11,23 @@ from PyQt6.QtWidgets import (
 
 class Creator:
 
-    def __init__(self, config, parent_window):
-        self.config: dict = config
+    def __init__(
+        self,
+        config: dict,
+        parent_window: Any
+    ) -> None:
+        self.config = config
         self.parent_window = parent_window  # Нужно для закрытия окна
         self.input_fields = {}
 
-    def create_widget_layout(self, window, layout_config) -> QGridLayout:
+    def create_widget_layout(
+        self,
+        window: QHBoxLayout | QVBoxLayout | QGridLayout,
+        layout_config: dict
+    ) -> None:
+        """
+        Создает контейнер для размещения виджетов.
+        """
         if layout_config:
             layout = self.__create_layout(layout_config)
             self.__add_widgets(
@@ -35,11 +47,11 @@ class Creator:
 
     def __add_widgets(
         self,
-        layout,
-        layout_type,
-        widgets_configs,
-        columns=None
-    ):
+        layout: QHBoxLayout | QVBoxLayout | QGridLayout,
+        layout_type: str,
+        widgets_configs: list,
+        columns: int | None = None
+    ) -> None:
         match layout_type:
             case "grid":
                 current_row = 0
@@ -63,7 +75,13 @@ class Creator:
                 for widget_config in widgets_configs:
                     self.__create_widget(widget_config, layout)
 
-    def __create_widget(self, config, layout=None, row=None, column=None):
+    def __create_widget(
+        self,
+        config: dict,
+        layout: QHBoxLayout | QVBoxLayout | QGridLayout | None = None,
+        row: int | None = None,
+        column: int | None = None
+    ) -> None:
         if config.get('layout'):
             self.create_widget_layout(
                 layout,
@@ -84,7 +102,10 @@ class Creator:
             else:
                 layout.addWidget(widget)
 
-    def __create_layout(self, layout_config):
+    def __create_layout(
+        self,
+        layout_config: dict
+    ) -> QHBoxLayout | QVBoxLayout | QGridLayout | None:
         match layout_config["type"]:
             case "grid":
                 return QGridLayout()
@@ -132,7 +153,7 @@ class Creator:
         current_col: int,
         col_amount: int,
         widget_pos: str = None
-    ):
+    ) -> tuple:
         positions = {
             "first": 0,
             "last": col_amount - 1,
