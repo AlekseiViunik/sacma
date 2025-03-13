@@ -26,7 +26,8 @@ class CustomApp(QWidget):
         self.setWindowTitle(config['window_title'])
         self.window_width = int(config['window_width'])
         self.window_height = int(config['window_height'])
-        Helper.move_window_to_center(self)
+        # Helper.move_window_to_center(self)
+        Helper.move_window_to_top_left_corner(self)
 
         # Создаем слои и виджеты через креатор
         self.creator = Creator(config, self)
