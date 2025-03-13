@@ -15,7 +15,7 @@
                             "text": "Fiancate",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -23,7 +23,7 @@
                             "text": "Travi",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -31,7 +31,7 @@
                             "text": "Tasselli",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -39,7 +39,7 @@
                             "text": "Satellitare",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -47,7 +47,7 @@
                             "text": "Pianetti",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -55,7 +55,7 @@
                             "text": "Grigliato",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -63,7 +63,7 @@
                             "text": "Travi di battuta",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -71,7 +71,7 @@
                             "text": "Angolari per automatici",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -79,7 +79,7 @@
                             "text": "Gravità leggera",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "current"
                         },
                         {
@@ -87,7 +87,7 @@
                             "text": "Option di sicurezza",
                             "width": 150,
                             "height": 40,
-                            "callback": "",
+                            "callback": "open_input_window",
                             "column": "middle"
                         }
                     ]
