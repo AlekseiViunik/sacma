@@ -13,3 +13,8 @@ class Helper:
     @staticmethod
     def move_window_to_top_left_corner(window: QWidget):
         window.setGeometry(0, 0, window.window_width, window.window_height)
+
+    @staticmethod
+    def get_calculation_file(name: str) -> str:
+        filename = "_".join(word.lower() for word in name.split())
+        return f"configs/calculator_configs/{filename}.json"
