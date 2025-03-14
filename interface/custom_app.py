@@ -6,7 +6,7 @@ from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
 
-CONFIG_FILE = "windows_configs/main_window.json"
+CONFIG_FILE = "configs/windows_configs/main_window.json"
 
 
 class CustomApp(QWidget):

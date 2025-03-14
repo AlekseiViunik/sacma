@@ -10,7 +10,7 @@ from interface.creator import Creator
 from helpers.helper import Helper
 
 SETTINGS_FILE = "settings.json"
-CONFIG_FILE = "windows_configs/settings_window.json"
+CONFIG_FILE = "configs/windows_configs/settings_window.json"
 
 
 class SettingsWindow(QWidget):
