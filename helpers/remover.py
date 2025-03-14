@@ -1,4 +1,7 @@
-class LayoutRemover:
+from PyQt6.QtWidgets import QWidget
+
+
+class Remover:
     def __init__(self):
         pass
 
@@ -23,3 +26,24 @@ class LayoutRemover:
             elif item.layout():
                 self.__clear_layout(item.layout())
                 item.layout().deleteLater()
+
+    def clean_up_fields(self, input_fields, chosen_fields):
+        """Удаляет мёртвые ссылки из словарей input_fields и chosen_fields"""
+        chosen_fields_to_delete = []
+        input_fields_to_delete = []
+        for name, field in chosen_fields.items():
+            try:
+                print(f"{name}: {field.currentText()}")
+            except RuntimeError:
+                chosen_fields_to_delete.append(name)
+
+        for name, field in input_fields.items():
+            try:
+                print(f"{name}: {field.text()}")
+            except RuntimeError:
+                input_fields_to_delete.append(name)
+        for name in chosen_fields_to_delete:
+            chosen_fields.pop(name, None)
+
+        for name in input_fields_to_delete:
+            input_fields.pop(name, None)
