@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QPushButton
 
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
@@ -16,7 +16,7 @@ class InputWindow(QWidget):
         self.window_name = window_name
         self.file_path = file_path
         self.config_json_handler = JsonHandler(self.file_path)
-        self.creator = None
+        self.creator: Creator | None = None
         self.parent_window = parent_window
 
         self.init_ui()
@@ -34,3 +34,20 @@ class InputWindow(QWidget):
         # Создаем слои и виджеты через креатор
         self.creator = Creator(config, self)
         self.creator.create_widget_layout(self, config["layout"])
+
+    def connect_callback(
+        self,
+        button: QPushButton,
+        callback_name: str,
+    ) -> None:
+        if callback_name == "handle_start_button":
+            button.clicked.connect(self.handle_start_button)
+        else:
+            pass
+
+    def handle_start_button(self):
+        for name, field in self.creator.input_fields.items():
+            print(f"{name}: {field.text()}")
+        for name, field in self.creator.chosen_fields.items():
+            print(f"{name}: {field.currentText()}")
+        pass
