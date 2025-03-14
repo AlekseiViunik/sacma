@@ -1,6 +1,3 @@
-from PyQt6.QtWidgets import QWidget
-
-
 class Remover:
     def __init__(self):
         pass
