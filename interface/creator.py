@@ -27,6 +27,7 @@ class Creator:
         self.chosen_fields = {}
         self.default_values = {}
         self.current_changing_value = None
+        self.current_changing_values = {}
         self.dependencies = {}
         self.remover = Remover()
         self.finder = Finder()
@@ -46,6 +47,9 @@ class Creator:
                 self.current_changing_value = self.default_values[
                     layout_config['depends_on']
                 ]
+                self.current_changing_values[layout_config['depends_on']] = (
+                    self.default_values[layout_config['depends_on']]
+                )
                 if (
                     layout_config['depends_on'] in self.dependencies and
                     self.dependencies[
@@ -262,6 +266,7 @@ class Creator:
     def __update_dependent_layouts(self, name, selected_value):
 
         self.current_changing_value = selected_value
+        self.current_changing_values[name] = selected_value
         if name not in self.dependencies:
             return
         for layout_name, layout in self.dependencies[name].items():
