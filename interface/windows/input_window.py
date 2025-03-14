@@ -4,6 +4,7 @@ from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
 from helpers.remover import Remover
+from logic.calculator import Calculator
 
 
 class InputWindow(QWidget):
@@ -53,8 +54,10 @@ class InputWindow(QWidget):
             self.creator.input_fields,
             self.creator.chosen_fields
         )
-        for name, field in self.creator.input_fields.items():
-            print(f"{name}: {field.text()}")
+        all_inputs = {}
         for name, field in self.creator.chosen_fields.items():
-            print(f"{name}: {field.currentText()}")
-        pass
+            all_inputs[name] = field
+        for name, field in self.creator.input_fields.items():
+            all_inputs[name] = field
+        calculator = Calculator(all_inputs)
+        calculator.calc_data()
