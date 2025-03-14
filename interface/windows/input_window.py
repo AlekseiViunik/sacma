@@ -59,5 +59,5 @@ class InputWindow(QWidget):
             all_inputs[name] = field
         for name, field in self.creator.input_fields.items():
             all_inputs[name] = field
-        calculator = Calculator(all_inputs)
+        calculator = Calculator(all_inputs, self.window_name)
         calculator.calc_data()
