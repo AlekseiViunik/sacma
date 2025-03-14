@@ -193,6 +193,8 @@ class Creator:
                         value,
                         config.get("params", {})
                     )
+        if "callback" not in config:
+            button.setEnabled(False)
         return button
 
     def __create_dropdown(self, config: dict):
