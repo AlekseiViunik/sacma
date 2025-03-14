@@ -224,6 +224,7 @@
                             "type": "button",
                             "text": "Invia",
                             "height": 40,
+                            "callback": "handle_start_button",
                             "params": {},
                             "column": "last"
                         }
