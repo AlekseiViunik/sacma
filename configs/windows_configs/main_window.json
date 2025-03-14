@@ -17,7 +17,7 @@
                             "height": 40,
                             "callback": "open_input_window",
                             "params": {
-                                "json_file_path": "windows_configs/fiancate_window.json"
+                                "json_file_path": "configs/windows_configs/fiancate_window.json"
                             },
                             "column": "current"
                         },
@@ -28,7 +28,7 @@
                             "height": 40,
                             "callback": "open_input_window",
                             "params": {
-                                "json_file_path": "windows_configs/travi_window.json"
+                                "json_file_path": "configs/windows_configs/travi_window.json"
                             },
                             "column": "current"
                         },
