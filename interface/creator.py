@@ -10,8 +10,8 @@ from PyQt6.QtWidgets import (
     QWidget
 )
 
-from interface.layout_remover import LayoutRemover
-from interface.finder import Finder
+from helpers.remover import Remover
+from helpers.finder import Finder
 
 
 class Creator:
@@ -28,7 +28,7 @@ class Creator:
         self.default_values = {}
         self.current_changing_value = None
         self.dependencies = {}
-        self.remover = LayoutRemover()
+        self.remover = Remover()
         self.finder = Finder()
 
     def create_widget_layout(
@@ -258,6 +258,7 @@ class Creator:
         return current_row, current_col
 
     def __update_dependent_layouts(self, name, selected_value):
+
         self.current_changing_value = selected_value
         if name not in self.dependencies:
             return

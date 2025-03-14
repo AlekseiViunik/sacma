@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
 
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
-from interface.helper import Helper
+from helpers.helper import Helper
 
 SETTINGS_FILE = "settings.json"
 CONFIG_FILE = "windows_configs/settings_window.json"

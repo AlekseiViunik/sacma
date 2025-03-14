@@ -2,7 +2,8 @@ from PyQt6.QtWidgets import QWidget, QPushButton
 
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
-from interface.helper import Helper
+from helpers.helper import Helper
+from helpers.remover import Remover
 
 
 class InputWindow(QWidget):
@@ -17,6 +18,7 @@ class InputWindow(QWidget):
         self.file_path = file_path
         self.config_json_handler = JsonHandler(self.file_path)
         self.creator: Creator | None = None
+        self.remover: Remover = Remover()
         self.parent_window = parent_window
 
         self.init_ui()
@@ -39,6 +41,7 @@ class InputWindow(QWidget):
         self,
         button: QPushButton,
         callback_name: str,
+        params: dict = {}
     ) -> None:
         if callback_name == "handle_start_button":
             button.clicked.connect(self.handle_start_button)
@@ -46,6 +49,10 @@ class InputWindow(QWidget):
             pass
 
     def handle_start_button(self):
+        self.remover.clean_up_fields(
+            self.creator.input_fields,
+            self.creator.chosen_fields
+        )
         for name, field in self.creator.input_fields.items():
             print(f"{name}: {field.text()}")
         for name, field in self.creator.chosen_fields.items():
