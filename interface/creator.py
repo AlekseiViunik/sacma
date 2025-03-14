@@ -10,6 +10,9 @@ from PyQt6.QtWidgets import (
     QWidget
 )
 
+from interface.layout_remover import LayoutRemover
+from interface.finder import Finder
+
 
 class Creator:
 
@@ -25,16 +28,36 @@ class Creator:
         self.default_values = {}
         self.current_changing_value = None
         self.dependencies = {}
+        self.remover = LayoutRemover()
+        self.finder = Finder()
 
     def create_widget_layout(
         self,
-        window: QHBoxLayout | QVBoxLayout | QGridLayout | QWidget,
-        layout_config: dict
+        parent_window: QHBoxLayout | QVBoxLayout | QGridLayout | QWidget,
+        layout_config: dict | None
     ) -> None:
         """
         Создает контейнер для размещения виджетов.
         """
+
+        # Create layout and place widgets on it
         if layout_config:
+            if layout_config.get('depends_on'):
+                self.current_changing_value = self.default_values[
+                    layout_config['depends_on']
+                ]
+                if (
+                    layout_config['depends_on'] in self.dependencies and
+                    self.dependencies[
+                        layout_config['depends_on']
+                    ].get(layout_config['name'])
+                ):
+                    self.remover.delete_layout(
+                        parent_window,
+                        self.dependencies[
+                            layout_config['depends_on']
+                        ][layout_config['name']]
+                    )
             layout = self.__create_layout(layout_config)
             self.__add_widgets(
                 layout,
@@ -42,14 +65,16 @@ class Creator:
                 layout_config['widgets'],
                 layout_config.get('columns')
             )
+
+        # add/set Layout to the parent window
         if (
-            isinstance(window, QHBoxLayout) or
-            isinstance(window, QVBoxLayout) or
-            isinstance(window, QGridLayout)
+            isinstance(parent_window, QHBoxLayout) or
+            isinstance(parent_window, QVBoxLayout) or
+            isinstance(parent_window, QGridLayout)
         ):
-            window.addLayout(layout)
+            parent_window.addLayout(layout)
         else:
-            window.setLayout(layout)
+            parent_window.setLayout(layout)
 
     def __add_widgets(
         self,
@@ -119,17 +144,23 @@ class Creator:
         self,
         layout_config: dict
     ) -> QHBoxLayout | QVBoxLayout | QGridLayout | None:
-        if layout_config.get('depends_on'):
-            self.current_changing_value = self.default_values[
-                layout_config['depends_on']
-            ]
+
         match layout_config["type"]:
             case "grid":
-                return QGridLayout()
+                layout = QGridLayout()
             case "vertical":
-                return QVBoxLayout()
+                layout = QVBoxLayout()
             case "horizontal":
-                return QHBoxLayout()
+                layout = QHBoxLayout()
+        # Простая проверка if layout тут не подойдет. Почему - хз, видимо,
+        # потому что сам объект пустой пока
+        if isinstance(layout, (QGridLayout, QVBoxLayout, QHBoxLayout)):
+            if 'depends_on' in layout_config:
+                self.dependencies.setdefault(
+                    layout_config['depends_on'], {}
+                )[layout_config['name']] = layout
+
+            return layout
         return None
 
     def __create_label(self, config: dict) -> QLabel:
@@ -184,7 +215,10 @@ class Creator:
 
         if config.get('change_widgets'):
             dropdown.currentIndexChanged.connect(
-                lambda: self.__update_dependent_layouts(config['name'])
+                lambda index: self.__update_dependent_layouts(
+                    config['name'],
+                    dropdown.itemText(index)
+                )
             )
         return dropdown
 
@@ -223,9 +257,38 @@ class Creator:
 
         return current_row, current_col
 
-    def __update_dependent_layouts(self, name):
-        print("Stop here")
-        pass
+    def __update_dependent_layouts(self, name, selected_value):
+        self.current_changing_value = selected_value
+        if name not in self.dependencies:
+            return
+        for layout_name, layout in self.dependencies[name].items():
+            parent_layout = layout.parentWidget().layout()
+            if not parent_layout:
+                continue
+            position = parent_layout.indexOf(layout)
+            if position == -1:
+                continue
+            self.remover.delete_layout(parent_layout, layout)
+
+            # Ищем новую конфигурацию для этого layout
+            new_layout_config = self.finder.find_layout_by_name(
+                self.config["layout"]["widgets"],
+                layout_name
+            )
+            if not new_layout_config:
+                continue  # Если конфигурация не найдена, пропускаем
+
+            new_layout = self.__create_layout(new_layout_config)
+            self.__add_widgets(
+                new_layout,
+                new_layout_config["type"],
+                new_layout_config["widgets"],
+                new_layout_config.get("columns")
+            )
+
+            # Вставляем новый контейнер на старое место
+            parent_layout.insertLayout(position, new_layout)
+            self.dependencies[name][layout_name] = new_layout
 
     def __check_if_widget_is_active(self, config):
         if (
