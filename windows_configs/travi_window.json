@@ -93,7 +93,7 @@
                             "type": "label",
                             "text": "mm",
                             "column": "last",
-                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "APERTE", "PORTA SKID"]
                         },
                         {
                             "type": "label",
