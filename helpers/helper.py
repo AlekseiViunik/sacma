@@ -18,3 +18,18 @@ class Helper:
     def get_calculation_file(name: str) -> str:
         filename = "_".join(word.lower() for word in name.split())
         return f"configs/calculator_configs/{filename}.json"
+
+    @staticmethod
+    def get_nested_data(keys: list, data: dict) -> dict | None:
+        """Рекурсивно ищет значение в словаре `data`, используя ключи из `keys,
+        независимо от их порядка."""
+        if not keys:
+            return data
+
+        for key in keys:
+            if "choices" in data and key in data["choices"]:
+                return Helper.get_nested_data(
+                    [k for k in keys if k != key], data["choices"][key]
+                )  # Удаляем найденный ключ и продолжаем
+
+        return None
