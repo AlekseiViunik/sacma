@@ -26,21 +26,27 @@ class Remover:
 
     def clean_up_fields(self, input_fields, chosen_fields):
         """Удаляет мёртвые ссылки из словарей input_fields и chosen_fields"""
-        chosen_fields_to_delete = []
-        input_fields_to_delete = []
-        for name, field in chosen_fields.items():
-            try:
-                print(f"{name}: {field.currentText()}")
-            except RuntimeError:
-                chosen_fields_to_delete.append(name)
 
-        for name, field in input_fields.items():
-            try:
-                print(f"{name}: {field.text()}")
-            except RuntimeError:
-                input_fields_to_delete.append(name)
+        chosen_fields_to_delete = [
+            name for name, field in chosen_fields.items()
+            if self._is_invalid_widget(field, "currentText")
+        ]
+
+        input_fields_to_delete = [
+            name for name, field in input_fields.items()
+            if self._is_invalid_widget(field, "text")
+        ]
+
         for name in chosen_fields_to_delete:
             chosen_fields.pop(name, None)
 
         for name in input_fields_to_delete:
             input_fields.pop(name, None)
+
+    def _is_invalid_widget(self, widget, method):
+        """Проверяет, выбросит ли метод RuntimeError (значит, виджет мёртв)"""
+        try:
+            getattr(widget, method)()  # Вызываем метод динамически
+            return False
+        except RuntimeError:
+            return True
