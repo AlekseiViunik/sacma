@@ -39,7 +39,7 @@
                 "price_skates": "E16",
                 "weight": "E18"
             },
-            "formula": {
+            "formulas": {
                 "price": "price + price_skates"
             } 
         }
