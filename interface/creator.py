@@ -43,6 +43,8 @@ class Creator:
 
         # Create layout and place widgets on it
         if layout_config:
+
+            # Remove the old one if exists
             if layout_config.get('depends_on'):
                 self.current_changing_value = self.default_values[
                     layout_config['depends_on']
@@ -62,6 +64,7 @@ class Creator:
                             layout_config['depends_on']
                         ][layout_config['name']]
                     )
+
             layout = self.__create_layout(layout_config)
             self.__add_widgets(
                 layout,
@@ -156,6 +159,7 @@ class Creator:
                 layout = QVBoxLayout()
             case "horizontal":
                 layout = QHBoxLayout()
+
         # Простая проверка if layout тут не подойдет. Почему - хз, видимо,
         # потому что сам объект пустой пока
         if isinstance(layout, (QGridLayout, QVBoxLayout, QHBoxLayout)):
