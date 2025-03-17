@@ -1,4 +1,5 @@
 from handlers.excel_handler import ExcelHandler
+from handlers.formulas_handler import FormulasHandler
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
 from logic.translator import Translator
@@ -31,9 +32,17 @@ class Calculator:
         )
         excel_result = self.excel_handler.initiate_process()
 
-        if self.calc_config.get('formula'):
-            pass
-        else:
-            result = excel_result
+        if self.calc_config.get('formulas'):
+            self.__use_formula(
+                excel_result,
+                self.calc_config['formulas']
+            )
 
-        return result
+        return excel_result
+
+    def __use_formula(self, data, formulas):
+
+        for formula_name, formula in formulas.items():
+            if data[formula_name]:
+                result = FormulasHandler().apply_formula(data, formula)
+            data[formula_name] = result
