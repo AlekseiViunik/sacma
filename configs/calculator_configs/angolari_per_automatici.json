@@ -1,0 +1,47 @@
+{
+    "choices": {
+        "Senza": {
+            "worksheet": "Angolari per automatici",
+            "rules":{
+                "length": {
+                    "numeric": 1
+                }
+            },
+            "cells_input": {
+                "section": "B3",
+                "thickness": "B5",
+                "length": "B7"
+            },
+            "cells_output": {
+                "price": "E3",
+                "weight": "E5"
+            }
+        },
+        "Con":{
+            "worksheet": "Angolari per automatici",
+            "rules": {
+                "length": {
+                    "numeric": 1
+                },
+                "n_skates": {
+                    "numeric": 1,
+                    "natural": 1
+                }
+            },
+            "cells_input": {
+                "section": "B14",
+                "thickness": "B16",
+                "length": "B18",
+                "n_skates": "B22"
+            },
+            "cells_output": {
+                "price": "E14",
+                "price_skates": "E16",
+                "weight": "E18"
+            },
+            "formula": {
+                "price": "price + price_skates"
+            } 
+        }
+    }
+}
