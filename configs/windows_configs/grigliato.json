@@ -1,0 +1,145 @@
+{
+    "window_title": "Travi",
+    "window_width": 350,
+    "window_height": 300,
+    "layout": {
+        "type": "vertical",
+        "name": "base_layout",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "changing",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Tipo",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "width": 150,
+                            "height": 20,
+                            "name": "type",
+                            "default_value": "Grigliato",
+                            "options": {"always": ["Grigliato", "Bugnato"]},
+                            "change_widgets": 1,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "main_layout",
+                    "depends_on": "type",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Spessore",
+                            "column": "first",
+                            "active_when": ["Grigliato", "Bugnato"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "thickness",
+                            "width": 150,
+                            "height": 20,
+                            "default_value": "2.0",
+                            "column": "current",
+                            "active_when": ["Grigliato", "Bugnato"],
+                            "options": {
+                                "Grigliato": ["1.2", "1.5", "2.0"],
+                                "Bugnato": ["2.0", "3.0"]
+                            }
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last",
+                            "active_when": ["Grigliato", "Bugnato"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "Base",
+                            "column": "first",
+                            "active_when": ["Grigliato", "Bugnato"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "base",
+                            "width": 150,
+                            "height": 20,
+                            "default_value": "45",
+                            "active_when": ["Grigliato", "Bugnato"],
+                            "options": {
+                                "Grigliato": ["250x50", "270x50", "270x40"],
+                                "Bugnato": ["250x50", "270x50", "270x40"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last",
+                            "active_when": ["Grigliato", "Bugnato"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "Lunghezza",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "length",
+                            "default_value": "Enter the length",
+                            "width": 150,
+                            "height": 20,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last"
+                        }
+                    ]        
+                }
+            },
+            {
+                "layout": {
+                    "type":"grid",
+                    "columns": 3,
+                    "name": "bottom_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Invia",
+                            "height": 40,
+                            "callback": "handle_start_button",
+                            "params": {},
+                            "column": "last"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
