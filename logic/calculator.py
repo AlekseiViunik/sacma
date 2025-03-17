@@ -29,4 +29,11 @@ class Calculator:
             self.calc_config['cells_input'],
             self.calc_config['cells_output']
         )
-        self.excel_handler.initiate_process()
+        excel_result = self.excel_handler.initiate_process()
+
+        if self.calc_config.get('formula'):
+            pass
+        else:
+            result = excel_result
+
+        return result
