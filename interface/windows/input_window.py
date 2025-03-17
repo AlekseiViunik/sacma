@@ -2,8 +2,10 @@ from PyQt6.QtWidgets import QWidget, QPushButton
 
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
+
 from helpers.helper import Helper
 from helpers.remover import Remover
+from interface.windows.output_window import OutputWindow
 from logic.calculator import Calculator
 
 
@@ -21,6 +23,8 @@ class InputWindow(QWidget):
         self.creator: Creator | None = None
         self.remover: Remover = Remover()
         self.parent_window = parent_window
+        self.output_window: OutputWindow = OutputWindow()
+        self.result: dict = None
 
         self.init_ui()
 
@@ -64,4 +68,4 @@ class InputWindow(QWidget):
             self.window_name,
             self.creator.current_changing_values
         )
-        calculator.calc_data()
+        self.output_window.open_result_window(calculator.calc_data(), "Result")
