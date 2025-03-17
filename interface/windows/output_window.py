@@ -55,9 +55,9 @@ class OutputWindow(QWidget):
         filtered_values = Translator.translate_dict(filtered_values)
         row = 0
         for label, value in filtered_values.items():
-            if label == "Prezzo":
+            if label == "Prezzo" and value:
                 value = f"{str(value)} €"
-            elif label == "Peso":
+            elif label == "Peso" and value:
                 value = f"{str(value)} Kg"
 
             label = f"{label}: "
@@ -78,7 +78,7 @@ class OutputWindow(QWidget):
         main_layout.addLayout(grid_layout)
 
         if (post_message):
-            post_message_label = QLabel(pre_message)
+            post_message_label = QLabel(post_message)
             post_message_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             post_message_label.setFont(font)
             main_layout.addWidget(post_message_label)
