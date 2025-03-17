@@ -1,0 +1,23 @@
+{
+    "choices": {
+        "worksheet": "Listino pianetti",
+        "rules":{
+            "length": {
+                "numeric": 1,
+                "multiple": 10,
+                "min": 400,
+                "max": 1600
+            }
+        },
+        "cells_input": {
+            "thickness": "B8",
+            "depth": "B6",
+            "length": "B4"
+        },
+        "cells_output": {
+            "price": "E4",
+            "weight": "E6"
+        }
+        
+    }
+}
