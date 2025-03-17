@@ -20,12 +20,12 @@
                 "length": "B12",
                 "special_hook": "B14",
                 "amount": "B16"
-                },
+            },
             "cells_output": {
                 "price": "E4",
                 "weight": "E6"
             }
-            },
+        },
         "SAT":{
             "worksheet": "Listino travi",
             "rules": {},
