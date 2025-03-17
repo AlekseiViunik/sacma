@@ -1,3 +1,6 @@
+import re
+from decimal import Decimal
+from numbers import Number
 from PyQt6.QtWidgets import QApplication, QWidget
 
 
@@ -23,13 +26,48 @@ class Helper:
     def get_nested_data(keys: list, data: dict) -> dict | None:
         """Рекурсивно ищет значение в словаре `data`, используя ключи из `keys,
         независимо от их порядка."""
-        if not keys:
-            return data
 
+        if data.get('choices') and data['choices'].get('cells_output'):
+            return data['choices']
+
+        counter = 0
         for key in keys:
             if "choices" in data and key in data["choices"]:
                 return Helper.get_nested_data(
                     [k for k in keys if k != key], data["choices"][key]
                 )  # Удаляем найденный ключ и продолжаем
+            elif key in data:
+                return Helper.get_nested_data(
+                    [k for k in keys if k != key], data[key]
+                )  # Удаляем найденный ключ и продолжаем
+            else:
+                counter += 1
+
+        if counter == len(keys):
+            return data
 
         return None
+
+    @staticmethod
+    def merge_numeric_dicts(dict1: dict, dict2: dict) -> dict:
+        """
+        Объединяет два словаря, оставляя только числовые значения (включая
+        строки с числами).
+        - Преобразует числа (в т.ч. строки с числами) в `Decimal`.
+        - Игнорирует строки, содержащие текст, булевы значения и другие типы.
+        """
+        def to_decimal(value):
+            """Преобразует числовое значение (или строку с числом) в Decimal"""
+            if isinstance(value, Number):  # Числовой тип (int, float, Decimal)
+                return Decimal(value)
+
+            # isnumeric тут не подходит, так как числа с десятичной
+            # составляющей не видна в таком случае.
+            if isinstance(value, str) and re.fullmatch(r"\d+(\.\d+)?", value):
+                return Decimal(value)  # Преобразуем строку в Decimal
+            return None  # Если значение не подходит, пропускаем
+
+        return {
+            k: dec_value for d in (dict1, dict2) for k, v in d.items()
+            if (dec_value := to_decimal(v)) is not None
+        }
