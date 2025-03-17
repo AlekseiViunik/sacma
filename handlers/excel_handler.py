@@ -41,7 +41,7 @@ class ExcelHandler:
 
         self.excel, self.wb, self.sheet = self.__open_excel()
         self.__input_cells()
-        data = self.__get_data_from_excel()
+        return self.__get_data_from_excel()
 
     def __open_excel(self):
 
@@ -134,7 +134,7 @@ class ExcelHandler:
         log.info(f"Dictionary is prepared: {data_prepared}")
         return data_prepared
 
-    def __get_data_from_excel(self, sheet) -> dict:
+    def __get_data_from_excel(self) -> dict:
         """
         Получаем и округляем цену и вес из таблицы excel.
         При необходимости получаем и другие данные.
@@ -151,7 +151,7 @@ class ExcelHandler:
         """
         log.info("Getting excel data")
         excel_data = {
-            key: sheet.Range(self.cells_output[key]).Value
+            key: self.sheet.Range(self.cells_output[key]).Value
             for key in self.cells_output
         }
 
