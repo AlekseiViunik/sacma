@@ -23,7 +23,7 @@ class InputWindow(QWidget):
         self.creator: Creator | None = None
         self.remover: Remover = Remover()
         self.parent_window = parent_window
-        self.output_window: OutputWindow = OutputWindow()
+        self.output_window: OutputWindow = None
         self.result: dict = None
 
         self.init_ui()
@@ -68,4 +68,6 @@ class InputWindow(QWidget):
             self.window_name,
             self.creator.current_changing_values
         )
-        self.output_window.open_result_window(calculator.calc_data(), "Result")
+        self.output_window = OutputWindow()
+        result, post_message = calculator.calc_data()
+        self.output_window.open_result_window(result, "Result", post_message)
