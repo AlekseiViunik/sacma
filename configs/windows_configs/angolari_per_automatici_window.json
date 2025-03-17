@@ -115,7 +115,7 @@
                         },
                         {
                             "type": "input",
-                            "name": "skates",
+                            "name": "n_skates",
                             "default_value": "Enter the N of skates",
                             "width": 150,
                             "height": 20,
