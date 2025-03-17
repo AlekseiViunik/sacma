@@ -18,10 +18,13 @@ class Calculator:
     def calc_data(self):
         self.calc_config = self.config_file_handler.get_all_data()
         keys = list(self.choices.values())
-        self.calc_config = self.calc_config = Helper.get_nested_data(
-            keys,
-            self.calc_config
-        )
+        if keys:
+            self.calc_config = self.calc_config = Helper.get_nested_data(
+                keys,
+                self.calc_config
+            )
+        else:
+            self.calc_config = self.calc_config['choices']
         self.data = Translator.translate_dict(self.data)
         self.excel_handler = ExcelHandler(
             self.data,
