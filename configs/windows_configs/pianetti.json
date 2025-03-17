@@ -79,7 +79,7 @@
                 "layout": {
                     "type":"grid",
                     "columns": 3,
-                    "name": "bttom_layout",
+                    "name": "bottom_layout",
                     "widgets": [
                         {
                             "type": "label",
