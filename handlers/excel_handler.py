@@ -67,10 +67,10 @@ class ExcelHandler:
     def __input_cells(self):
         if self.cells_input:
             # Подготавливаем данные для записи в Excel
-            if self.cells_input:
-                data_prepared = self.__prepare_data()
-                if not data_prepared:
-                    return None, None
+            data_prepared = self.__prepare_data()
+            if not data_prepared:
+                return None, None
+
             # Вставляем данные в Excel
             log.info("Insert prepared data to the excel worksheet")
             for cell, value in data_prepared.items():
