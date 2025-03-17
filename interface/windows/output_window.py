@@ -21,7 +21,13 @@ class OutputWindow(QWidget):
         super().__init__()
         self.config_json_handler = JsonHandler(FILE_PATH)
 
-    def open_result_window(self, values, pre_message=None, post_message=None):
+    def open_result_window(
+        self,
+        values,
+        pre_message=None,
+        post_message=None,
+        only_keys=["price", "weight"]
+    ):
 
         config = self.config_json_handler.get_all_data()
 
@@ -45,9 +51,10 @@ class OutputWindow(QWidget):
             main_layout.addWidget(pre_message_label)
 
         grid_layout = QGridLayout()
-        values = Translator.translate_dict(values)
+        filtered_values = {k: v for k, v in values.items() if k in only_keys}
+        filtered_values = Translator.translate_dict(filtered_values)
         row = 0
-        for label, value in values.items():
+        for label, value in filtered_values.items():
             if label == "Prezzo":
                 value = f"{str(value)} €"
             elif label == "Peso":
@@ -56,7 +63,7 @@ class OutputWindow(QWidget):
             label = f"{label}: "
 
             title_label = QLabel(label)
-            value_label = QLabel(value)
+            value_label = QLabel(str(value))
 
             title_label.setAlignment(Qt.AlignmentFlag.AlignRight)
             value_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
