@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import (
-    QWidget, QPushButton, QMessageBox
+    QCheckBox, QWidget, QPushButton, QMessageBox, QLineEdit
 )
 
 from handlers.json_handler import JsonHandler
@@ -43,15 +43,20 @@ class LoginWindow(QWidget):
 
     def connect_callback(
         self,
-        button: QPushButton,
+        widget: QPushButton | QCheckBox,
         callback_name: str,
         params: dict = {}
     ):
-        if callback_name == "try_login":
-            button.clicked.connect(self.try_login)
-
-        elif callback_name == "close_window":
-            button.clicked.connect(self.close)
+        if isinstance(widget, QPushButton):
+            if callback_name == "try_login":
+                widget.clicked.connect(self.try_login)
+            elif callback_name == "close_window":
+                widget.clicked.connect(self.close)
+        if isinstance(widget, QCheckBox):
+            if callback_name == "toggle_password":
+                widget.stateChanged.connect(
+                    lambda: self.toggle_password(widget)
+                )
 
     def try_login(self):
         username = self.creator.input_fields['username'].text()
@@ -69,3 +74,13 @@ class LoginWindow(QWidget):
             msg.setIcon(QMessageBox.Icon.Critical)
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.show()
+
+    def toggle_password(self, checkbox):
+        if checkbox.isChecked():
+            self.creator.input_fields['password'].setEchoMode(
+                QLineEdit.EchoMode.Normal
+            )
+        else:
+            self.creator.input_fields['password'].setEchoMode(
+                QLineEdit.EchoMode.Password
+            )
