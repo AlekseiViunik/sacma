@@ -4,7 +4,7 @@ from decimal import Decimal, ROUND_HALF_UP
 
 class FormulasHandler:
 
-    def apply_formula(self, data, formula):
+    def apply_formula(self, data, formula, formula_name="price"):
         """
         Выполняет математическое выражение, заменяя переменные из словаря
         `data`.
@@ -13,6 +13,15 @@ class FormulasHandler:
         # Проверяем, что в data все значения — Decimal
         if not all(isinstance(value, Decimal) for value in data.values()):
             raise ValueError("Все значения в `data` должны быть типа Decimal")
+
+            # Извлекаем все переменные из формулы
+        formula_vars = set(re.findall(r"[a-zA-Z_][a-zA-Z0-9_]*", formula))
+
+        # Проверяем, есть ли пропущенные переменные
+        missing_vars = formula_vars - set(data.keys())
+
+        if missing_vars:
+            return data[formula_name]
 
         # Разбираем выражение, заменяя переменные их значениями
         def replace_var(match):
