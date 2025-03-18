@@ -8,7 +8,7 @@
             {
                 "layout": {
                     "type": "grid",
-                    "columns": 2,
+                    "columns": 3,
                     "widgets": [
                         {
                             "type": "label",
@@ -22,15 +22,12 @@
                             "width": 250,
                             "height": 40,
                             "column": "current"
-                        }
-                    ]
-                }
-            },
-            {
-                "layout": {
-                    "type": "grid",
-                    "columns": 2,
-                    "widgets": [
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
                         {
                             "type": "label",
                             "text": "Enter password:",
@@ -44,6 +41,13 @@
                             "height": 40,
                             "column": "current",
                             "hide": 1
+                        },
+                        {
+                            "type": "checkbox",
+                            "name": "pass_hide",
+                            "text": "Show password",
+                            "column": "last",
+                            "callback": "toggle_password"
                         }
                     ]
                 }
