@@ -61,10 +61,14 @@ class Helper:
             if isinstance(value, Number):  # Числовой тип (int, float, Decimal)
                 return Decimal(value)
 
-            # isnumeric тут не подходит, так как числа с десятичной
-            # составляющей не видна в таком случае.
-            if isinstance(value, str) and re.fullmatch(r"\d+(\.\d+)?", value):
-                return Decimal(value)  # Преобразуем строку в Decimal
+            if isinstance(value, str):
+                # Ищем число в строке (поддержка точек и запятых в десятичной
+                # части)
+                match = re.search(r"\d+([.,]\d+)?", value)
+                if match:
+                    # Меняем запятую на точку
+                    num_str = match.group().replace(",", ".")
+                    return Decimal(num_str)
             return None  # Если значение не подходит, пропускаем
 
         return {
