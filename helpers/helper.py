@@ -15,7 +15,7 @@ class Helper:
 
     @staticmethod
     def move_window_to_top_left_corner(window: QWidget):
-        window.setGeometry(0, 0, window.window_width, window.window_height)
+        window.setGeometry(40, 50, window.window_width, window.window_height)
 
     @staticmethod
     def get_calculation_file(name: str) -> str:
