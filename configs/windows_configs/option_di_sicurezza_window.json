@@ -87,12 +87,12 @@
                             "name": "inclined_invitations?",
                             "width": 300,
                             "height": 20,
-                            "default_value": "No",
+                            "default_value": "No, curve calandrate sez. UNP 100 R=350",
                             "active_when": ["TESTATE"],
                             "options": {
                                 "TESTATE": [
-                                    "Sì",
-                                    "No, curve calandrate sez. UNP 100 R=350"
+                                    "No, curve calandrate sez. UNP 100 R=350",
+                                    "Sì"
                                 ]
                             },
                             "column": "current"
