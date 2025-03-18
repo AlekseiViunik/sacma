@@ -41,7 +41,7 @@
             },
             "formulas": {
                 "price": "price + price_skates"
-            } 
+            }
         }
     }
 }
