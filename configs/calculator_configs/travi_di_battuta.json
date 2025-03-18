@@ -1,0 +1,23 @@
+{
+    "choices": {
+        "worksheet": "Travi di battuta",
+        "rules":{
+            "length": {
+                "numeric": 1,
+                "multiple": 10
+            }
+        },
+        "cells_input": {
+            "type": "B5",
+            "length": "B7",
+            "standart_hook": "B9",
+            "amount": "B11",
+            "fold": "B13"
+        },
+        "cells_output": {
+            "price": "B15",
+            "weight": "B16"
+        }
+        
+    }
+}
