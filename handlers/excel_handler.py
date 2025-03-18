@@ -1,42 +1,15 @@
-import inspect
-import os
-import sys
+from decimal import Decimal, ROUND_HALF_UP
 import win32com.client as win32
 
-from decimal import Decimal, ROUND_HALF_UP
-
-from logic.logger import logger as log
 from logic.translator import Translator
+from logic.logger import logger as log
 from logic.validator import Validator
+from handlers.json_handler import JsonHandler
+
+SETTINGS_FILE = "settings.json"
 
 
-class ExcelFileHandler:
-    """
-    Обработчик файлов Excel. Подгатавливает и отправляет данные,
-    выбранные/введенные юзером и возвращает результат.
-
-    Attributes
-    ----------
-    data : dict
-        Значения полей выбранные/введенные юзером.
-    rules : dict
-        Правила валидации выбранных/введенных данных.
-    worksheet : str
-        Имя листа excel, где будут вбиваться данные и получаться результат.
-    cells_input : dict | None, optional
-        Соответствие имен лейблов для которых юзер вводил данные номерам
-        ячеек, куда эти данные должны быть вставлены.
-    cells_output : dict | None, optional
-        Соответствие имен лейблов окна результата номерам ячеек, где
-        находится результат.
-
-    Methods
-    -------
-    process_excel()
-        Открывает файл excel. Вызывает методы подготовки данных.
-        Проверяет вводимые данные. Получает расчитанный результат.
-    """
-
+class ExcelHandler:
     def __init__(
         self,
         data: dict,
@@ -56,65 +29,48 @@ class ExcelFileHandler:
             else None
         )
         self.cells_output: dict = cells_output
+        self.settings_json_handler = JsonHandler(SETTINGS_FILE)
+        self.excel = None
+        self.wb = None
+        self.sheet = None
 
-    def process_excel(self) -> dict:
-        """
-        Основной метод класса ExcelFileHandler. Открывает файл, записывает в
-        него данные (предварительно вызвав методы подготовки данных), обновляет
-        расчеты файла, получает цену и вес элемента шкафа, необходимые нам,
-        округляет и возвращает их. Также проводим валидацию данных.
-
-        Returns
-        -------
-        data : dict
-            Словарь с ценой и весом (в будущем могут быть так же другие данные)
-        """
-
-        log.info(
-            f"The metod '{inspect.currentframe().f_code.co_name}' is called"
-        )
-
-        # TODO Файл должен в будущем браться из облака и обновляться 1 раз/день
-        # Определяем, где находится исполняемый файл (или скрипт)
-        if getattr(sys, "frozen", False):  # Если запущено как .exe
-            BASE_DIR = os.path.dirname(sys.executable)
-            FILE_PATH = os.path.join(BASE_DIR, "files", "listini.xlsx")
-        else:  # Если запущено как .py
-            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-            FILE_PATH = os.path.join(BASE_DIR, "..", "files", "listini.xlsx")
-        FILE_PATH = os.path.abspath(FILE_PATH)
-
-        log.info("Check data before insert it in excel")
-        # Проверяем данные перед вставкой в excel
+    def initiate_process(self):
         if not self.__check_data():
             log.error("The data is wrong!")
             return {"price": None, "weight": None}
 
-        # Открываем Excel
+        self.excel, self.wb, self.sheet = self.__open_excel()
+        self.__input_cells()
+        return self.__get_data_from_excel()
+
+    def __open_excel(self):
+
+        file_path = self.settings_json_handler.get_value_by_key('excel_path')
+
         log.info("Open excel file")
         try:
             excel = win32.Dispatch("Excel.Application")
             excel.Visible = False  # Запуск в фоновом режиме
-            log.info(f"File path is {FILE_PATH}")
+            log.info(f"File path is {file_path}")
         except Exception as e:
             log.error(f"Ошибка при запуске Excel: {e}")
-
         log.info("Excel is opened")
         # Без обновления связей
         try:
-            wb = excel.Workbooks.Open(FILE_PATH, UpdateLinks=0)
+            wb = excel.Workbooks.Open(file_path, UpdateLinks=0)
             log.info("Excel is opened")
         except Exception as e:
             log.error(f"Didn't manage to open excel: {e}")
 
-        sheet = wb.Sheets(self.worksheet)
+        return excel, wb, wb.Sheets(self.worksheet)
 
+    def __input_cells(self):
         if self.cells_input:
             # Подготавливаем данные для записи в Excel
-            if self.cells_input:
-                data_prepared = self.__prepare_data()
-                if not data_prepared:
-                    return None, None
+            data_prepared = self.__prepare_data()
+            if not data_prepared:
+                return None, None
+
             # Вставляем данные в Excel
             log.info("Insert prepared data to the excel worksheet")
             for cell, value in data_prepared.items():
@@ -122,22 +78,11 @@ class ExcelFileHandler:
                     f"Insert {value} in the {cell} cell of the worksheet"
                     f"'{self.worksheet}'"
                 )
-                sheet.Range(cell).Value = value
+                self.sheet.Range(cell).Value = value
 
             log.info("Refresh table data to recalculate formulas")
-            wb.RefreshAll()  # Обновляем связи
-            excel.CalculateUntilAsyncQueriesDone()
-
-        data = self.__get_data_from_excel(sheet)
-        # Закрываем файл без сохранения
-        log.info("Close the file without saving")
-        wb.Close(SaveChanges=False)
-        excel.Quit()
-        log.info("File is closed")
-
-        return data
-
-# ============================ Приватные методы ===============================
+            self.wb.RefreshAll()  # Обновляем связи
+            self.excel.CalculateUntilAsyncQueriesDone()
 
     def __check_data(self) -> bool:
         """
@@ -149,7 +94,6 @@ class ExcelFileHandler:
         bool
             Результат валидации данных.
         """
-        # TODO Перенести эту проверку в Валидатор
         log.info("Check data before preparing it")
         for key, value in self.data.items():
             key = key.capitalize()
@@ -190,7 +134,7 @@ class ExcelFileHandler:
         log.info(f"Dictionary is prepared: {data_prepared}")
         return data_prepared
 
-    def __get_data_from_excel(self, sheet) -> dict:
+    def __get_data_from_excel(self) -> dict:
         """
         Получаем и округляем цену и вес из таблицы excel.
         При необходимости получаем и другие данные.
@@ -207,7 +151,7 @@ class ExcelFileHandler:
         """
         log.info("Getting excel data")
         excel_data = {
-            key: sheet.Range(self.cells_output[key]).Value
+            key: self.sheet.Range(self.cells_output[key]).Value
             for key in self.cells_output
         }
 

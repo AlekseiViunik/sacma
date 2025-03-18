@@ -1,0 +1,135 @@
+{
+    "choices": {
+        "Grigliato": {
+            "worksheet": "Listino Grigliato",
+            "rules":{
+                "length": {
+                    "numeric": 1,
+                    "multiple": 10,
+                    "min": 680,
+                    "max": 6000
+                }
+            },
+            "special_output": 1,
+            "cells_input": {},
+            "cells_output": {
+                "250x50": {
+                    "1.2": {
+                        "price": "E10",
+                        "weight": "C10",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    },
+                    "1.5": {
+                        "price": "E11",
+                        "weight": "C11",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    },
+                    "2.0": {
+                        "price": "E12",
+                        "weight": "C12",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    }
+                },
+                "270x50": {
+                    "1.2": {
+                        "price": "E21",
+                        "weight": "C21",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    },
+                    "1.5": {
+                        "price": "E22",
+                        "weight": "C22",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    },
+                    "2.0": {
+                        "price": "E23",
+                        "weight": "C23",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    }
+                },
+                "270x40": {
+                    "1.2": {
+                        "price": "E32",
+                        "weight": "C32",
+                        "post_message":"ATTENZIONE! Per la base 270x240 contatare la sede!",
+                        "hide": 1
+                    },
+                    "1.5": {
+                        "price": "E33",
+                        "weight": "C33",
+                        "post_message":"ATTENZIONE! Per la base 270x240 contatare la sede!",
+                        "hide": 1
+                    },
+                    "2.0": {
+                        "price": "E34",
+                        "weight": "C34",
+                        "post_message":"ATTENZIONE! Per la base 270x240 contatare la sede!",
+                        "hide": 1
+                    }
+                }
+            },
+            "formulas": {
+                "price": "price * length / 1000",
+                "weight": "weight * length / 1000"
+            }
+        },
+        "Bugnato": {
+            "worksheet": "Listino Grigliato",
+            "rules":{
+                "length": {
+                    "numeric": 1,
+                    "multiple": 10,
+                    "min": 680,
+                    "max": 6000
+                }
+            },
+            "special_output": 1,
+            "cells_input": {},
+            "cells_output": {
+                "250x50": {
+                    "2.0": {
+                        "price": "E13",
+                        "weight": "C13",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    },
+                    "3.0": {
+                        "price": "E14",
+                        "weight": "C14",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    }
+                },
+                "270x50": {
+                    "2.0": {
+                        "price": "E24",
+                        "weight": "C24",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    },
+                    "3.0": {
+                        "price": "E25",
+                        "weight": "C25",
+                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                    }
+                },
+                "270x40": {
+                    "2.0": {
+                        "price": "E35",
+                        "weight": "C35",
+                        "post_message":"ATTENZIONE! Per la base 270x240 contatare la sede!",
+                        "hide": 1
+                    },
+                    "3.0": {
+                        "price": "E36",
+                        "weight": "C36",
+                        "post_message":"ATTENZIONE! Per la base 270x240 contatare la sede!",
+                        "hide": 1
+                    }
+                }
+            },
+            "formulas": {
+                "price": "price * length / 1000",
+                "weight": "weight * length / 1000"
+            },
+            "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+        }
+    }
+}

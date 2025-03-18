@@ -1,7 +1,7 @@
 import hashlib
 import os
 
-from logic.json_file_handler import JsonFileHandler
+from handlers.json_handler import JsonHandler
 from logic.logger import logger as log
 from settings import settings as set
 
@@ -11,7 +11,7 @@ class Authenticator:
     Класс для управления авторизацией пользователей.
     """
     def __init__(self):
-        self.file_handler = JsonFileHandler(set.AUTH_FILE)
+        self.file_handler = JsonHandler(set.AUTH_FILE)
 
     def load_users(self):
         """
@@ -20,13 +20,13 @@ class Authenticator:
         if not os.path.exists(set.AUTH_FILE):
             return {"users": {}, "lastUser": ""}
 
-        return self.file_handler.load_whole_file()
+        return self.file_handler.get_all_data()
 
     def load_last_user(self) -> str:
         last_user = ""
-        if last_user := self.file_handler.read_value_by_key("lastUser"):
+        if last_user := self.file_handler.get_value_by_key("lastUser"):
             log.info(f"Last user found {last_user}")
-        return self.file_handler.read_value_by_key("lastUser")
+        return self.file_handler.get_value_by_key("lastUser")
 
     @staticmethod
     def hash_password(password: str) -> str:

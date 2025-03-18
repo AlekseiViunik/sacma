@@ -1,0 +1,163 @@
+{
+    "window_title": "Angolari per automatici",
+    "window_width": 350,
+    "window_height": 300,
+    "layout": {
+        "type": "vertical",
+        "name": "base_layout",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "changing",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Pattini",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "width": 150,
+                            "height": 20,
+                            "name": "type",
+                            "default_value": "Senza",
+                            "options": {"always": ["Senza", "Con"]},
+                            "change_widgets": 1,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "main_layout",
+                    "depends_on": "type",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Sezione",
+                            "column": "first",
+                            "active_when": ["Senza", "Con"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "section",
+                            "width": 150,
+                            "height": 20,
+                            "default_value": "50x50",
+                            "column": "current",
+                            "active_when": ["Senza", "Con"],
+                            "options": {
+                                "Senza": ["50x50", "50x56", "50x65", "50x78", "50x90"],
+                                "Con": ["50x50", "50x56", "50x65", "50x78", "50x90"]
+                            }
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last",
+                            "active_when": ["Senza", "Con"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "Spessore",
+                            "column": "first",
+                            "active_when": ["Senza", "Con"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "thickness",
+                            "width": 150,
+                            "height": 20,
+                            "default_value": "1.5",
+                            "active_when": ["Senza", "Con"],
+                            "options": {
+                                "Senza": ["1.5", "2.0", "2.5", "3.0"],
+                                "Con": ["1.5", "2.0", "2.5", "3.0"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Lunghezza",
+                            "column": "first",
+                            "active_when": ["Senza", "Con"]
+                        },
+                        {
+                            "type": "input",
+                            "name": "length",
+                            "default_value": "Enter the length",
+                            "width": 150,
+                            "height": 20,
+                            "column": "current",
+                            "active_when": ["Senza", "Con"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last",
+                            "active_when": ["Senza", "Con"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "N pattini",
+                            "column": "first",
+                            "active_when": ["Con"]
+                        },
+                        {
+                            "type": "input",
+                            "name": "n_skates",
+                            "default_value": "Enter the N of skates",
+                            "width": 150,
+                            "height": 20,
+                            "column": "current",
+                            "active_when": ["Con"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last",
+                            "active_when": ["Con"]
+                        }
+                    ]        
+                }
+            },
+            {
+                "layout": {
+                    "type":"grid",
+                    "columns": 3,
+                    "name": "bottom_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Invia",
+                            "height": 40,
+                            "callback": "handle_start_button",
+                            "params": {},
+                            "column": "last"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

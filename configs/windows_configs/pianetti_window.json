@@ -1,0 +1,107 @@
+{
+    "window_title": "Pianetti",
+    "window_width": 350,
+    "window_height": 200,
+    "layout": {
+        "type": "vertical",
+        "name": "base_layout",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "main_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Spessore",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "thickness",
+                            "width": 150,
+                            "height": 20,
+                            "default_value": "0.6",
+                            "column": "current",
+                            "options": {
+                                "always": ["0.6", "0.7", "0.8", "0.9"]
+                            }
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Profondità",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "depth",
+                            "width": 150,
+                            "height": 20,
+                            "default_value": "100",
+                            "options": {
+                                "always": ["100", "150", "300"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Lunghezza",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "length",
+                            "default_value": "Enter the length",
+                            "width": 150,
+                            "height": 20,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last"
+                        }
+                    ]        
+                }
+            },
+            {
+                "layout": {
+                    "type":"grid",
+                    "columns": 3,
+                    "name": "bottom_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Invia",
+                            "height": 40,
+                            "callback": "handle_start_button",
+                            "params": {},
+                            "column": "last"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
