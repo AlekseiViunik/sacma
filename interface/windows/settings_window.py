@@ -8,9 +8,7 @@ from PyQt6.QtWidgets import (
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
-
-SETTINGS_FILE = "settings.json"
-CONFIG_FILE = "configs/windows_configs/settings_window.json"
+from settings import settings as set
 
 
 class SettingsWindow(QWidget):
@@ -18,8 +16,8 @@ class SettingsWindow(QWidget):
         super().__init__()
         self.window_width = 0
         self.window_height = 0
-        self.settings_json_handler = JsonHandler(SETTINGS_FILE)
-        self.config_json_handler = JsonHandler(CONFIG_FILE)
+        self.settings_json_handler = JsonHandler(set.SETTINGS_FILE)
+        self.config_json_handler = JsonHandler(set.SETTINGS_WINDOW_CONFIG_FILE)
         self.creator = None
 
         self.init_ui()

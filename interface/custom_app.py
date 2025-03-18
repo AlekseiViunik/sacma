@@ -6,8 +6,7 @@ from interface.windows.settings_window import SettingsWindow
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
-
-CONFIG_FILE = "configs/windows_configs/main_window.json"
+from settings import settings as set
 
 
 class CustomApp(QWidget):
@@ -15,7 +14,7 @@ class CustomApp(QWidget):
         super().__init__()
         self.width = 0
         self.height = 0
-        self.config_json_handler = JsonHandler(CONFIG_FILE)
+        self.config_json_handler = JsonHandler(set.MAIN_WINDOW_CONFIG_FILE)
         self.creator = None
         self.init_ui()
 

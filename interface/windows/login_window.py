@@ -7,9 +7,7 @@ from interface.creator import Creator
 from helpers.helper import Helper
 from helpers.authenticator import Authenticator
 from logic.logger import logging as log
-
-AUTH_FILE = "auth.json"
-CONFIG_FILE = "configs/windows_configs/login_window.json"
+from settings import settings as set
 
 
 class LoginWindow(QWidget):
@@ -17,8 +15,8 @@ class LoginWindow(QWidget):
         super().__init__()
         self.window_width = 0
         self.window_height = 0
-        self.auth_json_handler = JsonHandler(AUTH_FILE)
-        self.config_json_handler = JsonHandler(CONFIG_FILE)
+        self.auth_json_handler = JsonHandler(set.AUTH_FILE)
+        self.config_json_handler = JsonHandler(set.LOGIN_WINDOW_CONFIG_FILE)
         self.auth_successful: bool = False
         self.creator = None
         self.auth = Authenticator()

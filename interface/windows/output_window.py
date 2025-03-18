@@ -11,15 +11,13 @@ from PyQt6.QtGui import QFont
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
 from logic.translator import Translator
-
-
-FILE_PATH = "configs/windows_configs/output_window.json"
+from settings import settings as set
 
 
 class OutputWindow(QWidget):
     def __init__(self) -> None:
         super().__init__()
-        self.config_json_handler = JsonHandler(FILE_PATH)
+        self.config_json_handler = JsonHandler(set.OUTPUT_WINDOW_CONFIG_FILE)
 
     def open_result_window(
         self,
