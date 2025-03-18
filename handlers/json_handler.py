@@ -45,7 +45,7 @@ class JsonHandler:
         return result
 
     def rewrite_file(self, data: dict) -> None:
-        with open("settings.json", "w", encoding="utf-8") as f:
+        with open(self.file_path, "w", encoding="utf-8") as f:
             json.dump(
                 {
                     key: field.text()
@@ -53,3 +53,24 @@ class JsonHandler:
                 },
                 f, indent=4, ensure_ascii=False
             )
+
+    def write_into_file(self, key="", key2="", value="") -> None:
+        """
+        Записывает данные в файл.
+
+        Parameters
+        ----------
+        key : str
+            Ключ первого уровня для записи.
+        key2 : str | None
+            Ключ второго уровня
+        value: str
+            Значение, которое нужно записать.
+        """
+        data = self.get_all_data()
+        if not key2:
+            data[key] = value
+        else:
+            data[key][key2] = value
+        with open(self.file_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4)
