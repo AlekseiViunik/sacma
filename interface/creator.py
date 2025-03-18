@@ -1,5 +1,6 @@
 from typing import Any
 from PyQt6.QtWidgets import (
+    QCheckBox,
     QComboBox,
     QGridLayout,
     QHBoxLayout,
@@ -142,6 +143,8 @@ class Creator:
                     widget = self.__create_button(config)
                 case "dropdown":
                     widget = self.__create_dropdown(config)
+                case "checkbox":
+                    widget = self.__create_checkbox(config)
                 case _:
                     widget = None
             if widget:
@@ -211,6 +214,20 @@ class Creator:
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
         self.input_fields[config['name']] = input_field
         return input_field
+
+    def __create_checkbox(self, config: dict) -> QCheckBox:
+        checkbox = QCheckBox()
+        for param, value in config.items():
+            match param:
+                case "text":
+                    checkbox.setText(value)
+                case "callback":
+                    self.parent_window.connect_callback(
+                        checkbox,
+                        value,
+                        config.get("params", {})
+                    )
+        return checkbox
 
     def __create_button(self, config: dict) -> QPushButton:
         button = QPushButton(config['text'])
