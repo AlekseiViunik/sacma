@@ -1,0 +1,149 @@
+{
+    "window_title": "Travi di battuta",
+    "window_width": 400,
+    "window_height": 250,
+    "layout": {
+        "type": "vertical",
+        "name": "base_layout",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "main_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Tipo",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "type",
+                            "width": 200,
+                            "height": 20,
+                            "default_value": "Tubolare 60x40x2",
+                            "column": "current",
+                            "options": {
+                                "always": ["Tubolare 60x40x2", "Tubolare 80x40x2", "C battuta posteriore"]
+                            }
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Staffa tipo standart",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "standart_hook",
+                            "width": 200,
+                            "height": 20,
+                            "default_value": "No",
+                            "options": {
+                                "always": ["No", "Sì"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Quantità",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "standart_hook",
+                            "width": 200,
+                            "height": 20,
+                            "default_value": ">=1001",
+                            "options": {
+                                "always": [">=1001", "<=1000"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Piega",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "fold",
+                            "width": 200,
+                            "height": 20,
+                            "default_value": "No",
+                            "options": {
+                                "always": ["No", "Sì"]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Lunghezza",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "length",
+                            "default_value": "Enter the length",
+                            "width": 200,
+                            "height": 20,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "mm",
+                            "column": "last"
+                        }
+                    ]        
+                }
+            },
+            {
+                "layout": {
+                    "type":"grid",
+                    "columns": 3,
+                    "name": "bottom_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Invia",
+                            "height": 40,
+                            "callback": "handle_start_button",
+                            "params": {},
+                            "column": "last"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
