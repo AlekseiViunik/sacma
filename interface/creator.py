@@ -172,7 +172,12 @@ class Creator:
         return None
 
     def __create_label(self, config: dict) -> QLabel:
-        return QLabel(config['text'])
+        label = QLabel()
+        for param, value in config.items():
+            match param:
+                case "text":
+                    label.setText(value)
+        return label
 
     def __create_input(self, config: dict) -> QLineEdit:
         input_field = QLineEdit()
@@ -184,6 +189,8 @@ class Creator:
                     input_field.setFixedHeight(int(value))
                 case "default_value":
                     input_field.setPlaceholderText(value)
+                case "hide":
+                    input_field.setEchoMode(QLineEdit.EchoMode.Password)
         self.input_fields[config['name']] = input_field
         return input_field
 
