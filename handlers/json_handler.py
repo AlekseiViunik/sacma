@@ -1,6 +1,8 @@
 import json
 import os
 
+from PyQt6.QtWidgets import QLineEdit
+
 from typing import Any
 
 
@@ -48,8 +50,8 @@ class JsonHandler:
         with open(self.file_path, "w", encoding="utf-8") as f:
             json.dump(
                 {
-                    key: field.text()
-                    for key, field in data.items()
+                    key: field.text() if isinstance(field, QLineEdit)
+                    else field for key, field in data.items()
                 },
                 f, indent=4, ensure_ascii=False
             )
