@@ -39,6 +39,9 @@ class LoginWindow(QWidget):
 
         self.creator = Creator(config, self)
         self.creator.create_widget_layout(self, config["layout"])
+        last_user = self.auth_json_handler.get_value_by_key('lastUser')
+        if "username" in self.creator.input_fields:
+            self.creator.input_fields["username"].setText(last_user)
 
     def connect_callback(
         self,
