@@ -1,0 +1,75 @@
+{
+    "window_title": "Login",
+    "window_width": 450,
+    "window_height": 150,
+    "layout": {
+        "type": "vertical",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 2,
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Enter username:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "username",
+                            "default_value": "Enter login",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 2,
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Enter password:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "password",
+                            "default_value": "Enter password",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current",
+                            "hide": 1
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Try",
+                            "callback": "try_login",
+                            "params": {},
+                            "width": 150,
+                            "height": 40
+                        },
+                        {
+                            "type": "button",
+                            "text": "Cancel",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "close_window"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
