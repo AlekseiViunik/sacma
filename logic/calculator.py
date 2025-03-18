@@ -71,5 +71,9 @@ class Calculator:
         merged_dicts = Helper.merge_numeric_dicts(output_dict, imput_dict)
         for formula_name, formula in formulas.items():
             if output_dict[formula_name]:
-                result = FormulasHandler().apply_formula(merged_dicts, formula)
+                result = FormulasHandler().apply_formula(
+                    merged_dicts,
+                    formula,
+                    formula_name
+                )
             output_dict[formula_name] = result
