@@ -296,7 +296,9 @@ DICTIONARY = {
     "traverse_15/10": "Traverse 15/10",
     "fold": "Piega",
     "profile": "Profilo",
-    "element": "Elemento"
+    "element": "Elemento",
+    "element_type": "Tipo elemento",
+    "inclined_invitations?": "Inviti inclinati?"
 }
 
 # ===================================Login=====================================
