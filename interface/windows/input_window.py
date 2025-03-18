@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QPushButton
 
+from handlers.input_data_handler import InputDataHandler
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 
@@ -25,6 +26,7 @@ class InputWindow(QWidget):
         self.parent_window = parent_window
         self.output_window: OutputWindow = None
         self.result: dict = None
+        self.input_data_handler = InputDataHandler()
 
         self.init_ui()
 
@@ -54,15 +56,10 @@ class InputWindow(QWidget):
             pass
 
     def handle_start_button(self):
-        self.remover.clean_up_fields(
+        all_inputs = self.input_data_handler.collect_all_inputs(
             self.creator.input_fields,
             self.creator.chosen_fields
         )
-        all_inputs = {}
-        for name, field in self.creator.chosen_fields.items():
-            all_inputs[name] = field.currentText()
-        for name, field in self.creator.input_fields.items():
-            all_inputs[name] = field.text()
         calculator = Calculator(
             all_inputs,
             self.window_name,
