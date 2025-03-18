@@ -2,7 +2,9 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton
 )
 
+from handlers.input_data_handler import InputDataHandler
 from handlers.json_handler import JsonHandler
+from handlers.user_data_handler import UserDataHandler
 from interface.creator import Creator
 from helpers.helper import Helper
 from helpers.authenticator import Authenticator
@@ -22,6 +24,8 @@ class RegisterWindow(QWidget):
         self.auth_successful: bool = False
         self.creator = None
         self.auth = Authenticator()
+        self.input_data_handler = InputDataHandler()
+        self.user_data_handler = UserDataHandler()
 
         self.init_ui()
 
@@ -53,4 +57,49 @@ class RegisterWindow(QWidget):
             button.clicked.connect(self.close)
 
     def create_user(self):
-        pass
+        all_inputs = self.input_data_handler.collect_all_inputs(
+            self.creator.input_fields,
+            self.creator.chosen_fields
+        )
+        difference = self.input_data_handler.check_mandatory(
+            all_inputs,
+            self.creator.mandatory_fields
+        )
+        if difference:
+            if len(difference) == 1:
+                err_msg = f"The field '{difference[0]}' is mandatory!"
+            else:
+                missing_fields = ', '.join(difference)
+                err_msg = (
+                    f"The following fields are mandatory: {missing_fields}!"
+                )
+            self.input_data_handler.show_error_messagebox(
+                "Creation failed",
+                err_msg,
+                self
+            )
+
+        if all_inputs['password'] != all_inputs['repeat_password']:
+            self.input_data_handler.show_error_messagebox(
+                "Creation failed",
+                "Password and its repeat are not identical",
+                self
+            )
+        username = all_inputs['username']
+        if not self.auth.register_user(
+            all_inputs['username'],
+            all_inputs['password']
+        ):
+            self.input_data_handler.show_error_messagebox(
+                "Creation failed",
+                "User is already exists",
+                self
+            )
+        else:
+            self.user_data_handler.add_new_user_data(all_inputs)
+            self.input_data_handler.show_success_messagebox(
+                "Success!",
+                f"User {username} is created!",
+                self
+            )
+            self.close()
