@@ -9,6 +9,8 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget
 )
+from PyQt6.QtGui import QFont
+from PyQt6.QtCore import Qt
 
 from helpers.remover import Remover
 from helpers.finder import Finder
@@ -31,6 +33,7 @@ class Creator:
         self.dependencies = {}
         self.remover = Remover()
         self.finder = Finder()
+        self.mandatory_fields = []
 
     def create_widget_layout(
         self,
@@ -177,6 +180,21 @@ class Creator:
             match param:
                 case "text":
                     label.setText(value)
+                case "text_size":
+                    font = QFont()
+                    font.setPointSize(config['text_size'])
+                    label.setFont(font)
+                case "align":
+                    if config['align'] == "center":
+                        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                    if config['align'] == "left":
+                        label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+                    if config['align'] == "right":
+                        label.setAlignment(Qt.AlignmentFlag.AlignRight)
+                case "mandatory":
+                    text = f"*{config['text']}"
+                    label.setText(text)
+                    self.mandatory_fields.append(config['mandatory'])
         return label
 
     def __create_input(self, config: dict) -> QLineEdit:
