@@ -59,6 +59,8 @@ class OutputWindow(QWidget):
                 value = f"{str(value)} €"
             elif label == "Peso" and value:
                 value = f"{str(value)} Kg"
+            elif (label == "Prezzo" or label == "Peso") and not value:
+                value = "non trovato"
 
             label = f"{label}: "
 
