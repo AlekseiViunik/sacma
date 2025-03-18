@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QPushButton
 
 from interface.windows.input_window import InputWindow
+from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
@@ -48,6 +49,10 @@ class CustomApp(QWidget):
             )
         input_window.show()
 
+    def open_register(self):
+        self.register_window = RegisterWindow()
+        self.register_window.show()
+
     def connect_callback(
         self,
         button: QPushButton,
@@ -58,5 +63,7 @@ class CustomApp(QWidget):
             button.clicked.connect(self.open_settings)
         elif callback_name == "open_input_window":
             button.clicked.connect(lambda: self.open_input_window(params))
+        elif callback_name == "open_register":
+            button.clicked.connect(self.open_register)
         else:
             pass
