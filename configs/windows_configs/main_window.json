@@ -102,6 +102,10 @@
                             "text": "Option di sicurezza",
                             "width": 150,
                             "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/option_di_sicurezza_window.json"
+                            },
                             "column": "middle"
                         }
                     ]
