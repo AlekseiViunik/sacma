@@ -40,6 +40,13 @@
                             "hide": 1
                         },
                         {
+                            "type": "checkbox",
+                            "name": "pass_hide",
+                            "text": "Show password",
+                            "column": "last",
+                            "callback": "toggle_password"
+                        },
+                        {
                             "type": "label",
                             "text": "Repeat password:",
                             "column": "first",
@@ -53,6 +60,13 @@
                             "height": 40,
                             "column": "current",
                             "hide": 1
+                        },
+                        {
+                            "type": "checkbox",
+                            "name": "rpass_hide",
+                            "text": "Show repeated password",
+                            "column": "last",
+                            "callback": "toggle_repeat_password"
                         }
                     ]
                 }
