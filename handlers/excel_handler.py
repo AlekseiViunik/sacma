@@ -43,10 +43,12 @@ class ExcelHandler:
                 "weight": None,
                 "error": self.check_err_mesg
             }
-
         self.excel, self.wb, self.sheet = self.__open_excel()
         self.__input_cells()
-        return self.__get_data_from_excel()
+        data = self.__get_data_from_excel()
+
+        self.__close_excel()
+        return data
 
     def __open_excel(self):
 
@@ -56,7 +58,7 @@ class ExcelHandler:
         try:
             excel = win32.Dispatch("Excel.Application")
             excel.Visible = False  # Запуск в фоновом режиме
-            log.info(f"File path is {file_path}")
+            log.info(f"Excel file path is {file_path}")
         except Exception as e:
             log.error(f"Ошибка при запуске Excel: {e}")
         log.info("Excel is opened")
@@ -179,6 +181,19 @@ class ExcelHandler:
                     rounding=ROUND_HALF_UP
                 )
         return excel_data
+
+    def __close_excel(self):
+        log.info("Close excel file")
+        if self.wb:
+            try:
+                self.wb.Close(SaveChanges=0)
+            except Exception() as e:
+                log.error(f"Error {e}")
+        if self.excel:
+            try:
+                self.excel.Quit()
+            except Exception() as e:
+                log.error(f"Error {e}")
 
     def set_err_msg(
         self,
