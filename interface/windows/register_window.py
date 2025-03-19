@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import (
-    QWidget, QPushButton
+    QCheckBox, QWidget, QPushButton, QLineEdit
 )
 
 from handlers.input_data_handler import InputDataHandler
@@ -56,15 +56,25 @@ class RegisterWindow(QWidget):
 
     def connect_callback(
         self,
-        button: QPushButton,
+        widget: QPushButton | QCheckBox,
         callback_name: str,
         params: dict = {}
     ):
-        if callback_name == "create_user":
-            button.clicked.connect(self.create_user)
+        if isinstance(widget, QPushButton):
+            if callback_name == "create_user":
+                widget.clicked.connect(self.create_user)
 
-        elif callback_name == "close_window":
-            button.clicked.connect(self.cancel)
+            elif callback_name == "close_window":
+                widget.clicked.connect(self.cancel)
+        if isinstance(widget, QCheckBox):
+            if callback_name == "toggle_password":
+                widget.stateChanged.connect(
+                    lambda: self.toggle_password(widget)
+                )
+            if callback_name == "toggle_repeat_password":
+                widget.stateChanged.connect(
+                    lambda: self.toggle_password(widget, "repeat_password")
+                )
 
     def create_user(self):
         log.info("Button Create has been pressed")
@@ -126,6 +136,18 @@ class RegisterWindow(QWidget):
                 self
             )
             self.close()
+
+    def toggle_password(self, checkbox, field="password"):
+        if checkbox.isChecked():
+            log.info("Checkbox for password is marked as 'checked'")
+            self.creator.input_fields[field].setEchoMode(
+                QLineEdit.EchoMode.Normal
+            )
+        else:
+            log.info("Checkbox for password is marked as 'unchecked'")
+            self.creator.input_fields[field].setEchoMode(
+                QLineEdit.EchoMode.Password
+            )
 
     def cancel(self):
         log.info("Cancel button has been pressed")
