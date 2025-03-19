@@ -29,7 +29,8 @@ class RegisterWindow(BaseWindow):
         self,
         widget: QPushButton | QCheckBox,
         callback_name: str,
-        params: dict = {}
+        params: dict = {},
+        parent=None
     ):
         if isinstance(widget, QPushButton):
             if callback_name == "create_user":

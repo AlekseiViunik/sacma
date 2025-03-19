@@ -47,7 +47,8 @@ class StartWindow(BaseWindow):
         self,
         button: QPushButton,
         callback_name: str,
-        params: dict
+        params: dict = {},
+        parent=None
     ) -> None:
         if callback_name == "open_settings":
             button.clicked.connect(self.open_settings)

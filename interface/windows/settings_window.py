@@ -24,7 +24,9 @@ class SettingsWindow(BaseWindow):
         self,
         button: QPushButton,
         callback_name: str,
-        params: dict
+        params: dict = {},
+        parent=None
+
     ) -> None:
         """
         Привязывает коллбэки к кнопкам.

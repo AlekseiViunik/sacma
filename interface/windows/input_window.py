@@ -29,7 +29,8 @@ class InputWindow(BaseWindow):
         self,
         button: QPushButton,
         callback_name: str,
-        params: dict = {}
+        params: dict = {},
+        parent=None
     ) -> None:
         if callback_name == "handle_start_button":
             button.clicked.connect(self.handle_start_button)

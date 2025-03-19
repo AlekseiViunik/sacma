@@ -229,7 +229,8 @@ class Creator:
                     self.parent_window.connect_callback(
                         checkbox,
                         value,
-                        config.get("params", {})
+                        config.get("params", {}),
+                        self.parent_window
                     )
         return checkbox
 
@@ -246,7 +247,8 @@ class Creator:
                     self.parent_window.connect_callback(
                         button,
                         value,
-                        config.get("params", {})
+                        config.get("params", {}),
+                        self.parent_window
                     )
         if "callback" not in config:
             button.setEnabled(False)
