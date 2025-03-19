@@ -15,6 +15,7 @@ from PyQt6.QtCore import Qt
 
 from helpers.remover import Remover
 from helpers.finder import Finder
+from logic.logger import logger as log
 
 
 class Creator:
@@ -157,7 +158,7 @@ class Creator:
         self,
         layout_config: dict
     ) -> QHBoxLayout | QVBoxLayout | QGridLayout | None:
-
+        log.info(f"Create a layout. Type {layout_config['type']}")
         match layout_config["type"]:
             case "grid":
                 layout = QGridLayout()
@@ -178,6 +179,7 @@ class Creator:
         return None
 
     def __create_label(self, config: dict) -> QLabel:
+        log.info(f"Create label: {config['text']}")
         label = QLabel()
         for param, value in config.items():
             match param:
@@ -201,6 +203,7 @@ class Creator:
         return label
 
     def __create_input(self, config: dict) -> QLineEdit:
+        log.info("Create input field")
         input_field = QLineEdit()
         for param, value in config.items():
             match param:
@@ -216,6 +219,7 @@ class Creator:
         return input_field
 
     def __create_checkbox(self, config: dict) -> QCheckBox:
+        log.info(f"Create checkbox: {config['text']}")
         checkbox = QCheckBox()
         for param, value in config.items():
             match param:
@@ -230,6 +234,7 @@ class Creator:
         return checkbox
 
     def __create_button(self, config: dict) -> QPushButton:
+        log.info(f"Create button: {config['text']}")
         button = QPushButton(config['text'])
         for param, value in config.items():
             match param:
@@ -248,9 +253,13 @@ class Creator:
         return button
 
     def __create_dropdown(self, config: dict):
+        """
+        Создает виджет выпадающего списка с выбором элементов.
+        """
         dropdown = QComboBox()
         self.default_values[config['name']] = config['default_value']
         for param, value in config.items():
+            log.info(f"Create dropdown list: {config['name']}")
             match param:
                 case "options":
                     if value.get('always'):
@@ -281,6 +290,11 @@ class Creator:
         col_amount: int,
         widget_pos: str = None
     ) -> tuple:
+        """
+        В зависимсоти от конфигурации расположения виджета (first,
+        current, last, middle) высчитывает его положение в сетке контейнера
+        и возвращает координаты.
+        """
         positions = {
             "first": 0,
             "last": col_amount - 1,
