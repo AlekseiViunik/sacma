@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QPushButton, QCheckBox
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
@@ -44,3 +44,44 @@ class BaseWindow(QWidget):
         log.info("Using creator to generate UI layout")
         self.creator = Creator(config, self)
         self.creator.create_widget_layout(self, config["layout"])
+
+    def connect_callback(
+        self,
+        widget: QPushButton | QCheckBox,
+        callback_name: str,
+        params: dict = {},
+        parent=None
+    ):
+
+        match callback_name:
+            case "create_user":
+                widget.clicked.connect(parent.create_user)
+
+            case "close_window":
+                widget.clicked.connect(lambda: self.cancel(parent))
+
+            case "toggle_password":
+                widget.stateChanged.connect(
+                    lambda: parent.toggle_password(widget)
+                )
+            case "toggle_repeat_password":
+                widget.stateChanged.connect(
+                    lambda: parent.toggle_password(widget, "repeat_password")
+                )
+            case "try_login":
+                widget.clicked.connect(parent.try_login)
+
+            case "handle_start_button":
+                widget.clicked.connect(parent.handle_start_button)
+
+            case "browse_file":
+                target_input = params.get("target_input")
+                widget.clicked.connect(
+                    lambda: parent.browse_file(target_input)
+                )
+            case "save_settings":
+                widget.clicked.connect(parent.save_settings)
+
+    def cancel(self, parent):
+        log.info("Cancel button has been pressed")
+        parent.close()
