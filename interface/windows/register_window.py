@@ -1,80 +1,27 @@
-from PyQt6.QtWidgets import (
-    QCheckBox, QWidget, QPushButton, QLineEdit
-)
+from PyQt6.QtWidgets import QLineEdit
 
 from handlers.input_data_handler import InputDataHandler
 from handlers.json_handler import JsonHandler
 from handlers.user_data_handler import UserDataHandler
-from interface.creator import Creator
-from helpers.helper import Helper
 from helpers.authenticator import Authenticator
 from settings import settings as set
 from logic.logger import logging as log
+from .base_window import BaseWindow
 
 
-class RegisterWindow(QWidget):
+class RegisterWindow(BaseWindow):
+
+    CONFIG_FILE = set.REGISTER_WINDOW_CONFIG_FILE
+
     def __init__(self) -> None:
         super().__init__()
-        self.window_width = 0
-        self.window_height = 0
         self.auth_json_handler = JsonHandler(set.AUTH_FILE)
-        self.config_json_handler = JsonHandler(set.REGISTER_WINDOW_CONFIG_FILE)
         self.auth_successful: bool = False
-        self.creator = None
         self.auth = Authenticator()
         self.input_data_handler = InputDataHandler()
         self.user_data_handler = UserDataHandler()
 
         self.init_ui()
-
-    def init_ui(self) -> None:
-        """
-        Создает интерфейс окна настроек.
-        """
-
-        log.info("Create a window for user creation")
-        # Загружаем конфиг
-        log.info("Trying to get config data for create user window")
-        log.info(f"The path is {set.REGISTER_WINDOW_CONFIG_FILE}")
-        config = self.config_json_handler.get_all_data()
-
-        if config:
-            log.info("Config data received")
-            log.info(f"Config is: {config}")
-        else:
-            log.error("Couldn't get the data from the file!")
-
-        self.setWindowTitle(config['window_title'])
-        self.window_width = int(config['window_width'])
-        self.window_height = int(config['window_height'])
-        # Helper.move_window_to_center(self)
-        Helper.move_window_to_top_left_corner(self)
-
-        log.info("Use creator to place widgets on the create user window")
-        self.creator = Creator(config, self)
-        self.creator.create_widget_layout(self, config["layout"])
-
-    def connect_callback(
-        self,
-        widget: QPushButton | QCheckBox,
-        callback_name: str,
-        params: dict = {}
-    ):
-        if isinstance(widget, QPushButton):
-            if callback_name == "create_user":
-                widget.clicked.connect(self.create_user)
-
-            elif callback_name == "close_window":
-                widget.clicked.connect(self.cancel)
-        if isinstance(widget, QCheckBox):
-            if callback_name == "toggle_password":
-                widget.stateChanged.connect(
-                    lambda: self.toggle_password(widget)
-                )
-            if callback_name == "toggle_repeat_password":
-                widget.stateChanged.connect(
-                    lambda: self.toggle_password(widget, "repeat_password")
-                )
 
     def create_user(self):
         log.info("Button Create has been pressed")
@@ -148,7 +95,3 @@ class RegisterWindow(QWidget):
             self.creator.input_fields[field].setEchoMode(
                 QLineEdit.EchoMode.Password
             )
-
-    def cancel(self):
-        log.info("Cancel button has been pressed")
-        self.close()
