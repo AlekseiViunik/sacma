@@ -1,16 +1,18 @@
-from PyQt6.QtWidgets import QWidget, QPushButton
+from PyQt6.QtWidgets import QPushButton
 
 from interface.windows.input_window import InputWindow
 from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
 from handlers.json_handler import JsonHandler
-from interface.creator import Creator
-from helpers.helper import Helper
 from settings import settings as set
 from logic.logger import logger as log
+from interface.windows.base_window import BaseWindow
 
 
-class CustomApp(QWidget):
+class StartWindow(BaseWindow):
+
+    CONFIG_FILE = set.MAIN_WINDOW_CONFIG_FILE
+
     def __init__(self) -> None:
         super().__init__()
         self.width = 0
@@ -18,31 +20,6 @@ class CustomApp(QWidget):
         self.config_json_handler = JsonHandler(set.MAIN_WINDOW_CONFIG_FILE)
         self.creator = None
         self.init_ui()
-
-    def init_ui(self) -> None:
-        log.info("Create start window")
-        # Загружаем конфиг
-        log.info("Trying to get config data for start window")
-        log.info(f"The path is {set.MAIN_WINDOW_CONFIG_FILE}")
-        config = self.config_json_handler.get_all_data()
-
-        if config:
-            log.info("Config data received")
-            log.info(f"Config is: {config}")
-        else:
-            log.error("Couldn't get the data from the file!")
-
-        # Настраиваем окно
-        self.setWindowTitle(config['window_title'])
-        self.window_width = int(config['window_width'])
-        self.window_height = int(config['window_height'])
-        # Helper.move_window_to_center(self)
-        Helper.move_window_to_top_left_corner(self)
-
-        # Создаем слои и виджеты через креатор
-        log.info("Use creator to place widgets on the start window")
-        self.creator = Creator(config, self)
-        self.creator.create_widget_layout(self, config["layout"])
 
     def open_settings(self) -> None:
         log.info("Settings button has been pressed!")

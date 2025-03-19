@@ -9,7 +9,7 @@ if __name__ == "__main__":
     logger.info("============================================================")
 
     from PyQt6.QtWidgets import QApplication
-    from interface.custom_app import CustomApp
+    from interface.start_window import StartWindow
     import sys
 
     if set.PRODUCTION_MODE_ON:
@@ -20,7 +20,7 @@ if __name__ == "__main__":
         app.exec()
         if login_window.auth_successful:
             logger.info("Login is successful")
-            main_window = CustomApp()
+            main_window = StartWindow()
             main_window.show()
             sys.exit(app.exec())
         else:
@@ -29,6 +29,6 @@ if __name__ == "__main__":
     else:
         logger.info("Запуск нового интерфейса")
         app = QApplication(sys.argv)
-        main_window = CustomApp()
+        main_window = StartWindow()
         main_window.show()
         sys.exit(app.exec())
