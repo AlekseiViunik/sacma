@@ -10,12 +10,15 @@ class BaseWindow(QWidget):
 
     CONFIG_FILE = None  # Путь к конфигу должен задаваться в наследниках
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def __init__(self, file_path=None):
+        super().__init__()
         self.window_width = 0
         self.window_height = 0
         # Инициализируем обработчик JSON
-        self.config_json_handler = JsonHandler(self.CONFIG_FILE)
+        self.config_json_handler = (
+            JsonHandler(file_path) if file_path else
+            JsonHandler(self.CONFIG_FILE)
+        )
         self.creator = None
 
     def init_ui(self):
