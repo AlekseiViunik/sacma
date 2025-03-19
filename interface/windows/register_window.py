@@ -1,6 +1,4 @@
-from PyQt6.QtWidgets import (
-    QCheckBox, QPushButton, QLineEdit  # QWidget
-)
+from PyQt6.QtWidgets import QLineEdit
 
 from handlers.input_data_handler import InputDataHandler
 from handlers.json_handler import JsonHandler
@@ -24,29 +22,6 @@ class RegisterWindow(BaseWindow):
         self.user_data_handler = UserDataHandler()
 
         self.init_ui()
-
-    def connect_callback(
-        self,
-        widget: QPushButton | QCheckBox,
-        callback_name: str,
-        params: dict = {},
-        parent=None
-    ):
-        if isinstance(widget, QPushButton):
-            if callback_name == "create_user":
-                widget.clicked.connect(self.create_user)
-
-            elif callback_name == "close_window":
-                widget.clicked.connect(self.cancel)
-        if isinstance(widget, QCheckBox):
-            if callback_name == "toggle_password":
-                widget.stateChanged.connect(
-                    lambda: self.toggle_password(widget)
-                )
-            if callback_name == "toggle_repeat_password":
-                widget.stateChanged.connect(
-                    lambda: self.toggle_password(widget, "repeat_password")
-                )
 
     def create_user(self):
         log.info("Button Create has been pressed")
@@ -120,7 +95,3 @@ class RegisterWindow(BaseWindow):
             self.creator.input_fields[field].setEchoMode(
                 QLineEdit.EchoMode.Password
             )
-
-    def cancel(self):
-        log.info("Cancel button has been pressed")
-        self.close()

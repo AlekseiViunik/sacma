@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import (
     QLineEdit,
-    QFileDialog,
-    QPushButton
+    QFileDialog
 )
 
 from handlers.json_handler import JsonHandler
@@ -19,25 +18,6 @@ class SettingsWindow(BaseWindow):
         self.settings_json_handler = JsonHandler(set.SETTINGS_FILE)
 
         self.init_ui()
-
-    def connect_callback(
-        self,
-        button: QPushButton,
-        callback_name: str,
-        params: dict = {},
-        parent=None
-
-    ) -> None:
-        """
-        Привязывает коллбэки к кнопкам.
-        """
-        if callback_name == "close_window":
-            button.clicked.connect(self.cancel)
-        elif callback_name == "browse_file":
-            target_input = params.get("target_input")
-            button.clicked.connect(lambda: self.browse_file(target_input))
-        elif callback_name == "save_settings":
-            button.clicked.connect(self.save_settings)
 
     def browse_file(self, target_input: QLineEdit) -> None:
         """
@@ -68,8 +48,4 @@ class SettingsWindow(BaseWindow):
         self.settings_json_handler.rewrite_file(
             self.creator.input_fields
         )
-        self.close()
-
-    def cancel(self):
-        log.info("Cancel button has been pressed")
         self.close()

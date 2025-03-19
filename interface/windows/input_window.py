@@ -1,5 +1,3 @@
-from PyQt6.QtWidgets import QPushButton
-
 from handlers.input_data_handler import InputDataHandler
 from helpers.remover import Remover
 from interface.windows.output_window import OutputWindow
@@ -24,18 +22,6 @@ class InputWindow(BaseWindow):
         self.input_data_handler = InputDataHandler()
 
         self.init_ui()
-
-    def connect_callback(
-        self,
-        button: QPushButton,
-        callback_name: str,
-        params: dict = {},
-        parent=None
-    ) -> None:
-        if callback_name == "handle_start_button":
-            button.clicked.connect(self.handle_start_button)
-        else:
-            pass
 
     def handle_start_button(self):
         log.info("Button Invia has been pressed")

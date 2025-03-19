@@ -1,6 +1,4 @@
-from PyQt6.QtWidgets import (
-    QCheckBox, QPushButton, QMessageBox, QLineEdit
-)
+from PyQt6.QtWidgets import QMessageBox, QLineEdit
 
 from handlers.json_handler import JsonHandler
 from helpers.authenticator import Authenticator
@@ -32,24 +30,6 @@ class LoginWindow(BaseWindow):
         if "username" in self.creator.input_fields:
             self.creator.input_fields["username"].setText(last_user)
 
-    def connect_callback(
-        self,
-        widget: QPushButton | QCheckBox,
-        callback_name: str,
-        params: dict = {},
-        parent=None
-    ):
-        if isinstance(widget, QPushButton):
-            if callback_name == "try_login":
-                widget.clicked.connect(self.try_login)
-            elif callback_name == "close_window":
-                widget.clicked.connect(self.cancel)
-        if isinstance(widget, QCheckBox):
-            if callback_name == "toggle_password":
-                widget.stateChanged.connect(
-                    lambda: self.toggle_password(widget)
-                )
-
     def try_login(self):
         log.info("Try button is pressed")
         username = self.creator.input_fields['username'].text()
@@ -79,7 +59,3 @@ class LoginWindow(BaseWindow):
             self.creator.input_fields['password'].setEchoMode(
                 QLineEdit.EchoMode.Password
             )
-
-    def cancel(self):
-        log.info("Cancel button is pressed")
-        self.close()
