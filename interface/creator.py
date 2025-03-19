@@ -324,7 +324,12 @@ class Creator:
         return current_row, current_col
 
     def __update_dependent_layouts(self, name, selected_value):
-
+        """
+        Метод обновления зависимых контейнеров. Если значение, от которого они
+        зависят, поменялось, то перерисовывает эти контейнеры с новыми
+        параметрами.
+        """
+        log.info("Rerender dependent layouts")
         self.current_changing_value = selected_value
         self.current_changing_values[name] = selected_value
         if name not in self.dependencies:

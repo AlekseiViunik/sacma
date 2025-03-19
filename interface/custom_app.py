@@ -7,6 +7,7 @@ from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
 from settings import settings as set
+from logic.logger import logger as log
 
 
 class CustomApp(QWidget):
@@ -19,8 +20,17 @@ class CustomApp(QWidget):
         self.init_ui()
 
     def init_ui(self) -> None:
+        log.info("Create start window")
         # Загружаем конфиг
+        log.info("Trying to get config data for start window")
+        log.info(f"The path is {set.MAIN_WINDOW_CONFIG_FILE}")
         config = self.config_json_handler.get_all_data()
+
+        if config:
+            log.info("Config data received")
+            log.info(f"Config is: {config}")
+        else:
+            log.error("Couldn't get the data from the file!")
 
         # Настраиваем окно
         self.setWindowTitle(config['window_title'])
@@ -30,15 +40,18 @@ class CustomApp(QWidget):
         Helper.move_window_to_top_left_corner(self)
 
         # Создаем слои и виджеты через креатор
+        log.info("Use creator to place widgets on the start window")
         self.creator = Creator(config, self)
         self.creator.create_widget_layout(self, config["layout"])
 
     def open_settings(self) -> None:
+        log.info("Settings button has been pressed!")
         self.settings_window = SettingsWindow()
         self.settings_window.show()
 
     def open_input_window(self, params) -> None:
         sender = self.sender()  # Получаем объект кнопки
+        log.info(f"{sender.text()} button has been pressed!")
         if sender:
             window_name = sender.text()  # Берем текст кнопки как имя окна
             input_window = InputWindow(
@@ -49,6 +62,7 @@ class CustomApp(QWidget):
         input_window.show()
 
     def open_register(self):
+        log.info("Create user button has been pressed!")
         self.register_window = RegisterWindow()
         self.register_window.show()
 

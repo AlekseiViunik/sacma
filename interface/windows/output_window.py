@@ -10,6 +10,7 @@ from PyQt6.QtGui import QFont
 
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
+from logic.logger import logger as log
 from logic.translator import Translator
 from settings import settings as set
 
@@ -26,8 +27,17 @@ class OutputWindow(QWidget):
         post_message=None,
         only_keys=["price", "weight"]
     ):
-
+        log.info("Create result window")
+        # Загружаем конфиг
+        log.info("Trying to get config data for result window")
+        log.info(f"The path is {set.OUTPUT_WINDOW_CONFIG_FILE}")
         config = self.config_json_handler.get_all_data()
+
+        if config:
+            log.info("Config data received")
+            log.info(f"Config is: {config}")
+        else:
+            log.error("Couldn't get the data from the file!")
 
         self.setWindowTitle(config['window_title'])
         self.window_width = int(config['window_width'])

@@ -5,17 +5,21 @@ from PyQt6.QtWidgets import QLineEdit
 
 from typing import Any
 
+from logic.logger import logger as log
+
 
 class JsonHandler:
     def __init__(self, file_path: str) -> None:
         self.file_path = file_path if os.path.exists(file_path) else None
 
     def get_all_data(self) -> dict:
+        log.info("JsonHandler works. Method get_all_data.")
         if self.file_path:
             with open(self.file_path, "r", encoding="utf-8") as f:
                 return json.load(f)
 
     def get_value_by_key(self, key: str) -> Any:
+        log.info("JsonHandler works. Method get_value_by_key.")
         data = self.get_all_data()
         if data:
             return data.get(key, "")
@@ -36,6 +40,7 @@ class JsonHandler:
         result : dict
             Словарь со значениями для этих ключей. Или пустой словарь.
         """
+        log.info("JsonHandler works. Method get_values_by_keys.")
         result = {}
         data = self.get_all_data()
 
@@ -47,11 +52,14 @@ class JsonHandler:
         return result
 
     def rewrite_file(self, data: dict) -> None:
+        log.info("JsonHandler works. Method rewrite_file.")
         with open(self.file_path, "w", encoding="utf-8") as f:
             json.dump(
                 {
-                    key: field.text() if isinstance(field, QLineEdit)
-                    else field for key, field in data.items()
+                    key: field.text()
+                    if isinstance(field, QLineEdit)
+                    else field
+                    for key, field in data.items()
                 },
                 f, indent=4, ensure_ascii=False
             )
@@ -69,6 +77,7 @@ class JsonHandler:
         value: str
             Значение, которое нужно записать.
         """
+        log.info("JsonHandler works. Method write_into_file.")
         data = self.get_all_data()
         if not key2:
             data[key] = value
