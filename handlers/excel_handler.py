@@ -33,11 +33,16 @@ class ExcelHandler:
         self.excel = None
         self.wb = None
         self.sheet = None
+        self.check_err_mesg = ""
 
     def initiate_process(self):
         if not self.__check_data():
             log.error("The data is wrong!")
-            return {"price": None, "weight": None}
+            return {
+                "price": None,
+                "weight": None,
+                "error": self.check_err_mesg
+            }
 
         self.excel, self.wb, self.sheet = self.__open_excel()
         self.__input_cells()
@@ -100,8 +105,14 @@ class ExcelHandler:
             log.info(f"Check {key}")
             if key in self.rules:
                 log.info(f"Data to be checked is: {self.data}")
-                for rul_key, rul_value in self.rules[key].items():
-                    if not Validator().validate(rul_key, rul_value, value):
+                for rule_key, rule_value in self.rules[key].items():
+                    if not Validator().validate(rule_key, rule_value, value):
+                        self.check_err_mesg = self.set_err_msg(
+                            rule_key,
+                            rule_value,
+                            key,
+                            value
+                        )
                         log.error(f"{key} hasn't passed")
                         return False
         log.info("The data is correct")
@@ -168,3 +179,35 @@ class ExcelHandler:
                     rounding=ROUND_HALF_UP
                 )
         return excel_data
+
+    def set_err_msg(
+        self,
+        rule_key,
+        rule_value,
+        key,
+        value
+    ):
+        match rule_key:
+            case "min":
+                return (
+                    f"{key} should be more than {rule_value}. You have {value}"
+                )
+            case "max":
+                return (
+                    f"{key} should be less than {rule_value}. You have {value}"
+                )
+            case "numeric":
+                return (
+                    f"{key} should be numeric. You have {value}"
+                )
+            case "natural":
+                return (
+                    f"{key} should be more positive and numeric."
+                    f"You have {value}"
+                )
+            case "multiple":
+                return (
+                    f"{key} should be multiple {rule_value}. You have {value}"
+                )
+            case _:
+                return ""
