@@ -51,13 +51,15 @@ class Calculator:
             self.calc_config['cells_output']
         )
         excel_result = self.excel_handler.initiate_process()
-
-        if self.calc_config.get('formulas'):
-            self.__use_formula(
-                excel_result,
-                self.calc_config['formulas'],
-                self.data
-            )
+        if excel_result.get('error'):
+            post_message = excel_result.pop('error')
+        else:
+            if self.calc_config.get('formulas'):
+                self.__use_formula(
+                    excel_result,
+                    self.calc_config['formulas'],
+                    self.data
+                )
 
         # Устанавливаем реультат как None, если его не нужно
         # отображать (is_hide = 1)
