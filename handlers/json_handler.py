@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 from PyQt6.QtWidgets import QLineEdit
 
@@ -10,7 +11,8 @@ from logic.logger import logger as log
 
 class JsonHandler:
     def __init__(self, file_path: str) -> None:
-        self.file_path = file_path if os.path.exists(file_path) else None
+        self.file_path = None
+        self.set_file_path(file_path)
 
     def get_all_data(self) -> dict:
         log.info("JsonHandler works. Method get_all_data.")
@@ -85,3 +87,10 @@ class JsonHandler:
             data[key][key2] = value
         with open(self.file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
+
+    def set_file_path(self, path):
+        if getattr(sys, 'frozen', False):
+            BASE_DIR = os.path.dirname(sys.executable)
+            self.file_path = os.path.join(BASE_DIR, path)
+        else:
+            self.file_path = path
