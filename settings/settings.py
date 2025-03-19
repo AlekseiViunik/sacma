@@ -61,4 +61,4 @@ SETTINGS_FILE = "settings.json"
 OUTPUT_WINDOW_CONFIG_FILE = "configs/windows_configs/output_window.json"
 USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 
-PRODUCTION_MODE_ON = True
+PRODUCTION_MODE_ON = False
