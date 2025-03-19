@@ -72,7 +72,7 @@ class RegisterWindow(QWidget):
             self.creator.input_fields,
             self.creator.chosen_fields
         )
-        log.error(f"Fulfilled fields are: {all_inputs}")
+        log.info(f"Fulfilled fields are: {all_inputs}")
         difference = self.input_data_handler.check_mandatory(
             all_inputs,
             self.creator.mandatory_fields
@@ -92,6 +92,7 @@ class RegisterWindow(QWidget):
                 err_msg,
                 self
             )
+            return
 
         if all_inputs['password'] != all_inputs['repeat_password']:
             log.error("Check failed. Pass and its repeat are different")
@@ -100,6 +101,7 @@ class RegisterWindow(QWidget):
                 "Password and its repeat are not identical",
                 self
             )
+            return
         username = all_inputs['username']
         if not self.auth.register_user(
             all_inputs['username'],
@@ -111,6 +113,7 @@ class RegisterWindow(QWidget):
                 "User is already exists",
                 self
             )
+            return
         else:
             log.info(
                 "Creation succesfull. Login-Pass pair has been added to the DB"
@@ -126,4 +129,4 @@ class RegisterWindow(QWidget):
 
     def cancel(self):
         log.info("Cancel button has been pressed")
-        self.close
+        self.close()
