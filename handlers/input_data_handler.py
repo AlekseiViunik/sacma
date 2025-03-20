@@ -1,42 +1,151 @@
 from PyQt6.QtWidgets import (
-    QMessageBox
+    QMessageBox, QLineEdit, QComboBox, QWidget
 )
+from typing import Dict
 
 from helpers.remover import Remover
 
 
 class InputDataHandler:
-    def __init__(self):
-        self.remover = Remover()
+    """
+    Обработчик данных, введенных/выбранных пользователем.
 
-    def collect_all_inputs(self, input_fields, choice_fields):
+    Attributes
+    ----------
+    - remover: Remover
+        Один из помощников, который удаляет ненужные данные.
+
+    Methods
+    -------
+    - collect_all_inputs(input_fields, choice_fields)
+        Объединяет словари с введенными и выбранными данными.
+
+    - check_mandatory(inputs, choice_fields)
+        Проверяет, какие поля из обязательных не заполнены и возвращает
+        список этих полей.
+
+    - show_messagebox(title, msg, window, type)
+        Показывает информационное окно об ошибке или успехе в зависимости от
+        type.
+    """
+
+    def __init__(self) -> None:
+        self.remover: Remover = Remover()
+
+    def collect_all_inputs(
+        self,
+        input_fields: Dict[str, QLineEdit],
+        choice_fields: Dict[str, QComboBox]
+    ) -> dict:
+        """
+        Объединяет два словаря в один. На входе словарь с введеными значениями
+        и словарь с выбранными значениями. В значениях записаны обхекты
+        виджетов. На выходе общий словарь со значениями юзера. Сами значения
+        преобразуются в текст.
+
+        Parameters
+        ----------
+        - input_fields: dict
+            Введенные юзером значения.
+
+        - choice_fields: dict
+            Выбранные юзером значения.
+
+        Returns
+        -------
+        - all_inputs: dict
+            Обобщенный словарь входных данных.
+        """
+
+        # Когда изменяющий виджет меняет расклад виджетов на окне, некоторые
+        # виджеты должны исчезнуть. Они удаляются из окна, но не из словаря
+        # введенных значений. В итоге они лежат там как мертвые ссылки, от
+        # которых нужно избавиться, чтобы не выбрасывалась ошибка.
         self.remover.clean_up_fields(
             input_fields,
             choice_fields
         )
         all_inputs = {}
+
+        # Добавляем в обобщенный словарь выбранные юзером данные в виде текста.
         for name, field in choice_fields.items():
             all_inputs[name] = field.currentText()
+
+        # Добавляем в обобщенный словарь введенные юзером данные в виде текста.
         for name, field in input_fields.items():
             all_inputs[name] = field.text()
         return all_inputs
 
-    def check_mandatory(self, inputs, mandatories):
+    def check_mandatory(
+        self,
+        inputs: dict,
+        mandatories: list
+    ) -> list:
+        """
+        Проверяет заполнение обязательных полей.
+        Использует вычитание множеств. Из множества обязательных полей
+        вычитается множетсво заполненных полей. Возвращается список по
+        результатам вычитания.
+
+        Parameters
+        ----------
+        - inputs: dict
+            Словарь заполненных юзером полей.
+
+        - mandatories: list
+            Список обязательных полей для заполнения, сформированный из
+            конфига.
+
+        Returns
+        -------
+        - _: list
+            список обязательных, но не заполненных полей.
+        """
+
+        # Составляем множество ключей из словаря введенных юзером данных
+        # Если для этого ключа есть значение (если юзер его ввел/выбрал).
         filled_inputs = {k for k, v in inputs.items() if v}
+
+        # Возвращаем результат в виде разности множеств преобразованной в
+        # список.
         return list(set(mandatories) - filled_inputs)
 
-    def show_error_messagebox(self, title, msg, window):
-        box = QMessageBox(window)
-        box.setWindowTitle(title)
-        box.setText(msg)
-        box.setIcon(QMessageBox.Icon.Critical)
-        box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        box.show()
+    def show_messagebox(
+        self,
+        title: str,
+        msg: str,
+        window: QWidget,
+        type: str = "error"
+    ) -> None:
+        """
+        Выводит окно об ошибке или просто информационное окно (разница только в
+        иконке) в зависимости от указанного type. Окно выводится относительно
+        окна, из которого оно было вызвано.
 
-    def show_success_messagebox(self, title, msg, window):
+        Parameters
+        ----------
+        - title: str
+            Заголовок окна.
+
+        - msg: str
+            Сообщение для информации.
+
+        window: QWidget
+            Окно, относительно которого выводится это окно.
+
+        type: str
+            Тип выводимого окна. Пока что доступен только тип `error`. Все
+            остальное будет трактоваться как info.
+        """
+
         box = QMessageBox(window)
         box.setWindowTitle(title)
         box.setText(msg)
-        box.setIcon(QMessageBox.Icon.Information)
         box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        box.exec()
+        if type == "error":
+            box.setIcon(QMessageBox.Icon.Critical)
+            box.show()
+
+        else:
+            box.setIcon(QMessageBox.Icon.Information)
+            box.exec()

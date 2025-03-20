@@ -44,7 +44,7 @@ class RegisterWindow(BaseWindow):
                 err_msg = (
                     f"The following fields are mandatory: {missing_fields}!"
                 )
-            self.input_data_handler.show_error_messagebox(
+            self.input_data_handler.show_messagebox(
                 "Creation failed",
                 err_msg,
                 self
@@ -53,7 +53,7 @@ class RegisterWindow(BaseWindow):
 
         if all_inputs['password'] != all_inputs['repeat_password']:
             log.error("Check failed. Pass and its repeat are different")
-            self.input_data_handler.show_error_messagebox(
+            self.input_data_handler.show_messagebox(
                 "Creation failed",
                 "Password and its repeat are not identical",
                 self
@@ -65,7 +65,7 @@ class RegisterWindow(BaseWindow):
             all_inputs['password']
         ):
             log.error("Creation failed. User is already exists")
-            self.input_data_handler.show_error_messagebox(
+            self.input_data_handler.show_messagebox(
                 "Creation failed",
                 "User is already exists",
                 self
@@ -77,10 +77,11 @@ class RegisterWindow(BaseWindow):
             )
             log.info("Trying to add user data")
             self.user_data_handler.add_new_user_data(all_inputs)
-            self.input_data_handler.show_success_messagebox(
+            self.input_data_handler.show_messagebox(
                 "Success!",
                 f"User {username} is created!",
-                self
+                self,
+                "info"
             )
             self.close()
 

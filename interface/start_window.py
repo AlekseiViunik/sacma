@@ -33,8 +33,7 @@ class StartWindow(BaseWindow):
             window_name = sender.text()  # Берем текст кнопки как имя окна
             input_window = InputWindow(
                 window_name,
-                params['json_file_path'],
-                self
+                params['json_file_path']
             )
         input_window.show()
 

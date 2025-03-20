@@ -2,7 +2,6 @@ from decimal import Decimal, ROUND_HALF_UP
 import win32com.client
 import win32com.client as win32
 
-from logic.translator import Translator
 from logic.logger import logger as log
 from logic.validator import Validator
 from handlers.json_handler import JsonHandler
@@ -17,90 +16,83 @@ class ExcelHandler:
 
     Attributes
     ----------
-    data: dict
+    - data: dict
         Данные, которые необходимо обработать и записать в файл.
 
-    rules: dict | None
+    - rules: dict | None
         Правила, по которым будет происходить валидация данных.
 
-    worksheet: str
+    - worksheet: str
         Имя листа файла эксель, в который будет происходить запись данных.
 
-    cells_input: dict | None
+    - cells_input: dict | None
         Словарь, содержащий данные типа <Имя_поля>: <Адрес_ячейки_для_записи>.
 
-    cells_output: dict
+    - cells_output: dict
         Словарь с данными типа <Имя_поля>: <Адрес_ячейки_для_извлечения>.
 
-    settings_json_handler: JsonHandler
+    - settings_json_handler: JsonHandler
         Обработчик файла общих настроек. Нужен для получения пути к эксель
         файлу. Путь хранится в общих настройках.
 
-    excel: win32com.client.CDispatch | None
+    - excel: win32com.client.CDispatch | None
         Объект приложения ексель.
 
-    wb: win32com.client.CDispatch | None
+    - wb: win32com.client.CDispatch | None
         Объект книги эксель.
 
-    sheet: win32com.client.CDispatch | None
+    - sheet: win32com.client.CDispatch | None
         Объект листа книги эксель.
 
-    check_err_mesg: str
+    - check_err_mesg: str
         Сообщение об ошибке, которое будет сформировано в случае, если какие-то
         из данных не пройдут валидацию.
 
     Methods
     -------
-    initiate_process()
+    - initiate_process()
         Основной метод класса. Запускает обработку, подготовку и прочие
         действия с файлом и данными.
 
     Private pethods
     ---------------
-    __open_excel()
+    - __open_excel()
         Открывает файл эксель.
 
-    __close_excel()
+    - __close_excel()
         Закрывает ставший уже ненужным файл эксель.
 
-    __prepare_data()
+    - __prepare_data()
         Подготавливает данные (см. описание метода) перед вставкой их в эксель.
 
-    __input_cells()
+    - __input_cells()
         Вставляет подготовленные данные в эксель и обновляет страницу для
         пересчета формул.
 
-    __check_data()
+    - __check_data()
         Валидирует входные данные согласно правилам изложенным в конфиге окна.
 
-    __get_data_from_excel()
+    - __get_data_from_excel()
         Извлекает указанные ячейки из файла эксель после пересчета формул и
         возвращает их как результат.
 
-    __set_err_msg(rule_key, rule_value, key, value)
+    - __set_err_msg(rule_key, rule_value, key, value)
         В случае проваленной валидации данных, формирует сообщение об ошибке в
         зависимости от того, какое правило было провалено.
-
     """
 
     def __init__(
         self,
         data: dict,
-        rules: dict,
+        rules: dict | None,
         worksheet: str,
         cells_input: dict | None = None,
         cells_output: dict | None = None
     ) -> None:
         self.data = data
-        self.rules: dict | None = (
-            Translator().translate_dict(rules)
-        )
+        self.rules: dict | None = rules
         self.worksheet: str = worksheet
-        self.cells_input: dict | None = (
-            Translator().translate_dict(cells_input)
-            if cells_input
-            else None
-        )
+        self.cells_input: dict | None = cells_input
         self.cells_output: dict | None = cells_output
         self.settings_json_handler: JsonHandler = JsonHandler(SETTINGS_FILE)
         self.excel: win32com.client.CDispatch | None = None
@@ -115,7 +107,7 @@ class ExcelHandler:
 
         Returns
         -------
-        data: dict
+        - data: dict
             Словарь с необработанными данными для вывода в окне результата.
         """
 
@@ -207,7 +199,7 @@ class ExcelHandler:
 
         Returns
         -------
-        data_prepared : dict
+        - data_prepared : dict
             Отвалидированные и подготовленные для дальнейшей обработки данные.
         """
 
@@ -261,7 +253,7 @@ class ExcelHandler:
 
         Returns
         -------
-        bool
+        - _: bool
             Результат валидации данных.
         """
 
@@ -292,7 +284,7 @@ class ExcelHandler:
 
         Returns
         -------
-        excel_data : dict
+        - excel_data : dict
             Словарь полученными из excel данными.
         """
 
@@ -331,18 +323,18 @@ class ExcelHandler:
 
         Parameters
         ----------
-            rule_key: str
-                Имя правила, которое было провалено (например max, min и т.д.).
-            rule_value: Any
-                Значение правила, которое было не соблюдено.
-            key: str
-                Имя параметра, значение которого провалило валидацию.
-            value: Any
-                Знгачение параметра, провалившего валидацию.
+        - rule_key: str
+            Имя правила, которое было провалено (например max, min и т.д.).
+        - rule_value: Any
+            Значение правила, которое было не соблюдено.
+        - key: str
+            Имя параметра, значение которого провалило валидацию.
+        - value: Any
+            Значение параметра, провалившего валидацию.
 
         Returns
         -------
-        str
+        - _: str
             Сообщение об ошибке
         """
 

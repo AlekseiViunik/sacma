@@ -35,7 +35,7 @@ class Creator:
         self.dependencies = {}
         self.remover = Remover()
         self.finder = Finder()
-        self.mandatory_fields = []
+        self.mandatory_fields: list = []
 
     def create_widget_layout(
         self,

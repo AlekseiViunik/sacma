@@ -1,3 +1,4 @@
+from typing import Any
 from PyQt6.QtWidgets import QWidget, QPushButton, QCheckBox
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
@@ -6,23 +7,61 @@ from logic.logger import logger as log
 
 
 class BaseWindow(QWidget):
-    """Базовое окно для всех окон приложения."""
+    """
+    Базовое окно для всех окон приложения.
+
+    Attributes
+    ----------
+    - window_width: int
+        Начальная ширина окна класса-наследника.
+
+    - window_height: int
+        Начальная высота окна класса-наследника.
+
+    - config_json_handler: JsonHandler
+        Обработчик JSON файла с конфигом, содержащим информацию о виджетах.
+
+    - creator: Creator | None
+        Класс, используемый для создания и размещения виджетов и контейнеров.
+
+    Methods
+    -------
+    - init_ui()
+        Метод отрисовки интерфейса окна. Использует Креатор.
+
+    - connect_callback()
+        Привязывает методы наследников (или свои) к кнопкам по их конфигу.
+
+    - cancel()
+        Свой метод для кнопки Cancel. Закрывает окно и пишет об этом в лог.
+    """
 
     CONFIG_FILE = None  # Путь к конфигу должен задаваться в наследниках
 
-    def __init__(self, file_path=None):
+    def __init__(
+        self,
+        file_path: str | None = None
+    ) -> None:
         super().__init__()
-        self.window_width = 0
-        self.window_height = 0
-        # Инициализируем обработчик JSON
-        self.config_json_handler = (
+        self.window_width: int = 0
+        self.window_height: int = 0
+
+        # Для наследников, у которых путь к конфигу определяется динамически,
+        # передаем file_path
+        self.config_json_handler: JsonHandler = (
             JsonHandler(file_path) if file_path else
             JsonHandler(self.CONFIG_FILE)
         )
-        self.creator = None
+        self.creator: Creator | None = None
 
-    def init_ui(self):
-        """Создает интерфейс окна на основе JSON-конфига."""
+    def init_ui(self) -> None:
+        """
+        Создает интерфейс окна на основе JSON-конфига.
+        - Загружает конфиг из JSON файла.
+        - Настраивает Титул и размеры окна.
+        - Перемещает окно в центр экрана.
+        - Размещает виджеты, используя креатор.
+        """
 
         log.info(f"Creating window with config: {self.CONFIG_FILE}")
 
@@ -50,38 +89,74 @@ class BaseWindow(QWidget):
         widget: QPushButton | QCheckBox,
         callback_name: str,
         params: dict = {},
-        parent=None
-    ):
+        inheritor: Any = None
+    ) -> None:
+        """
+        Привязывает методы наследников (или свои) к различным кнопкам в
+        зависимости от их конфига.
+
+        Parameters
+        ----------
+        - widget: QPushButton | QCheckBox
+            Виджет, для которого привязывается метод.
+
+        - callback_name: str,
+            Имя метода в виде строки.
+
+        - params: dict = {},
+            Параметры для вызова метода (если есть).
+
+        - inheritor: Any = None
+            Класс насследник, чьи методы будет использовать виджет.
+        """
 
         match callback_name:
             case "create_user":
-                widget.clicked.connect(parent.create_user)
+                widget.clicked.connect(inheritor.create_user)
 
             case "close_window":
-                widget.clicked.connect(lambda: self.cancel(parent))
+                widget.clicked.connect(lambda: self.cancel(inheritor))
 
             case "toggle_password":
                 widget.stateChanged.connect(
-                    lambda: parent.toggle_password(widget)
+                    lambda: inheritor.toggle_password(widget)
                 )
             case "toggle_repeat_password":
                 widget.stateChanged.connect(
-                    lambda: parent.toggle_password(widget, "repeat_password")
+                    lambda: inheritor.toggle_password(
+                        widget,
+                        "repeat_password"
+                    )
                 )
             case "try_login":
-                widget.clicked.connect(parent.try_login)
+                widget.clicked.connect(inheritor.try_login)
 
             case "handle_start_button":
-                widget.clicked.connect(parent.handle_start_button)
+                widget.clicked.connect(inheritor.handle_start_button)
 
             case "browse_file":
                 target_input = params.get("target_input")
                 widget.clicked.connect(
-                    lambda: parent.browse_file(target_input)
+                    lambda: inheritor.browse_file(target_input)
                 )
             case "save_settings":
-                widget.clicked.connect(parent.save_settings)
+                widget.clicked.connect(inheritor.save_settings)
 
-    def cancel(self, parent):
+    def cancel(self, inheritor: QWidget) -> None:
+        """
+        В случае, если нажата кнопка `Cancel`, то действия общие для всех этих
+        кнопок - записать в лог, что кнопка нажата и закрыть окно
+        класса-наследника.
+
+        Parameters
+        ----------
+        - inheritor: QWidget
+            Наследник, окно которого надо закрыть. На самом деле наследники -
+            это разные классы и перечислять их здесь нет смысла, но все они
+            наследуются от этого класса, а он в свою очередь наследуется от
+            QWidget. И поскольку я не могу ссылаться на сам себя, то мне
+            пришлось указать QWidget, как тип передаваемого объекта.
+        """
+
         log.info("Cancel button has been pressed")
-        parent.close()
+        inheritor.close()
