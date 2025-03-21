@@ -10,6 +10,22 @@ from .base_window import BaseWindow
 
 
 class SettingsWindow(BaseWindow):
+    """
+    Окно настроек.
+
+    Attributes
+    ----------
+    - settings_json_handler: JsonHandler
+        Обработчик JSON файла, хранящего пользовательские настройки.
+
+    Methods
+    -------
+    - browse_file(target_input)
+        Открывает окно выбора файла
+
+    - save_settings()
+        Переписывает файл настроек и закрывает окно.
+    """
 
     CONFIG_FILE = set.SETTINGS_WINDOW_CONFIG_FILE
 
@@ -23,14 +39,25 @@ class SettingsWindow(BaseWindow):
         """
         Метод, срабатывающий при нажатии кнопки Browse. Открывает окно выбора
         файла excel.
+
+        Parameters
+        ----------
+        - target_input: QLineEdit
+            Поле для ввода, в которое будет вставлен выбранный путь к файлу.
         """
         log.info("Browse button has been pressed")
+
+        # Получаем путь к файлу, выбрав его в открывшемся окне.
         file_path, _ = QFileDialog.getOpenFileName(
             None,
             "Выбрать файл",
             "",
             "Excel Files (*.xlsx *.xls)"
         )
+
+        # Если путь получен и поле для ввода находится массива полей для ввода
+        # у креатора, то меняем у этого поля для ввода отображаемый введенный
+        # текст на путь к файлу.
         if file_path and target_input in self.creator.input_fields:
             self.creator.input_fields[target_input].setText(file_path)
             self.creator.input_fields[target_input].setPlaceholderText(

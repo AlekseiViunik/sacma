@@ -4,31 +4,54 @@ from settings import settings as set
 
 
 class UserDataHandler:
-    def __init__(self):
-        self.auth_json_handler = JsonHandler(set.USER_MAIN_DATA_FILE)
+    """
+    Обработчик событий, связанных с созданием нового пользователя.
 
-    def add_new_user_data(self, user_data):
+    Attributes
+    ----------
+    - auth_json_handler: JsonHandler
+        Обработчик JSON файлов. Поскольку на текущий момент данные о юзерах
+        хранятся в JSON файле, то нам будет нужен обработчик для работы с
+        этим файлом для добавления туда новых юзеров и извлечения уже
+        существующих при необходимости.
+
+    Methods
+    -------
+    - add_new_user_data(user_data)
+        Метод добавления данных нового пользователя в файл.
+    """
+
+    def __init__(self) -> None:
+        self.auth_json_handler: JsonHandler = (
+            JsonHandler(set.USER_MAIN_DATA_FILE)
+        )
+
+    def add_new_user_data(self, user_data: dict) -> None:
+        """
+        Добавляет в файл данные о новом пользователе, кроме чувствительных
+        дынных, таких как пароль и его повторение.
+
+        Parameters
+        ----------
+        - user_data: dict
+            Данные юзера для добавления в файл.
+        """
+
+        # Убираем чувствительные данные из добавляемых
+        # Также убираем оттуда юзернейм - он будет служить ключом, а не
+        # значением в новом словаре.
         username = user_data.pop('username')
         if user_data.get('password'):
             user_data.pop('password')
         if user_data.get('repeat_password'):
             user_data.pop('repeat_password')
 
-        log.info("Trying to get all users data to add another user data")
+        log.info("Trying to add a new user data")
         log.info(f"The path is {set.USER_MAIN_DATA_FILE}")
-        all_data = self.auth_json_handler.get_all_data()
+        self.auth_json_handler.write_into_file(key=username, value=user_data)
 
-        if all_data:
-            log.info("Config data received")
-        else:
-            log.error("Couldn't get the data from the file!")
-
-        all_data[username] = user_data
-        log.info("Add new user data")
-        self.auth_json_handler.rewrite_file(all_data)
-
+        # Проверка, что пользователь добавлен (для логов)
         new_data = self.auth_json_handler.get_all_data()
-
         if new_data.get(username) and new_data[username] == user_data:
             log.info("New user data has been added")
         else:

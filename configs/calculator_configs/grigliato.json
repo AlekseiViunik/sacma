@@ -52,19 +52,19 @@
                         "price": "E32",
                         "weight": "C32",
                         "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
-                        "hide": 1
+                        "is_hide": 1
                     },
                     "1.5": {
                         "price": "E33",
                         "weight": "C33",
                         "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
-                        "hide": 1
+                        "is_hide": 1
                     },
                     "2.0": {
                         "price": "E34",
                         "weight": "C34",
                         "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
-                        "hide": 1
+                        "is_hide": 1
                     }
                 }
             },
@@ -115,13 +115,13 @@
                         "price": "E35",
                         "weight": "C35",
                         "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
-                        "hide": 1
+                        "is_hide": 1
                     },
                     "3.0": {
                         "price": "E36",
                         "weight": "C36",
                         "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
-                        "hide": 1
+                        "is_hide": 1
                     }
                 }
             },

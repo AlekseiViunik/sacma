@@ -10,17 +10,72 @@ from logic.logger import logger as log
 
 
 class JsonHandler:
+    """
+    Обработчик файлов JSON. Служит для получения/записи данных в эти файлы.
+
+    Attributes
+    ----------
+    - file_path: str
+        Путь к файлу JSON
+
+    Methods
+    -------
+    - get_all_data()
+        Получает все данные из файла и преобразует их в словарь.
+
+    - get_value_by_key(key)
+        Получает данные из файла по ключу.
+
+    - get_values_by_keys(keys)
+        Получает данные из файла по списку ключей.
+
+    - rewrite_file(data)
+        Полностью перезаписывает файл новыми данными.
+
+    - write_into_file(key, key2, value)
+        Перезаписывает отдельное значение файла. Работает до ключей второго
+        уровня глубины включительно.
+
+    - set_file_path(path)
+        Этот метод нужен, чтобы настроить абсолютный путь к файлу, если
+        приложение работает как ехе файл.
+    """
+
     def __init__(self, file_path: str) -> None:
-        self.file_path = None
+        self.file_path: str = ""
+
         self.set_file_path(file_path)
 
     def get_all_data(self) -> dict:
+        """
+        Открывает JSON файл только для чтения, получает все данные и возвращает
+        их в виде словаря.
+
+        Returns
+        -------
+        - _: dict
+            Возвращаемые данные.
+        """
         log.info("JsonHandler works. Method get_all_data.")
         if self.file_path:
             with open(self.file_path, "r", encoding="utf-8") as f:
                 return json.load(f)
 
     def get_value_by_key(self, key: str) -> Any:
+        """
+        Открывает JSON файл только для чтения, получает данные по ключу и
+        возвращает их в том виде, в котором они там хранятся.
+
+        Parameters
+        ----------
+        - key: str
+            Ключ, по которому надо получить данные.
+
+        Returns
+        -------
+        - _: Any
+            Возвращаемые данные.
+        """
         log.info("JsonHandler works. Method get_value_by_key.")
         data = self.get_all_data()
         if data:
@@ -29,17 +84,18 @@ class JsonHandler:
 
     def get_values_by_keys(self, keys: list) -> dict:
         """
-        Возвращает словарь со значениями для переданных ключей, найденными в
-        json файле.
+        Открывает JSON файл только для чтения, получает данные по списку
+        ключей и возвращает их в виде словаря, где ключами будут те самые
+        переданные в списке ключи.
 
-        Параметры
-        ---------
-        keys : list
+        Parameters
+        ----------
+        - keys : list
             список ключей, для которых нужно найти значения в файле.
 
-        Возвращает
-        ----------
-        result : dict
+        Returns
+        -------
+        - result : dict
             Словарь со значениями для этих ключей. Или пустой словарь.
         """
         log.info("JsonHandler works. Method get_values_by_keys.")
@@ -54,10 +110,24 @@ class JsonHandler:
         return result
 
     def rewrite_file(self, data: dict) -> None:
+        """
+        Открывает файл JSON для записи и полностью перезаписывает его, заменяя
+        имеющиеся там данные переданными в метод. Обычно используется для
+        одноуровневого словаря.
+
+        Parameters
+        ----------
+        - data: dict
+            Данные, которыми будет перезаписан файл.
+        """
         log.info("JsonHandler works. Method rewrite_file.")
         with open(self.file_path, "w", encoding="utf-8") as f:
             json.dump(
                 {
+                    # Иногда в качестве значений может быть объект QLineEdit, а
+                    # нам нужно введенное в это поле значение. В таком случае
+                    # Передаем в создаваемый словарь его значение. В остальных
+                    # случаях передаем непреобразованное значение.
                     key: field.text()
                     if isinstance(field, QLineEdit)
                     else field
@@ -66,29 +136,46 @@ class JsonHandler:
                 f, indent=4, ensure_ascii=False
             )
 
-    def write_into_file(self, key="", key2="", value="") -> None:
+    def write_into_file(
+        self,
+        key: str = "",
+        key2: str = "",
+        value: str | dict = ""
+    ) -> None:
         """
-        Записывает данные в файл.
+        Открывает файл JSON для записи, получает из него все данные,
+        меняет значение данных по ключам (поддержка до второго уровня
+        вложенности словарей) и полностью перезаписывает файл с уже измененным
+        словарем.
 
         Parameters
         ----------
-        key : str
+        - key : str
             Ключ первого уровня для записи.
-        key2 : str | None
+        - key2 : str
             Ключ второго уровня
-        value: str
+        - value: str | dict
             Значение, которое нужно записать.
         """
+
         log.info("JsonHandler works. Method write_into_file.")
         data = self.get_all_data()
         if not key2:
             data[key] = value
         else:
             data[key][key2] = value
-        with open(self.file_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4)
+        self.rewrite_file(data)
 
-    def set_file_path(self, path):
+    def set_file_path(self, path: str) -> None:
+        """
+        Устанавливает абсолютный путь к файлу, если приложение работает как ехе
+        файл.
+
+        Parameters
+        ----------
+         - path: str
+            относительный путь к файлу.
+        """
         if getattr(sys, 'frozen', False):
             BASE_DIR = os.path.dirname(sys.executable)
             self.file_path = os.path.join(BASE_DIR, path)
