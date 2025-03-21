@@ -4,7 +4,8 @@ import sys
 
 from settings import settings as set
 
-# Путь к файлу логов
+# Путь к файлу логов.
+# Если приложение запущено как ехе, то путь будет другой.
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
     LOG_DIR = os.path.join(BASE_DIR, "logs")
@@ -15,7 +16,11 @@ else:
         "..",
         "logs"
     )
-os.makedirs(LOG_DIR, exist_ok=True)  # Создаём папку logs, если её нет
+
+# Создаём папку logs, если её нет.
+os.makedirs(LOG_DIR, exist_ok=True)
+
+# Путь к файлу логов.
 LOG_FILE = os.path.join(LOG_DIR, set.LOG_FILE_NAME)
 
 
