@@ -142,6 +142,17 @@ class BaseWindow(QWidget):
             case "save_settings":
                 widget.clicked.connect(inheritor.save_settings)
 
+            case "open_settings":
+                widget.clicked.connect(inheritor.open_settings)
+
+            case "open_input_window":
+                widget.clicked.connect(
+                    lambda: inheritor.open_input_window(params)
+                )
+
+            case "open_register":
+                widget.clicked.connect(inheritor.open_register)
+
     def cancel(self, inheritor: QWidget) -> None:
         """
         В случае, если нажата кнопка `Cancel`, то действия общие для всех этих
