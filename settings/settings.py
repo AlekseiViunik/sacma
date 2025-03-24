@@ -29,7 +29,6 @@ DICTIONARY = {
     "weight": "Peso",
     "skates": "Pattini",
     "n_skates": "N pattini",
-    "n_diagonals": "N diagonali",
     "traits": "Tratti",
     "depth": "Profondità",
     "n_diagonals_15/10": "N diagonali 15/10",
@@ -48,7 +47,13 @@ DICTIONARY = {
     "profile": "Profilo",
     "element": "Elemento",
     "element_type": "Tipo elemento",
-    "inclined_invitations?": "Inviti inclinati?"
+    "inclined_invitations?": "Inviti inclinati?",
+    "height_1": "Altezza 1",
+    "height_2": "Altezza 2",
+    "height_3": "Altezza 3",
+    "n_diagonals_1": "N diagonali 1",
+    "n_diagonals_2": "N diagonali 2",
+    "n_diagonals_3": "N diagonali 3",
 }
 
 # ===================================Login=====================================
