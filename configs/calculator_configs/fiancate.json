@@ -1,0 +1,64 @@
+{
+    "choices": {
+        "Non-sismo": {
+            "worksheet": "Listino fiancate tradizionali",
+            "rules":{
+                "height": {
+                    "max": 10850,
+                    "multiple": 75
+                }
+            },
+            "cells_input": {
+                "depth": "D3",
+                "pieces": "D4",
+                "height_1": "D5",
+                "height_2": "D17",
+                "height_3": "D28",
+                "n_diagonals_1": "D6",
+                "n_diagonals_2": "D18",
+                "n_diagonals_3": "D29",
+                "section": "D7"
+            },
+            "cells_output": {
+                "price": "C51"
+            },
+            "conversion": {
+                "section": {
+                    "80/20": 2,
+                    "80/25": 3,
+                    "80/30": 4,
+                    "100/20": 5,
+                    "100/25": 6,
+                    "100/30": 7,
+                    "120/20": 8,
+                    "120/25": 9,
+                    "120/30": 10
+                }
+            },
+            "copy_cells": {
+                "D7": ["D19", "D30"]
+            }
+        },
+        "Sismo":{
+            "worksheet": "Listino fiancate simische",
+            "rules": {
+                "height": {
+                    "max": 10850,
+                    "multiple": 75
+                }
+            },
+            "cells_input": {
+                "height": "B21",
+                "thickness": "B23",
+                "support": "B27",
+                "length": "B29",
+                "special_hook": "B31",
+                "amount": "B33"
+            },
+            "cells_output": {
+                "price": "E21",
+                "weight": "E23"
+            }
+        }
+    }
+}
