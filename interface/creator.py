@@ -727,6 +727,7 @@ class Creator:
         old_layout = main_window.layout()
         QWidget().setLayout(old_layout)
         self.layout_parents = {}
+        self.dependencies = {}
         self.create_widget_layout(main_window, self.config['layout'])
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
