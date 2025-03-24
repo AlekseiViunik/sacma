@@ -1,0 +1,589 @@
+{
+    "window_title": "Fiancate",
+    "window_width": 350,
+    "window_height": 400,
+    "layout": {
+        "type": "vertical",
+        "name": "base_layout",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 2,
+                    "name": "changing",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Sismoresistenza",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "width": 150,
+                            "height": 20,
+                            "name": "type",
+                            "default_value": "Non-sismo",
+                            "options": {"always": ["Non-sismo", "Sismo"]},
+                            "change_widgets": 1,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Tratti",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "width": 150,
+                            "height": 20,
+                            "name": "pieces",
+                            "default_value": "1",
+                            "options": {"always": ["1", "2", "3"]},
+                            "change_widgets": 1,
+                            "column": "current"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 2,
+                    "name": "sezioni",
+                    "depends_on": "type",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Sezione",
+                            "column": "first",
+                            "active_when": ["Non-sismo", "Sismo"],
+                            "visibility_key": "type"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "section",
+                            "width": 150,
+                            "height": 20,
+                            "default_value": "100/20",
+                            "column": "current",
+                            "active_when": ["Non-sismo", "Sismo"],
+                            "visibility_key": "type",
+                            "options": {
+                                "Non-sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30"],
+                                "Sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30", "120x110/20", "120x110/25", "120x110/30", "120x110/40"]
+                            }
+                        }
+                    ]
+                    
+                }
+            },
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 2,
+                    "name": "depth",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Profondità",
+                            "column": "first",
+                            "active_when": ["Non-sismo", "Sismo"],
+                            "visibility_key": "type"
+                        },
+                        {
+                            "type": "input",
+                            "name": "depth",
+                            "default_value": "Enter the depth in mm",
+                            "width": 150,
+                            "height": 20,
+                            "column": "current",
+                            "active_when": ["Non-sismo", "Sismo"],
+                            "visibility_key": "type"
+                        }
+                    ]
+                    
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "name": "main_layout",
+                    "depends_on": "pieces",
+                    "widgets": [
+                        {
+                            "layout": {
+                                "type": "grid",
+                                "columns": 2,
+                                "name": "first",
+                                "depends_on": "type",
+                                "active_when": ["1", "2", "3"],
+                                "visibility_key": "pieces",
+                                "widgets": [
+                                    {
+                                        "type": "label",
+                                        "text": "Altezza",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "height_1",
+                                        "default_value": "Enter the height in mm",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_1",
+                                        "default_value": "Enter the N of diagonals",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Non-sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 15/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_15/10_1",
+                                        "default_value": "Enter the N of diagonals 15/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 20/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_20/10_1",
+                                        "default_value": "Enter the N of diagonals 20/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 25/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_25/10_1",
+                                        "default_value": "Enter the N of diagonals 25/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 30/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_30/10_1",
+                                        "default_value": "Enter the N of diagonals 30/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Traverse 10/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_traverse_10/10_1",
+                                        "default_value": "Enter the N of traverse 10/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Traverse 15/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_traverse_15/10_1",
+                                        "default_value": "Enter the N of traverse 15/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    }                                  
+                                ]
+                            }
+                        },
+                        {
+                            "layout": {
+                                "type": "grid",
+                                "columns": 2,
+                                "name": "second",
+                                "depends_on": "type",
+                                "active_when": ["2", "3"],
+                                "visibility_key": "pieces",
+                                "widgets": [
+                                    {
+                                        "type": "label",
+                                        "text": "Altezza",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "height_2",
+                                        "default_value": "Enter the height in mm",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_2",
+                                        "default_value": "Enter the N of diagonals",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Non-sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 15/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_15/10_2",
+                                        "default_value": "Enter the N of diagonals 15/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 20/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_20/10_2",
+                                        "default_value": "Enter the N of diagonals 20/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 25/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_25/10_2",
+                                        "default_value": "Enter the N of diagonals 25/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 30/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_30/10_2",
+                                        "default_value": "Enter the N of diagonals 30/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Traverse 10/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_traverse_10/10_2",
+                                        "default_value": "Enter the N of traverse 10/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Traverse 15/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_traverse_15/10_2",
+                                        "default_value": "Enter the N of traverse 15/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "layout": {
+                                "type": "grid",
+                                "columns": 2,
+                                "name": "third",
+                                "depends_on": "type",
+                                "active_when": ["3"],
+                                "visibility_key": "pieces",
+                                "widgets": [
+                                    {
+                                        "type": "label",
+                                        "text": "Altezza",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "height_3",
+                                        "default_value": "Enter the height in mm",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_3",
+                                        "default_value": "Enter the N of diagonals",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Non-sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 15/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_15/10_3",
+                                        "default_value": "Enter the N of diagonals 15/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 20/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_20/10_3",
+                                        "default_value": "Enter the N of diagonals 20/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 25/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_25/10_3",
+                                        "default_value": "Enter the N of diagonals 25/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Diagonali 30/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_diagonals_30/10_3",
+                                        "default_value": "Enter the N of diagonals 30/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Traverse 10/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_traverse_10/10_3",
+                                        "default_value": "Enter the N of traverse 10/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "N Traverse 15/10",
+                                        "column": "first",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "input",
+                                        "name": "n_traverse_15/10_3",
+                                        "default_value": "Enter the N of traverse 15/10",
+                                        "width": 150,
+                                        "height": 20,
+                                        "column": "current",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type":"grid",
+                    "columns": 2,
+                    "name": "bottom_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Invia",
+                            "height": 40,
+                            "callback": "handle_start_button",
+                            "params": {},
+                            "column": "last"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
