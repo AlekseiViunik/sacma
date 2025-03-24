@@ -485,6 +485,10 @@ class Creator:
                     text = f"*{config['text']}"
                     label.setText(text)
                     self.mandatory_fields.append(config['mandatory'])
+                case "width":
+                    label.setFixedWidth(int(value))
+                case "height":
+                    label.setFixedHeight(int(value))
         return label
 
     def __create_input(self, config: dict) -> QLineEdit:
