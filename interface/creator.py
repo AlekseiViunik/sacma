@@ -49,10 +49,6 @@ class Creator:
     - current_changing_values: Dict[str, str]
         Словарь текущих значений, меняющих расположение виджетов.
 
-    - dependencies: dict
-        Словарь зависимых контейнеров, которые будут меняться в зависимости от
-        того, какое поле было выбрано.
-
     - remover: Remover
         Класс-удалитель.
 
@@ -61,6 +57,15 @@ class Creator:
 
     - mandatory_fields: List[str]
         Поля, обязательные для заполнения.
+
+    - dependencies: dict
+        Словарь зависимых контейнеров, которые будут меняться в зависимости от
+        того, какое поле было выбрано.
+
+    - layout_parents: dict
+        Словрь, который в качестве ключей содержит текущий контйенер,
+        а значений - родительский. Нужен для четкого определения родителя
+        при перерисовке контейнера.
 
     Methods
     -------
@@ -134,10 +139,21 @@ class Creator:
         self.default_values: Dict[str, str] = {}
         self.current_changing_value: str | None = None
         self.current_changing_values: Dict[str, str] = {}
-        self.dependencies: dict = {}
         self.remover: Remover = Remover()
         self.finder: Finder = Finder()
         self.mandatory_fields: List[str] = []
+
+        # Словрь, который в качестве ключей содержит имя виджета, от выбора
+        # которого зависят другие виджеты, а значений - словарь с именем
+        # зависимого виджета и самим виджетом. Нужен для последующего поиска
+        # всех зависимых виджетов и их перерисовке при изменении значения
+        # изменяющего виджета.
+        self.dependencies: dict = {}
+
+        # Словрь, который в качестве ключей содержит текущий контйенер,
+        # а значений - родительский. Нужен для четкого определения родителя
+        # при перерисовке контейнера.
+        self.layout_parents: dict = {}
 
     def create_widget_layout(
         self,
@@ -216,6 +232,9 @@ class Creator:
         ):
             # Вызываем addLayout метод
             parent_window.addLayout(layout)
+
+            # Записываем в layout_parents родителя для добавленного контейнера.
+            self.layout_parents[layout] = parent_window
 
         # Если текущий контейнер должен быть размещен на окне (QWidget)
         else:
@@ -710,7 +729,7 @@ class Creator:
 
             # Получаем родительский контейнер, на котором расположен текущий,
             # который надо изменить.
-            parent_layout = layout.parentWidget().layout()
+            parent_layout = self.layout_parents.get(layout)
 
             # Если родительский контейнер не найден, пропускаем.
             if not parent_layout:
@@ -724,6 +743,7 @@ class Creator:
 
             # Удаляем у родителя контейнер со старыми виджетами.
             self.remover.delete_layout(parent_layout, layout)
+            self.layout_parents.pop(layout, None)
 
             # Ищем новую конфигурацию для нового layout.
             new_layout_config = self.finder.find_layout_by_name(
@@ -747,6 +767,12 @@ class Creator:
 
             # Вставляем новый контейнер НА ЕГО СТАРОЕ МЕСТО.
             parent_layout.insertLayout(position, new_layout)
+
+            # Обновляем список зависимости контейнеров (наследник: родитель)
+            self.layout_parents[new_layout] = parent_layout
+
+            # Добавляем новый контейнер в словарь зависимостей от изменения
+            # виджета.
             self.dependencies[name][layout_name] = new_layout
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
@@ -767,10 +793,43 @@ class Creator:
             надо.
         """
 
+        active_when = []
+        visibility_key = ""
+
+        # Для отладки
         if (
-            config.get('active_when') and
-            self.current_changing_value and
-            self.current_changing_value not in config['active_when']
+            config.get('layout') and
+            config['layout'].get('name') and
+            config['layout']['name'] == "first"
         ):
-            return False
+            print("stop here")
+
+        if config.get('active_when'):
+            active_when = config['active_when']
+            if config.get('visibility_key'):
+                visibility_key = config['visibility_key']
+        elif (
+            config.get('layout') and
+            config['layout'].get('active_when')
+        ):
+            active_when = config['layout']['active_when']
+            if config['layout'].get('visibility_key'):
+                visibility_key = config['layout']['visibility_key']
+
+        if active_when:
+            if visibility_key:
+                if (
+                    self.current_changing_values.get(visibility_key) and
+                    (
+                        self.current_changing_values[visibility_key]
+                        not in active_when
+                    )
+                ):
+                    return False
+            elif (
+                self.current_changing_value and
+                self.current_changing_value not in active_when
+            ):
+                return False
+
         return True
