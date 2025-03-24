@@ -121,6 +121,13 @@
                                 "widgets": [
                                     {
                                         "type": "label",
+                                        "text": "Tratto 1",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "Altezza",
                                         "column": "first",
                                         "active_when": ["Non-sismo", "Sismo"],
@@ -269,6 +276,13 @@
                                 "widgets": [
                                     {
                                         "type": "label",
+                                        "text": "Tratto 2",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "Altezza",
                                         "column": "first",
                                         "active_when": ["Non-sismo", "Sismo"],
@@ -415,6 +429,13 @@
                                 "active_when": ["3"],
                                 "visibility_key": "pieces",
                                 "widgets": [
+                                    {
+                                        "type": "label",
+                                        "text": "Tratto 3",
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
                                     {
                                         "type": "label",
                                         "text": "Altezza",
