@@ -15,6 +15,7 @@
                         {
                             "type": "label",
                             "text": "Sismoresistenza",
+                            "width": 100,
                             "column": "first"
                         },
                         {
@@ -55,6 +56,7 @@
                         {
                             "type": "label",
                             "text": "Sezione",
+                            "width": 100,
                             "column": "first",
                             "active_when": ["Non-sismo", "Sismo"],
                             "visibility_key": "type"
@@ -86,6 +88,7 @@
                         {
                             "type": "label",
                             "text": "Profondità",
+                            "width": 100,
                             "column": "first",
                             "active_when": ["Non-sismo", "Sismo"],
                             "visibility_key": "type"
@@ -113,7 +116,7 @@
                         {
                             "layout": {
                                 "type": "grid",
-                                "columns": 2,
+                                "columns": 3,
                                 "name": "first",
                                 "depends_on": "type",
                                 "active_when": ["1", "2", "3"],
@@ -121,10 +124,19 @@
                                 "widgets": [
                                     {
                                         "type": "label",
-                                        "text": "Tratto 1",
+                                        "text": "Tratto 1:",
                                         "column": "first",
                                         "active_when": ["Non-sismo", "Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     },
                                     {
                                         "type": "label",
@@ -145,6 +157,15 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "N Diagonali",
                                         "column": "first",
                                         "active_when": ["Non-sismo"],
@@ -159,6 +180,15 @@
                                         "column": "current",
                                         "active_when": ["Non-sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Non-sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     },
                                     {
                                         "type": "label",
@@ -179,6 +209,15 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "N Diagonali 20/10",
                                         "column": "first",
                                         "active_when": ["Sismo"],
@@ -193,6 +232,15 @@
                                         "column": "current",
                                         "active_when": ["Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     },
                                     {
                                         "type": "label",
@@ -213,6 +261,15 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "N Diagonali 30/10",
                                         "column": "first",
                                         "active_when": ["Sismo"],
@@ -227,6 +284,15 @@
                                         "column": "current",
                                         "active_when": ["Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     },
                                     {
                                         "type": "label",
@@ -247,6 +313,15 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "N Traverse 15/10",
                                         "column": "first",
                                         "active_when": ["Sismo"],
@@ -261,14 +336,23 @@
                                         "column": "current",
                                         "active_when": ["Sismo"],
                                         "visibility_key": "type"
-                                    }                                  
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    }
                                 ]
                             }
                         },
                         {
                             "layout": {
                                 "type": "grid",
-                                "columns": 2,
+                                "columns": 3,
                                 "name": "second",
                                 "depends_on": "type",
                                 "active_when": ["2", "3"],
@@ -276,10 +360,19 @@
                                 "widgets": [
                                     {
                                         "type": "label",
-                                        "text": "Tratto 2",
+                                        "text": "Tratto 2:",
                                         "column": "first",
                                         "active_when": ["Non-sismo", "Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     },
                                     {
                                         "type": "label",
@@ -300,6 +393,15 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "N Diagonali",
                                         "column": "first",
                                         "active_when": ["Non-sismo"],
@@ -314,6 +416,15 @@
                                         "column": "current",
                                         "active_when": ["Non-sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Non-sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     },
                                     {
                                         "type": "label",
@@ -334,6 +445,15 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "N Diagonali 20/10",
                                         "column": "first",
                                         "active_when": ["Sismo"],
@@ -348,6 +468,15 @@
                                         "column": "current",
                                         "active_when": ["Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     },
                                     {
                                         "type": "label",
@@ -368,6 +497,15 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "N Diagonali 30/10",
                                         "column": "first",
                                         "active_when": ["Sismo"],
@@ -382,6 +520,15 @@
                                         "column": "current",
                                         "active_when": ["Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     },
                                     {
                                         "type": "label",
@@ -402,6 +549,15 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "N Traverse 15/10",
                                         "column": "first",
                                         "active_when": ["Sismo"],
@@ -416,6 +572,15 @@
                                         "column": "current",
                                         "active_when": ["Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "",
+                                        "column": "last",
+                                        "active_when": ["Sismo"],
+                                        "visibility_key": "type",
+                                        "width": 3,
+                                        "background": "black"
                                     }
                                 ]
                             }
@@ -423,7 +588,7 @@
                         {
                             "layout": {
                                 "type": "grid",
-                                "columns": 2,
+                                "columns": 3,
                                 "name": "third",
                                 "depends_on": "type",
                                 "active_when": ["3"],
@@ -431,7 +596,7 @@
                                 "widgets": [
                                     {
                                         "type": "label",
-                                        "text": "Tratto 3",
+                                        "text": "Tratto 3:",
                                         "column": "first",
                                         "active_when": ["Non-sismo", "Sismo"],
                                         "visibility_key": "type"
