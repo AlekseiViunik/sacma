@@ -804,6 +804,9 @@ class Creator:
         ):
             print("stop here")
 
+        # visibility_key введен специально для Fiancate случая. Поскольку там
+        # виджетов, меняющих другие - больше, чем 1. И через visibility_key
+        # проще понимать, от какого виджета зависит появление текущего виджета.
         if config.get('active_when'):
             active_when = config['active_when']
             if config.get('visibility_key'):
