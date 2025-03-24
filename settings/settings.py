@@ -10,6 +10,7 @@ LOG_FILE_NAME = "app.log"
 LOG_CODING = "utf-8"
 
 # ================================ Translator =================================
+# TODO make a dictionary dynamic to translate frases
 DICTIONARY = {
     "height": "Altezza",
     "width": "Larghezza",
