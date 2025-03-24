@@ -489,6 +489,9 @@ class Creator:
                     label.setFixedWidth(int(value))
                 case "height":
                     label.setFixedHeight(int(value))
+                case "background":
+                    styleSheet = f"background-color: {value}"
+                    label.setStyleSheet(styleSheet)
         return label
 
     def __create_input(self, config: dict) -> QLineEdit:
