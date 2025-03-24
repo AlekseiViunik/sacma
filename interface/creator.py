@@ -142,6 +142,7 @@ class Creator:
         self.remover: Remover = Remover()
         self.finder: Finder = Finder()
         self.mandatory_fields: List[str] = []
+        self.main_layout = None
 
         # Словрь, который в качестве ключей содержит имя виджета, от выбора
         # которого зависят другие виджеты, а значений - словарь с именем
@@ -230,7 +231,7 @@ class Creator:
             isinstance(parent_window, QVBoxLayout) or
             isinstance(parent_window, QGridLayout)
         ):
-            # Вызываем addLayout метод
+
             parent_window.addLayout(layout)
 
             # Записываем в layout_parents родителя для добавленного контейнера.
@@ -238,8 +239,10 @@ class Creator:
 
         # Если текущий контейнер должен быть размещен на окне (QWidget)
         else:
-            # Вызываем setLayout метод
+
             parent_window.setLayout(layout)
+            self.main_layout = layout
+            self.layout_parents[layout] = parent_window
 
     def __add_widgets(
         self,
@@ -600,7 +603,9 @@ class Creator:
         """
 
         dropdown = QComboBox()
-        self.default_values[config['name']] = config['default_value']
+        name = config['name']
+        if not self.default_values.get(name):
+            self.default_values[name] = config['default_value']
         for param, value in config.items():
             log.info(f"Create dropdown list: {config['name']}")
             match param:
@@ -614,8 +619,8 @@ class Creator:
                     dropdown.setFixedWidth(int(value))
                 case "height":
                     dropdown.setFixedHeight(int(value))
-                case "default_value":
-                    dropdown.setCurrentText(str(value))
+
+        dropdown.setCurrentText(self.default_values[name])
         self.chosen_fields[config['name']] = dropdown
 
         # Если выпадающий список является меняющим, то задаем метод, который
@@ -713,67 +718,16 @@ class Creator:
         """
         log.info("Rerender dependent layouts")
 
-        # Обновляем свойства current_changing_value и current_changing_values,
-        # чтобы перерисовать контейнер уже с новыми свойствами.
-        self.current_changing_value = selected_value
-        self.current_changing_values[name] = selected_value
-
-        # Если среди зависимых контейнеров нет тех, которые зависят именно от
-        # этого виджета, то ничего и не переписываем.
-        if name not in self.dependencies:
-            return
-
-        # Берем из словаря зависимых лейблов те лейюблы, которые зависят
-        # именно это измененного параметра и проходим по ним циклом.
-        for layout_name, layout in self.dependencies[name].items():
-
-            # Получаем родительский контейнер, на котором расположен текущий,
-            # который надо изменить.
-            parent_layout = self.layout_parents.get(layout)
-
-            # Если родительский контейнер не найден, пропускаем.
-            if not parent_layout:
-                continue
-
-            # Если текущий контейнер не найден в родительском (что странно),
-            # пропускаем.
-            position = parent_layout.indexOf(layout)
-            if position == -1:
-                continue
-
-            # Удаляем у родителя контейнер со старыми виджетами.
-            self.remover.delete_layout(parent_layout, layout)
-            self.layout_parents.pop(layout, None)
-
-            # Ищем новую конфигурацию для нового layout.
-            new_layout_config = self.finder.find_layout_by_name(
-                self.config["layout"]["widgets"],
-                layout_name
-            )
-            # Если конфигурация по какой-то непонятной причине не найдена,
-            # пропускаем.
-            if not new_layout_config:
-                continue
-
-            # Создаем новый контейнер по уже обновленному конфигу и с
-            # обновленными свойствами Креатора.
-            new_layout = self.__create_layout(new_layout_config)
-            self.__add_widgets(
-                new_layout,
-                new_layout_config["type"],
-                new_layout_config["widgets"],
-                new_layout_config.get("columns")
-            )
-
-            # Вставляем новый контейнер НА ЕГО СТАРОЕ МЕСТО.
-            parent_layout.insertLayout(position, new_layout)
-
-            # Обновляем список зависимости контейнеров (наследник: родитель)
-            self.layout_parents[new_layout] = parent_layout
-
-            # Добавляем новый контейнер в словарь зависимостей от изменения
-            # виджета.
-            self.dependencies[name][layout_name] = new_layout
+        self.default_values[name] = selected_value
+        self.remover.delete_layout(
+            self.layout_parents[self.main_layout],
+            self.main_layout
+        )
+        main_window = self.layout_parents.pop(self.main_layout, None)
+        old_layout = main_window.layout()
+        QWidget().setLayout(old_layout)
+        self.layout_parents = {}
+        self.create_widget_layout(main_window, self.config['layout'])
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
