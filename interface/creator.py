@@ -243,6 +243,7 @@ class Creator:
             parent_window.setLayout(layout)
             self.main_layout = layout
             self.layout_parents[layout] = parent_window
+            parent_window.adjustSize()
 
     def __add_widgets(
         self,
