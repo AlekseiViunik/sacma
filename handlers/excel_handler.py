@@ -1,4 +1,5 @@
 from decimal import Decimal, ROUND_HALF_UP
+from typing import Dict, List
 import win32com.client
 import win32com.client as win32
 
@@ -30,6 +31,11 @@ class ExcelHandler:
 
     - cells_output: dict
         Словарь с данными типа <Имя_поля>: <Адрес_ячейки_для_извлечения>.
+
+    - copy_cells: Dict[str, List[str]] | None
+        Ячейки, значения которых нужно скопировать в другие ячейки. Ключом
+        передается ячейка, которую нужно скопировать. Значением - список ячеек,
+        куда нужно скопировать.
 
     - settings_json_handler: JsonHandler
         Обработчик файла общих настроек. Нужен для получения пути к эксель
@@ -87,13 +93,15 @@ class ExcelHandler:
         rules: dict | None,
         worksheet: str,
         cells_input: dict | None = None,
-        cells_output: dict | None = None
+        cells_output: dict | None = None,
+        copy_cells: dict | None = None
     ) -> None:
         self.data = data
         self.rules: dict | None = rules
         self.worksheet: str = worksheet
         self.cells_input: dict | None = cells_input
         self.cells_output: dict | None = cells_output
+        self.copy_cells: Dict[str, List[str]] | None = copy_cells
         self.settings_json_handler: JsonHandler = JsonHandler(SETTINGS_FILE)
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
@@ -125,6 +133,9 @@ class ExcelHandler:
 
         # Запись ячеек в таблицу и пересчет формул
         self.__input_cells()
+
+        if self.copy_cells:
+            self.__copy_cells_to_another_ones()
 
         # Извлечение пересчитанных ячеек
         data = self.__get_data_from_excel()
@@ -362,3 +373,16 @@ class ExcelHandler:
                 )
             case _:
                 return ""
+
+    def __copy_cells_to_another_ones(self) -> None:
+        """
+        Копирует ячейки взятые из ключей словаря self.copy_cells
+        Во все ячейки, перечисленные в массиве, который является значением
+        словаря self.copy_cells.
+        """
+
+        for cell_to_copy, cells_to_paste_to in self.copy_cells.items():
+            cell_to_copy_value = self.sheet.Range(cell_to_copy).Value
+
+            for cell_to_paste_to in cells_to_paste_to:
+                self.sheet.Range(cell_to_paste_to).Value = cell_to_copy_value
