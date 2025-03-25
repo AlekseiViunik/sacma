@@ -1,5 +1,7 @@
 from PyQt6.QtWidgets import QMessageBox, QWidget
 
+from settings import settings as set
+
 
 class Messagebox:
 
@@ -8,7 +10,7 @@ class Messagebox:
         title: str,
         msg: str,
         window: QWidget,
-        type: str = "error"
+        type: str = set.ERROR
     ) -> None:
         """
         Выводит окно об ошибке или просто информационное окно (разница только в
@@ -35,7 +37,7 @@ class Messagebox:
         box.setWindowTitle(title)
         box.setText(msg)
         box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        if type == "error":
+        if type == set.ERROR:
             box.setIcon(QMessageBox.Icon.Critical)
             box.show()
 
