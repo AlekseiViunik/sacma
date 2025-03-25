@@ -114,7 +114,7 @@ class ExcelHandler:
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
         self.sheet: win32com.client.CDispatch | None = None
-        self.check_err_mesg: str = ""
+        self.check_err_mesg: str = set.EMPTY_STRING
 
     def initiate_process(self) -> dict:
         """
@@ -228,7 +228,10 @@ class ExcelHandler:
         for name, cell in self.cells_input.items():
             if name in self.data.keys():
                 if isinstance(self.data[name], str):
-                    self.data[name] = self.data[name].replace("=", "").strip()
+                    self.data[name] = self.data[name].replace(
+                        set.EQUALS_SYMBOL,
+                        set.EMPTY_STRING
+                    ).strip()
                 # Номер ячейки      = Значение переданных данных
                 data_prepared[cell] = self.data[name]
         log.info(f"Dictionary is prepared: {data_prepared}")
@@ -324,8 +327,11 @@ class ExcelHandler:
         for key, value in excel_data.items():
             if (
                 value and
-                str(value).replace(".", "", 1).isdigit() and
-                float(value) > 0
+                str(value).replace(
+                    set.POINT_SYMBOL,
+                    set.EMPTY_STRING,
+                    set.SET_TO_ONE).isdigit() and
+                float(value) > set.SET_TO_ZERO
             ):
                 excel_data[key] = Decimal(value).quantize(
                     Decimal(set.ROUNDING_LIMIT),
@@ -385,7 +391,7 @@ class ExcelHandler:
                     f"{key} should be multiple {rule_value}. You have {value}"
                 )
             case _:
-                return ""
+                return set.EMPTY_STRING
 
     def __copy_cells_to_another_ones(self) -> None:
         """
