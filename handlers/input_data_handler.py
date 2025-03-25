@@ -1,6 +1,4 @@
-from PyQt6.QtWidgets import (
-    QMessageBox, QLineEdit, QComboBox, QWidget
-)
+from PyQt6.QtWidgets import (QLineEdit, QComboBox)
 from typing import Dict
 
 from helpers.remover import Remover
@@ -23,10 +21,6 @@ class InputDataHandler:
     - check_mandatory(inputs, choice_fields)
         Проверяет, какие поля из обязательных не заполнены и возвращает
         список этих полей.
-
-    - show_messagebox(title, msg, window, type)
-        Показывает информационное окно об ошибке или успехе в зависимости от
-        type.
     """
 
     def __init__(self) -> None:
@@ -109,43 +103,3 @@ class InputDataHandler:
         # Возвращаем результат в виде разности множеств преобразованной в
         # список.
         return list(set(mandatories) - filled_inputs)
-
-    def show_messagebox(
-        self,
-        title: str,
-        msg: str,
-        window: QWidget,
-        type: str = "error"
-    ) -> None:
-        """
-        Выводит окно об ошибке или просто информационное окно (разница только в
-        иконке) в зависимости от указанного type. Окно выводится относительно
-        окна, из которого оно было вызвано.
-
-        Parameters
-        ----------
-        - title: str
-            Заголовок окна.
-
-        - msg: str
-            Сообщение для информации.
-
-        window: QWidget
-            Окно, относительно которого выводится это окно.
-
-        type: str
-            Тип выводимого окна. Пока что доступен только тип `error`. Все
-            остальное будет трактоваться как info.
-        """
-
-        box = QMessageBox(window)
-        box.setWindowTitle(title)
-        box.setText(msg)
-        box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        if type == "error":
-            box.setIcon(QMessageBox.Icon.Critical)
-            box.show()
-
-        else:
-            box.setIcon(QMessageBox.Icon.Information)
-            box.exec()
