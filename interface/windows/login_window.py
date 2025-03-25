@@ -1,10 +1,11 @@
-from PyQt6.QtWidgets import QMessageBox, QLineEdit, QCheckBox
+from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
 from handlers.json_handler import JsonHandler
 from helpers.authenticator import Authenticator
 from logic.logger import logging as log
 from settings import settings as set
 from .base_window import BaseWindow
+from .messagebox import Messagebox
 
 
 class LoginWindow(BaseWindow):
@@ -73,12 +74,11 @@ class LoginWindow(BaseWindow):
             self.close()  # Закрываем окно авторизации
         else:
             log.error("Credentials are wrong")
-            msg = QMessageBox(self)
-            msg.setWindowTitle("Login error")
-            msg.setText("Creadentials are wrong!")
-            msg.setIcon(QMessageBox.Icon.Critical)
-            msg.setStandardButtons(QMessageBox.StandardButton.Ok)
-            msg.show()
+            Messagebox.show_messagebox(
+                "Login error",
+                "Creadentials are wrong!",
+                self
+            )
 
     def toggle_password(self, checkbox: QCheckBox) -> None:
         """
