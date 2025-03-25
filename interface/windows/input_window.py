@@ -3,6 +3,7 @@ from interface.windows.output_window import OutputWindow
 from logic.calculator import Calculator
 from logic.logger import logger as log
 from .base_window import BaseWindow
+from settings import settings as set
 
 
 class InputWindow(BaseWindow):
@@ -52,7 +53,7 @@ class InputWindow(BaseWindow):
         - Открывает окно с выводом результата.
         """
 
-        log.info("Button Invia has been pressed")
+        log.info(set.INVIA_BUTTON_PRESSED)
         all_inputs = self.input_data_handler.collect_all_inputs(
             self.creator.input_fields,
             self.creator.chosen_fields
@@ -63,8 +64,12 @@ class InputWindow(BaseWindow):
             self.creator.current_changing_values
         )
         self.output_window = OutputWindow()
-        log.info("Start calculating")
+        log.info(set.START_CALCULATING)
         result, post_message = calculator.calc_data()
 
-        log.info("Open response widget")
-        self.output_window.open_result_window(result, "Result", post_message)
+        log.info(set.OPEN_RESPONSE_WIDGET)
+        self.output_window.open_result_window(
+            result,
+            set.PRE_MSG_STANDART,
+            post_message
+        )
