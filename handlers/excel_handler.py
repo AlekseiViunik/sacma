@@ -6,8 +6,7 @@ import win32com.client as win32
 from logic.logger import logger as log
 from logic.validator import Validator
 from handlers.json_handler import JsonHandler
-
-SETTINGS_FILE = "settings.json"
+from settings import settings as set
 
 
 class ExcelHandler:
@@ -109,7 +108,9 @@ class ExcelHandler:
         self.cells_output: dict | None = cells_output
         self.copy_cells: Dict[str, List[str]] | None = copy_cells
         self.additional_input: Dict[str, Any] | None = additional_input
-        self.settings_json_handler: JsonHandler = JsonHandler(SETTINGS_FILE)
+        self.settings_json_handler: JsonHandler = JsonHandler(
+            set.SETTINGS_FILE
+        )
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
         self.sheet: win32com.client.CDispatch | None = None
@@ -128,14 +129,13 @@ class ExcelHandler:
 
         # Валидация входных данных
         if not self.__check_data():
-            log.error("The data is wrong!")
+            log.error(set.FAILED_VALIDATION)
             return {
-                "price": None,
-                "weight": None,
-                "error": self.check_err_mesg
+                set.PRICE: None,
+                set.WEIGHT: None,
+                set.ERROR: self.check_err_mesg
             }
 
-        # Открытие книги и страницы эксель
         self.__open_excel()
 
         # Запись ячеек в таблицу и пересчет формул
@@ -248,7 +248,7 @@ class ExcelHandler:
                 return None, None
 
             # Вставляем данные в Excel
-            log.info("Insert prepared data to the excel worksheet")
+            log.info(set.INSERT_DATA_INTO_EXCEL)
             for cell, value in data_prepared.items():
                 log.info(
                     f"Insert {value} in the {cell} cell of the worksheet"
@@ -262,7 +262,7 @@ class ExcelHandler:
                     self.sheet.Range(cell).Value = value
 
             # Обновляем связи
-            log.info("Refresh table data to recalculate formulas")
+            log.info(set.REFRESH_EXCEL)
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()
 
@@ -281,7 +281,7 @@ class ExcelHandler:
             Результат валидации данных.
         """
 
-        log.info("Check data before preparing it")
+        log.info(set.DATA_VALIDATION)
         for key, value in self.data.items():
             key = key.capitalize()
             log.info(f"Check {key}")
@@ -297,7 +297,7 @@ class ExcelHandler:
                         )
                         log.error(f"{key} hasn't passed")
                         return False
-        log.info("The data is correct")
+        log.info(set.SUCCESSFUL_VALIDATION)
         return True
 
     def __get_data_from_excel(self) -> dict:
@@ -312,7 +312,7 @@ class ExcelHandler:
             Словарь полученными из excel данными.
         """
 
-        log.info("Getting excel data")
+        log.info(set.GETTING_EXCEL_DATA)
         # Получение всех необходимых данных
         excel_data = {
             key: self.sheet.Range(self.cells_output[key]).Value
@@ -320,7 +320,7 @@ class ExcelHandler:
         }
 
         # Перевод в Децимал и округление.
-        log.info("Rounding up data")
+        log.info(set.ROUNDING_UP_DATA)
         for key, value in excel_data.items():
             if (
                 value and
@@ -328,7 +328,7 @@ class ExcelHandler:
                 float(value) > 0
             ):
                 excel_data[key] = Decimal(value).quantize(
-                    Decimal("0.01"),
+                    Decimal(set.ROUNDING_LIMIT),
                     rounding=ROUND_HALF_UP
                 )
 
