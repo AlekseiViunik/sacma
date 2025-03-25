@@ -4,6 +4,7 @@ from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class BaseWindow(QWidget):
@@ -43,8 +44,8 @@ class BaseWindow(QWidget):
         file_path: str | None = None
     ) -> None:
         super().__init__()
-        self.window_width: int = 0
-        self.window_height: int = 0
+        self.window_width: int = set.SET_TO_ZERO
+        self.window_height: int = set.SET_TO_ZERO
 
         # Для наследников, у которых путь к конфигу определяется динамически,
         # передаем file_path
@@ -71,18 +72,18 @@ class BaseWindow(QWidget):
         if config:
             log.info(f"Config loaded successfully: {config}")
         else:
-            log.error("Couldn't get the data from the file!")
+            log.error(set.FAILED_GET_JSON_DATA)
             return
 
-        self.setWindowTitle(config['window_title'])
-        self.window_width = int(config['window_width'])
-        self.window_height = int(config['window_height'])
+        self.setWindowTitle(config[set.WINDOW_TITLE])
+        self.window_width = int(config[set.WINDOW_WIDTH])
+        self.window_height = int(config[set.WINDOW_HEIGHT])
 
         Helper.move_window_to_top_left_corner(self)
 
-        log.info("Using creator to generate UI layout")
+        log.info(set.USE_CREATOR)
         self.creator = Creator(config, self)
-        self.creator.create_widget_layout(self, config["layout"])
+        self.creator.create_widget_layout(self, config[set.LAYOUT])
 
     def connect_callback(
         self,
@@ -111,46 +112,46 @@ class BaseWindow(QWidget):
         """
 
         match callback_name:
-            case "create_user":
+            case set.CREATE_USER_METHOD:
                 widget.clicked.connect(inheritor.create_user)
 
-            case "close_window":
+            case set.CLOSE_WINDOW_METHOD:
                 widget.clicked.connect(lambda: self.cancel(inheritor))
 
-            case "toggle_password":
+            case set.TOGGLE_PASSWORD_METHOD:
                 widget.stateChanged.connect(
                     lambda: inheritor.toggle_password(widget)
                 )
-            case "toggle_repeat_password":
+            case set.TOGGLE_REPEAT_PASSWORD_METHOD:
                 widget.stateChanged.connect(
                     lambda: inheritor.toggle_password(
                         widget,
-                        "repeat_password"
+                        set.REPEAT_PASSWORD
                     )
                 )
-            case "try_login":
+            case set.TRY_LOGIN_METHOD:
                 widget.clicked.connect(inheritor.try_login)
 
-            case "handle_start_button":
+            case set.HANDLE_START_BUTTON_METHOD:
                 widget.clicked.connect(inheritor.handle_start_button)
 
-            case "browse_file":
-                target_input = params.get("target_input")
+            case set.BROWSE_FILE_METHOD:
+                target_input = params.get(set.TARGET_INPUT)
                 widget.clicked.connect(
                     lambda: inheritor.browse_file(target_input)
                 )
-            case "save_settings":
+            case set.SAVE_SETTINGS_METHOD:
                 widget.clicked.connect(inheritor.save_settings)
 
-            case "open_settings":
+            case set.OPEN_SETTINGS_METHOD:
                 widget.clicked.connect(inheritor.open_settings)
 
-            case "open_input_window":
+            case set.OPEN_INPUT_WINDOW_METHOD:
                 widget.clicked.connect(
                     lambda: inheritor.open_input_window(params)
                 )
 
-            case "open_register":
+            case set.OPEN_REGISTER_METHOD:
                 widget.clicked.connect(inheritor.open_register)
 
     def cancel(self, inheritor: QWidget) -> None:
@@ -169,5 +170,5 @@ class BaseWindow(QWidget):
             пришлось указать QWidget, как тип передаваемого объекта.
         """
 
-        log.info("Cancel button has been pressed")
+        log.info(set.CANCEL_BUTTON_PRESSED)
         inheritor.close()
