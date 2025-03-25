@@ -45,7 +45,7 @@ class OutputWindow(QWidget):
         values: dict,
         pre_message: str | None = None,
         post_message: str | None = None,
-        only_keys: list = ["price", "weight"]
+        only_keys: list = [set.PRICE, set.WEIGHT]
     ) -> None:
         """
         Открывает окно результата. Имеет свою реализацию пока что.
@@ -66,22 +66,22 @@ class OutputWindow(QWidget):
             игнорируются.
         """
 
-        log.info("Create result window")
-        log.info("Trying to get config data for result window")
+        log.info(set.CREATE_RESULT_WINDOW)
+        log.info(set.GETTING_CONF_FOR_RESULT_WINDOW)
         log.info(f"The path is {set.OUTPUT_WINDOW_CONFIG_FILE}")
 
         # Загружаем конфиг.
         config = self.config_json_handler.get_all_data()
         if config:
-            log.info("Config data received")
+            log.info(set.CONF_DATA_RECEIVED)
             log.info(f"Config is: {config}")
         else:
-            log.error("Couldn't get the data from the file!")
+            log.error(set.FAILED_GET_JSON_DATA)
 
         # Настройка окна результатов (Титул, размеры, центрирование).
-        self.setWindowTitle(config['window_title'])
-        self.window_width = int(config['window_width'])
-        self.window_height = int(config['window_height'])
+        self.setWindowTitle(config[set.WINDOW_TITLE])
+        self.window_width = int(config[set.WINDOW_WIDTH])
+        self.window_height = int(config[set.WINDOW_HEIGHT])
         # Helper.move_window_to_center(self)
         Helper.move_window_to_top_left_corner(self)
 
@@ -91,7 +91,7 @@ class OutputWindow(QWidget):
 
         # Создаём шрифт (увеличенный размер)
         font = QFont()
-        font.setPointSize(16)  # Размер шрифта
+        font.setPointSize(set.SPECIAL_FONT_SIZE)  # Размер шрифта
 
         # Размещение сообщения перед результатами, если есть
         if pre_message:
@@ -110,12 +110,14 @@ class OutputWindow(QWidget):
 
         # Размещаем лейблы с результатом
         for label, value in filtered_values.items():
-            if label == "Prezzo" and value:
-                value = f"{str(value)} €"
-            elif label == "Peso" and value:
-                value = f"{str(value)} Kg"
-            elif (label == "Prezzo" or label == "Peso") and not value:
-                value = "non trovato"
+            if label == set.PRICE_IT and value:
+                value = f"{str(value)} {set.EURO_SYMBOL}"
+            elif label == set.WEIGHT_IT and value:
+                value = f"{str(value)} {set.KILO_SYMBOL}"
+            elif (
+                label == set.PRICE_IT or label == set.WEIGHT_IT
+            ) and not value:
+                value = set.NOT_FOUND_IT
 
             label = f"{label}: "
 
@@ -128,9 +130,9 @@ class OutputWindow(QWidget):
             title_label.setFont(font)
             value_label.setFont(font)
 
-            grid_layout.addWidget(title_label, row, 0)
-            grid_layout.addWidget(value_label, row, 1)
-            row += 1
+            grid_layout.addWidget(title_label, row, set.SET_TO_ZERO)
+            grid_layout.addWidget(value_label, row, set.SET_TO_ONE)
+            row += set.STEP_UP
 
         # Добавляем контейнер с лейблами результатов на главный контейнер
         main_layout.addLayout(grid_layout)
@@ -143,9 +145,9 @@ class OutputWindow(QWidget):
             main_layout.addWidget(post_message_label)
 
         # Размещение кнопки ОК
-        ok_button = QPushButton("OK")
-        ok_button.setFixedWidth(100)
-        ok_button.setFixedHeight(50)
+        ok_button = QPushButton(set.OK_BUTTON_TITLE)
+        ok_button.setFixedWidth(set.OK_BUTTON_WIDTH)
+        ok_button.setFixedHeight(set.OK_BUTTON_HEIGHT)
         ok_button.setStyleSheet("margin-top: 10px;")
         ok_button.clicked.connect(self.close)
         button_container = QVBoxLayout()
