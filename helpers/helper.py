@@ -2,7 +2,10 @@ import re
 from decimal import Decimal
 from numbers import Number
 from typing import Any
-from PyQt6.QtWidgets import (QApplication, QWidget)
+from PyQt6.QtWidgets import QApplication
+
+from interface.windows.base_window import BaseWindow
+from settings import settings as set
 
 
 class Helper:
@@ -31,7 +34,7 @@ class Helper:
     """
 
     @staticmethod
-    def move_window_to_center(window: QWidget) -> None:
+    def move_window_to_center(window: BaseWindow) -> None:
         """
         Сдвигает в центр указанное окно.
 
@@ -41,12 +44,19 @@ class Helper:
             Окно, которое нужно сдвинуть.
         """
         screen_geometry = QApplication.primaryScreen().geometry()
-        x = (screen_geometry.width() - window.window_width) // 2
-        y = (screen_geometry.height() - window.window_height) // 2
+
+        x = (
+            screen_geometry.width() - window.window_width
+        ) // set.MIDDLE_DETERMINANT_DIVIDER
+
+        y = (
+            screen_geometry.height() - window.window_height
+        ) // set.MIDDLE_DETERMINANT_DIVIDER
+
         window.setGeometry(x, y, window.window_width, window.window_height)
 
     @staticmethod
-    def move_window_to_top_left_corner(window: QWidget) -> None:
+    def move_window_to_top_left_corner(window: BaseWindow) -> None:
         """
         Сдвигает в верхний левый угол указанное окно.
 
@@ -55,7 +65,12 @@ class Helper:
         - window: QWidget
             Окно, которое нужно сдвинуть.
         """
-        window.setGeometry(40, 50, window.window_width, window.window_height)
+        window.setGeometry(
+            set.TOP_LEFT_X,
+            set.TOP_LEFT_Y,
+            window.window_width,
+            window.window_height
+        )
 
     @staticmethod
     def get_calculation_file(name: str) -> str:
@@ -75,7 +90,10 @@ class Helper:
 
         # Если имя кнопки состоит их некольких слов, делаем все буквы нажнего
         # регистра и заменяем пробелы нижним подчеркиванием.
-        filename = "_".join(word.lower() for word in name.split())
+        filename = set.FILE_NAME_CONNECTOR.join(
+            word.lower() for word in name.split()
+        )
+
         return f"configs/calculator_configs/{filename}.json"
 
     @staticmethod
@@ -108,18 +126,18 @@ class Helper:
         """
 
         # Если нашли ключ.
-        if data.get('choices') and data['choices'].get('cells_output'):
-            return data['choices']
+        if data.get(set.CHOICES) and data[set.CHOICES].get(set.CELLS_OUTPUT):
+            return data[set.CHOICES]
 
-        counter = 0
+        counter = set.SET_TO_ZERO
 
         # Пробегаемся по ключам.
         for key in keys:
 
             # Если ключ - "choices", перескакиваем на 2 уровня.
-            if "choices" in data and key in data["choices"]:
+            if set.CHOICES in data and key in data[set.CHOICES]:
                 return Helper.get_nested_data(
-                    [k for k in keys if k != key], data["choices"][key]
+                    [k for k in keys if k != key], data[set.CHOICES][key]
                 )  # Удаляем найденный ключ и продолжаем.
 
             # В противном случае переходим на следующий уровень вложенности.
@@ -128,7 +146,7 @@ class Helper:
                     [k for k in keys if k != key], data[key]
                 )  # Удаляем найденный ключ и продолжаем.
             else:
-                counter += 1
+                counter += set.STEP_UP
 
         if counter == len(keys):
             return data
