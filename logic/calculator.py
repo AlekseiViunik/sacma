@@ -83,6 +83,8 @@ class Calculator:
             )
         else:
             self.calc_config = self.calc_config['choices']
+        if self.calc_config.get('conversion'):
+            self.__convert_data()
 
         # Специальный вывод - это обычно когда в экселе считать ничего не надо,
         # а значения для вывода берутся из ячеек, адрес которых определяется
@@ -120,7 +122,18 @@ class Calculator:
             Translator.translate_dict(self.calc_config['rules']),
             self.calc_config['worksheet'],
             Translator.translate_dict(self.calc_config['cells_input']),
-            self.calc_config['cells_output']
+            self.calc_config['cells_output'],
+
+            # copy_cells указывает значения каких ячеек (ключи) и
+            # куда (значения) надо будет копировать после внесения собранных
+            # данных в эксель. Изначально введено для fiancate.
+            self.calc_config.get('copy_cells', None),
+
+            # additional_input - словарь, кторый указываетв какие ячейки
+            # (ключи) какие значения (значения) надо внести, независимо от
+            # введенных юзером данных. Изначально введено для указания толщины
+            # диагоналей и траверс для fiancate.
+            self.calc_config.get('additional_input', None)
         )
 
         # Запускаем обработчик эксель файла
@@ -190,3 +203,17 @@ class Calculator:
                     formula_name
                 )
             output_dict[formula_name] = result
+
+    def __convert_data(self) -> None:
+        """
+        Если в конфиге для расчетов есть такой параметр, как conversion, то
+        Необходимо конфертировать собранные данные из одного вида в другой,
+        согласно разделу conversion в конфиге.
+        Например если конфиг выглядит так:
+        "section": {"x1": 1, "x2": 100},
+        И если у нас в собранных данных "section": "x2",
+        То в собранных данных мы должны заменить это значение на 100.
+        """
+        for param, value in self.data.items():
+            if param in self.calc_config['conversion'].keys():
+                self.data[param] = self.calc_config['conversion'][param][value]

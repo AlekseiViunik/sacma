@@ -1,0 +1,122 @@
+{
+    "choices": {
+        "Non-sismo": {
+            "worksheet": "Listino fiancate tradizionali",
+            "rules":{
+                "height": {
+                    "max": 10850,
+                    "multiple": 75
+                }
+            },
+            "cells_input": {
+                "depth": "D3",
+                "pieces": "D4",
+                "height_1": "D5",
+                "height_2": "D17",
+                "height_3": "D28",
+                "n_diagonals_1": "D6",
+                "n_diagonals_2": "D18",
+                "n_diagonals_3": "D29",
+                "section": "D7"
+            },
+            "cells_output": {
+                "price": "C51"
+            },
+            "conversion": {
+                "section": {
+                    "80/20": 2,
+                    "80/25": 3,
+                    "80/30": 4,
+                    "100/20": 5,
+                    "100/25": 6,
+                    "100/30": 7,
+                    "120/20": 8,
+                    "120/25": 9,
+                    "120/30": 10
+                }
+            },
+            "copy_cells": {
+                "D7": ["D19", "D30"]
+            }
+        },
+        "Sismo":{
+            "worksheet": "Listino fiancate simische",
+            "rules": {
+                "height": {
+                    "max": 10850,
+                    "multiple": 75
+                }
+            },
+            "cells_input": {
+                "depth": "D3",
+                "pieces": "D4",
+                "section": "D13",
+                "height_1": "D5",
+                "height_2": "D23",
+                "height_3": "D39",
+                "n_diagonals_15/10_1": "D6",
+                "n_diagonals_15/10_2": "D24",
+                "n_diagonals_15/10_3": "D40",
+                "n_diagonals_20/10_1": "D7",
+                "n_diagonals_20/10_2": "D25",
+                "n_diagonals_20/10_3": "D41",
+                "n_diagonals_25/10_1": "D8",
+                "n_diagonals_25/10_2": "D26",
+                "n_diagonals_25/10_3": "D42",
+                "n_diagonals_30/10_1": "D9",
+                "n_diagonals_30/10_2": "D27",
+                "n_diagonals_30/10_3": "D43",
+                "n_traverse_10/10_1": "D10",
+                "n_traverse_10/10_2": "D28",
+                "n_traverse_10/10_3": "D44",
+                "n_traverse_15/10_1": "D11",
+                "n_traverse_15/10_2": "D29",
+                "n_traverse_15/10_3": "D45"
+            },
+            "cells_output": {
+                "price": "C72",
+                "weight": "C74"
+            },
+            "additional_input": {
+                "C6": 15,
+                "C7": 20,
+                "C8": 25,
+                "C9": 30,
+                "C10": 10,
+                "C11": 15,
+                "C24": 15,
+                "C25": 20,
+                "C26": 25,
+                "C27": 30,
+                "C28": 10,
+                "C29": 15,
+                "C40": 15,
+                "C41": 20,
+                "C42": 25,
+                "C43": 30,
+                "C44": 10,
+                "C45": 15
+            },
+            "conversion": {
+                "section": {
+                    "80/20": 1,
+                    "80/25": 2,
+                    "80/30": 3,
+                    "100/20": 4,
+                    "100/25": 5,
+                    "100/30": 6,
+                    "120/20": 7,
+                    "120/25": 8,
+                    "120/30": 9,
+                    "120x110/20": 10,
+                    "120x110/25": 11,
+                    "120x110/30": 12,
+                    "120x110/40": 13
+                }
+            },
+            "copy_cells": {
+                "D13": ["D31", "D47"]
+            }
+        }
+    }
+}

@@ -15,6 +15,10 @@
                             "text": "Fiancate",
                             "width": 150,
                             "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/fiancate_window.json"
+                            },
                             "column": "current"
                         },
                         {

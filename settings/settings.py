@@ -10,6 +10,7 @@ LOG_FILE_NAME = "app.log"
 LOG_CODING = "utf-8"
 
 # ================================ Translator =================================
+# TODO make a dictionary dynamic to translate frases
 DICTIONARY = {
     "height": "Altezza",
     "width": "Larghezza",
@@ -29,8 +30,7 @@ DICTIONARY = {
     "weight": "Peso",
     "skates": "Pattini",
     "n_skates": "N pattini",
-    "n_diagonals": "N diagonali",
-    "traits": "Tratti",
+    "pieces": "Tratti",
     "depth": "Profondità",
     "n_diagonals_15/10": "N diagonali 15/10",
     "n_diagonals_20/10": "N diagonali 20/10",
@@ -48,7 +48,31 @@ DICTIONARY = {
     "profile": "Profilo",
     "element": "Elemento",
     "element_type": "Tipo elemento",
-    "inclined_invitations?": "Inviti inclinati?"
+    "inclined_invitations?": "Inviti inclinati?",
+    "height_1": "Altezza 1",
+    "height_2": "Altezza 2",
+    "height_3": "Altezza 3",
+    "n_diagonals_1": "N diagonali 1",
+    "n_diagonals_2": "N diagonali 2",
+    "n_diagonals_3": "N diagonali 3",
+    "n_diagonals_15/10_1": "N diagonali 15/10 1",
+    "n_diagonals_20/10_1": "N diagonali 20/10 1",
+    "n_diagonals_25/10_1": "N diagonali 25/10 1",
+    "n_diagonals_30/10_1": "N diagonali 30/10 1",
+    "n_traverse_10/10_1": "N traversi 10/10 1",
+    "n_traverse_15/10_1": "N traversi 15/10 1",
+    "n_diagonals_15/10_2": "N diagonali 15/10 2",
+    "n_diagonals_20/10_2": "N diagonali 20/10 2",
+    "n_diagonals_25/10_2": "N diagonali 25/10 2",
+    "n_diagonals_30/10_2": "N diagonali 30/10 2",
+    "n_traverse_10/10_2": "N traversi 10/10 2",
+    "n_traverse_15/10_2": "N traversi 15/10 2",
+    "n_diagonals_15/10_3": "N diagonali 15/10 3",
+    "n_diagonals_20/10_3": "N diagonali 20/10 3",
+    "n_diagonals_25/10_3": "N diagonali 25/10 3",
+    "n_diagonals_30/10_3": "N diagonali 30/10 3",
+    "n_traverse_10/10_3": "N traversi 10/10 3",
+    "n_traverse_15/10_3": "N traversi 15/10 3",
 }
 
 # ===================================Login=====================================

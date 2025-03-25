@@ -15,6 +15,8 @@
                         {
                             "type": "label",
                             "text": "Tipo",
+                            "width": 100,
+                            "height": 20,
                             "column": "first"
                         },
                         {
@@ -46,6 +48,8 @@
                             "type": "label",
                             "text": "Altezza",
                             "column": "first",
+                            "width": 100,
+                            "height": 20,
                             "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
                         },
                         {
@@ -72,6 +76,8 @@
                         {
                             "type": "label",
                             "text": "Base",
+                            "width": 100,
+                            "height": 20,
                             "column": "first",
                             "active_when": ["TG", "APERTE", "PORTA SKID"]
                         },
@@ -98,6 +104,8 @@
                         {
                             "type": "label",
                             "text": "Appoggio",
+                            "width": 100,
+                            "height": 20,
                             "column": "first",
                             "active_when": ["SAT"]
                         },
@@ -116,6 +124,8 @@
                         {
                             "type": "label",
                             "text": "Spessore",
+                            "width": 100,
+                            "height": 20,
                             "column": "first",
                             "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
                         },
@@ -143,6 +153,8 @@
                         {
                             "type": "label",
                             "text": "Staffa speciale",
+                            "width": 100,
+                            "height": 20,
                             "column": "first",
                             "active_when": ["TG", "SAT", "APERTE"]
                         },
@@ -163,6 +175,8 @@
                         {
                             "type": "label",
                             "text": "Quantità",
+                            "width": 100,
+                            "height": 20,
                             "column": "first",
                             "active_when": ["TG", "SAT", "APERTE"]
                         },
@@ -183,6 +197,8 @@
                         {
                             "type": "label",
                             "text": "Lunghezza",
+                            "width": 100,
+                            "height": 20,
                             "column": "first",
                             "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
                         },

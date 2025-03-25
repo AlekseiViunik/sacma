@@ -49,18 +49,26 @@ class Creator:
     - current_changing_values: Dict[str, str]
         Словарь текущих значений, меняющих расположение виджетов.
 
-    - dependencies: dict
-        Словарь зависимых контейнеров, которые будут меняться в зависимости от
-        того, какое поле было выбрано.
-
     - remover: Remover
         Класс-удалитель.
 
     - finder: Finder
         Класс-находитель.
 
+    - main_layout: None
+        Содержит ссылку на главный контейнер для его последующей перерисовки.
+
     - mandatory_fields: List[str]
         Поля, обязательные для заполнения.
+
+    - dependencies: dict
+        Словарь зависимых контейнеров, которые будут меняться в зависимости от
+        того, какое поле было выбрано.
+
+    - layout_parents: dict
+        Словрь, который в качестве ключей содержит текущий контйенер,
+        а значений - родительский. Нужен для четкого определения родителя
+        при перерисовке контейнера.
 
     Methods
     -------
@@ -128,16 +136,27 @@ class Creator:
         # но из-за зацикливания ссылок друг на друге, я не могу его тут
         # указать.
         self.parent_window: QWidget = parent_window
-
         self.input_fields: Dict[str, QLineEdit] = {}
         self.chosen_fields: Dict[str, QComboBox] = {}
         self.default_values: Dict[str, str] = {}
         self.current_changing_value: str | None = None
         self.current_changing_values: Dict[str, str] = {}
-        self.dependencies: dict = {}
         self.remover: Remover = Remover()
         self.finder: Finder = Finder()
         self.mandatory_fields: List[str] = []
+        self.main_layout = None
+
+        # Словрь, который в качестве ключей содержит имя виджета, от выбора
+        # которого зависят другие виджеты, а значений - словарь с именем
+        # зависимого виджета и самим виджетом. Нужен для последующего поиска
+        # всех зависимых виджетов и их перерисовке при изменении значения
+        # изменяющего виджета.
+        self.dependencies: dict = {}
+
+        # Словрь, который в качестве ключей содержит текущий контйенер,
+        # а значений - родительский. Нужен для четкого определения родителя
+        # при перерисовке контейнера.
+        self.layout_parents: dict = {}
 
     def create_widget_layout(
         self,
@@ -214,13 +233,19 @@ class Creator:
             isinstance(parent_window, QVBoxLayout) or
             isinstance(parent_window, QGridLayout)
         ):
-            # Вызываем addLayout метод
+
             parent_window.addLayout(layout)
+
+            # Записываем в layout_parents родителя для добавленного контейнера.
+            self.layout_parents[layout] = parent_window
 
         # Если текущий контейнер должен быть размещен на окне (QWidget)
         else:
-            # Вызываем setLayout метод
+
             parent_window.setLayout(layout)
+            self.main_layout = layout
+            self.layout_parents[layout] = parent_window
+            parent_window.adjustSize()
 
     def __add_widgets(
         self,
@@ -462,6 +487,13 @@ class Creator:
                     text = f"*{config['text']}"
                     label.setText(text)
                     self.mandatory_fields.append(config['mandatory'])
+                case "width":
+                    label.setFixedWidth(int(value))
+                case "height":
+                    label.setFixedHeight(int(value))
+                case "background":
+                    styleSheet = f"background-color: {value}"
+                    label.setStyleSheet(styleSheet)
         return label
 
     def __create_input(self, config: dict) -> QLineEdit:
@@ -581,7 +613,9 @@ class Creator:
         """
 
         dropdown = QComboBox()
-        self.default_values[config['name']] = config['default_value']
+        name = config['name']
+        if not self.default_values.get(name):
+            self.default_values[name] = config['default_value']
         for param, value in config.items():
             log.info(f"Create dropdown list: {config['name']}")
             match param:
@@ -595,8 +629,8 @@ class Creator:
                     dropdown.setFixedWidth(int(value))
                 case "height":
                     dropdown.setFixedHeight(int(value))
-                case "default_value":
-                    dropdown.setCurrentText(str(value))
+
+        dropdown.setCurrentText(self.default_values[name])
         self.chosen_fields[config['name']] = dropdown
 
         # Если выпадающий список является меняющим, то задаем метод, который
@@ -680,9 +714,10 @@ class Creator:
         selected_value: str
     ) -> None:
         """
-        Метод обновления зависимых контейнеров. Если значение, от которого они
-        зависят, поменялось, то перерисовывает эти контейнеры с новыми
-        параметрами.
+        Метод обновления зависимых контейнеров. Переписывает дефолтные
+        значения для новой отрисовки. Удаляет старый основной контейнер с
+        отрисованными виджетами. Создает новый. Перерисовывает все элементы
+        окна с новыми дефолтными параметрами с нуля.
 
         Parameters
         ----------
@@ -694,66 +729,25 @@ class Creator:
         """
         log.info("Rerender dependent layouts")
 
-        # Обновляем свойства current_changing_value и current_changing_values,
-        # чтобы перерисовать контейнер уже с новыми свойствами.
-        self.current_changing_value = selected_value
-        self.current_changing_values[name] = selected_value
-
-        # Если среди зависимых контейнеров нет тех, которые зависят именно от
-        # этого виджета, то ничего и не переписываем.
-        if name not in self.dependencies:
-            return
-
-        # Берем из словаря зависимых лейблов те лейюблы, которые зависят
-        # именно это измененного параметра и проходим по ним циклом.
-        for layout_name, layout in self.dependencies[name].items():
-
-            # Получаем родительский контейнер, на котором расположен текущий,
-            # который надо изменить.
-            parent_layout = layout.parentWidget().layout()
-
-            # Если родительский контейнер не найден, пропускаем.
-            if not parent_layout:
-                continue
-
-            # Если текущий контейнер не найден в родительском (что странно),
-            # пропускаем.
-            position = parent_layout.indexOf(layout)
-            if position == -1:
-                continue
-
-            # Удаляем у родителя контейнер со старыми виджетами.
-            self.remover.delete_layout(parent_layout, layout)
-
-            # Ищем новую конфигурацию для нового layout.
-            new_layout_config = self.finder.find_layout_by_name(
-                self.config["layout"]["widgets"],
-                layout_name
-            )
-            # Если конфигурация по какой-то непонятной причине не найдена,
-            # пропускаем.
-            if not new_layout_config:
-                continue
-
-            # Создаем новый контейнер по уже обновленному конфигу и с
-            # обновленными свойствами Креатора.
-            new_layout = self.__create_layout(new_layout_config)
-            self.__add_widgets(
-                new_layout,
-                new_layout_config["type"],
-                new_layout_config["widgets"],
-                new_layout_config.get("columns")
-            )
-
-            # Вставляем новый контейнер НА ЕГО СТАРОЕ МЕСТО.
-            parent_layout.insertLayout(position, new_layout)
-            self.dependencies[name][layout_name] = new_layout
+        self.default_values[name] = selected_value
+        self.remover.delete_layout(
+            self.layout_parents[self.main_layout],
+            self.main_layout
+        )
+        main_window = self.layout_parents.pop(self.main_layout, None)
+        old_layout = main_window.layout()
+        QWidget().setLayout(old_layout)
+        self.layout_parents = {}
+        self.dependencies = {}
+        self.create_widget_layout(main_window, self.config['layout'])
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
         Проверяет, активен ли текущий виджет с его-то конфигом при
         соответствующем выборе. Если активен, то будет отображен. В противном
-        случае - нет.
+        случае - нет. В случае, если изменяющих виджетов несколько, то в
+        конфиге виджета должен быть прописан параметр visibility_key, в котором
+        указано имя виджета, чье значение влияет на видимость текущего.
 
         Parameters
         ----------
@@ -767,10 +761,46 @@ class Creator:
             надо.
         """
 
+        active_when = []
+        visibility_key = ""
+
+        # Для отладки
         if (
-            config.get('active_when') and
-            self.current_changing_value and
-            self.current_changing_value not in config['active_when']
+            config.get('layout') and
+            config['layout'].get('name') and
+            config['layout']['name'] == "first"
         ):
-            return False
+            print("stop here")
+
+        # visibility_key введен специально для Fiancate случая. Поскольку там
+        # виджетов, меняющих другие - больше, чем 1. И через visibility_key
+        # проще понимать, от какого виджета зависит появление текущего виджета.
+        if config.get('active_when'):
+            active_when = config['active_when']
+            if config.get('visibility_key'):
+                visibility_key = config['visibility_key']
+        elif (
+            config.get('layout') and
+            config['layout'].get('active_when')
+        ):
+            active_when = config['layout']['active_when']
+            if config['layout'].get('visibility_key'):
+                visibility_key = config['layout']['visibility_key']
+
+        if active_when:
+            if visibility_key:
+                if (
+                    self.current_changing_values.get(visibility_key) and
+                    (
+                        self.current_changing_values[visibility_key]
+                        not in active_when
+                    )
+                ):
+                    return False
+            elif (
+                self.current_changing_value and
+                self.current_changing_value not in active_when
+            ):
+                return False
+
         return True

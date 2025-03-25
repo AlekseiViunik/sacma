@@ -15,6 +15,8 @@
                         {
                             "type": "label",
                             "text": "Tipo",
+                            "width": 100,
+                            "height": 20,
                             "column": "first"
                         },
                         {
@@ -45,6 +47,8 @@
                         {
                             "type": "label",
                             "text": "Elemento",
+                            "width": 100,
+                            "height": 20,
                             "column": "first",
                             "active_when": ["AUTOMHA"]
                         },
@@ -69,6 +73,8 @@
                         {
                             "type": "label",
                             "text": "Elemento",
+                            "width": 100,
+                            "height": 20,
                             "column": "first",
                             "active_when": ["Altro"]
                         },
