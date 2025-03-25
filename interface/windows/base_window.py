@@ -73,7 +73,9 @@ class BaseWindow(QWidget):
             log.info(f"Config loaded successfully: {config}")
         else:
             log.error(set.FAILED_GET_JSON_DATA)
-            return
+            raise FileNotFoundError(
+                "Required file is missing. Please contact the developer."
+            )
 
         self.setWindowTitle(config[set.WINDOW_TITLE])
         self.window_width = int(config[set.WINDOW_WIDTH])
