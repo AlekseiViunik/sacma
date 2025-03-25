@@ -40,19 +40,19 @@ class UserDataHandler:
         # Убираем чувствительные данные из добавляемых
         # Также убираем оттуда юзернейм - он будет служить ключом, а не
         # значением в новом словаре.
-        username = user_data.pop('username')
-        if user_data.get('password'):
-            user_data.pop('password')
-        if user_data.get('repeat_password'):
-            user_data.pop('repeat_password')
+        username = user_data.pop(set.USERNAME)
+        if user_data.get(set.PASSWORD):
+            user_data.pop(set.PASSWORD)
+        if user_data.get(set.REPEAT_PASSWORD):
+            user_data.pop(set.REPEAT_PASSWORD)
 
-        log.info("Trying to add a new user data")
+        log.info(set.TRYING_ADD_USER_DATA)
         log.info(f"The path is {set.USER_MAIN_DATA_FILE}")
         self.auth_json_handler.write_into_file(key=username, value=user_data)
 
         # Проверка, что пользователь добавлен (для логов)
         new_data = self.auth_json_handler.get_all_data()
         if new_data.get(username) and new_data[username] == user_data:
-            log.info("New user data has been added")
+            log.info(set.USER_DATA_IS_ADDED)
         else:
-            log.info("Couldn't add new user data")
+            log.info(set.USER_DATA_IS_NOT_ADDED)
