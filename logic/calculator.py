@@ -3,6 +3,7 @@ from handlers.formulas_handler import FormulasHandler
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
 from logic.translator import Translator
+from settings import settings as set
 
 
 class Calculator:
@@ -82,14 +83,14 @@ class Calculator:
                 self.calc_config
             )
         else:
-            self.calc_config = self.calc_config['choices']
-        if self.calc_config.get('conversion'):
+            self.calc_config = self.calc_config[set.CHOICES]
+        if self.calc_config.get(set.CONVERSION):
             self.__convert_data()
 
         # Специальный вывод - это обычно когда в экселе считать ничего не надо,
         # а значения для вывода берутся из ячеек, адрес которых определяется
         # введенными параметрами
-        if self.calc_config.get('special_output'):
+        if self.calc_config.get(set.SPECIAL_OUTPUT):
             self.calc_config.pop('special_output')
             keys = list(self.data.values())
 
@@ -101,15 +102,15 @@ class Calculator:
 
         # Если есть сообщение, которое надо вставить в окне результатов после
         # вывода результата, извлекаем его из конфига.
-        post_message = self.calc_config['cells_output'].pop(
-            'post_message',
+        post_message = self.calc_config[set.CELLS_OUTPUT].pop(
+            set.POST_MESSAGE,
             None
         )
 
         # Если есть результат, который не надо отображать, даже если он
         # получен, активируем флаг is_hide.
-        is_hide = self.calc_config['cells_output'].pop(
-            'is_hide',
+        is_hide = self.calc_config[set.CELLS_OUTPUT].pop(
+            set.IS_HIDE,
             None
         )
 
@@ -119,21 +120,21 @@ class Calculator:
         # данные по извлекаемым ячейкам - я не помню.
         self.excel_handler = ExcelHandler(
             Translator.translate_dict(self.data),
-            Translator.translate_dict(self.calc_config['rules']),
-            self.calc_config['worksheet'],
-            Translator.translate_dict(self.calc_config['cells_input']),
-            self.calc_config['cells_output'],
+            Translator.translate_dict(self.calc_config[set.RULES]),
+            self.calc_config[set.WORKSHEET],
+            Translator.translate_dict(self.calc_config[set.CELLS_INPUT]),
+            self.calc_config[set.CELLS_OUTPUT],
 
             # copy_cells указывает значения каких ячеек (ключи) и
             # куда (значения) надо будет копировать после внесения собранных
             # данных в эксель. Изначально введено для fiancate.
-            self.calc_config.get('copy_cells', None),
+            self.calc_config.get(set.COPY_CELLS, None),
 
             # additional_input - словарь, кторый указываетв какие ячейки
             # (ключи) какие значения (значения) надо внести, независимо от
             # введенных юзером данных. Изначально введено для указания толщины
             # диагоналей и траверс для fiancate.
-            self.calc_config.get('additional_input', None)
+            self.calc_config.get(set.ADDITIONAL_INPUT, None)
         )
 
         # Запускаем обработчик эксель файла
@@ -141,15 +142,15 @@ class Calculator:
 
         # Если в обработчике данные не прошли валидацию, то в сообщении после
         # вывода результатов выводим сообщение об ошибке.
-        if excel_result.get('error'):
-            post_message = excel_result.pop('error')
+        if excel_result.get(set.ERROR):
+            post_message = excel_result.pop(set.ERROR)
         else:
             # Если полученные результаты требуют дальнейших расчетов по
             # формуле, применяем ее
-            if self.calc_config.get('formulas'):
+            if self.calc_config.get(set.FORMULAS):
                 self.__use_formula(
                     excel_result,
-                    self.calc_config['formulas'],
+                    self.calc_config[set.FORMULAS],
                     self.data
                 )
 
@@ -215,5 +216,7 @@ class Calculator:
         То в собранных данных мы должны заменить это значение на 100.
         """
         for param, value in self.data.items():
-            if param in self.calc_config['conversion'].keys():
-                self.data[param] = self.calc_config['conversion'][param][value]
+            if param in self.calc_config[set.CONVERSION].keys():
+                self.data[
+                    param
+                ] = self.calc_config[set.CONVERSION][param][value]
