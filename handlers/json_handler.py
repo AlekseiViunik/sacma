@@ -43,7 +43,7 @@ class JsonHandler:
     """
 
     def __init__(self, file_path: str) -> None:
-        self.file_path: str = ""
+        self.file_path: str = set.EMPTY_STRING
 
         self.set_file_path(file_path)
 
@@ -59,7 +59,11 @@ class JsonHandler:
         """
         log.info(set.JSON_GET_ALL_DATA)
         if self.file_path:
-            with open(self.file_path, "r", encoding=set.STR_CODING) as f:
+            with open(
+                self.file_path,
+                set.FILE_READ,
+                encoding=set.STR_CODING
+            ) as f:
                 return json.load(f)
 
     def get_value_by_key(self, key: str) -> Any:
@@ -80,8 +84,8 @@ class JsonHandler:
         log.info(set.JSON_GET_VALUE_BY_KEY)
         data = self.get_all_data()
         if data:
-            return data.get(key, "")
-        return ""
+            return data.get(key, set.EMPTY_STRING)
+        return set.EMPTY_STRING
 
     def get_values_by_keys(self, keys: list) -> dict:
         """
@@ -106,7 +110,7 @@ class JsonHandler:
         if data:
             for key in keys:
                 if key in data.keys():
-                    result[key] = data.get(key, "")
+                    result[key] = data.get(key, set.EMPTY_STRING)
 
         return result
 
@@ -122,7 +126,11 @@ class JsonHandler:
             Данные, которыми будет перезаписан файл.
         """
         log.info(set.JSON_REWRITE_FILE)
-        with open(self.file_path, "w", encoding=set.STR_CODING) as f:
+        with open(
+            self.file_path,
+            set.FILE_WRITE,
+            encoding=set.STR_CODING
+        ) as f:
             json.dump(
                 {
                     # Иногда в качестве значений может быть объект QLineEdit, а
@@ -139,9 +147,9 @@ class JsonHandler:
 
     def write_into_file(
         self,
-        key: str = "",
-        key2: str = "",
-        value: str | dict = ""
+        key: str = set.EMPTY_STRING,
+        key2: str = set.EMPTY_STRING,
+        value: str | dict = set.EMPTY_STRING
     ) -> None:
         """
         Открывает файл JSON для записи, получает из него все данные,
