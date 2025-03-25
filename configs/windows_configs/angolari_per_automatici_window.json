@@ -14,6 +14,7 @@
                     "widgets": [
                         {
                             "type": "label",
+                            "width": 100,
                             "text": "Pattini",
                             "column": "first"
                         },
@@ -45,6 +46,7 @@
                         {
                             "type": "label",
                             "text": "Sezione",
+                            "width": 100,
                             "column": "first",
                             "active_when": ["Senza", "Con"]
                         },
