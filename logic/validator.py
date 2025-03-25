@@ -1,6 +1,7 @@
 from typing import Any
 
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class Validator:
@@ -34,7 +35,7 @@ class Validator:
                 Результат валидации.
         """
         match rule_key:
-            case "min":
+            case set.VALIDATION_MIN:
                 log.info(f"Should be more than {rule_value}")
                 try:
                     value = int(value)
@@ -46,7 +47,7 @@ class Validator:
                         f"{value} is less than min possible ({rule_value})"
                     )
                     return False
-            case "max":
+            case set.VALIDATION_MAX:
                 log.info(f"'{rule_key}' should be less than {rule_value}")
                 try:
                     value = int(value)
@@ -58,17 +59,17 @@ class Validator:
                         f"{value} is greater than max possible ({rule_value})"
                     )
                     return False
-            case "numeric":
-                log.info("Should be numeric")
+            case set.VALIDATION_NUMERIC:
+                log.info(set.SHOULD_BE_NUMERIC)
                 if not str(value).isnumeric():
                     log.error(f"{value} is not numeric")
                     return False
-            case "natural":
-                log.info("Should be natural")
+            case set.VALIDATION_NATURAL:
+                log.info(set.SHOULD_BE_NATURAL)
                 if not str(value).isnumeric() or int(value) < 0:
                     log.error(f"{value} is not natural")
                     return False
-            case "multiple":
+            case set.VALIDATION_MULTIPLE:
                 log.info(f"Should be multiple of {rule_value}")
                 try:
                     value = int(value)
@@ -78,5 +79,5 @@ class Validator:
                 if value % rule_value != 0:
                     log.error(f"{value} is not multiple of {rule_value}")
                     return False
-        log.info("This check is OK!")
+        log.info(set.VALIDATION_IS_OK)
         return True

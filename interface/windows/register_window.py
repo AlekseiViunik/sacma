@@ -68,7 +68,7 @@ class RegisterWindow(BaseWindow):
         соответствующим сообщением.
         """
 
-        log.info("Button Create has been pressed")
+        log.info(set.CREATE_BUTTON_PRESSED)
 
         # Собираем все введенные и выбранные данные в один словарь.
         all_inputs = self.input_data_handler.collect_all_inputs(
@@ -83,44 +83,44 @@ class RegisterWindow(BaseWindow):
             self.creator.mandatory_fields
         )
         if difference:
-            log.error("Check failed. Not all necessary fields were fulfilled")
+            log.error(set.MANDATORY_FIELDS_CHECK_FAILED)
             log.error(f"Missing fields are {difference}")
-            if len(difference) == 1:
+            if len(difference) == set.SET_TO_ONE:
                 err_msg = f"The field '{difference[0]}' is mandatory!"
             else:
-                missing_fields = ', '.join(difference)
+                missing_fields = set.LISTING_CONNECTOR.join(difference)
                 err_msg = (
                     f"The following fields are mandatory: {missing_fields}!"
                 )
             Messagebox.show_messagebox(
-                "Creation failed",
+                set.CREATION_FAILED,
                 err_msg,
                 self
             )
             return
 
         # Проверка, совпадает ли введенный пароль с повторенным.
-        if all_inputs['password'] != all_inputs['repeat_password']:
-            log.error("Check failed. Pass and its repeat are different")
+        if all_inputs[set.PASSWORD] != all_inputs[set.REPEAT_PASSWORD]:
+            log.error(f"{set.CHECK_FAILED} {set.REPEAT_IS_DIFFERENT}")
             Messagebox.show_messagebox(
-                "Creation failed",
-                "Password and its repeat are not identical",
+                set.CREATION_FAILED,
+                set.REPEAT_IS_DIFFERENT,
                 self
             )
             return
 
         # Юзернейм вынесен в отдельную переменную для вставки его в строку
-        username = all_inputs['username']
+        username = all_inputs[set.USERNAME]
 
         # Вносим чувствительные данные в auth.json
         if not self.auth.register_user(
-            all_inputs['username'],
-            all_inputs['password']
+            all_inputs[set.USERNAME],
+            all_inputs[set.PASSWORD]
         ):
-            log.error("Creation failed. User is already exists")
+            log.error(f"{set.CREATION_FAILED} {set.USER_EXISTS}")
             Messagebox.show_messagebox(
-                "Creation failed",
-                "User is already exists",
+                set.CREATION_FAILED,
+                set.USER_EXISTS,
                 self
             )
             return
@@ -128,22 +128,22 @@ class RegisterWindow(BaseWindow):
             # Если чувствительные данные успешно сохранены, вносим обычные
             # данные.
             log.info(
-                "Creation succesfull. Login-Pass pair has been added to the DB"
+                set.AUTH_CREATION_SUCCESSFUL
             )
-            log.info("Trying to add user data")
+            log.info(set.TRYING_ADD_AUTH_DATA)
             self.user_data_handler.add_new_user_data(all_inputs)
             Messagebox.show_messagebox(
-                "Success!",
+                set.SUCCESS,
                 f"User {username} is created!",
                 self,
-                "info"
+                set.TYPE_INFO
             )
             self.close()
 
     def toggle_password(
         self,
         checkbox: QCheckBox,
-        field: str = "password"
+        field: str = set.PASSWORD
     ) -> None:
         """
         Делает вводимые чувствитильные данные видимыми/невидимыми в зависимости
@@ -158,12 +158,18 @@ class RegisterWindow(BaseWindow):
             Имя поля, видимость которого меняется.
         """
         if checkbox.isChecked():
-            log.info("Checkbox for password is marked as 'checked'")
+            if field == set.PASSWORD:
+                log.info(set.PASS_MARKED_AS_CHECKED)
+            elif field == set.REPEAT_PASSWORD:
+                log.info(set.PASS_REPEAT_MARKED_AS_CHECKED)
             self.creator.input_fields[field].setEchoMode(
                 QLineEdit.EchoMode.Normal
             )
         else:
-            log.info("Checkbox for password is marked as 'unchecked'")
+            if field == set.PASSWORD:
+                log.info(set.PASS_MARKED_AS_UNCHECKED)
+            elif field == set.REPEAT_PASSWORD:
+                log.info(set.PASS_REPEAT_MARKED_AS_UNCHECKED)
             self.creator.input_fields[field].setEchoMode(
                 QLineEdit.EchoMode.Password
             )

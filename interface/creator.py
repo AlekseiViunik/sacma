@@ -18,6 +18,7 @@ from PyQt6.QtCore import Qt
 from helpers.remover import Remover
 from helpers.finder import Finder
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class Creator:
@@ -186,18 +187,18 @@ class Creator:
 
         # Удаляем старый контейнер, если такой уже существует.
         # Если это зависимый контейнер, то
-        if layout_config.get('depends_on'):
+        if layout_config.get(set.DEPENDS_ON):
 
             # Берем имя виджета, от которого он зависит и присваиваем его
             # значение из default_values в current_changing_value
             self.current_changing_value = self.default_values[
-                layout_config['depends_on']
+                layout_config[set.DEPENDS_ON]
             ]
 
             # И добавляем связку "Имя виджета - его текущее значение" в
             # словарь изменяющих виджетов (или обновляем уже существующую
             # запись)
-            self.current_changing_values[layout_config['depends_on']] = (
+            self.current_changing_values[layout_config[set.DEPENDS_ON]] = (
                 self.current_changing_value
             )
 
@@ -206,17 +207,17 @@ class Creator:
             # Если по каким-то причинам (уже не помню, зачем добавил эту
             # проверку тут) зависимый контейнер с таким именем уже существует,
             if (
-                layout_config['depends_on'] in self.dependencies and
+                layout_config[set.DEPENDS_ON] in self.dependencies and
                 self.dependencies[
-                    layout_config['depends_on']
-                ].get(layout_config['name'])
+                    layout_config[set.DEPENDS_ON]
+                ].get(layout_config[set.NAME])
             ):
                 # Удаляем существующий контейнер.
                 self.remover.delete_layout(
                     parent_window,
                     self.dependencies[
-                        layout_config['depends_on']
-                    ][layout_config['name']]
+                        layout_config[set.DEPENDS_ON]
+                    ][layout_config[set.NAME]]
                 )
         # Вызываем метод создания самого контейнера по конфигу.
         layout = self.__create_layout(layout_config)
@@ -224,9 +225,9 @@ class Creator:
         # Добавляем туда виджеты
         self.__add_widgets(
             layout,
-            layout_config['type'],
-            layout_config['widgets'],
-            layout_config.get('columns')
+            layout_config[set.TYPE],
+            layout_config[set.WIDGETS],
+            layout_config.get(set.COLUMNS)
         )
 
         # Если текущий контейнер должен быть размещен на другом контейнере
@@ -298,7 +299,7 @@ class Creator:
         match layout_type:
 
             # Если сетка
-            case "grid":
+            case set.LAYOUT_TYPE_GRID:
 
                 # Задаем начальные координаты для виджетов.
                 current_row = 0
@@ -318,7 +319,7 @@ class Creator:
                         current_row,
                         current_column,
                         columns,
-                        widget_config.get('column')
+                        widget_config.get(set.COLUMN)
                     )
 
                     # Вызываем метод создания виджета.
@@ -338,7 +339,7 @@ class Creator:
                     current_column = current_column + 1
 
             # Если не сетка
-            case "vertical" | "horizontal":
+            case set.LAYOUT_TYPE_VERTICAL | set.LAYOUT_TYPE_HORIZONTAL:
 
                 # Пробегаемся по конфигу каждого виджета.
                 for widget_config in widgets_configs:
@@ -383,27 +384,27 @@ class Creator:
         """
 
         # Если в конфиге есть ключ "layout", то
-        if config.get('layout'):
+        if config.get(set.LAYOUT):
 
             # Вызываем основной метод создания контейнера.
             self.create_widget_layout(
                 layout,
-                config['layout']
+                config[set.LAYOUT]
             )
         # Если это все-таки виджет, то
         else:
             # Вызываем соответствующий виджет, в зависимости от его типа,
             # прописанного в конфиге.
-            match config.get('type'):
-                case "label":
+            match config.get(set.TYPE):
+                case set.WIDGET_TYPE_LABEL:
                     widget = self.__create_label(config)
-                case "input":
+                case set.WIDGET_TYPE_INPUT:
                     widget = self.__create_input(config)
-                case "button":
+                case set.WIDGET_TYPE_BUTTON:
                     widget = self.__create_button(config)
-                case "dropdown":
+                case set.WIDGET_TYPE_DROPDOWN:
                     widget = self.__create_dropdown(config)
-                case "checkbox":
+                case set.WIDGET_TYPE_CHECKBOX:
                     widget = self.__create_checkbox(config)
                 case _:
                     widget = None
@@ -427,13 +428,13 @@ class Creator:
             Объект созданного контейнера
         """
 
-        log.info(f"Create a layout. Type {layout_config['type']}")
-        match layout_config["type"]:
-            case "grid":
+        log.info(f"Create a layout. Type {layout_config[set.TYPE]}")
+        match layout_config[set.TYPE]:
+            case set.LAYOUT_TYPE_GRID:
                 layout = QGridLayout()
-            case "vertical":
+            case set.LAYOUT_TYPE_VERTICAL:
                 layout = QVBoxLayout()
-            case "horizontal":
+            case set.LAYOUT_TYPE_HORIZONTAL:
                 layout = QHBoxLayout()
 
         # Простая проверка if layout тут не подойдет. Почему - хз, видимо,
@@ -445,10 +446,10 @@ class Creator:
             # Если контейнер зависим, то записываем/перезаписываем его как
             # словарь типа "имя контейнера - объект контейнера" в словарь по
             # ключу, которым явяляется имя контейнера, от которого он зависит.
-            if 'depends_on' in layout_config:
+            if set.DEPENDS_ON in layout_config:
                 self.dependencies.setdefault(
-                    layout_config['depends_on'], {}
-                )[layout_config['name']] = layout
+                    layout_config[set.DEPENDS_ON], {}
+                )[layout_config[set.NAME]] = layout
 
             return layout
         return None
@@ -468,35 +469,35 @@ class Creator:
             Объект созданного лейбла
         """
 
-        log.info(f"Create label: {config['text']}")
+        log.info(f"Create label: {config[set.TEXT]}")
         label = QLabel()
         for param, value in config.items():
             match param:
-                case "text":
+                case set.TEXT:
                     label.setText(value)
-                case "text_size":
+                case set.TEXT_SIZE:
                     font = QFont()
-                    font.setPointSize(config['text_size'])
+                    font.setPointSize(config[set.TEXT_SIZE])
                     label.setFont(font)
-                case "align":
+                case set.ALIGN:
                     # Определяет расположение текста внутри лейбла.
-                    if config['align'] == "center":
+                    if config[set.ALIGN] == set.ALIGN_CENTER:
                         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                    if config['align'] == "left":
+                    if config[set.ALIGN] == set.ALIGN_LEFT:
                         label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-                    if config['align'] == "right":
+                    if config[set.ALIGN] == set.ALIGN_RIGHT:
                         label.setAlignment(Qt.AlignmentFlag.AlignRight)
-                case "mandatory":
+                case set.MANDATORY:
                     # Добавляет звездочку в начале текста, если в конфиге
                     # Лейбл помечен как обязательный.
-                    text = f"*{config['text']}"
+                    text = f"*{config[set.TEXT]}"
                     label.setText(text)
-                    self.mandatory_fields.append(config['mandatory'])
-                case "width":
+                    self.mandatory_fields.append(config[set.MANDATORY])
+                case set.WIDTH:
                     label.setFixedWidth(int(value))
-                case "height":
+                case set.HEIGHT:
                     label.setFixedHeight(int(value))
-                case "background":
+                case set.BACKGROUND:
                     styleSheet = f"background-color: {value}"
                     label.setStyleSheet(styleSheet)
         return label
@@ -517,20 +518,20 @@ class Creator:
             Объект созданного поля для ввода.
         """
 
-        log.info("Create input field")
+        log.info(set.CREATE_INPUT_FIELD)
         input_field = QLineEdit()
         for param, value in config.items():
             match param:
-                case "width":
+                case set.WIDTH:
                     input_field.setFixedWidth(int(value))
-                case "height":
+                case set.HEIGHT:
                     input_field.setFixedHeight(int(value))
-                case "default_value":
+                case set.DEFAULT_VALUE:
                     input_field.setPlaceholderText(value)
-                case "hide":
+                case set.HIDE:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
-        self.input_fields[config['name']] = input_field
+        self.input_fields[config[set.NAME]] = input_field
         return input_field
 
     def __create_checkbox(self, config: dict) -> QCheckBox:
@@ -548,19 +549,19 @@ class Creator:
             Объект созданного чекбокса.
         """
 
-        log.info(f"Create checkbox: {config['text']}")
+        log.info(f"Create checkbox: {config[set.TEXT]}")
         checkbox = QCheckBox()
         for param, value in config.items():
             match param:
-                case "text":
+                case set.TEXT:
                     checkbox.setText(value)
-                case "callback":
+                case set.CALLBACK:
                     # Привязка метода, который будет вызван при
                     # активации/деактивации чекбокса.
                     self.parent_window.connect_callback(
                         checkbox,
                         value,
-                        config.get("params", {}),
+                        config.get(set.PARAMS, {}),
                         self.parent_window
                     )
         return checkbox
@@ -580,19 +581,19 @@ class Creator:
             Объект созданной кнопки.
         """
 
-        log.info(f"Create button: {config['text']}")
-        button = QPushButton(config['text'])
+        log.info(f"Create button: {config[set.TEXT]}")
+        button = QPushButton(config[set.TEXT])
         for param, value in config.items():
             match param:
-                case "width":
+                case set.WIDTH:
                     button.setFixedWidth(int(value))
-                case "height":
+                case set.HEIGHT:
                     button.setFixedHeight(int(value))
-                case "callback":
+                case set.CALLBACK:
                     self.parent_window.connect_callback(
                         button,
                         value,
-                        config.get("params", {}),
+                        config.get(set.PARAMS, {}),
                         self.parent_window
                     )
 
@@ -618,32 +619,32 @@ class Creator:
         """
 
         dropdown = QComboBox()
-        name = config['name']
+        name = config[set.NAME]
         if not self.default_values.get(name):
-            self.default_values[name] = config['default_value']
+            self.default_values[name] = config[set.DEFAULT_VALUE]
         for param, value in config.items():
-            log.info(f"Create dropdown list: {config['name']}")
+            log.info(f"Create dropdown list: {config[set.NAME]}")
             match param:
-                case "options":
+                case set.OPTIONS:
                     # Настройка вариантов выбора
-                    if value.get('always'):
-                        dropdown.addItems(value['always'])
+                    if value.get(set.ALWAYS):
+                        dropdown.addItems(value[set.ALWAYS])
                     else:
                         dropdown.addItems(value[self.current_changing_value])
-                case "width":
+                case set.WIDTH:
                     dropdown.setFixedWidth(int(value))
-                case "height":
+                case set.HEIGHT:
                     dropdown.setFixedHeight(int(value))
 
         dropdown.setCurrentText(self.default_values[name])
-        self.chosen_fields[config['name']] = dropdown
+        self.chosen_fields[config[set.NAME]] = dropdown
 
         # Если выпадающий список является меняющим, то задаем метод, который
         # будет срабатывать при смене выбора этого списка.
-        if config.get('change_widgets'):
+        if config.get(set.CHANGE_WIDGETS):
             dropdown.currentIndexChanged.connect(
                 lambda index: self.__update_dependent_layouts(
-                    config['name'],
+                    config[set.NAME],
                     dropdown.itemText(index)
                 )
             )
@@ -685,30 +686,35 @@ class Creator:
         """
 
         positions = {
-            "first": 0,
-            "last": col_amount - 1,
-            "current": current_col
+            set.WIDGET_POS_FIRST: set.SET_TO_ZERO,
+            set.WIDGET_POS_LAST: col_amount - set.STEP_DOWN,
+            set.WIDGET_POS_CURRENT: current_col
         }
 
         if current_col == col_amount:
-            current_row += 1
-            current_col = 0
+            current_row += set.STEP_UP
+            current_col = set.SET_TO_ZERO
 
         if widget_pos:
-            if widget_pos == "first":
-                if current_col > 0:
-                    current_row += 1
-                return current_row, positions['first']
+            if widget_pos == set.WIDGET_POS_FIRST:
+                if current_col > set.SET_TO_ZERO:
+                    current_row += set.STEP_UP
+                return current_row, positions[set.WIDGET_POS_FIRST]
 
-            if widget_pos == "current":
+            if widget_pos == set.WIDGET_POS_CURRENT:
                 return current_row, current_col
 
-            if widget_pos == "last":
-                return current_row, positions['last']
+            if widget_pos == set.WIDGET_POS_LAST:
+                return current_row, positions[set.WIDGET_POS_LAST]
 
-            if widget_pos == "middle":
-                if current_col < (col_amount - 1) // 2:
-                    current_col = (col_amount - 1) // 2
+            if widget_pos == set.WIDGET_POS_MIDDLE:
+                if current_col < (
+                    col_amount - set.STEP_DOWN
+                ) // set.MIDDLE_DETERMINANT_DIVIDER:
+
+                    current_col = (
+                        col_amount - set.STEP_DOWN
+                    ) // set.MIDDLE_DETERMINANT_DIVIDER
                 return current_row, current_col
 
         return current_row, current_col
@@ -732,7 +738,8 @@ class Creator:
         - selected_value: str
             Новое выбранное значение.
         """
-        log.info("Rerender dependent layouts")
+
+        log.info(set.RERENDER_LAYOUTS)
 
         self.default_values[name] = selected_value
         self.remover.delete_layout(
@@ -744,7 +751,7 @@ class Creator:
         QWidget().setLayout(old_layout)
         self.layout_parents = {}
         self.dependencies = {}
-        self.create_widget_layout(main_window, self.config['layout'])
+        self.create_widget_layout(main_window, self.config[set.LAYOUT])
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
@@ -767,30 +774,22 @@ class Creator:
         """
 
         active_when = []
-        visibility_key = ""
-
-        # Для отладки
-        if (
-            config.get('layout') and
-            config['layout'].get('name') and
-            config['layout']['name'] == "first"
-        ):
-            print("stop here")
+        visibility_key = set.EMPTY_STRING
 
         # visibility_key введен специально для Fiancate случая. Поскольку там
         # виджетов, меняющих другие - больше, чем 1. И через visibility_key
         # проще понимать, от какого виджета зависит появление текущего виджета.
-        if config.get('active_when'):
-            active_when = config['active_when']
-            if config.get('visibility_key'):
-                visibility_key = config['visibility_key']
+        if config.get(set.ACTIVE_WHEN):
+            active_when = config[set.ACTIVE_WHEN]
+            if config.get(set.VISIBILITY_KEY):
+                visibility_key = config[set.VISIBILITY_KEY]
         elif (
-            config.get('layout') and
-            config['layout'].get('active_when')
+            config.get(set.LAYOUT) and
+            config[set.LAYOUT].get(set.ACTIVE_WHEN)
         ):
-            active_when = config['layout']['active_when']
-            if config['layout'].get('visibility_key'):
-                visibility_key = config['layout']['visibility_key']
+            active_when = config[set.LAYOUT][set.ACTIVE_WHEN]
+            if config[set.LAYOUT].get(set.VISIBILITY_KEY):
+                visibility_key = config[set.LAYOUT][set.VISIBILITY_KEY]
 
         if active_when:
             if visibility_key:
@@ -811,8 +810,22 @@ class Creator:
         return True
 
     def __add_border_frame(self, layout: QLayout) -> QFrame:
+        """
+        Оборачивает контейнер во фрейм, чтобы потом фрейму добавить рамку, т.к.
+        сам контейнер рамку иметь не может.
+
+        Parameters
+        ----------
+        - layout: QLayout
+            Контейнер, который необходимо обернуть во фрейм.
+
+        Returns
+        -------
+        - frame: QFrame
+            Фрейм с обернутым контейнером.
+        """
         frame = QFrame()
         frame.setLayout(layout)
         frame.setFrameShape(QFrame.Shape.Box)
-        frame.setLineWidth(1)
+        frame.setLineWidth(set.SET_TO_ONE)
         return frame

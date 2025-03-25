@@ -1,5 +1,7 @@
 from typing import List
 
+from settings import settings as set
+
 
 class Finder:
     """
@@ -39,13 +41,13 @@ class Finder:
         for widget in widgets:
 
             # Если среди виджетов есть контейнер, то
-            if "layout" in widget:
+            if set.LAYOUT in widget:
 
                 # Берем его конфиг
-                layout_config = widget["layout"]
+                layout_config = widget[set.LAYOUT]
 
                 # И смотрим, если это контейнер с искомым именем, то
-                if layout_config.get("name") == layout_name:
+                if layout_config.get(set.NAME) == layout_name:
 
                     # Возвращаем его.
                     return layout_config
@@ -53,7 +55,7 @@ class Finder:
                 # Иначе вызываем повторно текущий метод, куда передаем конфиг
                 # контейнера, который сейчас среди виджетов и его имя.
                 found = self.find_layout_by_name(
-                    layout_config.get("widgets", []),
+                    layout_config.get(set.WIDGETS, []),
                     layout_name
                 )
                 if found:

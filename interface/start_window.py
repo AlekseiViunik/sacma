@@ -37,7 +37,7 @@ class StartWindow(BaseWindow):
         Открывает окно пользовательских настроек.
         """
 
-        log.info("Settings button has been pressed!")
+        log.info(set.SETTINGS_BUTTON_PRESSED)
         self.settings_window = SettingsWindow()
         self.settings_window.show()
 
@@ -58,7 +58,7 @@ class StartWindow(BaseWindow):
             window_name = sender.text()  # Берем текст кнопки как имя окна
             input_window = InputWindow(
                 window_name,
-                params['json_file_path']
+                params[set.JSON_FILE_PATH]
             )
         input_window.show()
 
@@ -66,6 +66,6 @@ class StartWindow(BaseWindow):
         """
         Открывает окно регистрации нового юзера.
         """
-        log.info("Create user button has been pressed!")
+        log.info(set.CREATE_USER_BUTTON_PRESSED)
         self.register_window = RegisterWindow()
         self.register_window.show()

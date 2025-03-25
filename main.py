@@ -13,21 +13,21 @@ if __name__ == "__main__":
     import sys
 
     if set.PRODUCTION_MODE_ON:
-        logger.info("Trying to acces the app")
+        logger.info(set.TRYING_LOGIN)
         app = QApplication(sys.argv)
         login_window = LoginWindow()
         login_window.show()
         app.exec()
         if login_window.auth_successful:
-            logger.info("Login is successful")
+            logger.info(set.SUCCESSFUL_LOGIN)
             main_window = StartWindow()
             main_window.show()
             sys.exit(app.exec())
         else:
-            logger.info("Application closed due to unsuccessful login")
+            logger.info(set.UNSUCCESSFUL_LOGIN)
 
     else:
-        logger.info("Запуск нового интерфейса")
+        logger.info(set.NEW_APP_START)
         app = QApplication(sys.argv)
         main_window = StartWindow()
         main_window.show()
