@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import QLineEdit
 from typing import Any
 
 from logic.logger import logger as log
+from settings import settings as set
 
 
 class JsonHandler:
@@ -56,9 +57,9 @@ class JsonHandler:
         - _: dict
             Возвращаемые данные.
         """
-        log.info("JsonHandler works. Method get_all_data.")
+        log.info(set.JSON_GET_ALL_DATA)
         if self.file_path:
-            with open(self.file_path, "r", encoding="utf-8") as f:
+            with open(self.file_path, "r", encoding=set.STR_CODING) as f:
                 return json.load(f)
 
     def get_value_by_key(self, key: str) -> Any:
@@ -76,7 +77,7 @@ class JsonHandler:
         - _: Any
             Возвращаемые данные.
         """
-        log.info("JsonHandler works. Method get_value_by_key.")
+        log.info(set.JSON_GET_VALUE_BY_KEY)
         data = self.get_all_data()
         if data:
             return data.get(key, "")
@@ -98,7 +99,7 @@ class JsonHandler:
         - result : dict
             Словарь со значениями для этих ключей. Или пустой словарь.
         """
-        log.info("JsonHandler works. Method get_values_by_keys.")
+        log.info(set.JSON_GET_VALUES_BY_KEYS)
         result = {}
         data = self.get_all_data()
 
@@ -120,8 +121,8 @@ class JsonHandler:
         - data: dict
             Данные, которыми будет перезаписан файл.
         """
-        log.info("JsonHandler works. Method rewrite_file.")
-        with open(self.file_path, "w", encoding="utf-8") as f:
+        log.info(set.JSON_REWRITE_FILE)
+        with open(self.file_path, "w", encoding=set.STR_CODING) as f:
             json.dump(
                 {
                     # Иногда в качестве значений может быть объект QLineEdit, а
@@ -158,7 +159,7 @@ class JsonHandler:
             Значение, которое нужно записать.
         """
 
-        log.info("JsonHandler works. Method write_into_file.")
+        log.info(set.JSON_WRITE_INTO_FILE)
         data = self.get_all_data()
         if not key2:
             data[key] = value
