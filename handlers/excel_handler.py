@@ -1,5 +1,5 @@
 from decimal import Decimal, ROUND_HALF_UP
-from typing import Dict, List
+from typing import Dict, List, Any
 import win32com.client
 import win32com.client as win32
 
@@ -36,6 +36,11 @@ class ExcelHandler:
         Ячейки, значения которых нужно скопировать в другие ячейки. Ключом
         передается ячейка, которую нужно скопировать. Значением - список ячеек,
         куда нужно скопировать.
+
+    - additional_input: Dict[str, Any] | None
+        Дополнительный ввод, когда у нас есть значения-константы, которые нужно
+        ввести в конкретные ячейки, независимо от введенных юзером данных.
+        Отображаются в виде словаря {<ячейка>: <данные>}
 
     - settings_json_handler: JsonHandler
         Обработчик файла общих настроек. Нужен для получения пути к эксель
@@ -94,7 +99,8 @@ class ExcelHandler:
         worksheet: str,
         cells_input: dict | None = None,
         cells_output: dict | None = None,
-        copy_cells: dict | None = None
+        copy_cells: dict | None = None,
+        additional_input: dict | None = None
     ) -> None:
         self.data = data
         self.rules: dict | None = rules
@@ -102,6 +108,7 @@ class ExcelHandler:
         self.cells_input: dict | None = cells_input
         self.cells_output: dict | None = cells_output
         self.copy_cells: Dict[str, List[str]] | None = copy_cells
+        self.additional_input: Dict[str, Any] | None = additional_input
         self.settings_json_handler: JsonHandler = JsonHandler(SETTINGS_FILE)
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
@@ -248,6 +255,12 @@ class ExcelHandler:
                     f"'{self.worksheet}'"
                 )
                 self.sheet.Range(cell).Value = value
+
+            # Вставляем доп. данные в Excel
+            if self.additional_input:
+                for cell, value in self.additional_input.items():
+                    self.sheet.Range(cell).Value = value
+
             # Обновляем связи
             log.info("Refresh table data to recalculate formulas")
             self.wb.RefreshAll()
