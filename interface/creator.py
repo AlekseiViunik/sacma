@@ -2,9 +2,11 @@ from typing import Dict, List, Tuple
 from PyQt6.QtWidgets import (
     QCheckBox,
     QComboBox,
+    QFrame,
     QGridLayout,
     QHBoxLayout,
     QLabel,
+    QLayout,
     QLineEdit,
     QPushButton,
     QVBoxLayout,
@@ -233,8 +235,11 @@ class Creator:
             isinstance(parent_window, QVBoxLayout) or
             isinstance(parent_window, QGridLayout)
         ):
-
-            parent_window.addLayout(layout)
+            if ('border' in layout_config.keys()):
+                frame = self.__add_border_frame(layout)
+                parent_window.addWidget(frame)
+            else:
+                parent_window.addLayout(layout)
 
             # Записываем в layout_parents родителя для добавленного контейнера.
             self.layout_parents[layout] = parent_window
@@ -804,3 +809,10 @@ class Creator:
                 return False
 
         return True
+
+    def __add_border_frame(self, layout: QLayout) -> QFrame:
+        frame = QFrame()
+        frame.setLayout(layout)
+        frame.setFrameShape(QFrame.Shape.Box)
+        frame.setLineWidth(1)
+        return frame
