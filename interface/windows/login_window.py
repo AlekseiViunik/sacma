@@ -53,10 +53,10 @@ class LoginWindow(BaseWindow):
         """
         super().init_ui()  # ✅ Вызываем базовый метод
 
-        log.info("Add last user to input field default value")
-        last_user = self.auth_json_handler.get_value_by_key('lastUser')
-        if "username" in self.creator.input_fields:
-            self.creator.input_fields["username"].setText(last_user)
+        log.info(set.ADD_LAST_USER_TO_INPUT_FIELD)
+        last_user = self.auth_json_handler.get_value_by_key(set.LAST_USER)
+        if set.USERNAME in self.creator.input_fields:
+            self.creator.input_fields[set.USERNAME].setText(last_user)
 
     def try_login(self) -> None:
         """
@@ -64,19 +64,19 @@ class LoginWindow(BaseWindow):
         закрывает окно логина и открывает стартовое окно. В противном
         случае открывает Окно с информации о неверных логине и пароле.
         """
-        log.info("Try button is pressed")
-        username = self.creator.input_fields['username'].text()
-        password = self.creator.input_fields['password'].text()
+        log.info(set.TRY_BUTTON_PRESSED)
+        username = self.creator.input_fields[set.USERNAME].text()
+        password = self.creator.input_fields[set.PASSWORD].text()
         if self.auth.verify_user(username, password):
-            log.info("User verified")
+            log.info(set.USER_VERIFIED)
             self.auth.save_last_user(username)
             self.auth_successful = True
             self.close()  # Закрываем окно авторизации
         else:
-            log.error("Credentials are wrong")
+            log.error(set.WRONG_CREDENTIALS)
             Messagebox.show_messagebox(
-                "Login error",
-                "Creadentials are wrong!",
+                set.LOGIN_ERROR,
+                set.WRONG_CREDENTIALS,
                 self
             )
 
@@ -92,12 +92,12 @@ class LoginWindow(BaseWindow):
             символов.
         """
         if checkbox.isChecked():
-            log.info("Checkbox for password is marked as 'checked'")
-            self.creator.input_fields['password'].setEchoMode(
+            log.info(set.PASS_MARKED_AS_CHECKED)
+            self.creator.input_fields[set.PASSWORD].setEchoMode(
                 QLineEdit.EchoMode.Normal
             )
         else:
-            log.info("Checkbox for password is marked as 'unchecked'")
-            self.creator.input_fields['password'].setEchoMode(
+            log.info(set.PASS_MARKED_AS_UNCHECKED)
+            self.creator.input_fields[set.PASSWORD].setEchoMode(
                 QLineEdit.EchoMode.Password
             )
