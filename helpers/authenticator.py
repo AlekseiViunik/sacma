@@ -52,7 +52,7 @@ class Authenticator:
         """
 
         if not os.path.exists(set.AUTH_FILE):
-            return {"users": {}, "lastUser": ""}
+            return {set.USERS: {}, set.LAST_USER: set.EMPTY_STRING}
 
         return self.file_handler.get_all_data()
 
@@ -66,10 +66,10 @@ class Authenticator:
             Юзернейм последнего успешно вошедшего юзера. Чтобы вставить его как
             дефолтное значение поля для ввода юзернейма.
         """
-        last_user = ""
-        if last_user := self.file_handler.get_value_by_key("lastUser"):
+        last_user = set.EMPTY_STRING
+        if last_user := self.file_handler.get_value_by_key(set.LAST_USER):
             log.info(f"Last user found {last_user}")
-        return self.file_handler.get_value_by_key("lastUser")
+        return self.file_handler.get_value_by_key(set.LAST_USER)
 
     @staticmethod
     def hash_password(password: str) -> str:
@@ -81,7 +81,7 @@ class Authenticator:
         - _: str
             Хешированный пароль для записи хеша в файл.
         """
-        log.info("Hashing the pass")
+        log.info(set.HASHING_PASS)
         return hashlib.sha256(password.encode()).hexdigest()
 
     @staticmethod
@@ -105,7 +105,7 @@ class Authenticator:
         users_data = Authenticator().load_users()
         hashed_password = Authenticator().hash_password(password)
         log.info(f"Check if the user {username} with pass '{password}' exists")
-        return users_data['users'].get(username) == hashed_password
+        return users_data[set.USERS].get(username) == hashed_password
 
     def save_last_user(self, username: str) -> None:
         """
@@ -117,8 +117,8 @@ class Authenticator:
         - username: str
             Логин
         """
-        log.info("Save last user")
-        self.file_handler.write_into_file(key="lastUser", value=username)
+        log.info(set.SAVE_LAST_USER)
+        self.file_handler.write_into_file(key=set.LAST_USER, value=username)
 
     def register_user(self, username: str, password: str) -> bool:
         """
@@ -140,11 +140,11 @@ class Authenticator:
 
         users_data = Authenticator().load_users()
 
-        if username in users_data['users']:
+        if username in users_data[set.USERS]:
             return False  # Пользователь уже существует
 
-        users_data['users'][username] = self.file_handler.write_into_file(
-            'users',
+        users_data[set.USERS][username] = self.file_handler.write_into_file(
+            set.USERS,
             username,
             Authenticator().hash_password(password)
         )
