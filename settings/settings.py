@@ -1,13 +1,46 @@
 # ================================== LOGGING ==================================
 
-# Max number of the log file lines. Default: 50000
+# Max number of the log file lines. Default: 20000
 MAX_LOG_LINES = 20000
 
 # Log file name. Default: "app.log"
 LOG_FILE_NAME = "app.log"
 
 # Log coding type. Default: "utf-8"
-LOG_CODING = "utf-8"
+STR_CODING = "utf-8"
+
+# ============================= LOG STATIC MESSAGES ===========================
+
+TRYING_LOGIN = "Trying to acces the app"
+SUCCESSFUL_LOGIN = "Login is successful!"
+UNSUCCESSFUL_LOGIN = "Application closed due to unsuccessful login"
+NEW_APP_START = "Launching new interface"
+FAILED_VALIDATION = "The data is wrong!"
+INSERT_DATA_INTO_EXCEL = "Insert prepared data into the excel worksheet"
+REFRESH_EXCEL = "Refresh table data to recalculate formulas"
+DATA_VALIDATION = "Check data before preparing it"
+SUCCESSFUL_VALIDATION = "The data is correct!"
+GETTING_EXCEL_DATA = "Getting excel data"
+ROUNDING_UP_DATA = "Rounding up data"
+NOT_DECIMAL_ERROR = "All data should have Decimal type!"
+UNACCEPTABLE_OPERATORS = "Выражение содержит недопустимые символы"
+JSON_GET_ALL_DATA = "JsonHandler works. Method get_all_data."
+JSON_GET_VALUE_BY_KEY = "JsonHandler works. Method get_value_by_key."
+JSON_GET_VALUES_BY_KEYS = "JsonHandler works. Method get_values_by_keys."
+JSON_REWRITE_FILE = "JsonHandler works. Method rewrite_file."
+JSON_WRITE_INTO_FILE = "JsonHandler works. Method write_into_file."
+TRYING_ADD_USER_DATA = "Trying to add a new user data"
+USER_DATA_IS_ADDED = "New user data has been added"
+USER_DATA_IS_NOT_ADDED = "Couldn't add new user data"
+
+# ============================== DICTIONARY KEYS ==============================
+
+PRICE = "price"
+WEIGHT = "weight"
+ERROR = "error"
+USERNAME = "username"
+PASSWORD = "password"
+REPEAT_PASSWORD = "repeat_password"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
@@ -26,7 +59,6 @@ DICTIONARY = {
     "only_strut": "Solo montante",
     "section": "Sezione",
     "type": "Tipo",
-    "price": "Prezzo",
     "weight": "Peso",
     "skates": "Pattini",
     "n_skates": "N pattini",
@@ -86,3 +118,9 @@ OUTPUT_WINDOW_CONFIG_FILE = "configs/windows_configs/output_window.json"
 USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 
 PRODUCTION_MODE_ON = False
+
+
+ROUNDING_LIMIT = "0.01"
+
+VARIABLE_REGEX = r"[a-zA-Z_][a-zA-Z0-9_]*"
+NUMBERS_N_OPERATORS_REGEX = r"^[0-9.\s()+\-*/]+$"
