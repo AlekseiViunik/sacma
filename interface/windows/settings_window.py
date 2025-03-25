@@ -45,14 +45,14 @@ class SettingsWindow(BaseWindow):
         - target_input: QLineEdit
             Поле для ввода, в которое будет вставлен выбранный путь к файлу.
         """
-        log.info("Browse button has been pressed")
+        log.info(set.BROWSE_BUTTON_PRESSED)
 
         # Получаем путь к файлу, выбрав его в открывшемся окне.
         file_path, _ = QFileDialog.getOpenFileName(
             None,
-            "Выбрать файл",
-            "",
-            "Excel Files (*.xlsx *.xls)"
+            set.CHOSE_FILE,
+            set.EMPTY_STRING,
+            set.EXCEL_FILES_FILTER
         )
 
         # Если путь получен и поле для ввода находится массива полей для ввода
@@ -68,10 +68,10 @@ class SettingsWindow(BaseWindow):
         """
         Переписывает файл настроек и закрывает окно.
         """
-        log.info("Save button has been pressed")
-        log.info("Trying to rewrite settings file")
+        log.info(set.SAVE_BUTTON_PRESSED)
+        log.info(set.TRYING_TO_REWRITE_SETTINGS)
         log.info(f"The path is {set.SETTINGS_FILE}")
-        log.info("Rewriting check is temporary unavailable")
+        log.info(set.REWRITING_CHECK_IS_UNAVAILABLE)
         self.settings_json_handler.rewrite_file(
             self.creator.input_fields
         )
