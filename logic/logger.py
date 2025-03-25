@@ -8,13 +8,13 @@ from settings import settings as set
 # Если приложение запущено как ехе, то путь будет другой.
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
-    LOG_DIR = os.path.join(BASE_DIR, "logs")
+    LOG_DIR = os.path.join(BASE_DIR, set.LOGS_FOLDER_NAME)
 else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     LOG_DIR = os.path.join(
         BASE_DIR,
-        "..",
-        "logs"
+        set.ONE_LEVEL_UP_FOLDER,
+        set.LOGS_FOLDER_NAME
     )
 
 # Создаём папку logs, если её нет.
@@ -31,12 +31,12 @@ def check_log_size() -> None:
     начинает писаться заново.
     """
     if os.path.exists(LOG_FILE):
-        with open(LOG_FILE, "r", encoding=set.STR_CODING) as f:
+        with open(LOG_FILE, set.FILE_READ, encoding=set.STR_CODING) as f:
             lines = f.readlines()
 
         if len(lines) >= set.MAX_LOG_LINES:
-            with open(LOG_FILE, "w", encoding=set.STR_CODING) as f:
-                f.write("")  # Очищаем файл
+            with open(LOG_FILE, set.FILE_WRITE, encoding=set.STR_CODING) as f:
+                f.write(set.EMPTY_STRING)  # Очищаем файл
 
 
 # Настройка логирования
@@ -49,4 +49,4 @@ logging.basicConfig(
 )
 
 # Создаём логгер
-logger = logging.getLogger("AppLogger")
+logger = logging.getLogger(set.APP_LOGGER)
