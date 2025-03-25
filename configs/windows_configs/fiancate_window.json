@@ -126,6 +126,7 @@
                                         "type": "label",
                                         "text": "Tratto 1:",
                                         "column": "first",
+                                        "background": "grey",
                                         "active_when": ["Non-sismo", "Sismo"],
                                         "visibility_key": "type"
                                     },
@@ -362,6 +363,7 @@
                                         "type": "label",
                                         "text": "Tratto 2:",
                                         "column": "first",
+                                        "background": "grey",
                                         "active_when": ["Non-sismo", "Sismo"],
                                         "visibility_key": "type"
                                     },
@@ -598,6 +600,7 @@
                                         "type": "label",
                                         "text": "Tratto 3:",
                                         "column": "first",
+                                        "background": "grey",
                                         "active_when": ["Non-sismo", "Sismo"],
                                         "visibility_key": "type"
                                     },
