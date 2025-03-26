@@ -193,14 +193,14 @@ class ExcelHandler:
         if self.wb:
             try:
                 self.wb.Close(SaveChanges=0)
-            except Exception() as e:
+            except Exception as e:
                 log.error(f"Error {e}")
 
         # Закрытие приложения эксель, если открыто
         if self.excel:
             try:
                 self.excel.Quit()
-            except Exception() as e:
+            except Exception as e:
                 log.error(f"Error {e}")
 
     def __prepare_data(self) -> dict:

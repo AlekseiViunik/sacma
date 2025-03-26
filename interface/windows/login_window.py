@@ -67,18 +67,21 @@ class LoginWindow(BaseWindow):
         log.info(set.TRY_BUTTON_PRESSED)
         username = self.creator.input_fields[set.USERNAME].text()
         password = self.creator.input_fields[set.PASSWORD].text()
-        if self.auth.verify_user(username, password):
-            log.info(set.USER_VERIFIED)
-            self.auth.save_last_user(username)
-            self.auth_successful = True
-            self.close()  # Закрываем окно авторизации
-        else:
-            log.error(set.WRONG_CREDENTIALS)
-            Messagebox.show_messagebox(
-                set.LOGIN_ERROR,
-                set.WRONG_CREDENTIALS,
-                self
-            )
+        try:
+            if self.auth.verify_user(username, password):
+                log.info(set.USER_VERIFIED)
+                self.auth.save_last_user(username)
+                self.auth_successful = True
+                self.close()  # Закрываем окно авторизации
+            else:
+                log.error(set.WRONG_CREDENTIALS)
+                Messagebox.show_messagebox(
+                    set.LOGIN_ERROR,
+                    set.WRONG_CREDENTIALS,
+                    self
+                )
+        except Exception as e:
+            log.error(f"Error caught: {e}")
 
     def toggle_password(self, checkbox: QCheckBox) -> None:
         """

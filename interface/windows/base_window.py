@@ -73,9 +73,6 @@ class BaseWindow(QWidget):
             log.info(f"Config loaded successfully: {config}")
         else:
             log.error(set.FAILED_GET_JSON_DATA)
-            raise FileNotFoundError(
-                "Required file is missing. Please contact the developer."
-            )
 
         self.setWindowTitle(config[set.WINDOW_TITLE])
         self.window_width = int(config[set.WINDOW_WIDTH])
@@ -85,7 +82,10 @@ class BaseWindow(QWidget):
 
         log.info(set.USE_CREATOR)
         self.creator = Creator(config, self)
-        self.creator.create_widget_layout(self, config[set.LAYOUT])
+        try:
+            self.creator.create_widget_layout(self, config[set.LAYOUT])
+        except Exception as e:
+            log.error(f"Error caught: {e}")
 
     def connect_callback(
         self,
