@@ -61,3 +61,22 @@ class Finder:
                 if found:
                     return found
         return None  # Если ничего не нашли
+
+    def find_all_widget_names_by_type(
+        self,
+        layout_config: dict,
+        type: str = set.LABEL,
+        widget_names: list = []
+    ) -> list:
+
+        widgets = layout_config.get(set.WIDGETS, [])
+
+        for widget in widgets:
+            if set.LAYOUT in widget:
+                self.find_all_widget_names_by_type(
+                    widget[set.LAYOUT],
+                    type,
+                    widget_names
+                )
+            elif widget.get(set.TYPE) == type:
+                widget_names.append(widget[set.TEXT])
