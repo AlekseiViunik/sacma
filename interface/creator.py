@@ -583,6 +583,7 @@ class Creator:
 
         log.info(f"Create button: {config[set.TEXT]}")
         button = QPushButton(config[set.TEXT])
+        button.setObjectName(config[set.TEXT])
         for param, value in config.items():
             match param:
                 case set.WIDTH:

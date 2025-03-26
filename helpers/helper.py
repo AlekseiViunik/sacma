@@ -4,7 +4,6 @@ from numbers import Number
 from typing import Any
 from PyQt6.QtWidgets import QApplication
 
-from interface.windows.base_window import QWidget
 from settings import settings as set
 
 
@@ -34,7 +33,7 @@ class Helper:
     """
 
     @staticmethod
-    def move_window_to_center(window: QWidget) -> None:
+    def move_window_to_center(window: Any) -> None:
         """
         Сдвигает в центр указанное окно.
 
@@ -56,7 +55,7 @@ class Helper:
         window.setGeometry(x, y, window.window_width, window.window_height)
 
     @staticmethod
-    def move_window_to_top_left_corner(window: QWidget) -> None:
+    def move_window_to_top_left_corner(window: Any) -> None:
         """
         Сдвигает в верхний левый угол указанное окно.
 

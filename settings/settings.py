@@ -153,6 +153,10 @@ STEP_UP = 1
 STEP_DOWN = 1
 SPECIAL_FONT_SIZE = 16
 
+# =============================== NAMES CONSTS ================================
+LABEL = "label"
+BUTTON = "button"
+
 # =============================== METHOD NAMES ================================
 CURRENT_TEXT_METHOD = "currentText"
 TEXT_METHOD = "text"
