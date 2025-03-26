@@ -1,4 +1,5 @@
 from settings import settings as set
+from logic.logger import logger as log
 
 
 class Translator:
@@ -36,8 +37,13 @@ class Translator:
             Возвращает словарь с переведенными ключами или None, если передан
             пустой словарь.
         """
-        if only_keys:
-            return {
-                set.DICTIONARY.get(key, key): val for key, val in value.items()
-            }
-        return None
+
+        try:
+            if only_keys:
+                return {
+                    set.DICTIONARY.get(key, key): val for key, val
+                    in value.items()
+                }
+            return None
+        except Exception as e:
+            log.error(f"Error caught: {e}")

@@ -68,77 +68,82 @@ class RegisterWindow(BaseWindow):
         соответствующим сообщением.
         """
 
-        log.info(set.CREATE_BUTTON_PRESSED)
+        try:
+            log.info(set.CREATE_BUTTON_PRESSED)
 
-        # Собираем все введенные и выбранные данные в один словарь.
-        all_inputs = self.input_data_handler.collect_all_inputs(
-            self.creator.input_fields,
-            self.creator.chosen_fields
-        )
-        log.info(f"Fulfilled fields are: {all_inputs}")
+            # Собираем все введенные и выбранные данные в один словарь.
+            all_inputs = self.input_data_handler.collect_all_inputs(
+                self.creator.input_fields,
+                self.creator.chosen_fields
+            )
+            log.info(f"Fulfilled fields are: {all_inputs}")
 
-        # Проверка, все ли обязательные поля заполнены.
-        difference = self.input_data_handler.check_mandatory(
-            all_inputs,
-            self.creator.mandatory_fields
-        )
-        if difference:
-            log.error(set.MANDATORY_FIELDS_CHECK_FAILED)
-            log.error(f"Missing fields are {difference}")
-            if len(difference) == set.SET_TO_ONE:
-                err_msg = f"The field '{difference[0]}' is mandatory!"
-            else:
-                missing_fields = set.LISTING_CONNECTOR.join(difference)
-                err_msg = (
-                    f"The following fields are mandatory: {missing_fields}!"
+            # Проверка, все ли обязательные поля заполнены.
+            difference = self.input_data_handler.check_mandatory(
+                all_inputs,
+                self.creator.mandatory_fields
+            )
+            if difference:
+                log.error(set.MANDATORY_FIELDS_CHECK_FAILED)
+                log.error(f"Missing fields are {difference}")
+                if len(difference) == set.SET_TO_ONE:
+                    err_msg = f"The field '{difference[0]}' is mandatory!"
+                else:
+                    missing_fields = set.LISTING_CONNECTOR.join(difference)
+                    err_msg = (
+                        "The following fields are mandatory: "
+                        f"{missing_fields}!"
+                    )
+                Messagebox.show_messagebox(
+                    set.CREATION_FAILED,
+                    err_msg,
+                    self
                 )
-            Messagebox.show_messagebox(
-                set.CREATION_FAILED,
-                err_msg,
-                self
-            )
-            return
+                return
 
-        # Проверка, совпадает ли введенный пароль с повторенным.
-        if all_inputs[set.PASSWORD] != all_inputs[set.REPEAT_PASSWORD]:
-            log.error(f"{set.CHECK_FAILED} {set.REPEAT_IS_DIFFERENT}")
-            Messagebox.show_messagebox(
-                set.CREATION_FAILED,
-                set.REPEAT_IS_DIFFERENT,
-                self
-            )
-            return
+            # Проверка, совпадает ли введенный пароль с повторенным.
+            if all_inputs[set.PASSWORD] != all_inputs[set.REPEAT_PASSWORD]:
+                log.error(f"{set.CHECK_FAILED} {set.REPEAT_IS_DIFFERENT}")
+                Messagebox.show_messagebox(
+                    set.CREATION_FAILED,
+                    set.REPEAT_IS_DIFFERENT,
+                    self
+                )
+                return
 
-        # Юзернейм вынесен в отдельную переменную для вставки его в строку
-        username = all_inputs[set.USERNAME]
+            # Юзернейм вынесен в отдельную переменную для вставки его в строку
+            username = all_inputs[set.USERNAME]
 
-        # Вносим чувствительные данные в auth.json
-        if not self.auth.register_user(
-            all_inputs[set.USERNAME],
-            all_inputs[set.PASSWORD]
-        ):
-            log.error(f"{set.CREATION_FAILED} {set.USER_EXISTS}")
-            Messagebox.show_messagebox(
-                set.CREATION_FAILED,
-                set.USER_EXISTS,
-                self
-            )
-            return
-        else:
-            # Если чувствительные данные успешно сохранены, вносим обычные
-            # данные.
-            log.info(
-                set.AUTH_CREATION_SUCCESSFUL
-            )
-            log.info(set.TRYING_ADD_AUTH_DATA)
-            self.user_data_handler.add_new_user_data(all_inputs)
-            Messagebox.show_messagebox(
-                set.SUCCESS,
-                f"User {username} is created!",
-                self,
-                set.TYPE_INFO
-            )
-            self.close()
+            # Вносим чувствительные данные в auth.json
+            if not self.auth.register_user(
+                all_inputs[set.USERNAME],
+                all_inputs[set.PASSWORD]
+            ):
+                log.error(f"{set.CREATION_FAILED} {set.USER_EXISTS}")
+                Messagebox.show_messagebox(
+                    set.CREATION_FAILED,
+                    set.USER_EXISTS,
+                    self
+                )
+                return
+            else:
+                # Если чувствительные данные успешно сохранены, вносим обычные
+                # данные.
+                log.info(
+                    set.AUTH_CREATION_SUCCESSFUL
+                )
+                log.info(set.TRYING_ADD_AUTH_DATA)
+                self.user_data_handler.add_new_user_data(all_inputs)
+                Messagebox.show_messagebox(
+                    set.SUCCESS,
+                    f"User {username} is created!",
+                    self,
+                    set.TYPE_INFO
+                )
+                self.close()
+
+        except Exception as e:
+            log.error(f"Error caught: {e}")
 
     def toggle_password(
         self,

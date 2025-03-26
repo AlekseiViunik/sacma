@@ -68,11 +68,16 @@ class SettingsWindow(BaseWindow):
         """
         Переписывает файл настроек и закрывает окно.
         """
-        log.info(set.SAVE_BUTTON_PRESSED)
-        log.info(set.TRYING_TO_REWRITE_SETTINGS)
-        log.info(f"The path is {set.SETTINGS_FILE}")
-        log.info(set.REWRITING_CHECK_IS_UNAVAILABLE)
-        self.settings_json_handler.rewrite_file(
-            self.creator.input_fields
-        )
-        self.close()
+
+        try:
+            log.info(set.SAVE_BUTTON_PRESSED)
+            log.info(set.TRYING_TO_REWRITE_SETTINGS)
+            log.info(f"The path is {set.SETTINGS_FILE}")
+            log.info(set.REWRITING_CHECK_IS_UNAVAILABLE)
+            self.settings_json_handler.rewrite_file(
+                self.creator.input_fields
+            )
+            self.close()
+
+        except Exception as e:
+            log.error(f"Error caught: {e}")

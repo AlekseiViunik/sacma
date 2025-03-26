@@ -52,24 +52,26 @@ class InputWindow(BaseWindow):
         пользователя и получения итогового результата.
         - Открывает окно с выводом результата.
         """
+        try:
+            log.info(set.INVIA_BUTTON_PRESSED)
+            all_inputs = self.input_data_handler.collect_all_inputs(
+                self.creator.input_fields,
+                self.creator.chosen_fields
+            )
+            calculator = Calculator(
+                all_inputs,
+                self.window_name,
+                self.creator.current_changing_values
+            )
+            self.output_window = OutputWindow()
+            log.info(set.START_CALCULATING)
+            result, post_message = calculator.calc_data()
 
-        log.info(set.INVIA_BUTTON_PRESSED)
-        all_inputs = self.input_data_handler.collect_all_inputs(
-            self.creator.input_fields,
-            self.creator.chosen_fields
-        )
-        calculator = Calculator(
-            all_inputs,
-            self.window_name,
-            self.creator.current_changing_values
-        )
-        self.output_window = OutputWindow()
-        log.info(set.START_CALCULATING)
-        result, post_message = calculator.calc_data()
-
-        log.info(set.OPEN_RESPONSE_WIDGET)
-        self.output_window.open_result_window(
-            result,
-            set.PRE_MSG_STANDART,
-            post_message
-        )
+            log.info(set.OPEN_RESPONSE_WIDGET)
+            self.output_window.open_result_window(
+                result,
+                set.PRE_MSG_STANDART,
+                post_message
+            )
+        except Exception as e:
+            log.error(f"Error caught: {e}")

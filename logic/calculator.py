@@ -3,6 +3,7 @@ from handlers.formulas_handler import FormulasHandler
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
 from logic.translator import Translator
+from logic.logger import logger as log
 from settings import settings as set
 
 
@@ -138,7 +139,10 @@ class Calculator:
         )
 
         # Запускаем обработчик эксель файла
-        excel_result = self.excel_handler.initiate_process()
+        try:
+            excel_result = self.excel_handler.initiate_process()
+        except Exception as e:
+            log.error(f"Error caught: {e}")
 
         # Если в обработчике данные не прошли валидацию, то в сообщении после
         # вывода результатов выводим сообщение об ошибке.
@@ -148,11 +152,14 @@ class Calculator:
             # Если полученные результаты требуют дальнейших расчетов по
             # формуле, применяем ее
             if self.calc_config.get(set.FORMULAS):
-                self.__use_formula(
-                    excel_result,
-                    self.calc_config[set.FORMULAS],
-                    self.data
-                )
+                try:
+                    self.__use_formula(
+                        excel_result,
+                        self.calc_config[set.FORMULAS],
+                        self.data
+                    )
+                except Exception as e:
+                    log.error(f"Error caught: {e}")
 
         # Устанавливаем реультат как None, если его не нужно
         # отображать (is_hide = 1)
