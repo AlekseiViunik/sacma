@@ -135,6 +135,21 @@
                         }
                     ]
                 }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Created by Aleksei Viunik",
+                            "align": "center",
+                            "text_size": 12,
+                            "width": 220,
+                            "height": 40
+                        }
+                    ]
+                }
             }
         ]
     }
