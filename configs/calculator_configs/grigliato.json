@@ -4,6 +4,7 @@
             "worksheet": "Listino Grigliato",
             "rules":{
                 "length": {
+                    "exists": 1,
                     "numeric": 1,
                     "multiple": 10,
                     "min": 680,
@@ -77,6 +78,7 @@
             "worksheet": "Listino Grigliato",
             "rules":{
                 "length": {
+                    "exists": 1,
                     "numeric": 1,
                     "multiple": 10,
                     "min": 680,
