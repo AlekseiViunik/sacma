@@ -374,26 +374,30 @@ class ExcelHandler:
         """
 
         match rule_key:
-            case "min":
+            case set.VALIDATION_MIN:
                 return (
                     f"{key} should be more than {rule_value}. You have {value}"
                 )
-            case "max":
+            case set.VALIDATION_MAX:
                 return (
                     f"{key} should be less than {rule_value}. You have {value}"
                 )
-            case "numeric":
+            case set.VALIDATION_NUMERIC:
                 return (
                     f"{key} should be numeric. You have {value}"
                 )
-            case "natural":
+            case set.VALIDATION_NATURAL:
                 return (
                     f"{key} should be more positive and numeric."
                     f"You have {value}"
                 )
-            case "multiple":
+            case set.VALIDATION_MULTIPLE:
                 return (
                     f"{key} should be multiple {rule_value}. You have {value}"
+                )
+            case set.VALIDATION_EXISTS:
+                return (
+                    f"{key} should not be empy!"
                 )
             case _:
                 return set.EMPTY_STRING

@@ -3,6 +3,7 @@
         "worksheet": "Travi di battuta",
         "rules":{
             "length": {
+                "exists": 1,
                 "numeric": 1,
                 "multiple": 10
             }

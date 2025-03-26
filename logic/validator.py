@@ -79,5 +79,11 @@ class Validator:
                 if value % rule_value != 0:
                     log.error(f"{value} is not multiple of {rule_value}")
                     return False
+            case set.VALIDATION_EXISTS:
+                log.info(set.SHOULD_BE_PRESENTED)
+                if not value:
+                    log.error(set.EMPTY_REQUIRED_FIELDS)
+                    return False
+
         log.info(set.VALIDATION_IS_OK)
         return True
