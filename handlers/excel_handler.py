@@ -395,6 +395,10 @@ class ExcelHandler:
                 return (
                     f"{key} should be multiple {rule_value}. You have {value}"
                 )
+            case "exists":
+                return (
+                    f"{key} should not be empy!"
+                )
             case _:
                 return set.EMPTY_STRING
 
