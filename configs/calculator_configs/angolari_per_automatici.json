@@ -4,6 +4,7 @@
             "worksheet": "Angolari per automatici",
             "rules":{
                 "length": {
+                    "exists": 1,
                     "numeric": 1
                 }
             },
@@ -21,9 +22,11 @@
             "worksheet": "Angolari per automatici",
             "rules": {
                 "length": {
+                    "exists": 1,
                     "numeric": 1
                 },
                 "n_skates": {
+                    "exists": 1,
                     "numeric": 1,
                     "natural": 1
                 }
