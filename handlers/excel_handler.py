@@ -338,6 +338,11 @@ class ExcelHandler:
                     rounding=ROUND_HALF_UP
                 )
 
+            if (
+                not isinstance(excel_data[key], Decimal) or excel_data[key] < 0
+            ):
+                excel_data[key] = None
+
         return excel_data
 
     def __set_err_msg(
