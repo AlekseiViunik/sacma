@@ -9,8 +9,9 @@ class Messagebox:
     def show_messagebox(
         title: str,
         msg: str,
-        window: QWidget,
-        type: str = set.ERROR
+        window: QWidget | None,
+        type: str = set.ERROR,
+        exec: bool = False
     ) -> None:
         """
         Выводит окно об ошибке или просто информационное окно (разница только в
@@ -25,7 +26,7 @@ class Messagebox:
         - msg: str
             Сообщение для информации.
 
-        window: QWidget
+        window: QWidget | None
             Окно, относительно которого выводится это окно.
 
         type: str
@@ -39,7 +40,10 @@ class Messagebox:
         box.setStandardButtons(QMessageBox.StandardButton.Ok)
         if type == set.ERROR:
             box.setIcon(QMessageBox.Icon.Critical)
-            box.show()
+            if exec:
+                box.exec()
+            else:
+                box.show()
 
         else:
             box.setIcon(QMessageBox.Icon.Information)

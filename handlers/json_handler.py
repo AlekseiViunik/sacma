@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QLineEdit
 
 from typing import Any
 
+from interface.windows.messagebox import Messagebox
 from logic.logger import logger as log
 from settings import settings as set
 
@@ -59,12 +60,23 @@ class JsonHandler:
         """
         log.info(set.JSON_GET_ALL_DATA)
         if self.file_path:
-            with open(
-                self.file_path,
-                set.FILE_READ,
-                encoding=set.STR_CODING
-            ) as f:
-                return json.load(f)
+            try:
+                with open(
+                    self.file_path,
+                    set.FILE_READ,
+                    encoding=set.STR_CODING
+                ) as f:
+                    return json.load(f)
+            except FileNotFoundError:
+                Messagebox.show_messagebox(
+                    set.FILE_NOT_FOUND,
+                    set.FNF_MESSAGE,
+                    None,
+                    exec=True
+                )
+                raise FileNotFoundError(
+                    set.FNF_MESSAGE
+                )
 
     def get_value_by_key(self, key: str) -> Any:
         """
