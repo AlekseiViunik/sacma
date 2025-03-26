@@ -87,6 +87,8 @@ RERENDER_LAYOUTS = "Rerender layouts"
 VALIDATION_IS_OK = "This check is OK!"
 SHOULD_BE_NUMERIC = "Should be numeric"
 SHOULD_BE_NATURAL = "Should be natural"
+FILE_NOT_FOUND = "FILE NOT FOUND"
+FNF_MESSAGE = "Required file is missing. Please contact the developer."
 
 # ============================== DICTIONARY KEYS ==============================
 
@@ -240,7 +242,12 @@ SETTINGS_FILE = "settings.json"
 OUTPUT_WINDOW_CONFIG_FILE = "configs/windows_configs/output_window.json"
 USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 
-PRODUCTION_MODE_ON = False
+PRODUCTION_MODE_ON = True
+PROTECTION_MODE_ON = True
+PROTECTION_YEAR = 2025
+PROTECTION_MONTH = 7
+PROTECTION_DAY = 20
+PROTECTION_HOUR = 7
 
 PRICE_IT = "Prezzo"
 WEIGHT_IT = "Peso"
