@@ -1,3 +1,4 @@
+import re
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Dict, List, Any
 import win32com.client
@@ -325,10 +326,30 @@ class ExcelHandler:
         }
         return self.__decimalize_and_rounding(excel_data)
 
-    def __decimalize_and_rounding(self, excel_data):
+    def __decimalize_and_rounding(self, excel_data: dict) -> dict:
+        """
+        Переводит в Децимал и округляет значения по заданным параметрам или
+        по умолчанию (до 2х цифр после запятой).
+
+        Parameters
+        ----------
+        - excel_data: dict
+            Словарь со значениями для перевода.
+
+        Returns
+        -------
+        - excel_data: dict
+            Словарь с переведенными значениями.
+        """
+
         # Перевод в Децимал и округление.
         log.info(set.ROUNDING_UP_DATA)
         for key, value in excel_data.items():
+            if isinstance(value, str):
+                match = re.search(r"\d+(,\d+)?", value)
+                if match:
+                    number_str = match.group().replace(",", ".")
+                    value = number_str
             if (
                 value and
                 str(value).replace(
