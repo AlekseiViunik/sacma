@@ -161,6 +161,19 @@ class Calculator:
                 except Exception as e:
                     log.error(f"Error caught: {e}")
 
+            # NEW! Если post_message - не строка, а словарь (содержит помимо)
+            # сообщения еще и условие для его отображения. То проверяем это
+            # условие перед тем, как установить это сообщение.
+            if post_message and not isinstance(post_message, str):
+                if self.__check_condition(
+                    excel_result,
+                    post_message.get(set.CONDITION, set.EMPTY_STRING),
+                    self.data
+                ):
+                    post_message = post_message[set.MESSAGE]
+                else:
+                    post_message = None
+
         # Устанавливаем реультат как None, если его не нужно
         # отображать (is_hide = 1)
         excel_result = {
@@ -211,6 +224,15 @@ class Calculator:
                     formula_name
                 )
             output_dict[formula_name] = result
+
+    def __check_condition(
+        self,
+        output_dict: dict,
+        condition: str,
+        imput_dict: dict = {}
+    ) -> bool:
+        merged_dicts = Helper.merge_numeric_dicts(output_dict, imput_dict)
+        return FormulasHandler().check_condition(merged_dicts, condition)
 
     def __convert_data(self) -> None:
         """
