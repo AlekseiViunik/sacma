@@ -85,3 +85,182 @@ def test_open_create_user_window(
 
     assert hasattr(start_window, "register_window")
     assert start_window.register_window.isVisible()
+
+
+def test_open_travi_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Travi открылось и видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Travi")
+    assert button is not None
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    assert hasattr(start_window, "_last_input_window")
+    assert start_window._last_input_window.isVisible()
+
+
+def test_open_fiancate_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Fiancate открылось и видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Fiancate")
+    assert button is not None
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    assert hasattr(start_window, "_last_input_window")
+    assert start_window._last_input_window.isVisible()
+
+
+def test_open_tasselli_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Tasselli не открылось и не видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Tasselli")
+    assert button is not None
+    assert not button.isEnabled(), "Кнопка Tasselli должна быть неактивна"
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    # Проверяем, что атрибут не появился
+    assert not hasattr(start_window, "_last_input_window"), (
+        "Окно ввода не должно было быть открыто"
+    )
+
+
+def test_open_satellitare_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Satellitare открылось и видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Satellitare")
+    assert button is not None
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    assert hasattr(start_window, "_last_input_window")
+    assert start_window._last_input_window.isVisible()
+
+
+def test_open_pianetti_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Pianetti открылось и видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Pianetti")
+    assert button is not None
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    assert hasattr(start_window, "_last_input_window")
+    assert start_window._last_input_window.isVisible()
+
+
+def test_open_grigliato_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Grigliato открылось и видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Grigliato")
+    assert button is not None
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    assert hasattr(start_window, "_last_input_window")
+    assert start_window._last_input_window.isVisible()
+
+
+def test_open_travi_di_battuta_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Travi di battuta открылось и видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Travi di battuta")
+    assert button is not None
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    assert hasattr(start_window, "_last_input_window")
+    assert start_window._last_input_window.isVisible()
+
+
+def test_open_angolari_per_automatici_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Angolari per automatici открылось и видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Angolari per automatici")
+    assert button is not None
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    assert hasattr(start_window, "_last_input_window")
+    assert start_window._last_input_window.isVisible()
+
+
+def test_open_gravita_leggera_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Gravità leggera не открылось и не видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Gravità leggera")
+    assert button is not None
+    assert not button.isEnabled(), (
+        "Кнопка Gravità leggera должна быть неактивна"
+    )
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    # Проверяем, что атрибут не появился
+    assert not hasattr(start_window, "_last_input_window"), (
+        "Окно ввода не должно было быть открыто"
+    )
+
+
+def test_open_option_di_sicurezza_window(
+    start_window: StartWindow,
+    qtbot: QtBot
+) -> None:
+    """
+    Проверяет, что окно Option di sicurezza открылось и видимо.
+    """
+
+    button = start_window.findChild(QPushButton, "Option di sicurezza")
+    assert button is not None
+
+    qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
+
+    assert hasattr(start_window, "_last_input_window")
+    assert start_window._last_input_window.isVisible()
+    assert start_window._last_input_window.window_name == "Option di sicurezza"
