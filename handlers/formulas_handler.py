@@ -80,3 +80,22 @@ class FormulasHandler:
                     rounding=ROUND_HALF_UP
                 )
         return result
+
+    def check_condition(
+        self,
+        data: dict,
+        condition: str
+    ):
+        for key in data:
+            if key in condition:
+                # подставим значение в строку (временно обернём строки в
+                # кавычки)
+                value = (
+                    repr(data[key]) if isinstance(data[key], str)
+                    else str(data[key])
+                )
+                condition = condition.replace(key, value)
+        try:
+            return eval(condition)
+        except Exception:
+            return False

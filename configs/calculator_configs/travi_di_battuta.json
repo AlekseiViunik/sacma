@@ -17,7 +17,11 @@
         },
         "cells_output": {
             "price": "B15",
-            "weight": "B16"
+            "weight": "B16",
+            "post_message": {
+                "message": "N.B.! Per lunghezza > 3300 contattare sede.",
+                "condition": "length >= 3300"
+            }
         }
         
     }
