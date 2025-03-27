@@ -99,7 +99,8 @@ class ExcelHandler:
         cells_input: dict | None = None,
         cells_output: dict | None = None,
         copy_cells: dict | None = None,
-        additional_input: dict | None = None
+        additional_input: dict | None = None,
+        roundings: dict | None = None
     ) -> None:
         self.data = data
         self.rules: dict | None = rules
@@ -108,6 +109,7 @@ class ExcelHandler:
         self.cells_output: dict | None = cells_output
         self.copy_cells: Dict[str, List[str]] | None = copy_cells
         self.additional_input: Dict[str, Any] | None = additional_input
+        self.roundings: Dict[str, str] | None = roundings
         self.settings_json_handler: JsonHandler = JsonHandler(
             set.SETTINGS_FILE
         )
@@ -321,7 +323,9 @@ class ExcelHandler:
             key: self.sheet.Range(self.cells_output[key]).Value
             for key in self.cells_output
         }
+        return self.__decimalize_and_rounding(excel_data)
 
+    def __decimalize_and_rounding(self, excel_data):
         # Перевод в Децимал и округление.
         log.info(set.ROUNDING_UP_DATA)
         for key, value in excel_data.items():
@@ -333,10 +337,16 @@ class ExcelHandler:
                     set.SET_TO_ONE).isdigit() and
                 float(value) > set.SET_TO_ZERO
             ):
-                excel_data[key] = Decimal(value).quantize(
-                    Decimal(set.ROUNDING_LIMIT),
-                    rounding=ROUND_HALF_UP
-                )
+                if self.roundings and (round_limit := self.roundings.get(key)):
+                    excel_data[key] = Decimal(value).quantize(
+                        Decimal(round_limit),
+                        rounding=ROUND_HALF_UP
+                    )
+                else:
+                    excel_data[key] = Decimal(value).quantize(
+                        Decimal(set.ROUNDING_LIMIT),
+                        rounding=ROUND_HALF_UP
+                    )
 
             if (
                 not isinstance(excel_data[key], Decimal) or excel_data[key] < 0
