@@ -131,11 +131,14 @@ class Calculator:
             # данных в эксель. Изначально введено для fiancate.
             self.calc_config.get(set.COPY_CELLS, None),
 
-            # additional_input - словарь, кторый указываетв какие ячейки
+            # additional_input - словарь, кторый указывает, в какие ячейки
             # (ключи) какие значения (значения) надо внести, независимо от
             # введенных юзером данных. Изначально введено для указания толщины
             # диагоналей и траверс для fiancate.
-            self.calc_config.get(set.ADDITIONAL_INPUT, None)
+            self.calc_config.get(set.ADDITIONAL_INPUT, None),
+
+            # Словарь с уточненными значениями округления для конкретных полей
+            self.calc_config.get(set.ROUNDINGS, None)
         )
 
         # Запускаем обработчик эксель файла
