@@ -500,6 +500,8 @@ class Creator:
                 case set.BACKGROUND:
                     styleSheet = f"background-color: {value}"
                     label.setStyleSheet(styleSheet)
+                case set.WIDGET_NAME:
+                    label.setObjectName = value
         return label
 
     def __create_input(self, config: dict) -> QLineEdit:
@@ -531,6 +533,9 @@ class Creator:
                 case set.HIDE:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
+                case set.WIDGET_NAME:
+                    input_field.setObjectName = value
+
         self.input_fields[config[set.NAME]] = input_field
         return input_field
 
@@ -564,6 +569,8 @@ class Creator:
                         config.get(set.PARAMS, {}),
                         self.parent_window
                     )
+                case set.WIDGET_NAME:
+                    checkbox.setObjectName = value
         return checkbox
 
     def __create_button(self, config: dict) -> QPushButton:
@@ -583,7 +590,6 @@ class Creator:
 
         log.info(f"Create button: {config[set.TEXT]}")
         button = QPushButton(config[set.TEXT])
-        button.setObjectName(config[set.TEXT])
         for param, value in config.items():
             match param:
                 case set.WIDTH:
@@ -597,6 +603,8 @@ class Creator:
                         config.get(set.PARAMS, {}),
                         self.parent_window
                     )
+                case set.WIDGET_NAME:
+                    button.setObjectName = value
 
         # Активирует кнопку, только если в ее конфиге есть коллбэк.
         if "callback" not in config:
@@ -636,8 +644,9 @@ class Creator:
                     dropdown.setFixedWidth(int(value))
                 case set.HEIGHT:
                     dropdown.setFixedHeight(int(value))
+                case set.WIDGET_NAME:
+                    dropdown.setObjectName = value
 
-        dropdown.setObjectName(config[set.NAME])
         dropdown.setCurrentText(self.default_values[name])
         self.chosen_fields[config[set.NAME]] = dropdown
 
