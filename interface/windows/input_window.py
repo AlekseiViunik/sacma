@@ -68,10 +68,23 @@ class InputWindow(BaseWindow):
             result, post_message = calculator.calc_data()
 
             log.info(set.OPEN_RESPONSE_WIDGET)
+
+            if not (
+                only_keys := calculator.calc_config[set.CELLS_OUTPUT].get(
+                    set.ONLY_KEYS
+                )
+            ):
+                only_keys = [
+                    key for key in calculator.calc_config[
+                        set.CELLS_OUTPUT
+                    ].keys()
+                ]
+
             self.output_window.open_result_window(
                 result,
                 set.PRE_MSG_STANDART,
-                post_message
+                post_message,
+                only_keys
             )
         except Exception as e:
             log.error(f"Error caught: {e}")
