@@ -17,54 +17,51 @@
                 "250x50": {
                     "1.2": {
                         "price": "E10",
-                        "weight": "C10",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "weight": "C10"
                     },
                     "1.5": {
                         "price": "E11",
-                        "weight": "C11",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "weight": "C11"
                     },
                     "2.0": {
                         "price": "E12",
-                        "weight": "C12",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "weight": "C12"
                     }
                 },
                 "270x50": {
                     "1.2": {
                         "price": "E21",
                         "weight": "C21",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "post_message": "N.B.! Solo grandi quantitativi. Contatare sede!"
                     },
                     "1.5": {
                         "price": "E22",
                         "weight": "C22",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "post_message": "N.B.! Solo grandi quantitativi. Contatare sede!"
                     },
                     "2.0": {
                         "price": "E23",
                         "weight": "C23",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "post_message": "N.B.! Solo grandi quantitativi. Contatare sede!"
                     }
                 },
                 "270x40": {
                     "1.2": {
                         "price": "E32",
                         "weight": "C32",
-                        "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
+                        "post_message":"ATTENZIONE! Per la base 270x40 contatare sede!",
                         "is_hide": 1
                     },
                     "1.5": {
                         "price": "E33",
                         "weight": "C33",
-                        "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
+                        "post_message":"ATTENZIONE! Per la base 270x40 contatare sede!",
                         "is_hide": 1
                     },
                     "2.0": {
                         "price": "E34",
                         "weight": "C34",
-                        "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
+                        "post_message":"ATTENZIONE! Per la base 270x40 contatare sede!",
                         "is_hide": 1
                     }
                 }
@@ -91,38 +88,36 @@
                 "250x50": {
                     "2.0": {
                         "price": "E13",
-                        "weight": "C13",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "weight": "C13"
                     },
                     "3.0": {
                         "price": "E14",
-                        "weight": "C14",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "weight": "C14"
                     }
                 },
                 "270x50": {
                     "2.0": {
                         "price": "E24",
                         "weight": "C24",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "post_message": "N.B.! Solo grandi quantitativi. Contatare sede!"
                     },
                     "3.0": {
                         "price": "E25",
                         "weight": "C25",
-                        "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+                        "post_message": "N.B.! Solo grandi quantitativi. Contatare sede!"
                     }
                 },
                 "270x40": {
                     "2.0": {
                         "price": "E35",
                         "weight": "C35",
-                        "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
+                        "post_message":"ATTENZIONE! Per la base 270x40 contatare sede!",
                         "is_hide": 1
                     },
                     "3.0": {
                         "price": "E36",
                         "weight": "C36",
-                        "post_message":"ATTENZIONE! Per la base 270x40 contatare la sede!",
+                        "post_message":"ATTENZIONE! Per la base 270x40 contatare sede!",
                         "is_hide": 1
                     }
                 }
@@ -131,7 +126,7 @@
                 "price": "price * length / 1000",
                 "weight": "weight * length / 1000"
             },
-            "post_message": "ATTENZIONE! Per grandi quantitativi contatare la sede!"
+            "post_message": "ATTENZIONE! Per grandi quantitativi contatare sede!"
         }
     }
 }
