@@ -143,6 +143,8 @@ COPY_CELLS = "copy_cells"
 ADDITIONAL_INPUT = "additional_input"
 FORMULAS = "formulas"
 ONLY_KEYS = "only_keys"
+CONDITION = "condition"
+MESSAGE = "message"
 
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
