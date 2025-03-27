@@ -61,7 +61,7 @@
                             "column": "current",
                             "active_when": ["AUTOMHA"],
                             "options": {
-                                "AUTOMHA": ["Profilo a 'Z' 50x190x60x2", "Profilo a 'Z' 50x190x60x2.5","Profilo a 'Z' 50x190x60x3"]
+                                "AUTOMHA": ["Profilo a 'Z' 50x190x60x2", "Profilo a 'Z' 50x190x60x2.5","Profilo a 'Z' 50x190x60x3", "Profilo a 'Z' 50x190x60x3.5"]
                             }
                         },
                         {
