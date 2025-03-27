@@ -60,6 +60,10 @@ class StartWindow(BaseWindow):
                 window_name,
                 params[set.JSON_FILE_PATH]
             )
+
+            # Для тестов
+            self._last_input_window = input_window
+
         input_window.show()
 
     def open_register(self) -> None:
