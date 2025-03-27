@@ -59,7 +59,7 @@ class Remover:
             return
 
         # Очищаем layout от виджетов и вложенных layout'ов.
-        self.__clear_layout(layout_to_delete)
+        self.clear_layout(layout_to_delete)
 
         parent_layout.removeItem(layout_to_delete)
         layout_to_delete.deleteLater()  # Удаляем объект
@@ -127,7 +127,7 @@ class Remover:
         except RuntimeError:
             return True
 
-    def __clear_layout(
+    def clear_layout(
         self,
         layout_to_clear: QGridLayout | QHBoxLayout | QVBoxLayout
     ) -> None:
@@ -159,5 +159,5 @@ class Remover:
             # Если элемент - контейнер, сначала очищаем, вызывая этот же метод,
             # а потом удаляем его.
             elif item.layout():
-                self.__clear_layout(item.layout())
+                self.clear_layout(item.layout())
                 item.layout().deleteLater()
