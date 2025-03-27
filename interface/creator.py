@@ -637,6 +637,7 @@ class Creator:
                 case set.HEIGHT:
                     dropdown.setFixedHeight(int(value))
 
+        dropdown.setObjectName(config[set.NAME])
         dropdown.setCurrentText(self.default_values[name])
         self.chosen_fields[config[set.NAME]] = dropdown
 
