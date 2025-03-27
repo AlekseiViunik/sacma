@@ -47,8 +47,6 @@ def test_widget_amount(
 
     config_widgets_amout = Finder().find_and_count_all_widgets(config)
     actual_widgets_amount = len(start_window.findChildren(QWidget))
-    print(f"Widgets in config: {config_widgets_amout}")
-    print(f"Widgets on window: {actual_widgets_amount}")
     assert config_widgets_amout == actual_widgets_amount, (
         f"Не совпадает количество виджетов.\n"
         f"Ожидалось: {config_widgets_amout}\n"
