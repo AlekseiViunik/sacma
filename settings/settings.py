@@ -146,6 +146,10 @@ ONLY_KEYS = "only_keys"
 CONDITION = "condition"
 MESSAGE = "message"
 ROUNDINGS = "roundings"
+ACTIVE_WHEN = "active_when"
+TRAVI = "Travi"
+TG = "TG"
+SAT = "SAT"
 
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
@@ -253,6 +257,7 @@ SETTINGS_WINDOW_CONFIG_FILE = "configs/windows_configs/settings_window.json"
 SETTINGS_FILE = "settings.json"
 OUTPUT_WINDOW_CONFIG_FILE = "configs/windows_configs/output_window.json"
 USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
+TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 
 PRODUCTION_MODE_ON = False
 PROTECTION_MODE_ON = True
