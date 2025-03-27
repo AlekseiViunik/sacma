@@ -137,3 +137,28 @@ class Finder:
             else:
                 counter += set.STEP_UP
         return counter
+
+    def find_all_active_widgets(
+        self,
+        layout_config: dict,
+        activity_type: str,
+        widgets_list: list | None = None
+    ) -> list:
+        if widgets_list is None:
+            widgets_list = []
+
+        widgets = layout_config.get(set.WIDGETS, [])
+        for widget in widgets:
+            if set.LAYOUT in widget:
+                self.find_all_active_widgets(
+                    widget[set.LAYOUT],
+                    activity_type,
+                    widgets_list
+                )
+            else:
+                availability = widget.get(set.ACTIVE_WHEN)
+                if availability and activity_type not in availability:
+                    continue
+                widgets_list.append(widget)
+
+        return widgets_list
