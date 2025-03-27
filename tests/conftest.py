@@ -1,7 +1,9 @@
 # noinspection PyUnresolvedReferences
 import tests.conftest_imports  # noqa: F401
 
+import logging
 import pytest
+
 from PyQt6.QtWidgets import QApplication
 from interface.start_window import StartWindow
 
@@ -17,3 +19,8 @@ def start_window(qtbot):
     qtbot.addWidget(window)
     window.show()
     return window
+
+
+@pytest.fixture(autouse=True, scope="session")
+def disable_logging():
+    logging.disable(logging.CRITICAL)
