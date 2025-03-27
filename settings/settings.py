@@ -145,6 +145,7 @@ FORMULAS = "formulas"
 ONLY_KEYS = "only_keys"
 CONDITION = "condition"
 MESSAGE = "message"
+ROUNDINGS = "roundings"
 
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
@@ -239,7 +240,8 @@ DICTIONARY = {
     "n_diagonals_30/10_3": "N diagonali 30/10 3",
     "n_traverse_10/10_3": "N traversi 10/10 3",
     "n_traverse_15/10_3": "N traversi 15/10 3",
-    "preparation": "Approntamento"
+    "preparation": "Approntamento",
+    "development": "Sviluppo"
 }
 
 # ===================================Login=====================================
