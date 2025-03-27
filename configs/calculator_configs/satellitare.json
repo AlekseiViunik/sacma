@@ -11,17 +11,25 @@
                 "Profilo a 'Z' 50x190x60x2": {
                     "price": "D7",
                     "weight": "L7",
+                    "preparation": "F7",
                     "post_message": "ATTENZIONE! Il prezzo è per metro lineare!"
                 },
                 "Profilo a 'Z' 50x190x60x2.5": {
                     "price": "D8",
                     "weight": "L8",
+                    "preparation": "F8",
                     "post_message": "ATTENZIONE! Il prezzo è per metro lineare!"
                 },
                 "Profilo a 'Z' 50x190x60x3": {
                     "price": "D9",
                     "weight": "L9",
+                    "preparation": "F9",
                     "post_message": "ATTENZIONE! Il prezzo è per metro lineare!"
+                },
+                "Profilo a 'Z' 50x190x60x3.5": {
+                    "price": "G10",
+                    "weight": "H10",
+                    "post_message": "Il prezzo è ancora inesistente"
                 }
             }
         },
@@ -33,7 +41,8 @@
             "cells_output": {
                 "Battute posteriori per pallet e satellite": {
                     "price": "D10",
-                    "weight": "L10"
+                    "weight": "L10",
+                    "preparation": "F10"
                 },
                 "Battute posteriori solo pallet": {
                     "price": "D14",
@@ -41,15 +50,19 @@
                 },
                 "Angolare zincato di fissaggio 'Z'": {
                     "price": "D11",
-                    "weight": "L11"
+                    "weight": "L11",
+                    "post_message": "Bulloni 10x25 (2/cad) + bulloni 10x20 TT (2/cad) non inclusi"
                 },
                 "Mensola di ingresso": {
                     "price": "D12",
-                    "weight": "L12"
+                    "weight": "L12",
+                    "preparation": "F12",
+                    "post_message": "Bulloni 10x25 (1/cad) + bulloni 10x20 TT (2/cad) non inclusi"
                 },
                 "Giunti": {
                     "price": "D13",
-                    "weight": "L13"
+                    "weight": "L13",
+                    "post_message": "Bulloni 10x25 (2/cad) + bulloni 10x20 TT (2/cad) non inclusi"
                 },
                 "Inviti satellitare": {
                     "price": "D15",
@@ -57,7 +70,8 @@
                 },
                 "DISTANZIALI L=1368mm": {
                     "price": "D16",
-                    "weight": "L16"
+                    "weight": "L16",
+                    "preparation": "F16"
                 }
 
             }
