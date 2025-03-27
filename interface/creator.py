@@ -744,16 +744,18 @@ class Creator:
         log.info(set.RERENDER_LAYOUTS)
 
         self.default_values[name] = selected_value
-        self.remover.delete_layout(
-            self.layout_parents[self.main_layout],
+        self.remover.clear_layout(
             self.main_layout
         )
-        main_window = self.layout_parents.pop(self.main_layout, None)
-        old_layout = main_window.layout()
-        QWidget().setLayout(old_layout)
+
         self.layout_parents = {}
         self.dependencies = {}
-        self.create_widget_layout(main_window, self.config[set.LAYOUT])
+
+        self.__add_widgets(
+            self.main_layout,
+            self.config[set.LAYOUT][set.TYPE],
+            self.config[set.LAYOUT][set.WIDGETS]
+        )
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
