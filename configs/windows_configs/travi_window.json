@@ -17,7 +17,8 @@
                             "text": "Tipo",
                             "width": 100,
                             "height": 20,
-                            "column": "first"
+                            "column": "first",
+                            "widget_name": "Tipo_Label"
                         },
                         {
                             "type": "dropdown",
@@ -27,12 +28,14 @@
                             "default_value": "TG",
                             "options": {"always": ["TG", "SAT", "APERTE", "PORTA SKID"]},
                             "change_widgets": 1,
-                            "column": "current"
+                            "column": "current",
+                            "widget_name": "changing_dropdown"
                         },
                         {
                             "type": "label",
                             "text": "",
-                            "column": "last"
+                            "column": "last",
+                            "widget_name": "empty_label_1"
                         }
                     ]
                 }
@@ -50,7 +53,8 @@
                             "column": "first",
                             "width": 100,
                             "height": 20,
-                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "widget_name": "height_label"
                         },
                         {
                             "type": "dropdown",
@@ -65,13 +69,15 @@
                                 "SAT": ["80", "100"],
                                 "APERTE": ["70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "170", "180", "190", "200"],
                                 "PORTA SKID": ["20", "25", "30", "35", "40", "45", "50"]
-                            }
+                            },
+                            "widget_name": "height_dropdown"
                         },
                         {
                             "type": "label",
                             "text": "mm",
                             "column": "last",
-                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "widget_name": "mm_Label_1"
                         },
                         {
                             "type": "label",
@@ -79,7 +85,8 @@
                             "width": 100,
                             "height": 20,
                             "column": "first",
-                            "active_when": ["TG", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "APERTE", "PORTA SKID"],
+                            "widget_name": "base_Label"
                         },
                         {
                             "type": "dropdown",
@@ -93,13 +100,15 @@
                                 "APERTE": ["45", "50", "60"],
                                 "PORTA SKID": ["40"]
                             },
-                            "column": "current"
+                            "column": "current",
+                            "widget_name": "base_dropdown"
                         },
                         {
                             "type": "label",
                             "text": "mm",
                             "column": "last",
-                            "active_when": ["TG", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "APERTE", "PORTA SKID"],
+                            "widget_name": "mm_label_2"
                         },
                         {
                             "type": "label",
@@ -107,7 +116,8 @@
                             "width": 100,
                             "height": 20,
                             "column": "first",
-                            "active_when": ["SAT"]
+                            "active_when": ["SAT"],
+                            "widget_name": "appoggio_label"
                         },
                         {
                             "type": "dropdown",
@@ -119,7 +129,8 @@
                             "options": {
                                 "SAT": ["No", "Sì"]
                             },
-                            "column": "current"
+                            "column": "current",
+                            "widget_name": "support_dropdown"
                         },
                         {
                             "type": "label",
@@ -127,7 +138,8 @@
                             "width": 100,
                             "height": 20,
                             "column": "first",
-                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "widget_name": "spessore_label"
                         },
                         {
                             "type": "dropdown",
@@ -142,13 +154,15 @@
                                 "APERTE": ["2.0", "2.5", "3.0"],
                                 "PORTA SKID": ["2.0", "2.5", "3.0"]
                             },
-                            "column": "current"
+                            "column": "current",
+                            "widget_name": "thickness_dropdown"
                         },
                         {
                             "type": "label",
                             "text": "mm",
                             "column": "last",
-                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "widget_name": "mm_label_3"
                         },
                         {
                             "type": "label",
@@ -156,7 +170,8 @@
                             "width": 100,
                             "height": 20,
                             "column": "first",
-                            "active_when": ["TG", "SAT", "APERTE"]
+                            "active_when": ["TG", "SAT", "APERTE"],
+                            "widget_name": "staff_label"
                         },
                         {
                             "type": "dropdown",
@@ -170,7 +185,8 @@
                                 "SAT": ["No", "Sì"],
                                 "APERTE": ["No", "Sì"]
                             },
-                            "column": "current"
+                            "column": "current",
+                            "widget_name": "staff_dropdown"
                         },
                         {
                             "type": "label",
@@ -178,7 +194,8 @@
                             "width": 100,
                             "height": 20,
                             "column": "first",
-                            "active_when": ["TG", "SAT", "APERTE"]
+                            "active_when": ["TG", "SAT", "APERTE"],
+                            "widget_name": "amount_label"
                         },
                         {
                             "type": "dropdown",
@@ -192,7 +209,8 @@
                                 "SAT": [">=1001", "<=1000"],
                                 "APERTE": [">=1001", "<=1000"]
                             },
-                            "column": "current"
+                            "column": "current",
+                            "widget_name": "amount_dropdown"
                         },
                         {
                             "type": "label",
@@ -200,7 +218,8 @@
                             "width": 100,
                             "height": 20,
                             "column": "first",
-                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "widget_name": "length_label"
                         },
                         {
                             "type": "input",
@@ -209,13 +228,15 @@
                             "width": 150,
                             "height": 20,
                             "column": "current",
-                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "widget_name": "length_input"
                         },
                         {
                             "type": "label",
                             "text": "mm",
                             "column": "last",
-                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"]
+                            "active_when": ["TG", "SAT", "APERTE", "PORTA SKID"],
+                            "widget_name": "mm_label_4"
                         }
                     ]        
                 }
@@ -229,12 +250,14 @@
                         {
                             "type": "label",
                             "text": "",
-                            "column": "first"
+                            "column": "first",
+                            "widget_name": "empty_label_2"
                         },
                         {
                             "type": "label",
                             "text": "",
-                            "column": "current"
+                            "column": "current",
+                            "widget_name": "empty_label_3"
                         },
                         {
                             "type": "button",
@@ -242,7 +265,8 @@
                             "height": 40,
                             "callback": "handle_start_button",
                             "params": {},
-                            "column": "last"
+                            "column": "last",
+                            "widget_name": "invia_button"
                         }
                     ]
                 }
