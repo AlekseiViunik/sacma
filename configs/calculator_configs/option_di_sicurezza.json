@@ -1,45 +1,5 @@
 {
     "choices": {
-        "TESTATE": {
-            "worksheet": "Paracolpi",
-            "rules":{},
-            "special_output": 1,
-            "cells_input": {},
-            "cells_output": {
-                "Monofronte": {
-                    "No, curve calandrate sez. UNP 100 R=350": {
-                        "price": "B24",
-                        "weight": "D24",
-                        "additional_price": "B28",
-                        "additional_weight": "D28",
-                        "post_message": "ATTENZIONE! Tasselli non inclusi!"
-                    },
-                    "Sì": {
-                        "price": "B24",
-                        "weight": "D24",
-                        "post_message": "ATTENZIONE! Tasselli non inclusi!"
-                    }
-                },
-                "Bifronte": {
-                    "No, curve calandrate sez. UNP 100 R=350": {
-                        "price": "B25",
-                        "weight": "D25",
-                        "additional_price": "B28",
-                        "additional_weight": "D28",
-                        "post_message": "ATTENZIONE! Tasselli non inclusi!"
-                    },
-                    "Sì": {
-                        "price": "B25",
-                        "weight": "D25",
-                        "post_message": "ATTENZIONE! Tasselli non inclusi!"
-                    }
-                }
-            },
-            "formulas": {
-                "price": "price + additional_price",
-                "weight": "weight + additional_weight"
-            }
-        },
         "PARACOLPI": {
             "worksheet": "Paracolpi",
             "rules":{},
@@ -48,19 +8,23 @@
             "cells_output": {
                 "Frontale per montante serie 80": {
                     "price": "B31",
-                    "weight": "D31"
+                    "weight": "D31",
+                    "post_message": "N.B.! 4 tasselli non inclusi"
                 },
                 "Frontale per montante serie 100": {
                     "price": "B32",
-                    "weight": "D32"
+                    "weight": "D32",
+                    "post_message": "N.B.! 4 tasselli non inclusi"
                 },
-                "Angolare per monttante serie 80/100": {
+                "Angolare per monttante serie 80/100 H=400mm": {
                     "price": "B33",
-                    "weight": "D33"
+                    "weight": "D33",
+                    "post_message": "N.B.! 3 tasselli non inclusi"
                 },
                 "Angolare frontale tipo Metelli": {
                     "price": "B34",
-                    "weight": "D34"
+                    "weight": "D34",
+                    "post_message": "N.B.! 4 tasselli non inclusi"
                 }                        
             }
         },
@@ -72,11 +36,13 @@
             "cells_output": {
                 "Bifronte (2 paracolpi + Sigma 255x3)": {
                     "price": "B38",
-                    "weight": "D38"
+                    "weight": "D38",
+                    "post_message": "N.B.! 6 tasselli + 4 bulloni 10MAx25 non inclusi"
                 },
                 "Monofronte (2 paracolpi + Sigma 255x3)": {
                     "price": "B39",
-                    "weight": "D39"
+                    "weight": "D39",
+                    "post_message": "N.B.! 6 tasselli + 4 bulloni 10MAx25 non inclusi"
                 }
             }
         }
