@@ -113,7 +113,10 @@ class OutputWindow(QWidget):
 
             # Размещаем лейблы с результатом
             for label, value in filtered_values.items():
-                if label == set.PRICE_IT and value:
+                if (
+                    (label == set.PRICE_IT and value) or
+                    (label == set.PREPARATION_IT and value)
+                ):
                     value = f"{str(value)} {set.EURO_SYMBOL}"
                 elif label == set.WEIGHT_IT and value:
                     value = f"{str(value)} {set.KILO_SYMBOL}"
