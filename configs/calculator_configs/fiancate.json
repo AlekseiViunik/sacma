@@ -146,7 +146,14 @@
                 "traverse_3_1": "C44",
                 "n_traverse_3_1": "D44",
                 "traverse_3_2": "C45",
-                "n_traverse_3_2": "D45"
+                "n_traverse_3_2": "D45",
+                "automatic_top": "D63",
+                "typology_pb": "D64",
+                "base_thickness": "D68",
+                "boot_height": "D65",
+                "base_length": "D66",
+                "base_depth": "D67",
+                "n_holes": "D69"
             },
             "cells_output": {
                 "price": "C72",
@@ -337,6 +344,10 @@
                     "30/10": 30,
                     "35/10": 35,
                     "40/10": 40
+                },
+                "automatic_top": {
+                    "Sì": "s",
+                    "No": "n"
                 }
             }
         }
