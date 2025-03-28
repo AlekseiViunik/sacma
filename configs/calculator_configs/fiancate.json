@@ -34,7 +34,9 @@
                 "n_diagonals_3": "D29",
                 "section_1": "D7",
                 "section_2": "D19",
-                "section_3": "D30"
+                "section_3": "D30",
+                "welded_base_plates": "D42",
+                "automatic_top": "D44"
             },
             "cells_output": {
                 "price": "C51"
@@ -72,6 +74,14 @@
                     "120/20": 8,
                     "120/25": 9,
                     "120/30": 10
+                },
+                "automatic_top": {
+                    "Sì": "s",
+                    "No": "n"
+                },
+                "welded_base_plates": {
+                    "Sì": "s",
+                    "No": "n"
                 }
             }
         },
