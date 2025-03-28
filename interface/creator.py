@@ -500,8 +500,6 @@ class Creator:
                 case set.BACKGROUND:
                     styleSheet = f"background-color: {value}"
                     label.setStyleSheet(styleSheet)
-                case set.WIDGET_NAME:
-                    label.setObjectName(value)
 
         return label
 
@@ -534,8 +532,6 @@ class Creator:
                 case set.HIDE:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
-                case set.WIDGET_NAME:
-                    input_field.setObjectName(value)
 
         self.input_fields[config[set.NAME]] = input_field
         return input_field
@@ -570,8 +566,6 @@ class Creator:
                         config.get(set.PARAMS, {}),
                         self.parent_window
                     )
-                case set.WIDGET_NAME:
-                    checkbox.setObjectName = value
         return checkbox
 
     def __create_button(self, config: dict) -> QPushButton:
@@ -604,10 +598,9 @@ class Creator:
                         config.get(set.PARAMS, {}),
                         self.parent_window
                     )
-                case set.WIDGET_NAME:
-                    button.setObjectName(config[set.TEXT])
 
         # Активирует кнопку, только если в ее конфиге есть коллбэк.
+        button.setObjectName(config[set.TEXT])
         if "callback" not in config:
             button.setEnabled(False)
         return button
@@ -645,9 +638,8 @@ class Creator:
                     dropdown.setFixedWidth(int(value))
                 case set.HEIGHT:
                     dropdown.setFixedHeight(int(value))
-                case set.WIDGET_NAME:
-                    dropdown.setObjectName(value)
 
+        dropdown.setObjectName(config[set.NAME])
         dropdown.setCurrentText(self.default_values[name])
         self.chosen_fields[config[set.NAME]] = dropdown
 
