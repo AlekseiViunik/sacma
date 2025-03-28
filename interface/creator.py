@@ -479,6 +479,10 @@ class Creator:
                     font = QFont()
                     font.setPointSize(config[set.TEXT_SIZE])
                     label.setFont(font)
+                case set.BOLD:
+                    font = QFont()
+                    font.setBold(True)
+                    label.setFont(font)
                 case set.ALIGN:
                     # Определяет расположение текста внутри лейбла.
                     if config[set.ALIGN] == set.ALIGN_CENTER:
