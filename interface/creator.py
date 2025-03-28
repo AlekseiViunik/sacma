@@ -247,7 +247,10 @@ class Creator:
                     QSizePolicy.Policy.Preferred
                 )
                 wrapper.setLayout(layout)
-                parent_window.addWidget(wrapper, alignment=Qt.AlignmentFlag.AlignHCenter)
+                parent_window.addWidget(
+                    wrapper,
+                    alignment=Qt.AlignmentFlag.AlignHCenter
+                )
             else:
                 parent_window.addLayout(layout)
 
