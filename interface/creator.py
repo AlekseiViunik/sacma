@@ -759,6 +759,8 @@ class Creator:
             self.config[set.LAYOUT][set.WIDGETS]
         )
 
+        self.parent_window.adjustSize()
+
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
         Проверяет, активен ли текущий виджет с его-то конфигом при
