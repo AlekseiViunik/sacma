@@ -50,39 +50,6 @@
                 "layout": {
                     "type": "grid",
                     "columns": 2,
-                    "name": "sezioni",
-                    "depends_on": "type",
-                    "widgets": [
-                        {
-                            "type": "label",
-                            "text": "Sezione",
-                            "width": 100,
-                            "column": "first",
-                            "active_when": ["Non-sismo", "Sismo"],
-                            "visibility_key": "type"
-                        },
-                        {
-                            "type": "dropdown",
-                            "name": "section",
-                            "width": 150,
-                            "height": 20,
-                            "default_value": "100/20",
-                            "column": "current",
-                            "active_when": ["Non-sismo", "Sismo"],
-                            "visibility_key": "type",
-                            "options": {
-                                "Non-sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30"],
-                                "Sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30", "120x110/20", "120x110/25", "120x110/30", "120x110/40"]
-                            }
-                        }
-                    ]
-                    
-                }
-            },
-            {
-                "layout": {
-                    "type": "grid",
-                    "columns": 2,
                     "name": "depth",
                     "widgets": [
                         {
@@ -130,6 +97,28 @@
                                         "background": "grey",
                                         "active_when": ["Non-sismo", "Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "Sezione",
+                                        "width": 100,
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "dropdown",
+                                        "name": "section_1",
+                                        "width": 150,
+                                        "height": 20,
+                                        "default_value": "100/20",
+                                        "column": "current",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type",
+                                        "options": {
+                                            "Non-sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30"],
+                                            "Sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30", "120x110/20", "120x110/25", "120x110/30", "120x110/40"]
+                                        }
                                     },
                                     {
                                         "type": "label",
@@ -290,6 +279,28 @@
                                     },
                                     {
                                         "type": "label",
+                                        "text": "Sezione",
+                                        "width": 100,
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "dropdown",
+                                        "name": "section_2",
+                                        "width": 150,
+                                        "height": 20,
+                                        "default_value": "100/20",
+                                        "column": "current",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type",
+                                        "options": {
+                                            "Non-sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30"],
+                                            "Sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30", "120x110/20", "120x110/25", "120x110/30", "120x110/40"]
+                                        }
+                                    },
+                                    {
+                                        "type": "label",
                                         "text": "Altezza",
                                         "column": "first",
                                         "active_when": ["Non-sismo", "Sismo"],
@@ -444,6 +455,28 @@
                                         "background": "grey",
                                         "active_when": ["Non-sismo", "Sismo"],
                                         "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "label",
+                                        "text": "Sezione",
+                                        "width": 100,
+                                        "column": "first",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type"
+                                    },
+                                    {
+                                        "type": "dropdown",
+                                        "name": "section_3",
+                                        "width": 150,
+                                        "height": 20,
+                                        "default_value": "100/20",
+                                        "column": "current",
+                                        "active_when": ["Non-sismo", "Sismo"],
+                                        "visibility_key": "type",
+                                        "options": {
+                                            "Non-sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30"],
+                                            "Sismo": ["80/20", "80/25", "80/30", "100/20", "100/25", "100/30", "120/20", "120/25", "120/30", "120x110/20", "120x110/25", "120x110/30", "120x110/40"]
+                                        }
                                     },
                                     {
                                         "type": "label",
