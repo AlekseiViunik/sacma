@@ -501,7 +501,8 @@ class Creator:
                     styleSheet = f"background-color: {value}"
                     label.setStyleSheet(styleSheet)
                 case set.WIDGET_NAME:
-                    label.setObjectName = value
+                    label.setObjectName(value)
+
         return label
 
     def __create_input(self, config: dict) -> QLineEdit:
@@ -534,7 +535,7 @@ class Creator:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
                 case set.WIDGET_NAME:
-                    input_field.setObjectName = value
+                    input_field.setObjectName(value)
 
         self.input_fields[config[set.NAME]] = input_field
         return input_field
@@ -604,7 +605,7 @@ class Creator:
                         self.parent_window
                     )
                 case set.WIDGET_NAME:
-                    button.setObjectName = value
+                    button.setObjectName(value)
 
         # Активирует кнопку, только если в ее конфиге есть коллбэк.
         if "callback" not in config:
@@ -645,7 +646,7 @@ class Creator:
                 case set.HEIGHT:
                     dropdown.setFixedHeight(int(value))
                 case set.WIDGET_NAME:
-                    dropdown.setObjectName = value
+                    dropdown.setObjectName(value)
 
         dropdown.setCurrentText(self.default_values[name])
         self.chosen_fields[config[set.NAME]] = dropdown
