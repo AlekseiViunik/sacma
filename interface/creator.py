@@ -605,7 +605,7 @@ class Creator:
                         self.parent_window
                     )
                 case set.WIDGET_NAME:
-                    button.setObjectName(value)
+                    button.setObjectName(config[set.TEXT])
 
         # Активирует кнопку, только если в ее конфиге есть коллбэк.
         if "callback" not in config:
