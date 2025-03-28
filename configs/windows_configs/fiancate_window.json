@@ -829,7 +829,6 @@
                             "default_value": "Standart",
                             "options": {"always": ["Standart", "Speciale"]},
                             "active_when": ["Sismo"],
-                            "change_widgets": 1,
                             "visibility_key": "type",
                             "column": "current"
                         },
@@ -907,7 +906,6 @@
                             "default_value": "Standart",
                             "options": {"always": ["7", "10", "12", "15", "20", "25"]},
                             "active_when": ["Sismo"],
-                            "change_widgets": 1,
                             "visibility_key": "type",
                             "column": "current"
                         },
