@@ -5,17 +5,17 @@
             "rules":{
                 "height_1": {
                     "exists": 1,
-                    "max": 10850,
+                    "max": 13500,
                     "multiple": 75
                 },
                 "height_2": {
                     "exists": 1,
-                    "max": 10850,
+                    "max": 13500,
                     "multiple": 75
                 },
                 "height_3": {
                     "exists": 1,
-                    "max": 10850,
+                    "max": 13500,
                     "multiple": 75
                 },
                 "depth": {
