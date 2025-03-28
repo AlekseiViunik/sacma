@@ -249,7 +249,9 @@ DICTIONARY = {
     "n_traverse_10/10_3": "N traversi 10/10 3",
     "n_traverse_15/10_3": "N traversi 15/10 3",
     "preparation": "Approntamento",
-    "development": "Sviluppo"
+    "development": "Sviluppo",
+    "automatic_top": "Sommità automatico",
+    "welded_base_plates": "pdb saldati"
 }
 
 # ===================================Login=====================================
