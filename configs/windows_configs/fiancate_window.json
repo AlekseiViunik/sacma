@@ -780,7 +780,7 @@
                     "widgets": [
                         {
                             "type": "label",
-                            "text": "Piastre base saldate o non stampate",
+                            "text": "Piastre base con cornini saldati",
                             "column": "first",
                             "active_when": ["Non-sismo"],
                             "visibility_key": "type"
@@ -789,7 +789,7 @@
                             "type": "dropdown",
                             "width": 150,
                             "height": 20,
-                            "name": "pdb_saldati",
+                            "name": "welded_base_plates",
                             "default_value": "No",
                             "options": {"always": ["No", "Sì"]},
                             "active_when": ["Non-sismo"],
@@ -807,7 +807,7 @@
                             "type": "dropdown",
                             "width": 150,
                             "height": 20,
-                            "name": "sommita_automatico",
+                            "name": "automatic_top",
                             "default_value": "No",
                             "options": {"always": ["No", "Sì"]},
                             "active_when": ["Non-sismo", "Sismo"],
