@@ -251,7 +251,13 @@ DICTIONARY = {
     "preparation": "Approntamento",
     "development": "Sviluppo",
     "automatic_top": "Sommità automatico",
-    "welded_base_plates": "pdb saldati"
+    "welded_base_plates": "pdb saldati",
+    "typology_pb": "Tipologi PB",
+    "base_thickness": "Spessore piastra",
+    "boot_height": "Altezza Stivaletto",
+    "base_length": "Dimensione piastra (L)",
+    "base_depth": "Dimensione piastra (P)",
+    "n_holes": "N fori",
 }
 
 # ===================================Login=====================================
