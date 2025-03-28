@@ -10,7 +10,8 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QVBoxLayout,
-    QWidget
+    QWidget,
+    QSizePolicy
 )
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
@@ -236,9 +237,17 @@ class Creator:
             isinstance(parent_window, QVBoxLayout) or
             isinstance(parent_window, QGridLayout)
         ):
-            if ('border' in layout_config.keys()):
+            if (set.BORDER in layout_config.keys()):
                 frame = self.__add_border_frame(layout)
                 parent_window.addWidget(frame)
+            elif (set.INDEPENDENT in layout_config.keys()):
+                wrapper = QWidget()
+                wrapper.setSizePolicy(
+                    QSizePolicy.Policy.Fixed,
+                    QSizePolicy.Policy.Preferred
+                )
+                wrapper.setLayout(layout)
+                parent_window.addWidget(wrapper, alignment=Qt.AlignmentFlag.AlignHCenter)
             else:
                 parent_window.addLayout(layout)
 
@@ -442,6 +451,12 @@ class Creator:
         # Видимо, эта проверка нужна, чтобы понять, удалось ли создать
         # контейнер.
         if isinstance(layout, (QGridLayout, QVBoxLayout, QHBoxLayout)):
+
+            if (
+                set.ALIGN in layout_config.keys() and
+                layout_config[set.ALIGN] == set.ALIGN_CENTER
+            ):
+                layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
             # Если контейнер зависим, то записываем/перезаписываем его как
             # словарь типа "имя контейнера - объект контейнера" в словарь по
