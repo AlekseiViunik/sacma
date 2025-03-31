@@ -1,4 +1,4 @@
-from settings import settings as set
+from settings import settings as sett
 from logic.logger import logger as log
 
 
@@ -41,7 +41,7 @@ class Translator:
         try:
             if only_keys:
                 return {
-                    set.DICTIONARY.get(key, key): val for key, val
+                    sett.DICTIONARY.get(key, key): val for key, val
                     in value.items()
                 }
             return None
