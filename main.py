@@ -3,20 +3,20 @@ from datetime import datetime
 from interface.windows.login_window import LoginWindow
 from logic.logger import logger, check_log_size
 from logic.protector import Protector
-from settings import settings as set
+from settings import settings as sett
 
 
 if __name__ == "__main__":
     check_log_size()
-    if set.PRODUCTION_MODE_ON:
+    if sett.PRODUCTION_MODE_ON:
         protector = Protector(
             deadline=datetime(
-                set.PROTECTION_YEAR,
-                set.PROTECTION_MONTH,
-                set.PROTECTION_DAY,
-                set.PROTECTION_HOUR,
-                set.SET_TO_ZERO,
-                set.SET_TO_ZERO
+                sett.PROTECTION_YEAR,
+                sett.PROTECTION_MONTH,
+                sett.PROTECTION_DAY,
+                sett.PROTECTION_HOUR,
+                sett.SET_TO_ZERO,
+                sett.SET_TO_ZERO
             )
         )
         protector.activate()
@@ -27,22 +27,22 @@ if __name__ == "__main__":
     from interface.start_window import StartWindow
     import sys
 
-    if set.PRODUCTION_MODE_ON:
-        logger.info(set.TRYING_LOGIN)
+    if sett.PRODUCTION_MODE_ON:
+        logger.info(sett.TRYING_LOGIN)
         app = QApplication(sys.argv)
         login_window = LoginWindow()
         login_window.show()
         app.exec()
         if login_window.auth_successful:
-            logger.info(set.SUCCESSFUL_LOGIN)
+            logger.info(sett.SUCCESSFUL_LOGIN)
             main_window = StartWindow()
             main_window.show()
             sys.exit(app.exec())
         else:
-            logger.info(set.UNSUCCESSFUL_LOGIN)
+            logger.info(sett.UNSUCCESSFUL_LOGIN)
 
     else:
-        logger.info(set.NEW_APP_START)
+        logger.info(sett.NEW_APP_START)
         app = QApplication(sys.argv)
         main_window = StartWindow()
         main_window.show()
