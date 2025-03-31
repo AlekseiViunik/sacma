@@ -8,7 +8,7 @@ from typing import Any
 
 from interface.windows.messagebox import Messagebox
 from logic.logger import logger as log
-from settings import settings as set
+from settings import settings as sett
 
 
 class JsonHandler:
@@ -44,7 +44,7 @@ class JsonHandler:
     """
 
     def __init__(self, file_path: str) -> None:
-        self.file_path: str = set.EMPTY_STRING
+        self.file_path: str = sett.EMPTY_STRING
 
         self.set_file_path(file_path)
 
@@ -58,24 +58,24 @@ class JsonHandler:
         - _: dict
             Возвращаемые данные.
         """
-        log.info(set.JSON_GET_ALL_DATA)
+        log.info(sett.JSON_GET_ALL_DATA)
         if self.file_path:
             try:
                 with open(
                     self.file_path,
-                    set.FILE_READ,
-                    encoding=set.STR_CODING
+                    sett.FILE_READ,
+                    encoding=sett.STR_CODING
                 ) as f:
                     return json.load(f)
             except FileNotFoundError:
                 Messagebox.show_messagebox(
-                    set.FILE_NOT_FOUND,
-                    set.FNF_MESSAGE,
+                    sett.FILE_NOT_FOUND,
+                    sett.FNF_MESSAGE,
                     None,
                     exec=True
                 )
                 raise FileNotFoundError(
-                    set.FNF_MESSAGE
+                    sett.FNF_MESSAGE
                 )
 
     def get_value_by_key(self, key: str) -> Any:
@@ -93,11 +93,11 @@ class JsonHandler:
         - _: Any
             Возвращаемые данные.
         """
-        log.info(set.JSON_GET_VALUE_BY_KEY)
+        log.info(sett.JSON_GET_VALUE_BY_KEY)
         data = self.get_all_data()
         if data:
-            return data.get(key, set.EMPTY_STRING)
-        return set.EMPTY_STRING
+            return data.get(key, sett.EMPTY_STRING)
+        return sett.EMPTY_STRING
 
     def get_values_by_keys(self, keys: list) -> dict:
         """
@@ -115,14 +115,14 @@ class JsonHandler:
         - result : dict
             Словарь со значениями для этих ключей. Или пустой словарь.
         """
-        log.info(set.JSON_GET_VALUES_BY_KEYS)
+        log.info(sett.JSON_GET_VALUES_BY_KEYS)
         result = {}
         data = self.get_all_data()
 
         if data:
             for key in keys:
                 if key in data.keys():
-                    result[key] = data.get(key, set.EMPTY_STRING)
+                    result[key] = data.get(key, sett.EMPTY_STRING)
 
         return result
 
@@ -137,11 +137,11 @@ class JsonHandler:
         - data: dict
             Данные, которыми будет перезаписан файл.
         """
-        log.info(set.JSON_REWRITE_FILE)
+        log.info(sett.JSON_REWRITE_FILE)
         with open(
             self.file_path,
-            set.FILE_WRITE,
-            encoding=set.STR_CODING
+            sett.FILE_WRITE,
+            encoding=sett.STR_CODING
         ) as f:
             json.dump(
                 {
@@ -159,9 +159,9 @@ class JsonHandler:
 
     def write_into_file(
         self,
-        key: str = set.EMPTY_STRING,
-        key2: str = set.EMPTY_STRING,
-        value: str | dict = set.EMPTY_STRING
+        key: str = sett.EMPTY_STRING,
+        key2: str = sett.EMPTY_STRING,
+        value: str | dict = sett.EMPTY_STRING
     ) -> None:
         """
         Открывает файл JSON для записи, получает из него все данные,
@@ -179,7 +179,7 @@ class JsonHandler:
             Значение, которое нужно записать.
         """
 
-        log.info(set.JSON_WRITE_INTO_FILE)
+        log.info(sett.JSON_WRITE_INTO_FILE)
         data = self.get_all_data()
         if not key2:
             data[key] = value
