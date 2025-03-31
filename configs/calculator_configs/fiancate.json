@@ -4,17 +4,14 @@
             "worksheet": "Listino fiancate tradizionali",
             "rules":{
                 "height_1": {
-                    "exists": 1,
                     "max": 13500,
                     "multiple": 75
                 },
                 "height_2": {
-                    "exists": 1,
                     "max": 13500,
                     "multiple": 75
                 },
                 "height_3": {
-                    "exists": 1,
                     "max": 13500,
                     "multiple": 75
                 },
@@ -41,7 +38,7 @@
             "cells_output": {
                 "price": "C51"
             },
-            "conversion": {
+            "convertation": {
                 "section_1": {
                     "80/20": 2,
                     "80/25": 3,
@@ -83,24 +80,23 @@
                     "Sì": "s",
                     "No": "n"
                 }
-            }
+            },
+            "custom_validations": ["section_check"]
         },
         "Sismo":{
             "worksheet": "Listino fiancate simische",
             "rules": {
                 "height_1": {
                     "exists": 1,
-                    "max": 10850,
+                    "max": 13500,
                     "multiple": 75
                 },
                 "height_2": {
-                    "exists": 1,
-                    "max": 10850,
+                    "max": 13500,
                     "multiple": 75
                 },
                 "height_3": {
-                    "exists": 1,
-                    "max": 10850,
+                    "max": 13500,
                     "multiple": 75
                 },
                 "depth": {
@@ -164,7 +160,7 @@
                 "D27": 0,
                 "D43": 0
             },
-            "conversion": {
+            "convertation": {
                 "section_1": {
                     "80/20": 1,
                     "80/25": 2,
@@ -349,7 +345,8 @@
                     "Sì": "s",
                     "No": "n"
                 }
-            }
+            },
+            "custom_validations": ["diagonals_check", "section_check"]
         }
     }
 }
