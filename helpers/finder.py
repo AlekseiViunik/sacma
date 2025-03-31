@@ -1,6 +1,6 @@
 from typing import List
 
-from settings import settings as set
+from settings import settings as sett
 
 
 class Finder:
@@ -41,13 +41,13 @@ class Finder:
         for widget in widgets:
 
             # Если среди виджетов есть контейнер, то
-            if set.LAYOUT in widget:
+            if sett.LAYOUT in widget:
 
                 # Берем его конфиг
-                layout_config = widget[set.LAYOUT]
+                layout_config = widget[sett.LAYOUT]
 
                 # И смотрим, если это контейнер с искомым именем, то
-                if layout_config.get(set.NAME) == layout_name:
+                if layout_config.get(sett.NAME) == layout_name:
 
                     # Возвращаем его.
                     return layout_config
@@ -55,7 +55,7 @@ class Finder:
                 # Иначе вызываем повторно текущий метод, куда передаем конфиг
                 # контейнера, который сейчас среди виджетов и его имя.
                 found = self.find_layout_by_name(
-                    layout_config.get(set.WIDGETS, []),
+                    layout_config.get(sett.WIDGETS, []),
                     layout_name
                 )
                 if found:
@@ -65,7 +65,7 @@ class Finder:
     def find_all_widget_names_by_type(
         self,
         layout_config: dict,
-        type: str = set.LABEL,
+        type: str = sett.LABEL,
         widget_names: list = []
     ) -> list:
         """
@@ -89,23 +89,23 @@ class Finder:
             Список имен найденных виджетов указанного типа.
         """
 
-        widgets = layout_config.get(set.WIDGETS, [])
+        widgets = layout_config.get(sett.WIDGETS, [])
 
         for widget in widgets:
-            if set.LAYOUT in widget:
+            if sett.LAYOUT in widget:
                 self.find_all_widget_names_by_type(
-                    widget[set.LAYOUT],
+                    widget[sett.LAYOUT],
                     type,
                     widget_names
                 )
-            elif widget.get(set.TYPE) == type:
-                widget_names.append(widget[set.TEXT])
+            elif widget.get(sett.TYPE) == type:
+                widget_names.append(widget[sett.TEXT])
         return widget_names
 
     def find_and_count_all_widgets(
         self,
         layout_config: dict,
-        counter: int = set.SET_TO_ZERO
+        counter: int = sett.SET_TO_ZERO
     ) -> int:
         """
         Считает, сколько всего виджетов должно быть установлено по конфигу
@@ -126,16 +126,16 @@ class Finder:
         - counter: int
             Итоговоый счетчик после подсчета.
         """
-        widgets = layout_config.get(set.WIDGETS, [])
-        counter = set.SET_TO_ZERO
+        widgets = layout_config.get(sett.WIDGETS, [])
+        counter = sett.SET_TO_ZERO
         for widget in widgets:
-            if set.LAYOUT in widget:
+            if sett.LAYOUT in widget:
                 counter += self.find_and_count_all_widgets(
-                    widget[set.LAYOUT],
+                    widget[sett.LAYOUT],
                     counter
                 )
             else:
-                counter += set.STEP_UP
+                counter += sett.STEP_UP
         return counter
 
     def find_all_active_widgets(
@@ -147,16 +147,16 @@ class Finder:
         if widgets_list is None:
             widgets_list = []
 
-        widgets = layout_config.get(set.WIDGETS, [])
+        widgets = layout_config.get(sett.WIDGETS, [])
         for widget in widgets:
-            if set.LAYOUT in widget:
+            if sett.LAYOUT in widget:
                 self.find_all_active_widgets(
-                    widget[set.LAYOUT],
+                    widget[sett.LAYOUT],
                     activity_type,
                     widgets_list
                 )
             else:
-                availability = widget.get(set.ACTIVE_WHEN)
+                availability = widget.get(sett.ACTIVE_WHEN)
                 if availability and activity_type not in availability:
                     continue
                 widgets_list.append(widget)

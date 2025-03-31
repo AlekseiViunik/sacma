@@ -4,7 +4,7 @@ from handlers.input_data_handler import InputDataHandler
 from handlers.json_handler import JsonHandler
 from handlers.user_data_handler import UserDataHandler
 from helpers.authenticator import Authenticator
-from settings import settings as set
+from settings import settings as sett
 from logic.logger import logging as log
 from .base_window import BaseWindow
 from .messagebox import Messagebox
@@ -40,11 +40,11 @@ class RegisterWindow(BaseWindow):
         Сокрытие/раскрытие символов для ввода чувствительных данных.
     """
 
-    CONFIG_FILE = set.REGISTER_WINDOW_CONFIG_FILE
+    CONFIG_FILE = sett.REGISTER_WINDOW_CONFIG_FILE
 
     def __init__(self) -> None:
         super().__init__()
-        self.auth_json_handler: JsonHandler = JsonHandler(set.AUTH_FILE)
+        self.auth_json_handler: JsonHandler = JsonHandler(sett.AUTH_FILE)
         # TODO отдельный класс для создания нового юзера.
         self.auth: Authenticator = Authenticator()
         self.input_data_handler: InputDataHandler = InputDataHandler()
@@ -69,7 +69,7 @@ class RegisterWindow(BaseWindow):
         """
 
         try:
-            log.info(set.CREATE_BUTTON_PRESSED)
+            log.info(sett.CREATE_BUTTON_PRESSED)
 
             # Собираем все введенные и выбранные данные в один словарь.
             all_inputs = self.input_data_handler.collect_all_inputs(
@@ -84,45 +84,45 @@ class RegisterWindow(BaseWindow):
                 self.creator.mandatory_fields
             )
             if difference:
-                log.error(set.MANDATORY_FIELDS_CHECK_FAILED)
+                log.error(sett.MANDATORY_FIELDS_CHECK_FAILED)
                 log.error(f"Missing fields are {difference}")
-                if len(difference) == set.SET_TO_ONE:
+                if len(difference) == sett.SET_TO_ONE:
                     err_msg = f"The field '{difference[0]}' is mandatory!"
                 else:
-                    missing_fields = set.LISTING_CONNECTOR.join(difference)
+                    missing_fields = sett.LISTING_CONNECTOR.join(difference)
                     err_msg = (
                         "The following fields are mandatory: "
                         f"{missing_fields}!"
                     )
                 Messagebox.show_messagebox(
-                    set.CREATION_FAILED,
+                    sett.CREATION_FAILED,
                     err_msg,
                     self
                 )
                 return
 
             # Проверка, совпадает ли введенный пароль с повторенным.
-            if all_inputs[set.PASSWORD] != all_inputs[set.REPEAT_PASSWORD]:
-                log.error(f"{set.CHECK_FAILED} {set.REPEAT_IS_DIFFERENT}")
+            if all_inputs[sett.PASSWORD] != all_inputs[sett.REPEAT_PASSWORD]:
+                log.error(f"{sett.CHECK_FAILED} {sett.REPEAT_IS_DIFFERENT}")
                 Messagebox.show_messagebox(
-                    set.CREATION_FAILED,
-                    set.REPEAT_IS_DIFFERENT,
+                    sett.CREATION_FAILED,
+                    sett.REPEAT_IS_DIFFERENT,
                     self
                 )
                 return
 
             # Юзернейм вынесен в отдельную переменную для вставки его в строку
-            username = all_inputs[set.USERNAME]
+            username = all_inputs[sett.USERNAME]
 
             # Вносим чувствительные данные в auth.json
             if not self.auth.register_user(
-                all_inputs[set.USERNAME],
-                all_inputs[set.PASSWORD]
+                all_inputs[sett.USERNAME],
+                all_inputs[sett.PASSWORD]
             ):
-                log.error(f"{set.CREATION_FAILED} {set.USER_EXISTS}")
+                log.error(f"{sett.CREATION_FAILED} {sett.USER_EXISTS}")
                 Messagebox.show_messagebox(
-                    set.CREATION_FAILED,
-                    set.USER_EXISTS,
+                    sett.CREATION_FAILED,
+                    sett.USER_EXISTS,
                     self
                 )
                 return
@@ -130,15 +130,15 @@ class RegisterWindow(BaseWindow):
                 # Если чувствительные данные успешно сохранены, вносим обычные
                 # данные.
                 log.info(
-                    set.AUTH_CREATION_SUCCESSFUL
+                    sett.AUTH_CREATION_SUCCESSFUL
                 )
-                log.info(set.TRYING_ADD_AUTH_DATA)
+                log.info(sett.TRYING_ADD_AUTH_DATA)
                 self.user_data_handler.add_new_user_data(all_inputs)
                 Messagebox.show_messagebox(
-                    set.SUCCESS,
+                    sett.SUCCESS,
                     f"User {username} is created!",
                     self,
-                    set.TYPE_INFO
+                    sett.TYPE_INFO
                 )
                 self.close()
 
@@ -148,7 +148,7 @@ class RegisterWindow(BaseWindow):
     def toggle_password(
         self,
         checkbox: QCheckBox,
-        field: str = set.PASSWORD
+        field: str = sett.PASSWORD
     ) -> None:
         """
         Делает вводимые чувствитильные данные видимыми/невидимыми в зависимости
@@ -163,18 +163,18 @@ class RegisterWindow(BaseWindow):
             Имя поля, видимость которого меняется.
         """
         if checkbox.isChecked():
-            if field == set.PASSWORD:
-                log.info(set.PASS_MARKED_AS_CHECKED)
-            elif field == set.REPEAT_PASSWORD:
-                log.info(set.PASS_REPEAT_MARKED_AS_CHECKED)
+            if field == sett.PASSWORD:
+                log.info(sett.PASS_MARKED_AS_CHECKED)
+            elif field == sett.REPEAT_PASSWORD:
+                log.info(sett.PASS_REPEAT_MARKED_AS_CHECKED)
             self.creator.input_fields[field].setEchoMode(
                 QLineEdit.EchoMode.Normal
             )
         else:
-            if field == set.PASSWORD:
-                log.info(set.PASS_MARKED_AS_UNCHECKED)
-            elif field == set.REPEAT_PASSWORD:
-                log.info(set.PASS_REPEAT_MARKED_AS_UNCHECKED)
+            if field == sett.PASSWORD:
+                log.info(sett.PASS_MARKED_AS_UNCHECKED)
+            elif field == sett.REPEAT_PASSWORD:
+                log.info(sett.PASS_REPEAT_MARKED_AS_UNCHECKED)
             self.creator.input_fields[field].setEchoMode(
                 QLineEdit.EchoMode.Password
             )

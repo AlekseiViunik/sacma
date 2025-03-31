@@ -4,7 +4,7 @@ from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
 from logic.logger import logger as log
-from settings import settings as set
+from settings import settings as sett
 
 
 class BaseWindow(QWidget):
@@ -44,8 +44,8 @@ class BaseWindow(QWidget):
         file_path: str | None = None
     ) -> None:
         super().__init__()
-        self.window_width: int = set.SET_TO_ZERO
-        self.window_height: int = set.SET_TO_ZERO
+        self.window_width: int = sett.SET_TO_ZERO
+        self.window_height: int = sett.SET_TO_ZERO
 
         # Для наследников, у которых путь к конфигу определяется динамически,
         # передаем file_path
@@ -72,18 +72,18 @@ class BaseWindow(QWidget):
         if config:
             log.info(f"Config loaded successfully: {config}")
         else:
-            log.error(set.FAILED_GET_JSON_DATA)
+            log.error(sett.FAILED_GET_JSON_DATA)
 
-        self.setWindowTitle(config[set.WINDOW_TITLE])
-        self.window_width = int(config[set.WINDOW_WIDTH])
-        self.window_height = int(config[set.WINDOW_HEIGHT])
+        self.setWindowTitle(config[sett.WINDOW_TITLE])
+        self.window_width = int(config[sett.WINDOW_WIDTH])
+        self.window_height = int(config[sett.WINDOW_HEIGHT])
 
         Helper.move_window_to_top_left_corner(self)
 
-        log.info(set.USE_CREATOR)
+        log.info(sett.USE_CREATOR)
         self.creator = Creator(config, self)
         try:
-            self.creator.create_widget_layout(self, config[set.LAYOUT])
+            self.creator.create_widget_layout(self, config[sett.LAYOUT])
         except Exception as e:
             log.error(f"Error caught: {e}")
 
@@ -114,46 +114,46 @@ class BaseWindow(QWidget):
         """
 
         match callback_name:
-            case set.CREATE_USER_METHOD:
+            case sett.CREATE_USER_METHOD:
                 widget.clicked.connect(inheritor.create_user)
 
-            case set.CLOSE_WINDOW_METHOD:
+            case sett.CLOSE_WINDOW_METHOD:
                 widget.clicked.connect(lambda: self.cancel(inheritor))
 
-            case set.TOGGLE_PASSWORD_METHOD:
+            case sett.TOGGLE_PASSWORD_METHOD:
                 widget.stateChanged.connect(
                     lambda: inheritor.toggle_password(widget)
                 )
-            case set.TOGGLE_REPEAT_PASSWORD_METHOD:
+            case sett.TOGGLE_REPEAT_PASSWORD_METHOD:
                 widget.stateChanged.connect(
                     lambda: inheritor.toggle_password(
                         widget,
-                        set.REPEAT_PASSWORD
+                        sett.REPEAT_PASSWORD
                     )
                 )
-            case set.TRY_LOGIN_METHOD:
+            case sett.TRY_LOGIN_METHOD:
                 widget.clicked.connect(inheritor.try_login)
 
-            case set.HANDLE_START_BUTTON_METHOD:
+            case sett.HANDLE_START_BUTTON_METHOD:
                 widget.clicked.connect(inheritor.handle_start_button)
 
-            case set.BROWSE_FILE_METHOD:
-                target_input = params.get(set.TARGET_INPUT)
+            case sett.BROWSE_FILE_METHOD:
+                target_input = params.get(sett.TARGET_INPUT)
                 widget.clicked.connect(
                     lambda: inheritor.browse_file(target_input)
                 )
-            case set.SAVE_SETTINGS_METHOD:
+            case sett.SAVE_SETTINGS_METHOD:
                 widget.clicked.connect(inheritor.save_settings)
 
-            case set.OPEN_SETTINGS_METHOD:
+            case sett.OPEN_SETTINGS_METHOD:
                 widget.clicked.connect(inheritor.open_settings)
 
-            case set.OPEN_INPUT_WINDOW_METHOD:
+            case sett.OPEN_INPUT_WINDOW_METHOD:
                 widget.clicked.connect(
                     lambda: inheritor.open_input_window(params)
                 )
 
-            case set.OPEN_REGISTER_METHOD:
+            case sett.OPEN_REGISTER_METHOD:
                 widget.clicked.connect(inheritor.open_register)
 
     def cancel(self, inheritor: QWidget) -> None:
@@ -172,5 +172,5 @@ class BaseWindow(QWidget):
             пришлось указать QWidget, как тип передаваемого объекта.
         """
 
-        log.info(set.CANCEL_BUTTON_PRESSED)
+        log.info(sett.CANCEL_BUTTON_PRESSED)
         inheritor.close()

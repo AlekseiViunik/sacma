@@ -1,6 +1,6 @@
 from handlers.json_handler import JsonHandler
 from logic.logger import logger as log
-from settings import settings as set
+from settings import settings as sett
 
 
 class UserDataHandler:
@@ -23,7 +23,7 @@ class UserDataHandler:
 
     def __init__(self) -> None:
         self.auth_json_handler: JsonHandler = (
-            JsonHandler(set.USER_MAIN_DATA_FILE)
+            JsonHandler(sett.USER_MAIN_DATA_FILE)
         )
 
     def add_new_user_data(self, user_data: dict) -> None:
@@ -40,19 +40,19 @@ class UserDataHandler:
         # Убираем чувствительные данные из добавляемых
         # Также убираем оттуда юзернейм - он будет служить ключом, а не
         # значением в новом словаре.
-        username = user_data.pop(set.USERNAME)
-        if user_data.get(set.PASSWORD):
-            user_data.pop(set.PASSWORD)
-        if user_data.get(set.REPEAT_PASSWORD):
-            user_data.pop(set.REPEAT_PASSWORD)
+        username = user_data.pop(sett.USERNAME)
+        if user_data.get(sett.PASSWORD):
+            user_data.pop(sett.PASSWORD)
+        if user_data.get(sett.REPEAT_PASSWORD):
+            user_data.pop(sett.REPEAT_PASSWORD)
 
-        log.info(set.TRYING_ADD_USER_DATA)
-        log.info(f"The path is {set.USER_MAIN_DATA_FILE}")
+        log.info(sett.TRYING_ADD_USER_DATA)
+        log.info(f"The path is {sett.USER_MAIN_DATA_FILE}")
         self.auth_json_handler.write_into_file(key=username, value=user_data)
 
         # Проверка, что пользователь добавлен (для логов)
         new_data = self.auth_json_handler.get_all_data()
         if new_data.get(username) and new_data[username] == user_data:
-            log.info(set.USER_DATA_IS_ADDED)
+            log.info(sett.USER_DATA_IS_ADDED)
         else:
-            log.info(set.USER_DATA_IS_NOT_ADDED)
+            log.info(sett.USER_DATA_IS_NOT_ADDED)

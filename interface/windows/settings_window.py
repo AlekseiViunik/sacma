@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (
 )
 
 from handlers.json_handler import JsonHandler
-from settings import settings as set
+from settings import settings as sett
 from logic.logger import logger as log
 from .base_window import BaseWindow
 
@@ -27,11 +27,11 @@ class SettingsWindow(BaseWindow):
         Переписывает файл настроек и закрывает окно.
     """
 
-    CONFIG_FILE = set.SETTINGS_WINDOW_CONFIG_FILE
+    CONFIG_FILE = sett.SETTINGS_WINDOW_CONFIG_FILE
 
     def __init__(self) -> None:
         super().__init__()
-        self.settings_json_handler = JsonHandler(set.SETTINGS_FILE)
+        self.settings_json_handler = JsonHandler(sett.SETTINGS_FILE)
 
         self.init_ui()
 
@@ -45,14 +45,14 @@ class SettingsWindow(BaseWindow):
         - target_input: QLineEdit
             Поле для ввода, в которое будет вставлен выбранный путь к файлу.
         """
-        log.info(set.BROWSE_BUTTON_PRESSED)
+        log.info(sett.BROWSE_BUTTON_PRESSED)
 
         # Получаем путь к файлу, выбрав его в открывшемся окне.
         file_path, _ = QFileDialog.getOpenFileName(
             None,
-            set.CHOSE_FILE,
-            set.EMPTY_STRING,
-            set.EXCEL_FILES_FILTER
+            sett.CHOSE_FILE,
+            sett.EMPTY_STRING,
+            sett.EXCEL_FILES_FILTER
         )
 
         # Если путь получен и поле для ввода находится массива полей для ввода
@@ -70,10 +70,10 @@ class SettingsWindow(BaseWindow):
         """
 
         try:
-            log.info(set.SAVE_BUTTON_PRESSED)
-            log.info(set.TRYING_TO_REWRITE_SETTINGS)
-            log.info(f"The path is {set.SETTINGS_FILE}")
-            log.info(set.REWRITING_CHECK_IS_UNAVAILABLE)
+            log.info(sett.SAVE_BUTTON_PRESSED)
+            log.info(sett.TRYING_TO_REWRITE_SETTINGS)
+            log.info(f"The path is {sett.SETTINGS_FILE}")
+            log.info(sett.REWRITING_CHECK_IS_UNAVAILABLE)
             self.settings_json_handler.rewrite_file(
                 self.creator.input_fields
             )

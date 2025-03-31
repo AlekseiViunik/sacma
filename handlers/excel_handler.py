@@ -7,7 +7,7 @@ import win32com.client as win32
 from logic.logger import logger as log
 from logic.validator import Validator
 from handlers.json_handler import JsonHandler
-from settings import settings as set
+from settings import settings as sett
 
 
 class ExcelHandler:
@@ -112,12 +112,12 @@ class ExcelHandler:
         self.additional_input: Dict[str, Any] | None = additional_input
         self.roundings: Dict[str, str] | None = roundings
         self.settings_json_handler: JsonHandler = JsonHandler(
-            set.SETTINGS_FILE
+            sett.SETTINGS_FILE
         )
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
         self.sheet: win32com.client.CDispatch | None = None
-        self.check_err_mesg: str = set.EMPTY_STRING
+        self.check_err_mesg: str = sett.EMPTY_STRING
 
     def initiate_process(self) -> dict:
         """
@@ -132,11 +132,11 @@ class ExcelHandler:
 
         # Валидация входных данных
         if not self.__check_data():
-            log.error(set.FAILED_VALIDATION)
+            log.error(sett.FAILED_VALIDATION)
             return {
-                set.PRICE: None,
-                set.WEIGHT: None,
-                set.ERROR: self.check_err_mesg
+                sett.PRICE: None,
+                sett.WEIGHT: None,
+                sett.ERROR: self.check_err_mesg
             }
 
         self.__open_excel()
@@ -232,8 +232,8 @@ class ExcelHandler:
             if name in self.data.keys():
                 if isinstance(self.data[name], str):
                     self.data[name] = self.data[name].replace(
-                        set.EQUALS_SYMBOL,
-                        set.EMPTY_STRING
+                        sett.EQUALS_SYMBOL,
+                        sett.EMPTY_STRING
                     ).strip()
                 # Номер ячейки      = Значение переданных данных
                 data_prepared[cell] = self.data[name]
@@ -254,7 +254,7 @@ class ExcelHandler:
                 return None, None
 
             # Вставляем данные в Excel
-            log.info(set.INSERT_DATA_INTO_EXCEL)
+            log.info(sett.INSERT_DATA_INTO_EXCEL)
             for cell, value in data_prepared.items():
                 log.info(
                     f"Insert {value} in the {cell} cell of the worksheet"
@@ -268,7 +268,7 @@ class ExcelHandler:
                     self.sheet.Range(cell).Value = value
 
             # Обновляем связи
-            log.info(set.REFRESH_EXCEL)
+            log.info(sett.REFRESH_EXCEL)
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()
 
@@ -287,7 +287,7 @@ class ExcelHandler:
             Результат валидации данных.
         """
 
-        log.info(set.DATA_VALIDATION)
+        log.info(sett.DATA_VALIDATION)
         for key, value in self.data.items():
             key = key.capitalize()
             log.info(f"Check {key}")
@@ -303,7 +303,7 @@ class ExcelHandler:
                         )
                         log.error(f"{key} hasn't passed")
                         return False
-        log.info(set.SUCCESSFUL_VALIDATION)
+        log.info(sett.SUCCESSFUL_VALIDATION)
         return True
 
     def __get_data_from_excel(self) -> dict:
@@ -318,7 +318,7 @@ class ExcelHandler:
             Словарь полученными из excel данными.
         """
 
-        log.info(set.GETTING_EXCEL_DATA)
+        log.info(sett.GETTING_EXCEL_DATA)
         # Получение всех необходимых данных
         excel_data = {
             key: self.sheet.Range(self.cells_output[key]).Value
@@ -343,7 +343,7 @@ class ExcelHandler:
         """
 
         # Перевод в Децимал и округление.
-        log.info(set.ROUNDING_UP_DATA)
+        log.info(sett.ROUNDING_UP_DATA)
         for key, value in excel_data.items():
             if isinstance(value, str):
                 match = re.search(r"\d+(,\d+)?", value)
@@ -353,10 +353,10 @@ class ExcelHandler:
             if (
                 value and
                 str(value).replace(
-                    set.POINT_SYMBOL,
-                    set.EMPTY_STRING,
-                    set.SET_TO_ONE).isdigit() and
-                float(value) > set.SET_TO_ZERO
+                    sett.POINT_SYMBOL,
+                    sett.EMPTY_STRING,
+                    sett.SET_TO_ONE).isdigit() and
+                float(value) > sett.SET_TO_ZERO
             ):
                 if self.roundings and (round_limit := self.roundings.get(key)):
                     excel_data[key] = Decimal(value).quantize(
@@ -365,7 +365,7 @@ class ExcelHandler:
                     )
                 else:
                     excel_data[key] = Decimal(value).quantize(
-                        Decimal(set.ROUNDING_LIMIT),
+                        Decimal(sett.ROUNDING_LIMIT),
                         rounding=ROUND_HALF_UP
                     )
 
@@ -405,33 +405,33 @@ class ExcelHandler:
         """
 
         match rule_key:
-            case set.VALIDATION_MIN:
+            case sett.VALIDATION_MIN:
                 return (
                     f"{key} should be more than {rule_value}. You have {value}"
                 )
-            case set.VALIDATION_MAX:
+            case sett.VALIDATION_MAX:
                 return (
                     f"{key} should be less than {rule_value}. You have {value}"
                 )
-            case set.VALIDATION_NUMERIC:
+            case sett.VALIDATION_NUMERIC:
                 return (
                     f"{key} should be numeric. You have {value}"
                 )
-            case set.VALIDATION_NATURAL:
+            case sett.VALIDATION_NATURAL:
                 return (
                     f"{key} should be more positive and numeric."
                     f"You have {value}"
                 )
-            case set.VALIDATION_MULTIPLE:
+            case sett.VALIDATION_MULTIPLE:
                 return (
                     f"{key} should be multiple {rule_value}. You have {value}"
                 )
-            case set.VALIDATION_EXISTS:
+            case sett.VALIDATION_EXISTS:
                 return (
                     f"{key} should not be empy!"
                 )
             case _:
-                return set.EMPTY_STRING
+                return sett.EMPTY_STRING
 
     def __copy_cells_to_another_ones(self) -> None:
         """

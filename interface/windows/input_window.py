@@ -3,7 +3,7 @@ from interface.windows.output_window import OutputWindow
 from logic.calculator import Calculator
 from logic.logger import logger as log
 from .base_window import BaseWindow
-from settings import settings as set
+from settings import settings as sett
 
 
 class InputWindow(BaseWindow):
@@ -53,7 +53,7 @@ class InputWindow(BaseWindow):
         - Открывает окно с выводом результата.
         """
         try:
-            log.info(set.INVIA_BUTTON_PRESSED)
+            log.info(sett.INVIA_BUTTON_PRESSED)
             all_inputs = self.input_data_handler.collect_all_inputs(
                 self.creator.input_fields,
                 self.creator.chosen_fields
@@ -64,25 +64,25 @@ class InputWindow(BaseWindow):
                 self.creator.current_changing_values
             )
             self.output_window = OutputWindow()
-            log.info(set.START_CALCULATING)
+            log.info(sett.START_CALCULATING)
             result, post_message = calculator.calc_data()
 
-            log.info(set.OPEN_RESPONSE_WIDGET)
+            log.info(sett.OPEN_RESPONSE_WIDGET)
 
             if not (
-                only_keys := calculator.calc_config[set.CELLS_OUTPUT].get(
-                    set.ONLY_KEYS
+                only_keys := calculator.calc_config[sett.CELLS_OUTPUT].get(
+                    sett.ONLY_KEYS
                 )
             ):
                 only_keys = [
                     key for key in calculator.calc_config[
-                        set.CELLS_OUTPUT
+                        sett.CELLS_OUTPUT
                     ].keys()
                 ]
 
             self.output_window.open_result_window(
                 result,
-                set.PRE_MSG_STANDART,
+                sett.PRE_MSG_STANDART,
                 post_message,
                 only_keys
             )

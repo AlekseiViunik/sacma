@@ -133,7 +133,6 @@ CHANGE_WIDGETS = "change_widgets"
 ACTIVE_WHEN = "active_when"
 VISIBILITY_KEY = "visibility_key"
 JSON_FILE_PATH = "json_file_path"
-CONVERSION = "conversion"
 SPECIAL_OUTPUT = "special_output"
 POST_MESSAGE = "post_message"
 IS_HIDE = "is_hide"
@@ -148,9 +147,21 @@ MESSAGE = "message"
 ROUNDINGS = "roundings"
 ACTIVE_WHEN = "active_when"
 WIDGET_NAME = "widget_name"
+BORDER = "border"
+INDEPENDENT = "independent"
+VALIDATIONS = "validations"
+CUSTOM_VALIDATIONS = "custom_validations"
+DIAGONALS_CHECK = "diagonals_check"
+CHECKS = "checks"
+ERROR_MESSAGE = "error_message"
+BOLD = "bold"
 TRAVI = "Travi"
 TG = "TG"
-SAT = "SAT"
+SAT = "SAT",
+PIECES = "pieces"
+IS_CORRECT = "is_correct"
+SLASH = "/"
+CONVERTATION = "convertation"
 
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
@@ -180,6 +191,7 @@ SAVE_SETTINGS_METHOD = "save_settings"
 OPEN_SETTINGS_METHOD = "open_settings"
 OPEN_INPUT_WINDOW_METHOD = "open_input_window"
 OPEN_REGISTER_METHOD = "open_register"
+SECTION_CHECK = "section_check"
 
 
 # ================================ Translator =================================
@@ -246,7 +258,15 @@ DICTIONARY = {
     "n_traverse_10/10_3": "N traversi 10/10 3",
     "n_traverse_15/10_3": "N traversi 15/10 3",
     "preparation": "Approntamento",
-    "development": "Sviluppo"
+    "development": "Sviluppo",
+    "automatic_top": "Sommità automatico",
+    "welded_base_plates": "pdb saldati",
+    "typology_pb": "Tipologi PB",
+    "base_thickness": "Spessore piastra",
+    "boot_height": "Altezza Stivaletto",
+    "base_length": "Dimensione piastra (L)",
+    "base_depth": "Dimensione piastra (P)",
+    "n_holes": "N fori",
 }
 
 # ===================================Login=====================================
@@ -325,3 +345,7 @@ VALIDATION_NUMERIC = "numeric"
 VALIDATION_NATURAL = "natural"
 VALIDATION_MULTIPLE = "multiple"
 VALIDATION_EXISTS = "exists"
+
+
+BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
+DIAGONALS_CHECK_FAILED = "Error! Check diagonals and traverses amount!"
