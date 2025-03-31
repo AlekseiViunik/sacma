@@ -35,7 +35,9 @@ def check_log_size() -> None:
             lines = f.readlines()
 
         if len(lines) >= sett.MAX_LOG_LINES:
-            with open(LOG_FILE, sett.FILE_WRITE, encoding=sett.STR_CODING) as f:
+            with open(
+                LOG_FILE, sett.FILE_WRITE, encoding=sett.STR_CODING
+            ) as f:
                 f.write(sett.EMPTY_STRING)  # Очищаем файл
 
 
