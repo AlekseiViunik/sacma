@@ -3,7 +3,7 @@ import os
 
 from handlers.json_handler import JsonHandler
 from logic.logger import logger as log
-from settings import settings as set
+from settings import settings as sett
 
 
 class Authenticator:
@@ -39,7 +39,7 @@ class Authenticator:
     """
 
     def __init__(self) -> None:
-        self.file_handler: JsonHandler = JsonHandler(set.AUTH_FILE)
+        self.file_handler: JsonHandler = JsonHandler(sett.AUTH_FILE)
 
     def load_users(self) -> dict:
         """
@@ -51,8 +51,8 @@ class Authenticator:
             Словарь с данными (логин + хешированный пароль) всех юзеров.
         """
 
-        if not os.path.exists(set.AUTH_FILE):
-            return {set.USERS: {}, set.LAST_USER: set.EMPTY_STRING}
+        if not os.path.exists(sett.AUTH_FILE):
+            return {sett.USERS: {}, sett.LAST_USER: sett.EMPTY_STRING}
 
         return self.file_handler.get_all_data()
 
@@ -66,10 +66,10 @@ class Authenticator:
             Юзернейм последнего успешно вошедшего юзера. Чтобы вставить его как
             дефолтное значение поля для ввода юзернейма.
         """
-        last_user = set.EMPTY_STRING
-        if last_user := self.file_handler.get_value_by_key(set.LAST_USER):
+        last_user = sett.EMPTY_STRING
+        if last_user := self.file_handler.get_value_by_key(sett.LAST_USER):
             log.info(f"Last user found {last_user}")
-        return self.file_handler.get_value_by_key(set.LAST_USER)
+        return self.file_handler.get_value_by_key(sett.LAST_USER)
 
     @staticmethod
     def hash_password(password: str) -> str:
@@ -81,7 +81,7 @@ class Authenticator:
         - _: str
             Хешированный пароль для записи хеша в файл.
         """
-        log.info(set.HASHING_PASS)
+        log.info(sett.HASHING_PASS)
         return hashlib.sha256(password.encode()).hexdigest()
 
     @staticmethod
@@ -105,7 +105,7 @@ class Authenticator:
         users_data = Authenticator().load_users()
         hashed_password = Authenticator().hash_password(password)
         log.info(f"Check if the user {username} with pass '{password}' exists")
-        return users_data[set.USERS].get(username) == hashed_password
+        return users_data[sett.USERS].get(username) == hashed_password
 
     def save_last_user(self, username: str) -> None:
         """
@@ -117,8 +117,8 @@ class Authenticator:
         - username: str
             Логин
         """
-        log.info(set.SAVE_LAST_USER)
-        self.file_handler.write_into_file(key=set.LAST_USER, value=username)
+        log.info(sett.SAVE_LAST_USER)
+        self.file_handler.write_into_file(key=sett.LAST_USER, value=username)
 
     def register_user(self, username: str, password: str) -> bool:
         """
@@ -140,11 +140,11 @@ class Authenticator:
 
         users_data = Authenticator().load_users()
 
-        if username in users_data[set.USERS]:
+        if username in users_data[sett.USERS]:
             return False  # Пользователь уже существует
 
-        users_data[set.USERS][username] = self.file_handler.write_into_file(
-            set.USERS,
+        users_data[sett.USERS][username] = self.file_handler.write_into_file(
+            sett.USERS,
             username,
             Authenticator().hash_password(password)
         )
