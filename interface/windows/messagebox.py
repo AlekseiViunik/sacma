@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMessageBox, QWidget
 
-from settings import settings as set
+from settings import settings as sett
 
 
 class Messagebox:
@@ -10,7 +10,7 @@ class Messagebox:
         title: str,
         msg: str,
         window: QWidget | None,
-        type: str = set.ERROR,
+        type: str = sett.ERROR,
         exec: bool = False
     ) -> None:
         """
@@ -43,7 +43,7 @@ class Messagebox:
         box.setWindowTitle(title)
         box.setText(msg)
         box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        if type == set.ERROR:
+        if type == sett.ERROR:
             box.setIcon(QMessageBox.Icon.Critical)
             if exec:
                 box.exec()
