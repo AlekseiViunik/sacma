@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QLineEdit, QCheckBox
 from handlers.json_handler import JsonHandler
 from helpers.authenticator import Authenticator
 from logic.logger import logging as log
-from settings import settings as set
+from settings import settings as sett
 from .base_window import BaseWindow
 from .messagebox import Messagebox
 
@@ -35,11 +35,11 @@ class LoginWindow(BaseWindow):
         Чекбокса.
     """
 
-    CONFIG_FILE = set.LOGIN_WINDOW_CONFIG_FILE
+    CONFIG_FILE = sett.LOGIN_WINDOW_CONFIG_FILE
 
     def __init__(self) -> None:
         super().__init__()
-        self.auth_json_handler: JsonHandler = JsonHandler(set.AUTH_FILE)
+        self.auth_json_handler: JsonHandler = JsonHandler(sett.AUTH_FILE)
         self.auth_successful: bool = False
         self.auth: Authenticator = Authenticator()
 
@@ -53,10 +53,10 @@ class LoginWindow(BaseWindow):
         """
         super().init_ui()  # ✅ Вызываем базовый метод
 
-        log.info(set.ADD_LAST_USER_TO_INPUT_FIELD)
-        last_user = self.auth_json_handler.get_value_by_key(set.LAST_USER)
-        if set.USERNAME in self.creator.input_fields:
-            self.creator.input_fields[set.USERNAME].setText(last_user)
+        log.info(sett.ADD_LAST_USER_TO_INPUT_FIELD)
+        last_user = self.auth_json_handler.get_value_by_key(sett.LAST_USER)
+        if sett.USERNAME in self.creator.input_fields:
+            self.creator.input_fields[sett.USERNAME].setText(last_user)
 
     def try_login(self) -> None:
         """
@@ -64,20 +64,20 @@ class LoginWindow(BaseWindow):
         закрывает окно логина и открывает стартовое окно. В противном
         случае открывает Окно с информации о неверных логине и пароле.
         """
-        log.info(set.TRY_BUTTON_PRESSED)
-        username = self.creator.input_fields[set.USERNAME].text()
-        password = self.creator.input_fields[set.PASSWORD].text()
+        log.info(sett.TRY_BUTTON_PRESSED)
+        username = self.creator.input_fields[sett.USERNAME].text()
+        password = self.creator.input_fields[sett.PASSWORD].text()
         try:
             if self.auth.verify_user(username, password):
-                log.info(set.USER_VERIFIED)
+                log.info(sett.USER_VERIFIED)
                 self.auth.save_last_user(username)
                 self.auth_successful = True
                 self.close()  # Закрываем окно авторизации
             else:
-                log.error(set.WRONG_CREDENTIALS)
+                log.error(sett.WRONG_CREDENTIALS)
                 Messagebox.show_messagebox(
-                    set.LOGIN_ERROR,
-                    set.WRONG_CREDENTIALS,
+                    sett.LOGIN_ERROR,
+                    sett.WRONG_CREDENTIALS,
                     self
                 )
         except Exception as e:
@@ -95,12 +95,12 @@ class LoginWindow(BaseWindow):
             символов.
         """
         if checkbox.isChecked():
-            log.info(set.PASS_MARKED_AS_CHECKED)
-            self.creator.input_fields[set.PASSWORD].setEchoMode(
+            log.info(sett.PASS_MARKED_AS_CHECKED)
+            self.creator.input_fields[sett.PASSWORD].setEchoMode(
                 QLineEdit.EchoMode.Normal
             )
         else:
-            log.info(set.PASS_MARKED_AS_UNCHECKED)
-            self.creator.input_fields[set.PASSWORD].setEchoMode(
+            log.info(sett.PASS_MARKED_AS_UNCHECKED)
+            self.creator.input_fields[sett.PASSWORD].setEchoMode(
                 QLineEdit.EchoMode.Password
             )
