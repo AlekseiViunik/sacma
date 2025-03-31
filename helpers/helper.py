@@ -4,7 +4,7 @@ from numbers import Number
 from typing import Any
 from PyQt6.QtWidgets import QApplication
 
-from settings import settings as set
+from settings import settings as sett
 
 
 class Helper:
@@ -46,11 +46,11 @@ class Helper:
 
         x = (
             screen_geometry.width() - window.window_width
-        ) // set.MIDDLE_DETERMINANT_DIVIDER
+        ) // sett.MIDDLE_DETERMINANT_DIVIDER
 
         y = (
             screen_geometry.height() - window.window_height
-        ) // set.MIDDLE_DETERMINANT_DIVIDER
+        ) // sett.MIDDLE_DETERMINANT_DIVIDER
 
         window.setGeometry(x, y, window.window_width, window.window_height)
 
@@ -65,8 +65,8 @@ class Helper:
             Окно, которое нужно сдвинуть.
         """
         window.setGeometry(
-            set.TOP_LEFT_X,
-            set.TOP_LEFT_Y,
+            sett.TOP_LEFT_X,
+            sett.TOP_LEFT_Y,
             window.window_width,
             window.window_height
         )
@@ -89,7 +89,7 @@ class Helper:
 
         # Если имя кнопки состоит их некольких слов, делаем все буквы нажнего
         # регистра и заменяем пробелы нижним подчеркиванием.
-        filename = set.FILE_NAME_CONNECTOR.join(
+        filename = sett.FILE_NAME_CONNECTOR.join(
             word.lower() for word in name.split()
         )
 
@@ -125,18 +125,20 @@ class Helper:
         """
 
         # Если нашли ключ.
-        if data.get(set.CHOICES) and data[set.CHOICES].get(set.CELLS_OUTPUT):
-            return data[set.CHOICES]
+        if data.get(sett.CHOICES) and data[sett.CHOICES].get(
+            sett.CELLS_OUTPUT
+        ):
+            return data[sett.CHOICES]
 
-        counter = set.SET_TO_ZERO
+        counter = sett.SET_TO_ZERO
 
         # Пробегаемся по ключам.
         for key in keys:
 
             # Если ключ - "choices", перескакиваем на 2 уровня.
-            if set.CHOICES in data and key in data[set.CHOICES]:
+            if sett.CHOICES in data and key in data[sett.CHOICES]:
                 return Helper.get_nested_data(
-                    [k for k in keys if k != key], data[set.CHOICES][key]
+                    [k for k in keys if k != key], data[sett.CHOICES][key]
                 )  # Удаляем найденный ключ и продолжаем.
 
             # В противном случае переходим на следующий уровень вложенности.
@@ -145,7 +147,7 @@ class Helper:
                     [k for k in keys if k != key], data[key]
                 )  # Удаляем найденный ключ и продолжаем.
             else:
-                counter += set.STEP_UP
+                counter += sett.STEP_UP
 
         if counter == len(keys):
             return data
@@ -207,3 +209,29 @@ class Helper:
             k: dec_value for d in (dict1, dict2) for k, v in d.items()
             if (dec_value := to_decimal(v)) is not None
         }
+
+    @staticmethod
+    def backward_convertation(
+        value: str,
+        convertation_dictionary: dict
+    ) -> str:
+        """
+        Ищет значения среди значений словаря конвертации и возвращает ключ.
+
+        Parameters
+        ----------
+        - value: str
+            Значение, которое нужно конвертировать.
+        - convertation_dictionary: dict
+            Словарь конвертации, где ключ - это название, а значение - его
+            конвертированное значение.
+
+        Returns
+        -------
+        - _: str
+            Название, соответствующее переданному значению.
+        """
+        for key, val in convertation_dictionary.items():
+            if val == value:
+                return key
+        return ""
