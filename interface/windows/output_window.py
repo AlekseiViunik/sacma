@@ -12,7 +12,7 @@ from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
 from logic.logger import logger as log
 from logic.translator import Translator
-from settings import settings as set
+from settings import settings as sett
 
 
 class OutputWindow(QWidget):
@@ -37,7 +37,7 @@ class OutputWindow(QWidget):
     def __init__(self) -> None:
         super().__init__()
         self.config_json_handler: JsonHandler = (
-            JsonHandler(set.OUTPUT_WINDOW_CONFIG_FILE)
+            JsonHandler(sett.OUTPUT_WINDOW_CONFIG_FILE)
         )
 
     def open_result_window(
@@ -45,7 +45,7 @@ class OutputWindow(QWidget):
         values: dict,
         pre_message: str | None = None,
         post_message: str | None = None,
-        only_keys: list = [set.PRICE, set.WEIGHT]
+        only_keys: list = [sett.PRICE, sett.WEIGHT]
     ) -> None:
         """
         Открывает окно результата. Имеет свою реализацию пока что.
@@ -67,22 +67,22 @@ class OutputWindow(QWidget):
         """
 
         try:
-            log.info(set.CREATE_RESULT_WINDOW)
-            log.info(set.GETTING_CONF_FOR_RESULT_WINDOW)
-            log.info(f"The path is {set.OUTPUT_WINDOW_CONFIG_FILE}")
+            log.info(sett.CREATE_RESULT_WINDOW)
+            log.info(sett.GETTING_CONF_FOR_RESULT_WINDOW)
+            log.info(f"The path is {sett.OUTPUT_WINDOW_CONFIG_FILE}")
 
             # Загружаем конфиг.
             config = self.config_json_handler.get_all_data()
             if config:
-                log.info(set.CONF_DATA_RECEIVED)
+                log.info(sett.CONF_DATA_RECEIVED)
                 log.info(f"Config is: {config}")
             else:
-                log.error(set.FAILED_GET_JSON_DATA)
+                log.error(sett.FAILED_GET_JSON_DATA)
 
             # Настройка окна результатов (Титул, размеры, центрирование).
-            self.setWindowTitle(config[set.WINDOW_TITLE])
-            self.window_width = int(config[set.WINDOW_WIDTH])
-            self.window_height = int(config[set.WINDOW_HEIGHT])
+            self.setWindowTitle(config[sett.WINDOW_TITLE])
+            self.window_width = int(config[sett.WINDOW_WIDTH])
+            self.window_height = int(config[sett.WINDOW_HEIGHT])
             # Helper.move_window_to_center(self)
             Helper.move_window_to_top_left_corner(self)
 
@@ -92,7 +92,7 @@ class OutputWindow(QWidget):
 
             # Создаём шрифт (увеличенный размер)
             font = QFont()
-            font.setPointSize(set.SPECIAL_FONT_SIZE)  # Размер шрифта
+            font.setPointSize(sett.SPECIAL_FONT_SIZE)  # Размер шрифта
 
             # Размещение сообщения перед результатами, если есть
             if pre_message:
@@ -114,16 +114,16 @@ class OutputWindow(QWidget):
             # Размещаем лейблы с результатом
             for label, value in filtered_values.items():
                 if (
-                    (label == set.PRICE_IT and value) or
-                    (label == set.PREPARATION_IT and value)
+                    (label == sett.PRICE_IT and value) or
+                    (label == sett.PREPARATION_IT and value)
                 ):
-                    value = f"{str(value)} {set.EURO_SYMBOL}"
-                elif label == set.WEIGHT_IT and value:
-                    value = f"{str(value)} {set.KILO_SYMBOL}"
+                    value = f"{str(value)} {sett.EURO_SYMBOL}"
+                elif label == sett.WEIGHT_IT and value:
+                    value = f"{str(value)} {sett.KILO_SYMBOL}"
                 elif (
-                    label == set.PRICE_IT or label == set.WEIGHT_IT
+                    label == sett.PRICE_IT or label == sett.WEIGHT_IT
                 ) and not value:
-                    value = set.NOT_FOUND_IT
+                    value = sett.NOT_FOUND_IT
 
                 label = f"{label}: "
 
@@ -136,9 +136,9 @@ class OutputWindow(QWidget):
                 title_label.setFont(font)
                 value_label.setFont(font)
 
-                grid_layout.addWidget(title_label, row, set.SET_TO_ZERO)
-                grid_layout.addWidget(value_label, row, set.SET_TO_ONE)
-                row += set.STEP_UP
+                grid_layout.addWidget(title_label, row, sett.SET_TO_ZERO)
+                grid_layout.addWidget(value_label, row, sett.SET_TO_ONE)
+                row += sett.STEP_UP
 
             # Добавляем контейнер с лейблами результатов на главный контейнер
             main_layout.addLayout(grid_layout)
@@ -151,9 +151,9 @@ class OutputWindow(QWidget):
                 main_layout.addWidget(post_message_label)
 
             # Размещение кнопки ОК
-            ok_button = QPushButton(set.OK_BUTTON_TITLE)
-            ok_button.setFixedWidth(set.OK_BUTTON_WIDTH)
-            ok_button.setFixedHeight(set.OK_BUTTON_HEIGHT)
+            ok_button = QPushButton(sett.OK_BUTTON_TITLE)
+            ok_button.setFixedWidth(sett.OK_BUTTON_WIDTH)
+            ok_button.setFixedHeight(sett.OK_BUTTON_HEIGHT)
             ok_button.setStyleSheet("margin-top: 10px;")
             ok_button.clicked.connect(self.close)
             button_container = QVBoxLayout()
