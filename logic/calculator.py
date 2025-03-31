@@ -3,8 +3,9 @@ from handlers.formulas_handler import FormulasHandler
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
 from logic.translator import Translator
+from logic.validator import Validator
 from logic.logger import logger as log
-from settings import settings as set
+from settings import settings as sett
 
 
 class Calculator:
@@ -84,81 +85,98 @@ class Calculator:
                 self.calc_config
             )
         else:
-            self.calc_config = self.calc_config[set.CHOICES]
-        if self.calc_config.get(set.CONVERSION):
+            self.calc_config = self.calc_config[sett.CHOICES]
+        if self.calc_config.get(sett.CONVERTATION):
             self.__convert_data()
 
         # Специальный вывод - это обычно когда в экселе считать ничего не надо,
         # а значения для вывода берутся из ячеек, адрес которых определяется
         # введенными параметрами
-        if self.calc_config.get(set.SPECIAL_OUTPUT):
-            self.calc_config.pop('special_output')
+        if self.calc_config.get(sett.SPECIAL_OUTPUT):
+            self.calc_config.pop(sett.SPECIAL_OUTPUT)
             keys = list(self.data.values())
 
             # Получаем адреса ячеек, которые необходимо извлечь из экселя
-            self.calc_config['cells_output'] = Helper.get_nested_data(
+            self.calc_config[sett.CELLS_OUTPUT] = Helper.get_nested_data(
                 keys,
-                self.calc_config['cells_output']
+                self.calc_config[sett.CELLS_OUTPUT]
             )
 
         # Если есть сообщение, которое надо вставить в окне результатов после
         # вывода результата, извлекаем его из конфига.
-        post_message = self.calc_config[set.CELLS_OUTPUT].pop(
-            set.POST_MESSAGE,
+        post_message = self.calc_config[sett.CELLS_OUTPUT].pop(
+            sett.POST_MESSAGE,
             None
         )
 
         # Если есть результат, который не надо отображать, даже если он
         # получен, активируем флаг is_hide.
-        is_hide = self.calc_config[set.CELLS_OUTPUT].pop(
-            set.IS_HIDE,
+        is_hide = self.calc_config[sett.CELLS_OUTPUT].pop(
+            sett.IS_HIDE,
             None
         )
 
-        # Ключи введенных данных на английском языке, а поля для ввода
-        # обозначены на итальянском, поэтому переводим все ключи на
-        # итальянский. Почему при этом мы не переводим на итальянский
-        # данные по извлекаемым ячейкам - я не помню.
-        self.excel_handler = ExcelHandler(
-            Translator.translate_dict(self.data),
-            Translator.translate_dict(self.calc_config[set.RULES]),
-            self.calc_config[set.WORKSHEET],
-            Translator.translate_dict(self.calc_config[set.CELLS_INPUT]),
-            self.calc_config[set.CELLS_OUTPUT],
+        # Стандартная валидация данных на сравнение друг с другом разных
+        # показателей. Например, что количество одних элементов должно быть
+        # равно определенному количеству других элементов.
+        if (self.calc_config.get(sett.CUSTOM_VALIDATIONS)):
+            validation_result = Validator().custom_validation(
+                self.calc_config,
+                self.data
+            )
 
-            # copy_cells указывает значения каких ячеек (ключи) и
-            # куда (значения) надо будет копировать после внесения собранных
-            # данных в эксель. Изначально введено для fiancate.
-            self.calc_config.get(set.COPY_CELLS, None),
+        if not validation_result or validation_result[sett.IS_CORRECT]:
+            # Ключи введенных данных на английском языке, а поля для ввода
+            # обозначены на итальянском, поэтому переводим все ключи на
+            # итальянский. Почему при этом мы не переводим на итальянский
+            # данные по извлекаемым ячейкам - я не помню.
+            self.excel_handler = ExcelHandler(
+                Translator.translate_dict(self.data),
+                Translator.translate_dict(self.calc_config[sett.RULES]),
+                self.calc_config[sett.WORKSHEET],
+                Translator.translate_dict(self.calc_config[sett.CELLS_INPUT]),
+                self.calc_config[sett.CELLS_OUTPUT],
 
-            # additional_input - словарь, кторый указывает, в какие ячейки
-            # (ключи) какие значения (значения) надо внести, независимо от
-            # введенных юзером данных. Изначально введено для указания толщины
-            # диагоналей и траверс для fiancate.
-            self.calc_config.get(set.ADDITIONAL_INPUT, None),
+                # copy_cells указывает значения каких ячеек (ключи) и
+                # куда (значения) надо будет копировать после внесения
+                # собранных данных в эксель. Изначально введено для fiancate.
+                self.calc_config.get(sett.COPY_CELLS, None),
 
-            # Словарь с уточненными значениями округления для конкретных полей
-            self.calc_config.get(set.ROUNDINGS, None)
-        )
+                # additional_input - словарь, кторый указывает, в какие ячейки
+                # (ключи) какие значения (значения) надо внести, независимо от
+                # введенных юзером данных. Изначально введено для указания
+                # толщины диагоналей и траверс для fiancate.
+                self.calc_config.get(sett.ADDITIONAL_INPUT, None),
 
-        # Запускаем обработчик эксель файла
-        try:
-            excel_result = self.excel_handler.initiate_process()
-        except Exception as e:
-            log.error(f"Error caught: {e}")
+                # Словарь с уточненными значениями округления для конкретных
+                # полей.
+                self.calc_config.get(sett.ROUNDINGS, None)
+            )
+
+            # Запускаем обработчик эксель файла
+            try:
+                excel_result = self.excel_handler.initiate_process()
+            except Exception as e:
+                log.error(f"Error caught: {e}")
+        else:
+            excel_result = {
+                sett.PRICE: None,
+                sett.WEIGHT: None,
+                sett.ERROR: validation_result[sett.ERROR_MESSAGE]
+            }
 
         # Если в обработчике данные не прошли валидацию, то в сообщении после
         # вывода результатов выводим сообщение об ошибке.
-        if excel_result.get(set.ERROR):
-            post_message = excel_result.pop(set.ERROR)
+        if excel_result.get(sett.ERROR):
+            post_message = excel_result.pop(sett.ERROR)
         else:
             # Если полученные результаты требуют дальнейших расчетов по
             # формуле, применяем ее
-            if self.calc_config.get(set.FORMULAS):
+            if self.calc_config.get(sett.FORMULAS):
                 try:
                     self.__use_formula(
                         excel_result,
-                        self.calc_config[set.FORMULAS],
+                        self.calc_config[sett.FORMULAS],
                         self.data
                     )
                 except Exception as e:
@@ -170,10 +188,10 @@ class Calculator:
             if post_message and not isinstance(post_message, str):
                 if self.__check_condition(
                     excel_result,
-                    post_message.get(set.CONDITION, set.EMPTY_STRING),
+                    post_message.get(sett.CONDITION, sett.EMPTY_STRING),
                     self.data
                 ):
-                    post_message = post_message[set.MESSAGE]
+                    post_message = post_message[sett.MESSAGE]
                 else:
                     post_message = None
 
@@ -239,16 +257,16 @@ class Calculator:
 
     def __convert_data(self) -> None:
         """
-        Если в конфиге для расчетов есть такой параметр, как conversion, то
+        Если в конфиге для расчетов есть такой параметр, как convertation, то
         Необходимо конфертировать собранные данные из одного вида в другой,
-        согласно разделу conversion в конфиге.
+        согласно разделу convertation в конфиге.
         Например если конфиг выглядит так:
         "section": {"x1": 1, "x2": 100},
         И если у нас в собранных данных "section": "x2",
         То в собранных данных мы должны заменить это значение на 100.
         """
         for param, value in self.data.items():
-            if param in self.calc_config[set.CONVERSION].keys():
+            if param in self.calc_config[sett.CONVERTATION].keys():
                 self.data[
                     param
-                ] = self.calc_config[set.CONVERSION][param][value]
+                ] = self.calc_config[sett.CONVERTATION][param][value]
