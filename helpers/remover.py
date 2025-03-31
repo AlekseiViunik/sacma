@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout
 )
 
-from settings import settings as set
+from settings import settings as sett
 
 
 class Remover:
@@ -83,11 +83,11 @@ class Remover:
         # Формируем списки полей для удаления.
         chosen_fields_to_delete = [
             name for name, field in chosen_fields.items()
-            if self.__is_invalid_widget(field, set.CURRENT_TEXT_METHOD)
+            if self.__is_invalid_widget(field, sett.CURRENT_TEXT_METHOD)
         ]
         input_fields_to_delete = [
             name for name, field in input_fields.items()
-            if self.__is_invalid_widget(field, set.TEXT_METHOD)
+            if self.__is_invalid_widget(field, sett.TEXT_METHOD)
         ]
 
         # Пробегаемся по этим спискам и удаляем поля из словарей.
@@ -150,7 +150,7 @@ class Remover:
         while layout_to_clear.count():
 
             # берем первый элемент контейнера.
-            item = layout_to_clear.takeAt(set.SET_TO_ZERO)
+            item = layout_to_clear.takeAt(sett.SET_TO_ZERO)
 
             # Если элемент - виджет, удаляем его.
             if item.widget():
