@@ -64,13 +64,13 @@ class BaseWindow(QWidget):
         - Размещает виджеты, используя креатор.
         """
 
-        log.info(f"Creating window with config: {self.CONFIG_FILE}")
+        log.info(sett.CREATE_WINDOW_WITH_CONF.format(self.CONFIG_FILE))
 
         # Загружаем конфиг
         config = self.config_json_handler.get_all_data()
 
         if config:
-            log.info(f"Config loaded successfully: {config}")
+            log.info(sett.CONFIG_LOADED_SUCCESSFULLY.format(config))
         else:
             log.error(sett.FAILED_GET_JSON_DATA)
 
