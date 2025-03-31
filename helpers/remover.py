@@ -1,9 +1,5 @@
 from typing import Any
-from PyQt6.QtWidgets import (
-    QGridLayout,
-    QHBoxLayout,
-    QVBoxLayout
-)
+from PyQt6.QtWidgets import QLayout
 
 from settings import settings as sett
 
@@ -20,20 +16,20 @@ class Remover:
     - clean_up_fields(input_fields, chosen_fields)
         Удаляет мертвые ссылки из словарей с введенными юзером данными.
 
+    - clear_layout(layout_to_clear)
+    Очищает контейнер от виджетов перед его удалением.
+
     Private methods
     ---------------
     - __is_invalid_widget(widget, method)
         Проверяет, живой ли виджет или это мертвая ссылка, которую нужно
         удалить.
-
-    - __clear_layout(layout_to_clear)
-        Очищает контейнер от виджетов перед его удалением.
     """
 
     def delete_layout(
         self,
-        parent_widget: QGridLayout | QHBoxLayout | QVBoxLayout,
-        layout_to_delete: QGridLayout | QHBoxLayout | QVBoxLayout | None = None
+        parent_widget: QLayout,
+        layout_to_delete: QLayout | None = None
     ) -> None:
         """
         Удаляет контейнер, чтобы на его место вставить такой же, только
@@ -41,11 +37,11 @@ class Remover:
 
         Parameters
         ----------
-        - parent_widget: QGridLayout | QHBoxLayout | QVBoxLayout
+        - parent_widget: QLayout
             Родительский виджет, на котором расположен текущий контейнер,
             который надо удалить.
 
-        - layout_to_delete: QGridLayout | QHBoxLayout | QVBoxLayout | None
+        - layout_to_delete: QLayout | None
             Виджет, который надо удалить.
         """
 
@@ -97,39 +93,9 @@ class Remover:
         for name in input_fields_to_delete:
             input_fields.pop(name, None)
 
-    def __is_invalid_widget(
-        self,
-        widget: Any,
-        method: str
-    ) -> bool:
-        """
-        Проверяет, выбросит ли метод RuntimeError (значит, виджет мёртв).
-
-        Parameters
-        ----------
-        - widget: Any
-            Любой из виджетов или мертвая ссылка на виджет.
-
-        - method: str
-            Имя метода, который должен быть у этого виджета, который
-            представлен в виде строки. Если у виджета этого метода нет, то и
-            виджет мертв.
-
-        Returns
-        -------
-        - _: bool
-            Информация о том, мертв ли виджет. Если True, значит мертв.
-        """
-
-        try:
-            getattr(widget, method)()  # Вызываем метод динамически
-            return False
-        except RuntimeError:
-            return True
-
     def clear_layout(
         self,
-        layout_to_clear: QGridLayout | QHBoxLayout | QVBoxLayout
+        layout_to_clear: QLayout
     ) -> None:
         """
         Рекурсивный метод очистки и удаления контейнеров.
@@ -161,3 +127,35 @@ class Remover:
             elif item.layout():
                 self.clear_layout(item.layout())
                 item.layout().deleteLater()
+
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
+    def __is_invalid_widget(
+        self,
+        widget: Any,
+        method: str
+    ) -> bool:
+        """
+        Проверяет, выбросит ли метод RuntimeError (значит, виджет мёртв).
+
+        Parameters
+        ----------
+        - widget: Any
+            Любой из виджетов или мертвая ссылка на виджет.
+
+        - method: str
+            Имя метода, который должен быть у этого виджета, который
+            представлен в виде строки. Если у виджета этого метода нет, то и
+            виджет мертв.
+
+        Returns
+        -------
+        - _: bool
+            Информация о том, мертв ли виджет. Если True, значит мертв.
+        """
+
+        try:
+            getattr(widget, method)()  # Вызываем метод динамически
+            return False
+        except RuntimeError:
+            return True

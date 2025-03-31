@@ -1,11 +1,11 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
+from .base_window import BaseWindow
+from .messagebox import Messagebox
 from handlers.json_handler import JsonHandler
 from helpers.authenticator import Authenticator
 from logic.logger import logging as log
 from settings import settings as sett
-from .base_window import BaseWindow
-from .messagebox import Messagebox
 
 
 class LoginWindow(BaseWindow):
@@ -48,9 +48,10 @@ class LoginWindow(BaseWindow):
     def init_ui(self) -> None:
         """
         Создает интерфейс окна настроек. Повторяет весь функционал родителя,
-        но также еще и заполняет поле Username, если были в auth.json есть поле
+        но также еще и заполняет поле Username, если в auth.json есть поле
         lastUser.
         """
+
         super().init_ui()  # ✅ Вызываем базовый метод
 
         log.info(sett.ADD_LAST_USER_TO_INPUT_FIELD)
@@ -64,6 +65,7 @@ class LoginWindow(BaseWindow):
         закрывает окно логина и открывает стартовое окно. В противном
         случае открывает Окно с информации о неверных логине и пароле.
         """
+
         log.info(sett.TRY_BUTTON_PRESSED)
         username = self.creator.input_fields[sett.USERNAME].text()
         password = self.creator.input_fields[sett.PASSWORD].text()
@@ -94,6 +96,7 @@ class LoginWindow(BaseWindow):
             Чекбокс, в зависимости от которого меняется наличие маскировки
             символов.
         """
+
         if checkbox.isChecked():
             log.info(sett.PASS_MARKED_AS_CHECKED)
             self.creator.input_fields[sett.PASSWORD].setEchoMode(

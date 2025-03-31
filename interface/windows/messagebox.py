@@ -4,6 +4,15 @@ from settings import settings as sett
 
 
 class Messagebox:
+    """
+    Класс, отвечающий за вывод окна с сообщением об ошибке или просто
+    информационного окна.
+
+    Methods
+    -------
+    - show_messagebox(title, msg, window, type, exec)
+        Выводит окно об ошибке или просто информационное окно.
+    """
 
     @staticmethod
     def show_messagebox(

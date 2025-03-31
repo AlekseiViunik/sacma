@@ -1,4 +1,3 @@
-from typing import Dict, List, Tuple
 from PyQt6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -9,15 +8,15 @@ from PyQt6.QtWidgets import (
     QLayout,
     QLineEdit,
     QPushButton,
+    QSizePolicy,
     QVBoxLayout,
-    QWidget,
-    QSizePolicy
+    QWidget
 )
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 
-from helpers.remover import Remover
 from helpers.finder import Finder
+from helpers.remover import Remover
 from logic.logger import logger as log
 from settings import settings as sett
 
@@ -36,21 +35,21 @@ class Creator:
     - parent_window: QWidget
         Класс окна, на котором мы размещаем виджеты.
 
-    - input_fields: Dict[str, QLineEdit]
+    - input_fields: dict[str, QLineEdit]
         Словарь с именем полей для ввода и их объектами, расположенных в
         текущем окне.
 
-    - chosen_fields: Dict[str, QComboBox]
+    - chosen_fields: dict[str, QComboBox]
         Словарь с именем полей для выбора и их объектами, расположенных в
         текущем окне.
 
-    - default_values: Dict[str, str]
+    - default_values: dict[str, str]
         Помощник, отвечающий за авторизацию и создание юзеров.
 
     - current_changing_value: str | None
         Текущее значение, которое меняет расположение виджетов.
 
-    - current_changing_values: Dict[str, str]
+    - current_changing_values: dict[str, str]
         Словарь текущих значений, меняющих расположение виджетов.
 
     - remover: Remover
@@ -59,18 +58,18 @@ class Creator:
     - finder: Finder
         Класс-находитель.
 
+    - mandatory_fields: list[str]
+        Поля, обязательные для заполнения.
+
     - main_layout: None
         Содержит ссылку на главный контейнер для его последующей перерисовки.
-
-    - mandatory_fields: List[str]
-        Поля, обязательные для заполнения.
 
     - dependencies: dict
         Словарь зависимых контейнеров, которые будут меняться в зависимости от
         того, какое поле было выбрано.
 
     - layout_parents: dict
-        Словрь, который в качестве ключей содержит текущий контйенер,
+        Словарь, который в качестве ключей содержит текущий контйенер,
         а значений - родительский. Нужен для четкого определения родителя
         при перерисовке контейнера.
 
@@ -128,6 +127,9 @@ class Creator:
     - __check_if_widget_is_active(config)
         Проверяет, активен ли виджет при текщих изменяющих значениях.
         Необходимо, чтобы понять, стоит ли отрисовывать его.
+
+    - __add_border_frame(layout)
+        Оборачивает контейнер, которому нужна рамка в QFrame для этого.
     """
 
     def __init__(
@@ -140,14 +142,14 @@ class Creator:
         # но из-за зацикливания ссылок друг на друге, я не могу его тут
         # указать.
         self.parent_window: QWidget = parent_window
-        self.input_fields: Dict[str, QLineEdit] = {}
-        self.chosen_fields: Dict[str, QComboBox] = {}
-        self.default_values: Dict[str, str] = {}
+        self.input_fields: dict[str, QLineEdit] = {}
+        self.chosen_fields: dict[str, QComboBox] = {}
+        self.default_values: dict[str, str] = {}
         self.current_changing_value: str | None = None
-        self.current_changing_values: Dict[str, str] = {}
+        self.current_changing_values: dict[str, str] = {}
         self.remover: Remover = Remover()
         self.finder: Finder = Finder()
-        self.mandatory_fields: List[str] = []
+        self.mandatory_fields: list[str] = []
         self.main_layout = None
 
         # Словрь, который в качестве ключей содержит имя виджета, от выбора
@@ -177,7 +179,7 @@ class Creator:
 
         Parameters
         ----------
-        - parent_window: QHBoxLayout | QVBoxLayout | QGridLayout | QWidget
+        - parent_window: QLayout | QWidget
             Окно или контейнер. на котором должен быть размещен текущий
             контейнер. От этого зависит, какой метод использовать для
             размещения контейнера.
@@ -232,11 +234,10 @@ class Creator:
         )
 
         # Если текущий контейнер должен быть размещен на другом контейнере
-        if (
-            isinstance(parent_window, QHBoxLayout) or
-            isinstance(parent_window, QVBoxLayout) or
-            isinstance(parent_window, QGridLayout)
-        ):
+        if isinstance(parent_window, QLayout):
+
+            # Если нужна рамка или независимость в расположении контейнера
+            # относительно других. В таком случае нужен виджет-обертка.
             if (sett.BORDER in layout_config.keys()):
                 frame = self.__add_border_frame(layout)
                 parent_window.addWidget(frame)
@@ -265,11 +266,13 @@ class Creator:
             self.layout_parents[layout] = parent_window
             parent_window.adjustSize()
 
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
     def __add_widgets(
         self,
-        layout: QHBoxLayout | QVBoxLayout | QGridLayout,
+        layout: QLayout,
         layout_type: str,
-        widgets_configs: List[dict],
+        widgets_configs: list[dict],
         columns: int | None = None
     ) -> None:
         """
@@ -288,13 +291,13 @@ class Creator:
 
         Parameters
         ----------
-        - layout: QHBoxLayout | QVBoxLayout | QGridLayout
+        - layout: QLayout
             Объект контейнера, на котором должны быть размещены виджеты.
 
         - layout_type: str
             Тип контейнера (берется из конфига)
 
-        - widgets_configs: List[dict]
+        - widgets_configs: list[dict]
             Список конфигов всех виджетов, которые должны быть размещены в
             контейнере в порядке их перечисления в списке.
 
@@ -370,8 +373,8 @@ class Creator:
     def __create_widget(
         self,
         config: dict,
-        layout: QHBoxLayout | QVBoxLayout | QGridLayout | None = None,
-    ) -> QLabel | QLineEdit | QCheckBox | QPushButton | QComboBox | None:
+        layout: QLayout | None = None,
+    ) -> QWidget | None:
         """
         Создает виджет по его конфигу. Для каждого типа виджетов вызывает свой
         метод создания. Если конфиге оказался контейнер, вызывает метод
@@ -384,13 +387,13 @@ class Creator:
         - config: dict
             Конфиг, по которому будет создаваться и настраиваться виджет.
 
-        - layout: QHBoxLayout | QVBoxLayout | QGridLayout | None = None
+        - layout: QLayout | None = None
             Контейнер, на котором виджет будет располгаться.
 
         Returns
         -------
         - widget: (
-            QLabel | QLineEdit | QCheckBox | QPushButton | QComboBox | None
+            QWidget | None
         )
             Возвращает созданный и сконфигурированный объект виджета.
         """
@@ -426,7 +429,7 @@ class Creator:
     def __create_layout(
         self,
         layout_config: dict
-    ) -> QHBoxLayout | QVBoxLayout | QGridLayout | None:
+    ) -> QLayout | None:
         """
         Создает контейнер по его конфигу и возвращает его.
 
@@ -434,9 +437,10 @@ class Creator:
         ----------
         - layout_config: dict
             Конфиг, по которому будет создан и сконфигурирован контейнер.
+
         Returns
         -------
-        - layout: QHBoxLayout | QVBoxLayout | QGridLayout | None:
+        - layout: QLayout | None:
             Объект созданного контейнера
         """
 
@@ -453,7 +457,7 @@ class Creator:
         # потому что сам объект пустой пока
         # Видимо, эта проверка нужна, чтобы понять, удалось ли создать
         # контейнер.
-        if isinstance(layout, (QGridLayout, QVBoxLayout, QHBoxLayout)):
+        if isinstance(layout, (QLayout)):
 
             if (
                 sett.ALIGN in layout_config.keys() and
@@ -483,7 +487,7 @@ class Creator:
 
         Returns
         -------
-        label: QLabel
+        - label: QLabel
             Объект созданного лейбла
         """
 
@@ -537,7 +541,7 @@ class Creator:
 
         Returns
         -------
-        label: QLineEdit
+        - input_field: QLineEdit
             Объект созданного поля для ввода.
         """
 
@@ -569,7 +573,7 @@ class Creator:
 
         Returns
         -------
-        label: QCheckBox
+        - checkbox: QCheckBox
             Объект созданного чекбокса.
         """
 
@@ -601,7 +605,7 @@ class Creator:
 
         Returns
         -------
-        label: QPushButton
+        - button: QPushButton
             Объект созданной кнопки.
         """
 
@@ -639,7 +643,7 @@ class Creator:
 
         Returns
         -------
-        label: QComboBox
+        - dropdown: QComboBox
             Объект созданного выпадающего списка.
         """
 
@@ -682,7 +686,7 @@ class Creator:
         current_col: int,
         col_amount: int,
         widget_pos: str | None = None
-    ) -> Tuple[int]:
+    ) -> tuple[int]:
         """
         В зависимсоти от конфигурации расположения виджета (first,
         current, last, middle) высчитывает его положение в сетке контейнера
@@ -705,7 +709,7 @@ class Creator:
 
         Returns
         -------
-        - current_row, current_col: Tuple[int]
+        - current_row, current_col: tuple[int]
             Итоговое положение в сетке, на котором будет расположен виджет в
             зависимости от того что прописано в его конфиге.
 
@@ -752,9 +756,9 @@ class Creator:
     ) -> None:
         """
         Метод обновления зависимых контейнеров. Переписывает дефолтные
-        значения для новой отрисовки. Удаляет старый основной контейнер с
-        отрисованными виджетами. Создает новый. Перерисовывает все элементы
-        окна с новыми дефолтными параметрами с нуля.
+        значения для новой отрисовки. Очищает, (но не удаляет) основной
+        контейнер с отрисованными виджетами. Создает новый. Перерисовывает все
+        элементы окна с новыми дефолтными параметрами с нуля.
 
         Parameters
         ----------
@@ -854,6 +858,7 @@ class Creator:
         - frame: QFrame
             Фрейм с обернутым контейнером.
         """
+
         frame = QFrame()
         frame.setLayout(layout)
         frame.setFrameShape(QFrame.Shape.Box)

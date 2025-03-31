@@ -1,10 +1,9 @@
-from typing import Dict
+from interface.windows.base_window import BaseWindow
 from interface.windows.input_window import InputWindow
 from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
-from settings import settings as sett
 from logic.logger import logger as log
-from interface.windows.base_window import BaseWindow
+from settings import settings as sett
 
 
 class StartWindow(BaseWindow):
@@ -41,13 +40,13 @@ class StartWindow(BaseWindow):
         self.settings_window = SettingsWindow()
         self.settings_window.show()
 
-    def open_input_window(self, params: Dict[str, str]) -> None:
+    def open_input_window(self, params: dict[str, str]) -> None:
         """
         Открывает выбранное окно ввода данных.
 
         Parameters
         ----------
-        params: Dict[str, str]
+        params: dict[str, str]
             Параметры для кнопки окна открытия. По сути содержат пока что
             только одно значение - путь к файлу с конфигом этого окна.
         """
@@ -70,6 +69,7 @@ class StartWindow(BaseWindow):
         """
         Открывает окно регистрации нового юзера.
         """
+
         log.info(sett.CREATE_USER_BUTTON_PRESSED)
         self.register_window = RegisterWindow()
         self.register_window.show()

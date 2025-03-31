@@ -1,4 +1,5 @@
 import re
+
 from decimal import Decimal, ROUND_HALF_UP
 
 from logic.logger import logger as log
@@ -14,6 +15,9 @@ class FormulasHandler:
     - apply_formula(data, formula, formula_name)
         Выполняет математическое выражение по заданной в виде строки формуле и
         и возвращает результат вычисления формулы.
+
+    - check_condition(data, condition)
+        Применяет условие к данным и возвращает True, если условие выполнено.
     """
     def apply_formula(
         self,
@@ -30,8 +34,10 @@ class FormulasHandler:
         ----------
         - data: dict
             Данные, которые, возможно, нужно будет подставить в формулу.
+
         - formula: str
             Формула в виде строки.
+
         - formula_name: str
             Имя формулы (ключ, по которому она хранилась в словаре формул
             в конфиге).
@@ -85,11 +91,29 @@ class FormulasHandler:
         self,
         data: dict,
         condition: str
-    ):
+    ) -> bool:
+        """
+        Применяет условие к данным и возвращает True, если условие выполнено.
+        само условие должно быть в виде строки, например:
+        "price > 100 and quantity < 50".
+
+        Parameters
+        ----------
+        - data: dict
+            Все собранные данные, в которых содержаться переменные для
+            подстановки в условие.
+
+        - condition: str
+            Условие в виде строки, например: "price > 100 and quantity < 50".
+
+        Returns
+        -------
+        - _: bool
+            Результат выполнения строкового условия с подставленными данными.
+        """
+
         for key in data:
             if key in condition:
-                # подставим значение в строку (временно обернём строки в
-                # кавычки)
                 value = (
                     repr(data[key]) if isinstance(data[key], str)
                     else str(data[key])

@@ -1,5 +1,5 @@
-from settings import settings as sett
 from logic.logger import logger as log
+from settings import settings as sett
 
 
 class Translator:

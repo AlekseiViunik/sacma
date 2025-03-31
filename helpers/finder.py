@@ -1,5 +1,3 @@
-from typing import List
-
 from settings import settings as sett
 
 
@@ -11,13 +9,25 @@ class Finder:
     -------
     - find_layout_by_name(widgets, layout_name)
         Ищет конфиг контейнера по имени.
+
+    - find_all_widget_names_by_type(layout_config, type, widget_names)
+        Ищет все виджеты указанного типа и возвращает список их имен.
+
+    - find_and_count_all_widgets(layout_config, counter)
+        Считает, сколько всего виджетов должно быть установлено по конфигу
+        для окна. Работает только для статичных окон, которые не
+        перерисовываются во время работы приложения.
+
+    - find_all_active_widgets(layout_config, activity_type, widgets_list)
+        Ищет все виджеты, которые активны в данный момент. Возвращает список
+        виджетов, которые активны в данный момент.
     """
 
     def find_layout_by_name(
         self,
-        widgets: List[dict],
+        widgets: list[dict],
         layout_name: str
-    ) -> dict:
+    ) -> dict | None:
         """
         Рекурсивно ищет layout (его конфиг) с нужным именем внутри вложенных
         структур.
@@ -126,6 +136,7 @@ class Finder:
         - counter: int
             Итоговоый счетчик после подсчета.
         """
+
         widgets = layout_config.get(sett.WIDGETS, [])
         counter = sett.SET_TO_ZERO
         for widget in widgets:
@@ -144,6 +155,28 @@ class Finder:
         activity_type: str,
         widgets_list: list | None = None
     ) -> list:
+        """
+        Рекурсивно ищет все виджеты, которые активны в данный момент.
+        Возвращает список этих виджетов. Создан для тестов.
+
+        Parameters
+        ----------
+        - layout_config: dict
+            Конфиг, в котором будет происходить поиск.
+
+        - activity_type: str
+            Тип активности виджета, который нужно искать.
+
+        - widgets_list: list | None
+            Формируемый список найденных виджетов для текущего уровня рекурсии.
+            Изначально пустой.
+
+        Returns
+        -------
+        - widgets_list: list
+            Список виджетов, которые активны в данный момент.
+        """
+
         if widgets_list is None:
             widgets_list = []
 

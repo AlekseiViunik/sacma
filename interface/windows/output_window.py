@@ -1,3 +1,5 @@
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import (
     QGridLayout,
     QLabel,
@@ -5,8 +7,6 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget
 )
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont
 
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper

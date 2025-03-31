@@ -1,12 +1,13 @@
 import re
-from decimal import Decimal, ROUND_HALF_UP
-from typing import Dict, List, Any
 import win32com.client
 import win32com.client as win32
 
+from decimal import Decimal, ROUND_HALF_UP
+from typing import Any
+
+from handlers.json_handler import JsonHandler
 from logic.logger import logger as log
 from logic.validator import Validator
-from handlers.json_handler import JsonHandler
 from settings import settings as sett
 
 
@@ -32,15 +33,19 @@ class ExcelHandler:
     - cells_output: dict
         Словарь с данными типа <Имя_поля>: <Адрес_ячейки_для_извлечения>.
 
-    - copy_cells: Dict[str, List[str]] | None
+    - copy_cells: dict[str, list[str]] | None
         Ячейки, значения которых нужно скопировать в другие ячейки. Ключом
         передается ячейка, которую нужно скопировать. Значением - список ячеек,
         куда нужно скопировать.
 
-    - additional_input: Dict[str, Any] | None
+    - additional_input: dict[str, Any] | None
         Дополнительный ввод, когда у нас есть значения-константы, которые нужно
         ввести в конкретные ячейки, независимо от введенных юзером данных.
         Отображаются в виде словаря {<ячейка>: <данные>}
+
+    - self.roundings: dict[str, str] | None
+        Словарь с параметром округления для конкретного поля, если округление
+        нестандартное.
 
     - settings_json_handler: JsonHandler
         Обработчик файла общих настроек. Нужен для получения пути к эксель
@@ -87,9 +92,18 @@ class ExcelHandler:
         Извлекает указанные ячейки из файла эксель после пересчета формул и
         возвращает их как результат.
 
+    - __decimalize_and_rounding(self, excel_data: dict)
+        Переводит в Децимал и округляет значения по заданным параметрам или
+        по умолчанию.
+
     - __set_err_msg(rule_key, rule_value, key, value)
         В случае проваленной валидации данных, формирует сообщение об ошибке в
         зависимости от того, какое правило было провалено.
+
+    - __copy_cells_to_another_ones()
+        Копирует ячейки взятые из ключей словаря self.copy_cells
+        во все ячейки, перечисленные в массиве, который является значением
+
     """
 
     def __init__(
@@ -108,9 +122,9 @@ class ExcelHandler:
         self.worksheet: str = worksheet
         self.cells_input: dict | None = cells_input
         self.cells_output: dict | None = cells_output
-        self.copy_cells: Dict[str, List[str]] | None = copy_cells
-        self.additional_input: Dict[str, Any] | None = additional_input
-        self.roundings: Dict[str, str] | None = roundings
+        self.copy_cells: dict[str, list[str]] | None = copy_cells
+        self.additional_input: dict[str, Any] | None = additional_input
+        self.roundings: dict[str, str] | None = roundings
         self.settings_json_handler: JsonHandler = JsonHandler(
             sett.SETTINGS_FILE
         )
@@ -155,6 +169,8 @@ class ExcelHandler:
 
         return data
 
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
     def __open_excel(self) -> None:
         """
         Открывает файл для работы и обновляет свойства класса, связанные с

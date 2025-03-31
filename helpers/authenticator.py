@@ -71,42 +71,6 @@ class Authenticator:
             log.info(f"Last user found {last_user}")
         return self.file_handler.get_value_by_key(sett.LAST_USER)
 
-    @staticmethod
-    def hash_password(password: str) -> str:
-        """
-        Хеширует пароль с помощью SHA-256.
-
-        Returns
-        -------
-        - _: str
-            Хешированный пароль для записи хеша в файл.
-        """
-        log.info(sett.HASHING_PASS)
-        return hashlib.sha256(password.encode()).hexdigest()
-
-    @staticmethod
-    def verify_user(username: str, password: str) -> bool:
-        """
-        Проверяет логин и пароль пользователя.
-
-        Parameters
-        ----------
-        - username: str
-            Логин пользователя.
-
-        - password: str
-            Пароль пользователя.
-
-        Returns
-        -------
-        - _: bool
-            Информация об успешной/неуспешной авторизации.
-        """
-        users_data = Authenticator().load_users()
-        hashed_password = Authenticator().hash_password(password)
-        log.info(f"Check if the user {username} with pass '{password}' exists")
-        return users_data[sett.USERS].get(username) == hashed_password
-
     def save_last_user(self, username: str) -> None:
         """
         Сохраняет последнего вошедшего пользователя, чтобы использовать его как
@@ -150,3 +114,39 @@ class Authenticator:
         )
 
         return True
+
+    @staticmethod
+    def hash_password(password: str) -> str:
+        """
+        Хеширует пароль с помощью SHA-256.
+
+        Returns
+        -------
+        - _: str
+            Хешированный пароль для записи хеша в файл.
+        """
+        log.info(sett.HASHING_PASS)
+        return hashlib.sha256(password.encode()).hexdigest()
+
+    @staticmethod
+    def verify_user(username: str, password: str) -> bool:
+        """
+        Проверяет логин и пароль пользователя.
+
+        Parameters
+        ----------
+        - username: str
+            Логин пользователя.
+
+        - password: str
+            Пароль пользователя.
+
+        Returns
+        -------
+        - _: bool
+            Информация об успешной/неуспешной авторизации.
+        """
+        users_data = Authenticator().load_users()
+        hashed_password = Authenticator().hash_password(password)
+        log.info(f"Check if the user {username} with pass '{password}' exists")
+        return users_data[sett.USERS].get(username) == hashed_password

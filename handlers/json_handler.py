@@ -3,7 +3,6 @@ import os
 import sys
 
 from PyQt6.QtWidgets import QLineEdit
-
 from typing import Any
 
 from interface.windows.messagebox import Messagebox

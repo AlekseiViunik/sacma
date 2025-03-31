@@ -3,10 +3,10 @@ from PyQt6.QtWidgets import (
     QFileDialog
 )
 
-from handlers.json_handler import JsonHandler
-from settings import settings as sett
-from logic.logger import logger as log
 from .base_window import BaseWindow
+from handlers.json_handler import JsonHandler
+from logic.logger import logger as log
+from settings import settings as sett
 
 
 class SettingsWindow(BaseWindow):
@@ -45,6 +45,7 @@ class SettingsWindow(BaseWindow):
         - target_input: QLineEdit
             Поле для ввода, в которое будет вставлен выбранный путь к файлу.
         """
+
         log.info(sett.BROWSE_BUTTON_PRESSED)
 
         # Получаем путь к файлу, выбрав его в открывшемся окне.
