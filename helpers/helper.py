@@ -1,8 +1,9 @@
 import re
+
 from decimal import Decimal
 from numbers import Number
-from typing import Any
 from PyQt6.QtWidgets import QApplication
+from typing import Any
 
 from settings import settings as sett
 
@@ -30,6 +31,10 @@ class Helper:
     - merge_numeric_dicts(dict1, dict2)
         Объединяет 2 словаря в один, беря из обоих только значения, которые
         могут стать в итоге числами.
+
+    - backward_convertation(value, convertation_dictionary)
+        Конвертирует значения в исходные в соответствии со словарем
+        конвертации.
     """
 
     @staticmethod
@@ -231,6 +236,7 @@ class Helper:
         - _: str
             Название, соответствующее переданному значению.
         """
+
         for key, val in convertation_dictionary.items():
             if val == value:
                 return key

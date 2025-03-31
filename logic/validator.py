@@ -1,7 +1,7 @@
 from typing import Any
 
-from logic.logger import logger as log
 from helpers.helper import Helper
+from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -10,8 +10,21 @@ class Validator:
 
     Methods
     -------
-        validate()
+    - validate(rule_key, rule_value, value)
             Валидирует данные по 1
+
+    - custom_validation(config, data)
+        Валидирует данные по кастомным правилам из конфига.
+
+    Private Methods
+    ---------------
+    - __check_section(data, config)
+        Проверяет, если шкаф состоит из нескольких секций, то как минимум
+        эти секции имеют одинаковую базу (но могут иметь разные толщины).
+
+    - __diagonals_check(data)
+        Проверяет, что количество диагоналей на 1 меньше, чем траверс.
+        Проверка осуществляется для каждой существующей секции независимо.
     """
 
     @staticmethod
@@ -35,6 +48,7 @@ class Validator:
             result: bool
                 Результат валидации.
         """
+
         match rule_key:
             case sett.VALIDATION_MIN:
                 log.info(f"Should be more than {rule_value}")
@@ -131,6 +145,8 @@ class Validator:
             sett.ERROR_MESSAGE: None
         }
 
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
     def __check_section(
         self,
         data: dict,
@@ -176,6 +192,21 @@ class Validator:
         self,
         data: dict[str, Any],
     ):
+        """
+        Проверяет, что количество диагоналей секции на 1 меньше, чем
+        количество траверс. Проверка осуществляется для каждой существующей
+        секции независимо от других.
+
+        Parameters
+        ----------
+        - data : dict[str, Any]
+            Данные для проверки.
+
+        Returns
+        -------
+        - _: bool
+            Результат проверки количества диагоналей и количество траверс.
+        """
         for i in range(sett.SET_TO_ONE, int(data[sett.PIECES])+1):
             expression = f"n_diagonals_{i} == n_traverse_{i} - 1"
             modified_expr = expression

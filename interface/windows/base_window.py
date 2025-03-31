@@ -30,10 +30,10 @@ class BaseWindow(QWidget):
     - init_ui()
         Метод отрисовки интерфейса окна. Использует Креатор.
 
-    - connect_callback()
+    - connect_callback(widget, callback_name, params, inheritor)
         Привязывает методы наследников (или свои) к кнопкам по их конфигу.
 
-    - cancel()
+    - cancel(inheritor)
         Свой метод для кнопки Cancel. Закрывает окно и пишет об этом в лог.
     """
 

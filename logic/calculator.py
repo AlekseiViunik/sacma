@@ -2,9 +2,9 @@ from handlers.excel_handler import ExcelHandler
 from handlers.formulas_handler import FormulasHandler
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
+from logic.logger import logger as log
 from logic.translator import Translator
 from logic.validator import Validator
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -50,6 +50,14 @@ class Calculator:
     - __use_formula(output_dict, formulas, input_dict)
         Применяет формулы (если есть) к каждому из значений результата и
         перезаписывает эти значения.
+
+    - __check_condition(output_dict, condition, input_dict)
+        Проверяет условие для вывода сообщения, если оно задано в конфиге.
+
+    - __convert_data()
+        Преобразует данные, введённые пользователем, в соответствии с
+        конфигурацией расчётов. Например, заменяет значения на соответствующие
+        им числа.
     """
 
     def __init__(
@@ -76,6 +84,7 @@ class Calculator:
         - (excel_result, post_message): tuple
             Результат для вывода и сообщение после вывода результата.
         """
+
         # Получаем из общего конфига конфиг для выбранного нам типа элемента.
         self.calc_config = self.config_file_handler.get_all_data()
         keys = list(self.choices.values())
@@ -206,6 +215,8 @@ class Calculator:
         # вывода результата.
         return excel_result, post_message
 
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
     def __use_formula(
         self,
         output_dict: dict,
@@ -253,6 +264,28 @@ class Calculator:
         condition: str,
         imput_dict: dict = {}
     ) -> bool:
+        """
+        Проверяет условие для вывода сообщения, если оно задано в конфиге.
+        В условиях могут учавствовать как входные, так и выходные данные.
+
+        Parameters
+        ----------
+        - output_dict: dict
+            Данные для вывода на экран.
+
+        - condition: str
+            Условие, которое необходимо проверить. Например: "x1 > x2".
+
+        - imput_dict: dict
+            Иногда для формул могут использоваться также и введенные юзером
+            данные. Храним их здесь.
+
+        Returns
+        -------
+        - _: bool
+            Результат проверки условия.
+        """
+
         merged_dicts = Helper.merge_numeric_dicts(output_dict, imput_dict)
         return FormulasHandler().check_condition(merged_dicts, condition)
 
@@ -266,6 +299,7 @@ class Calculator:
         И если у нас в собранных данных "section": "x2",
         То в собранных данных мы должны заменить это значение на 100.
         """
+
         for param, value in self.data.items():
             if param in self.calc_config[sett.CONVERTATION].keys():
                 self.data[

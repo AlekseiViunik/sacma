@@ -1,13 +1,13 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
+from .base_window import BaseWindow
+from .messagebox import Messagebox
 from handlers.input_data_handler import InputDataHandler
 from handlers.json_handler import JsonHandler
 from handlers.user_data_handler import UserDataHandler
 from helpers.authenticator import Authenticator
-from settings import settings as sett
 from logic.logger import logging as log
-from .base_window import BaseWindow
-from .messagebox import Messagebox
+from settings import settings as sett
 
 
 class RegisterWindow(BaseWindow):
@@ -18,9 +18,6 @@ class RegisterWindow(BaseWindow):
     ----------
     - auth_json_handler: JsonHandler
         Обработчик JSON файла авторизации.
-
-    - auth_successful: bool
-        Флаг успешной авторизации.
 
     - auth: Authenticator
         Помощник, отвечающий за авторизацию и создание юзеров.
@@ -162,6 +159,7 @@ class RegisterWindow(BaseWindow):
         - field: str
             Имя поля, видимость которого меняется.
         """
+
         if checkbox.isChecked():
             if field == sett.PASSWORD:
                 log.info(sett.PASS_MARKED_AS_CHECKED)

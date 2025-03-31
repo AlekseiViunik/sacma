@@ -21,7 +21,7 @@ class InputWindow(BaseWindow):
     - output_window: OutputWindow
         Класс окна вывода рещультата.
 
-    - input_data_handler = InputDataHandler
+    - input_data_handler: InputDataHandler
         Обработчик данных, введенных/выбранных пользователем.
 
     Methods
@@ -52,6 +52,7 @@ class InputWindow(BaseWindow):
         пользователя и получения итогового результата.
         - Открывает окно с выводом результата.
         """
+
         try:
             log.info(sett.INVIA_BUTTON_PRESSED)
             all_inputs = self.input_data_handler.collect_all_inputs(
