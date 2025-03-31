@@ -119,6 +119,7 @@ class Calculator:
         # Стандартная валидация данных на сравнение друг с другом разных
         # показателей. Например, что количество одних элементов должно быть
         # равно определенному количеству других элементов.
+        validation_result = None
         if (self.calc_config.get(sett.CUSTOM_VALIDATIONS)):
             validation_result = Validator().custom_validation(
                 self.calc_config,
