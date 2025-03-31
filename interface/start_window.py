@@ -2,7 +2,7 @@ from typing import Dict
 from interface.windows.input_window import InputWindow
 from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
-from settings import settings as set
+from settings import settings as sett
 from logic.logger import logger as log
 from interface.windows.base_window import BaseWindow
 
@@ -24,7 +24,7 @@ class StartWindow(BaseWindow):
         Открывает окно регистрации нового юзера.
     """
 
-    CONFIG_FILE = set.MAIN_WINDOW_CONFIG_FILE
+    CONFIG_FILE = sett.MAIN_WINDOW_CONFIG_FILE
 
     def __init__(self) -> None:
         super().__init__()
@@ -37,7 +37,7 @@ class StartWindow(BaseWindow):
         Открывает окно пользовательских настроек.
         """
 
-        log.info(set.SETTINGS_BUTTON_PRESSED)
+        log.info(sett.SETTINGS_BUTTON_PRESSED)
         self.settings_window = SettingsWindow()
         self.settings_window.show()
 
@@ -58,7 +58,7 @@ class StartWindow(BaseWindow):
             window_name = sender.text()  # Берем текст кнопки как имя окна
             input_window = InputWindow(
                 window_name,
-                params[set.JSON_FILE_PATH]
+                params[sett.JSON_FILE_PATH]
             )
 
             # Для тестов
@@ -70,6 +70,6 @@ class StartWindow(BaseWindow):
         """
         Открывает окно регистрации нового юзера.
         """
-        log.info(set.CREATE_USER_BUTTON_PRESSED)
+        log.info(sett.CREATE_USER_BUTTON_PRESSED)
         self.register_window = RegisterWindow()
         self.register_window.show()
