@@ -98,7 +98,7 @@ class Helper:
             word.lower() for word in name.split()
         )
 
-        return f"configs/calculator_configs/{filename}.json"
+        return sett.CALC_CONFIG_PATH.format(filename)
 
     @staticmethod
     def get_nested_data(keys: list, data: dict) -> dict | None:
