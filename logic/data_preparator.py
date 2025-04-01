@@ -9,6 +9,37 @@ from settings import settings as sett
 
 
 class DataPreparator:
+    """
+    Класс для подготовки данных перед записью в Excel или после их извлечения
+    оттуда.
+
+    Attributes
+    ----------
+    - data : dict[str, str | Any]
+        Словарь с данными, которые нужно подготовить.
+
+    - rules : dict
+        Словарь с правилами валидации данных.
+
+    Methods
+    -------
+    - prepare_data(cells_input)
+        Подготавливает данные (см. описание метода) перед вставкой их в эксель.
+
+    - check_data()
+        Валидирует входные данные согласно правилам изложенным в конфиге окна.
+
+    - decimalize_and_rounding(self, excel_data, roundings)
+        Переводит в Децимал и округляет значения по заданным параметрам или
+        по умолчанию.
+
+    Private Methods
+    ---------------
+    - __set_err_msg(rule_key, rule_value, key, value)
+        В случае проваленной валидации данных, формирует сообщение об ошибке в
+        зависимости от того, какое правило было провалено.
+    """
+
     def __init__(self, data: dict[str, str | Any], rules: dict) -> None:
         self.data = data
         self.rules = rules
@@ -24,6 +55,11 @@ class DataPreparator:
         Также подготавливаем словарь вида <ячейка_для_вставки>: <значение>,
         который будет использоваться в методе __input_cells() для вставки
         значений.
+
+        Parameters
+        ----------
+        - cells_input : dict
+            Словарь, с данными типа <Имя_поля>: <Адрес_ячейки_для_записи>.
 
         Returns
         -------
@@ -98,6 +134,10 @@ class DataPreparator:
         - excel_data: dict
             Словарь со значениями для перевода.
 
+        - roundings: dict[str, str] | None
+            Словарь с параметрами округления если оно отличается от
+            стандартного.
+
         Returns
         -------
         - excel_data: dict
@@ -144,6 +184,8 @@ class DataPreparator:
 
         return excel_data
 
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
     def __set_err_msg(
         self,
         rule_key,
