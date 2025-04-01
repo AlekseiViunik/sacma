@@ -31,7 +31,7 @@ def test_travi_tg_excel_calculation():
 
     cells_output = {'price': 'E4', 'weight': 'E6'}
 
-    expexcted_data = {'price': Decimal('71.03'), 'weight': Decimal('21.00')}
+    expected_data = {'price': Decimal('71.03'), 'weight': Decimal('21.00')}
 
     handler = EH(data, rules, worksheet, cells_input, cells_output)
     data_to_check = handler.initiate_process()
@@ -40,21 +40,21 @@ def test_travi_tg_excel_calculation():
         "Метод initiate_process() вернул пустой результат или None"
     )
 
-    assert len(data_to_check) == len(expexcted_data), (
+    assert len(data_to_check) == len(expected_data), (
         f"Количество данных не совпадает.\n"
-        f"Ожидалось: {len(expexcted_data)}\n"
+        f"Ожидалось: {len(expected_data)}\n"
         f"Нашлось: {len(data_to_check)}"
     )
 
-    assert data_to_check['price'] == expexcted_data['price'], (
+    assert data_to_check['price'] == expected_data['price'], (
         f"Цена не совпадает.\n"
-        f"Ожидалось: {expexcted_data['price']}\n"
+        f"Ожидалось: {expected_data['price']}\n"
         f"Нашлось: {data_to_check['price']}"
     )
 
-    assert data_to_check['weight'] == expexcted_data['weight'], (
+    assert data_to_check['weight'] == expected_data['weight'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['weight']}\n"
+        f"Ожидалось: {expected_data['weight']}\n"
         f"Нашлось: {data_to_check['weight']}"
     )
 
@@ -88,7 +88,7 @@ def test_travi_tg_wrong_data_passed():
 
     cells_output = {'price': 'E4', 'weight': 'E6'}
 
-    expexcted_data = {
+    expected_data = {
         'price': None,
         'weight': None,
         'error': 'Lunghezza should be more than 1200. You have 900'
@@ -102,21 +102,21 @@ def test_travi_tg_wrong_data_passed():
         "Метод initiate_process() вернул пустой результат или None"
     )
 
-    assert len(data_to_check) == len(expexcted_data), (
+    assert len(data_to_check) == len(expected_data), (
         f"Количество данных не совпадает.\n"
-        f"Ожидалось: {len(expexcted_data)}\n"
+        f"Ожидалось: {len(expected_data)}\n"
         f"Нашлось: {len(data_to_check)}"
     )
 
-    assert data_to_check['price'] == expexcted_data['price'], (
+    assert data_to_check['price'] == expected_data['price'], (
         f"Цена не совпадает.\n"
-        f"Ожидалось: {expexcted_data['price']}\n"
+        f"Ожидалось: {expected_data['price']}\n"
         f"Нашлось: {data_to_check['price']}"
     )
 
-    assert data_to_check['weight'] == expexcted_data['weight'], (
+    assert data_to_check['weight'] == expected_data['weight'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['weight']}\n"
+        f"Ожидалось: {expected_data['weight']}\n"
         f"Нашлось: {data_to_check['weight']}"
     )
 
@@ -147,7 +147,7 @@ def test_travi_sat_excel_calculation():
 
     cells_output = {'price': 'E21', 'weight': 'E23'}
 
-    expexcted_data = {'price': Decimal('59.26'), 'weight': Decimal('13.25')}
+    expected_data = {'price': Decimal('59.26'), 'weight': Decimal('13.25')}
 
     handler = EH(data, rules, worksheet, cells_input, cells_output)
     data_to_check = handler.initiate_process()
@@ -156,21 +156,21 @@ def test_travi_sat_excel_calculation():
         "Метод initiate_process() вернул пустой результат или None"
     )
 
-    assert len(data_to_check) == len(expexcted_data), (
+    assert len(data_to_check) == len(expected_data), (
         f"Количество данных не совпадает.\n"
-        f"Ожидалось: {len(expexcted_data)}\n"
+        f"Ожидалось: {len(expected_data)}\n"
         f"Нашлось: {len(data_to_check)}"
     )
 
-    assert data_to_check['price'] == expexcted_data['price'], (
+    assert data_to_check['price'] == expected_data['price'], (
         f"Цена не совпадает.\n"
-        f"Ожидалось: {expexcted_data['price']}\n"
+        f"Ожидалось: {expected_data['price']}\n"
         f"Нашлось: {data_to_check['price']}"
     )
 
-    assert data_to_check['weight'] == expexcted_data['weight'], (
+    assert data_to_check['weight'] == expected_data['weight'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['weight']}\n"
+        f"Ожидалось: {expected_data['weight']}\n"
         f"Нашлось: {data_to_check['weight']}"
     )
 
@@ -201,7 +201,7 @@ def test_travi_sat_wrong_data_passed():
 
     cells_output = {'price': 'E21', 'weight': 'E23'}
 
-    expexcted_data = {
+    expected_data = {
         'price': None,
         'weight': None,
         'error': 'Lunghezza should be numeric. You have abc'
@@ -214,27 +214,27 @@ def test_travi_sat_wrong_data_passed():
         "Метод initiate_process() вернул пустой результат или None"
     )
 
-    assert len(data_to_check) == len(expexcted_data), (
+    assert len(data_to_check) == len(expected_data), (
         f"Количество данных не совпадает.\n"
-        f"Ожидалось: {len(expexcted_data)}\n"
+        f"Ожидалось: {len(expected_data)}\n"
         f"Нашлось: {len(data_to_check)}"
     )
 
-    assert data_to_check['price'] == expexcted_data['price'], (
+    assert data_to_check['price'] == expected_data['price'], (
         f"Цена не совпадает.\n"
-        f"Ожидалось: {expexcted_data['price']}\n"
+        f"Ожидалось: {expected_data['price']}\n"
         f"Нашлось: {data_to_check['price']}"
     )
 
-    assert data_to_check['weight'] == expexcted_data['weight'], (
+    assert data_to_check['weight'] == expected_data['weight'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['weight']}\n"
+        f"Ожидалось: {expected_data['weight']}\n"
         f"Нашлось: {data_to_check['weight']}"
     )
 
-    assert data_to_check['error'] == expexcted_data['error'], (
+    assert data_to_check['error'] == expected_data['error'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['error']}\n"
+        f"Ожидалось: {expected_data['error']}\n"
         f"Нашлось: {data_to_check['error']}"
     )
 
@@ -268,7 +268,7 @@ def test_travi_aperte_excel_calculation():
 
     cells_output = {'price': 'E37', 'weight': 'E39'}
 
-    expexcted_data = {'price': Decimal('15.84'), 'weight': Decimal('4.86')}
+    expected_data = {'price': Decimal('15.84'), 'weight': Decimal('4.86')}
 
     handler = EH(data, rules, worksheet, cells_input, cells_output)
     data_to_check = handler.initiate_process()
@@ -277,21 +277,21 @@ def test_travi_aperte_excel_calculation():
         "Метод initiate_process() вернул пустой результат или None"
     )
 
-    assert len(data_to_check) == len(expexcted_data), (
+    assert len(data_to_check) == len(expected_data), (
         f"Количество данных не совпадает.\n"
-        f"Ожидалось: {len(expexcted_data)}\n"
+        f"Ожидалось: {len(expected_data)}\n"
         f"Нашлось: {len(data_to_check)}"
     )
 
-    assert data_to_check['price'] == expexcted_data['price'], (
+    assert data_to_check['price'] == expected_data['price'], (
         f"Цена не совпадает.\n"
-        f"Ожидалось: {expexcted_data['price']}\n"
+        f"Ожидалось: {expected_data['price']}\n"
         f"Нашлось: {data_to_check['price']}"
     )
 
-    assert data_to_check['weight'] == expexcted_data['weight'], (
+    assert data_to_check['weight'] == expected_data['weight'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['weight']}\n"
+        f"Ожидалось: {expected_data['weight']}\n"
         f"Нашлось: {data_to_check['weight']}"
     )
 
@@ -325,7 +325,7 @@ def test_travi_aperte_wrong_data_passed():
 
     cells_output = {'price': 'E37', 'weight': 'E39'}
 
-    expexcted_data = {
+    expected_data = {
         'price': None,
         'weight': None,
         'error': 'Lunghezza should be more than 1200. You have 1000'
@@ -338,27 +338,27 @@ def test_travi_aperte_wrong_data_passed():
         "Метод initiate_process() вернул пустой результат или None"
     )
 
-    assert len(data_to_check) == len(expexcted_data), (
+    assert len(data_to_check) == len(expected_data), (
         f"Количество данных не совпадает.\n"
-        f"Ожидалось: {len(expexcted_data)}\n"
+        f"Ожидалось: {len(expected_data)}\n"
         f"Нашлось: {len(data_to_check)}"
     )
 
-    assert data_to_check['price'] == expexcted_data['price'], (
+    assert data_to_check['price'] == expected_data['price'], (
         f"Цена не совпадает.\n"
-        f"Ожидалось: {expexcted_data['price']}\n"
+        f"Ожидалось: {expected_data['price']}\n"
         f"Нашлось: {data_to_check['price']}"
     )
 
-    assert data_to_check['weight'] == expexcted_data['weight'], (
+    assert data_to_check['weight'] == expected_data['weight'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['weight']}\n"
+        f"Ожидалось: {expected_data['weight']}\n"
         f"Нашлось: {data_to_check['weight']}"
     )
 
-    assert data_to_check['error'] == expexcted_data['error'], (
+    assert data_to_check['error'] == expected_data['error'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['error']}\n"
+        f"Ожидалось: {expected_data['error']}\n"
         f"Нашлось: {data_to_check['error']}"
     )
 
@@ -382,7 +382,7 @@ def test_travi_porta_skid_excel_calculation():
 
     cells_output = {'price': 'E53', 'weight': 'E55'}
 
-    expexcted_data = {'price': Decimal('15.74'), 'weight': Decimal('4.76')}
+    expected_data = {'price': Decimal('15.74'), 'weight': Decimal('4.76')}
 
     handler = EH(data, rules, worksheet, cells_input, cells_output)
     data_to_check = handler.initiate_process()
@@ -391,21 +391,21 @@ def test_travi_porta_skid_excel_calculation():
         "Метод initiate_process() вернул пустой результат или None"
     )
 
-    assert len(data_to_check) == len(expexcted_data), (
+    assert len(data_to_check) == len(expected_data), (
         f"Количество данных не совпадает.\n"
-        f"Ожидалось: {len(expexcted_data)}\n"
+        f"Ожидалось: {len(expected_data)}\n"
         f"Нашлось: {len(data_to_check)}"
     )
 
-    assert data_to_check['price'] == expexcted_data['price'], (
+    assert data_to_check['price'] == expected_data['price'], (
         f"Цена не совпадает.\n"
-        f"Ожидалось: {expexcted_data['price']}\n"
+        f"Ожидалось: {expected_data['price']}\n"
         f"Нашлось: {data_to_check['price']}"
     )
 
-    assert data_to_check['weight'] == expexcted_data['weight'], (
+    assert data_to_check['weight'] == expected_data['weight'], (
         f"Вес не совпадает.\n"
-        f"Ожидалось: {expexcted_data['weight']}\n"
+        f"Ожидалось: {expected_data['weight']}\n"
         f"Нашлось: {data_to_check['weight']}"
     )
 
@@ -422,7 +422,7 @@ def test_travi_porta_skid_wrong_data_passed():
 
     cells_output = {'price': 'E53', 'weight': 'E55'}
 
-    expexcted_data = [
+    expected_data = [
         {
             'price': None,
             'weight': None,
@@ -452,26 +452,26 @@ def test_travi_porta_skid_wrong_data_passed():
             "Метод initiate_process() вернул пустой результат или None"
         )
 
-        assert len(data_to_check) == len(expexcted_data[i]), (
+        assert len(data_to_check) == len(expected_data[i]), (
             f"Количество данных не совпадает.\n"
-            f"Ожидалось: {len(expexcted_data)}\n"
+            f"Ожидалось: {len(expected_data)}\n"
             f"Нашлось: {len(data_to_check)}"
         )
 
-        assert data_to_check['price'] == expexcted_data[i]['price'], (
+        assert data_to_check['price'] == expected_data[i]['price'], (
             f"Цена не совпадает.\n"
-            f"Ожидалось: {expexcted_data[i]['price']}\n"
+            f"Ожидалось: {expected_data[i]['price']}\n"
             f"Нашлось: {data_to_check['price']}"
         )
 
-        assert data_to_check['weight'] == expexcted_data[i]['weight'], (
+        assert data_to_check['weight'] == expected_data[i]['weight'], (
             f"Вес не совпадает.\n"
-            f"Ожидалось: {expexcted_data[i]['weight']}\n"
+            f"Ожидалось: {expected_data[i]['weight']}\n"
             f"Нашлось: {data_to_check['weight']}"
         )
 
-        assert data_to_check['error'] == expexcted_data[i]['error'], (
+        assert data_to_check['error'] == expected_data[i]['error'], (
             f"Ошибка не совпадает.\n"
-            f"Ожидалось: {expexcted_data[i]['error']}\n"
+            f"Ожидалось: {expected_data[i]['error']}\n"
             f"Нашлось: {data_to_check['error']}"
         )
