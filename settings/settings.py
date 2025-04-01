@@ -132,6 +132,7 @@ DICT_PREPARED = "Dictionary is prepared: {0}"
 EXCEL_FILE_PATH = "Excel file path is {0}"
 EXCEL_LAUNCH_ERROR = "Launching excel error: {0}"
 WORKBOOK_OPENING_ERROR = "Didn't manage to open workbook: {0}"
+EXCEL_DATA_IS = "Excel data is {0}"
 
 # =========================== OTHER DYNAMIC MESSAGES ==========================
 
