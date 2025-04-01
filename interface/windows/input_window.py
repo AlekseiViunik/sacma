@@ -88,4 +88,4 @@ class InputWindow(BaseWindow):
                 only_keys
             )
         except Exception as e:
-            log.error(f"Error caught: {e}")
+            log.error(sett.ERROR_CAUGHT.format(e))
