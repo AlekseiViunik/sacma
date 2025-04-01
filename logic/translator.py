@@ -46,4 +46,4 @@ class Translator:
                 }
             return None
         except Exception as e:
-            log.error(f"Error caught: {e}")
+            log.error(sett.ERROR_CAUGHT.format(e))
