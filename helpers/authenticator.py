@@ -68,7 +68,7 @@ class Authenticator:
         """
         last_user = sett.EMPTY_STRING
         if last_user := self.file_handler.get_value_by_key(sett.LAST_USER):
-            log.info(f"Last user found {last_user}")
+            log.info(sett.LAST_USER_FOUND.format(last_user))
         return self.file_handler.get_value_by_key(sett.LAST_USER)
 
     def save_last_user(self, username: str) -> None:
@@ -148,5 +148,5 @@ class Authenticator:
         """
         users_data = Authenticator().load_users()
         hashed_password = Authenticator().hash_password(password)
-        log.info(f"Check if the user {username} with pass '{password}' exists")
+        log.info(sett.CHECK_USER_EXISTS.format(username, password))
         return users_data[sett.USERS].get(username) == hashed_password
