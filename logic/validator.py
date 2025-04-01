@@ -241,7 +241,7 @@ class Validator:
                 modified_expr = modified_expr.replace(var, str(total))
             try:
                 if not eval(modified_expr):
-                    False
+                    return False
             except Exception:
                 return False
         return True

@@ -187,8 +187,9 @@ class ExcelHandler:
         # Попытка запустить приложение
         log.info(sett.OPEN_EXCEL)
         try:
-            self.excel = win32.Dispatch(sett.EXCEL_APP)
+            self.excel = win32.DispatchEx(sett.EXCEL_APP)
             self.excel.Visible = False  # Запуск в фоновом режиме
+            self.excel.DisplayAlerts = False  # Отключаем предупреждения
             log.info(sett.EXCEL_FILE_PATH.format(file_path))
         except Exception as e:
             log.error(sett.EXCEL_LAUNCH_ERROR.format(e))
@@ -342,6 +343,7 @@ class ExcelHandler:
             key: self.sheet.Range(self.cells_output[key]).Value
             for key in self.cells_output
         }
+        log.info(sett.EXCEL_DATA_IS.format(excel_data))
         return self.__decimalize_and_rounding(excel_data)
 
     def __decimalize_and_rounding(self, excel_data: dict) -> dict:
