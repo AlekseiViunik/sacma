@@ -1,5 +1,7 @@
 # ================================== LOGGING ==================================
 
+APP_LOGGER = "AppLogger"
+
 # Max number of the log file lines. Default: 20000
 MAX_LOG_LINES = 20000
 
@@ -10,6 +12,8 @@ LOG_FILE_NAME = "app.log"
 STR_CODING = "utf-8"
 
 LOGS_FOLDER_NAME = "logs"
+
+LOGS_FORMAT = "%(asctime)s [%(levelname)s] %(message)s"
 
 ONE_LEVEL_UP_FOLDER = ".."
 
@@ -91,8 +95,62 @@ SHOULD_BE_PRESENTED = "Should be presented"
 EMPTY_REQUIRED_FIELDS = "One (or more) of the required fields is empty!"
 FILE_NOT_FOUND = "FILE NOT FOUND"
 FNF_MESSAGE = "Required file is missing. Please contact the developer."
+PREPARE_DICT = "Prepare dictionary where key is cell address"
+CLOSE_EXCEL = "Close excel file"
 
-# ============================== DICTIONARY KEYS ==============================
+# ============================ LOG DYNAMIC MESSAGES ===========================
+
+CREATE_WINDOW_WITH_CONF = "Create window with config: {0}"
+CONFIG_LOADED_SUCCESSFULLY = "Config loaded successfully: {0}"
+SHOULD_BE_MORE_THAN = "{0} should be more than {1}"
+SHOULD_BE_LESS_THAN = "{0} should be less than {1}"
+IS_NOT_NUMERIC = "{0} is not numeric"
+IS_LESS_THAN = "{0} is less than min possible ({1})"
+IS_GREATER_THAN = "{0} is greater than max possible ({1})"
+IS_NOT_NATURAL = "{0} is not natural"
+IS_NOT_MULTIPLE = "{0} is not multiple of {1}"
+SHOULD_BE_MULTIPLE = "Should be multiple of {0}"
+ERROR_CAUGHT = "Error caught: {0}"
+BUTTON_PRESSED = "{0} button has been pressed!"
+CREATE_WIDGET = "Create {0}: {1}"
+CREATE_LAYOUT = "Create a layout. Type {0}"
+PATH_IS = "The path is {0}"
+CONFIG_IS = "Config is {0}"
+USER_CREATED = "User {0} is created!"
+MANDATORY_FIELDS = "The following fields are mandatory: {0}!"
+MANDATORY_FIELD = "The field '{0}' is mandatory!"
+MISSING_FIELDS = "Missing fields are {0}"
+FULFILLED_FIELDS = "Fulfilled fields are: {0}!"
+CHECK_USER_EXISTS = "Check if the user {0} with pass '{1}' exists"
+LAST_USER_FOUND = "Last user found: {0}"
+VAR_IS_MISSING = "Variable {0} is missing in the 'data'"
+CHECK_KEY = "Check {0}"
+CHECK_KEY_FAILED = "{0} hasn't passed"
+DATA_TO_BE_CHECKED = "Data to be checked is: {0}"
+INSERT_IN_THE_CELL = "Insert {0} in the {1} cell of the worksheet '{2}'"
+DICT_PREPARED = "Dictionary is prepared: {0}"
+EXCEL_FILE_PATH = "Excel file path is {0}"
+EXCEL_LAUNCH_ERROR = "Launching excel error: {0}"
+WORKBOOK_OPENING_ERROR = "Didn't manage to open workbook: {0}"
+
+# =========================== OTHER DYNAMIC MESSAGES ==========================
+
+DIAGONALS_TRAVERSE = "n_diagonals_{0} == n_traverse_{0} - 1"
+
+# ========================== DYNAMIC DICTIONARY KEYS ==========================
+
+SECTION_I = "section_{0}"
+
+# ============================== DYNAMIC MESSAGES =============================
+
+MIN_FAILED_MSG = "{0} should be more than {1}. You have {2}"
+MAX_FAILED_MSG = "{0} should be less than {1}. You have {2}"
+NUM_FAILED_MSG = "{0} should be numeric. You have {1}"
+NAT_FAILED_MSG = "{0} should be positive and numeric. You have {1}"
+MULT_FAILED_MSG = "{0} should be multiple of {1}. You have {2}"
+EXISTS_FAILED_MSG = "{0} field should not be empty"
+
+# =========================== STATIC DICTIONARY KEYS ==========================
 
 PRICE = "price"
 WEIGHT = "weight"
@@ -162,6 +220,12 @@ PIECES = "pieces"
 IS_CORRECT = "is_correct"
 SLASH = "/"
 CONVERTATION = "convertation"
+EXE_FROZEN = "frozen"
+EXCEL_PATH = "excel_path"
+OPEN_EXCEL = "Open excel"
+EXCEL_IS_OPENED = "Excel is opened"
+WORKBOOK_IS_OPENED = "Workbook is opened"
+EXCEL_APP = "Excel.Application"
 
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
@@ -176,6 +240,9 @@ SPECIAL_FONT_SIZE = 16
 # =============================== NAMES CONSTS ================================
 LABEL = "label"
 BUTTON = "button"
+CHECKBOX = "checkbox"
+DROPDOWN = "dropdown"
+INPUT = "input"
 
 # =============================== METHOD NAMES ================================
 CURRENT_TEXT_METHOD = "currentText"
@@ -310,15 +377,17 @@ KILO_SYMBOL = "Kg"
 EQUALS_SYMBOL = "="
 POINT_SYMBOL = "."
 EMPTY_STRING = ""
+COMMA_SYMBOL = ","
+SPACE_SYMBOL = " "
+LEFT_BRACKET_SYMBOL = "("
+RIGHT_BRACKET_SYMBOL = ")"
 
+FLOAT_REGEX = r"\d+(,\d+)?"
 VARIABLE_REGEX = r"[a-zA-Z_][a-zA-Z0-9_]*"
 NUMBERS_N_OPERATORS_REGEX = r"^[0-9.\s()+\-*/]+$"
 
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
 CHOSE_FILE = "Chose file"
-
-
-APP_LOGGER = "AppLogger"
 
 LAYOUT_TYPE_GRID = "grid"
 LAYOUT_TYPE_VERTICAL = "vertical"
@@ -349,3 +418,9 @@ VALIDATION_EXISTS = "exists"
 
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
 DIAGONALS_CHECK_FAILED = "Error! Check diagonals and traverses amount!"
+
+BG_COLOR = "background-color: {0}"
+MARGIN_TOP = "margin-top: 10px;"
+
+
+CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
