@@ -179,24 +179,26 @@ class ExcelHandler:
 
         # Получение пути к файлу эксель, который хранится в файле общих
         # настроек
-        file_path = self.settings_json_handler.get_value_by_key('excel_path')
+        file_path = self.settings_json_handler.get_value_by_key(
+            sett.EXCEL_PATH
+        )
 
         # Попытка запустить приложение
-        log.info("Open excel file")
+        log.info(sett.OPEN_EXCEL)
         try:
-            self.excel = win32.Dispatch("Excel.Application")
+            self.excel = win32.Dispatch(sett.EXCEL_APP)
             self.excel.Visible = False  # Запуск в фоновом режиме
-            log.info(f"Excel file path is {file_path}")
+            log.info(sett.EXCEL_FILE_PATH.format(file_path))
         except Exception as e:
-            log.error(f"Ошибка при запуске Excel: {e}")
-        log.info("Excel is opened")
+            log.error(sett.EXCEL_LAUNCH_ERROR.format(e))
+        log.info(sett.EXCEL_IS_OPENED)
 
         # Попытка открыть книгу
         try:
             self.wb = self.excel.Workbooks.Open(file_path, UpdateLinks=0)
-            log.info("Excel is opened")
+            log.info(sett.WORKBOOK_IS_OPENED)
         except Exception as e:
-            log.error(f"Didn't manage to open excel book: {e}")
+            log.error(sett.WORKBOOK_OPENING_ERROR.format(e))
 
         self.sheet = self.wb.Sheets(self.worksheet)
 
@@ -207,20 +209,20 @@ class ExcelHandler:
         принудительно его закрывает.
         """
 
-        log.info("Close excel file")
+        log.info(sett.CLOSE_EXCEL)
         # Закрытие книги, если открыта
         if self.wb:
             try:
                 self.wb.Close(SaveChanges=0)
             except Exception as e:
-                log.error(f"Error {e}")
+                log.error(sett.ERROR_CAUGHT.format(e))
 
         # Закрытие приложения эксель, если открыто
         if self.excel:
             try:
                 self.excel.Quit()
             except Exception as e:
-                log.error(f"Error {e}")
+                log.error(sett.ERROR_CAUGHT.format(e))
 
     def __prepare_data(self) -> dict:
         """
@@ -240,7 +242,7 @@ class ExcelHandler:
             Отвалидированные и подготовленные для дальнейшей обработки данные.
         """
 
-        log.info("Prepare dictionary where key is cell address")
+        log.info(sett.PREPARE_DICT)
 
         # Подготавливаем данные для записи в Excel
         data_prepared = {}
@@ -253,7 +255,7 @@ class ExcelHandler:
                     ).strip()
                 # Номер ячейки      = Значение переданных данных
                 data_prepared[cell] = self.data[name]
-        log.info(f"Dictionary is prepared: {data_prepared}")
+        log.info(sett.DICT_PREPARED.format(data_prepared))
         return data_prepared
 
     def __input_cells(self) -> None:
@@ -273,8 +275,7 @@ class ExcelHandler:
             log.info(sett.INSERT_DATA_INTO_EXCEL)
             for cell, value in data_prepared.items():
                 log.info(
-                    f"Insert {value} in the {cell} cell of the worksheet"
-                    f"'{self.worksheet}'"
+                    sett.INSERT_IN_THE_CELL.format(value, cell, self.worksheet)
                 )
                 self.sheet.Range(cell).Value = value
 
@@ -306,9 +307,9 @@ class ExcelHandler:
         log.info(sett.DATA_VALIDATION)
         for key, value in self.data.items():
             key = key.capitalize()
-            log.info(f"Check {key}")
+            log.info(sett.CHECK_KEY.format(key))
             if key in self.rules:
-                log.info(f"Data to be checked is: {self.data}")
+                log.info(sett.DATA_TO_BE_CHECKED.format(self.data))
                 for rule_key, rule_value in self.rules[key].items():
                     if not Validator().validate(rule_key, rule_value, value):
                         self.check_err_mesg = self.__set_err_msg(
@@ -317,7 +318,7 @@ class ExcelHandler:
                             key,
                             value
                         )
-                        log.error(f"{key} hasn't passed")
+                        log.error(sett.CHECK_KEY_FAILED.format(key))
                         return False
         log.info(sett.SUCCESSFUL_VALIDATION)
         return True
@@ -362,9 +363,12 @@ class ExcelHandler:
         log.info(sett.ROUNDING_UP_DATA)
         for key, value in excel_data.items():
             if isinstance(value, str):
-                match = re.search(r"\d+(,\d+)?", value)
+                match = re.search(sett.FLOAT_REGEX, value)
                 if match:
-                    number_str = match.group().replace(",", ".")
+                    number_str = match.group().replace(
+                        sett.COMMA_SYMBOL,
+                        sett.POINT_SYMBOL
+                    )
                     value = number_str
             if (
                 value and
@@ -386,7 +390,10 @@ class ExcelHandler:
                     )
 
             if (
-                not isinstance(excel_data[key], Decimal) or excel_data[key] < 0
+                not isinstance(
+                    excel_data[key],
+                    Decimal
+                ) or excel_data[key] < sett.SET_TO_ZERO
             ):
                 excel_data[key] = None
 
@@ -421,31 +428,25 @@ class ExcelHandler:
         """
 
         match rule_key:
+
             case sett.VALIDATION_MIN:
-                return (
-                    f"{key} should be more than {rule_value}. You have {value}"
-                )
+                return sett.MIN_FAILED_MSG.format(key, rule_value, value)
+
             case sett.VALIDATION_MAX:
-                return (
-                    f"{key} should be less than {rule_value}. You have {value}"
-                )
+                return sett.MAX_FAILED_MSG.format(key, rule_value, value)
+
             case sett.VALIDATION_NUMERIC:
-                return (
-                    f"{key} should be numeric. You have {value}"
-                )
+                return sett.NUM_FAILED_MSG.format(key, value)
+
             case sett.VALIDATION_NATURAL:
-                return (
-                    f"{key} should be more positive and numeric."
-                    f"You have {value}"
-                )
+                return sett.NAT_FAILED_MSG.format(key, value)
+
             case sett.VALIDATION_MULTIPLE:
-                return (
-                    f"{key} should be multiple {rule_value}. You have {value}"
-                )
+                return sett.MULT_FAILED_MSG.format(key, rule_value, value)
+
             case sett.VALIDATION_EXISTS:
-                return (
-                    f"{key} should not be empy!"
-                )
+                return sett.EXISTS_FAILED_MSG.format(key)
+
             case _:
                 return sett.EMPTY_STRING
 
