@@ -227,6 +227,7 @@ OPEN_EXCEL = "Open excel"
 EXCEL_IS_OPENED = "Excel is opened"
 WORKBOOK_IS_OPENED = "Workbook is opened"
 EXCEL_APP = "Excel.Application"
+CHECK_RESULT = "check_result"
 
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
