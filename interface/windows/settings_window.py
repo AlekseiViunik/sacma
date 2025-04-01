@@ -73,7 +73,7 @@ class SettingsWindow(BaseWindow):
         try:
             log.info(sett.SAVE_BUTTON_PRESSED)
             log.info(sett.TRYING_TO_REWRITE_SETTINGS)
-            log.info(f"The path is {sett.SETTINGS_FILE}")
+            log.info(sett.PATH_IS.format(sett.SETTINGS_FILE))
             log.info(sett.REWRITING_CHECK_IS_UNAVAILABLE)
             self.settings_json_handler.rewrite_file(
                 self.creator.input_fields
@@ -81,4 +81,4 @@ class SettingsWindow(BaseWindow):
             self.close()
 
         except Exception as e:
-            log.error(f"Error caught: {e}")
+            log.error(sett.ERROR_CAUGHT.format(e))
