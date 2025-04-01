@@ -6,7 +6,7 @@ from settings import settings as sett
 
 # Путь к файлу логов.
 # Если приложение запущено как ехе, то путь будет другой.
-if getattr(sys, 'frozen', False):
+if getattr(sys, sett.EXE_FROZEN, False):
     BASE_DIR = os.path.dirname(sys.executable)
     LOG_DIR = os.path.join(BASE_DIR, sett.LOGS_FOLDER_NAME)
 else:
@@ -44,7 +44,7 @@ def check_log_size() -> None:
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",  # Формат сообщения
+    format=sett.LOGS_FORMAT,  # Формат сообщения
     handlers=[
         logging.FileHandler(LOG_FILE, encoding=sett.STR_CODING),  # Логи в файл
     ]
