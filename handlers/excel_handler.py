@@ -1,14 +1,12 @@
-import re
 import win32com.client
 import win32com.client as win32
 
-from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
+from logic.data_preparator import DataPreparator
 from logic.logger import logger as log
-from logic.validator import Validator
 from settings import settings as sett
 
 
@@ -129,6 +127,10 @@ class ExcelHandler:
         self.settings_json_handler: JsonHandler = JsonHandler(
             sett.SETTINGS_FILE
         )
+        self.preparator: DataPreparator = DataPreparator(
+            self.data,
+            self.rules
+        )
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
         self.sheet: win32com.client.CDispatch | None = None
@@ -146,12 +148,13 @@ class ExcelHandler:
         """
 
         # Валидация входных данных
-        if not self.__check_data():
+        check_result = self.preparator.check_data()
+        if not check_result[sett.CHECK_RESULT]:
             log.error(sett.FAILED_VALIDATION)
             return {
                 sett.PRICE: None,
                 sett.WEIGHT: None,
-                sett.ERROR: self.check_err_mesg
+                sett.ERROR: check_result[sett.ERROR_MESSAGE]
             }
 
         self.__open_excel()
@@ -225,40 +228,6 @@ class ExcelHandler:
             except Exception as e:
                 Helper.log_exception(e)
 
-    def __prepare_data(self) -> dict:
-        """
-        В имеющемся эксель файлe есть варианты <1000 и >1001. Это не совсем
-        логично, поэтому я заменил эти варианты для выбора пользователем на
-        более логичные <=1000 и >= 1001. Однако такой вариант не подойдет для
-        формул excel, которые я не могу поменять и поэтому явным образом в этом
-        методе удаляем у полей, которых это касается знаки '='.
-
-        Также подготавливаем словарь вида <ячейка_для_вставки>: <значение>,
-        который будет использоваться в методе __input_cells() для вставки
-        значений.
-
-        Returns
-        -------
-        - data_prepared : dict
-            Отвалидированные и подготовленные для дальнейшей обработки данные.
-        """
-
-        log.info(sett.PREPARE_DICT)
-
-        # Подготавливаем данные для записи в Excel
-        data_prepared = {}
-        for name, cell in self.cells_input.items():
-            if name in self.data.keys():
-                if isinstance(self.data[name], str):
-                    self.data[name] = self.data[name].replace(
-                        sett.EQUALS_SYMBOL,
-                        sett.EMPTY_STRING
-                    ).strip()
-                # Номер ячейки      = Значение переданных данных
-                data_prepared[cell] = self.data[name]
-        log.info(sett.DICT_PREPARED.format(data_prepared))
-        return data_prepared
-
     def __input_cells(self) -> None:
         """
         Вызывает процесс подготовки данных и вписывает их в соответствующие
@@ -268,7 +237,7 @@ class ExcelHandler:
 
         if self.cells_input:
             # Подготавливаем данные для записи в Excel
-            data_prepared = self.__prepare_data()
+            data_prepared = self.preparator.prepare_data(self.cells_input)
             if not data_prepared:
                 return None, None
 
@@ -290,40 +259,6 @@ class ExcelHandler:
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()
 
-    def __check_data(self) -> bool:
-        """
-        Используя валидатор проверяет данные согласно определенным правилам,
-        указанным в конфигурационном файле.
-
-        Пробегаемся по ключам в переданных данных. Если такой ключ есть в
-        правилах, то уже пробегаемся по самим правилам и по каждому правилу
-        валидируем текущее значение по ключу из данных.
-
-        Returns
-        -------
-        - _: bool
-            Результат валидации данных.
-        """
-
-        log.info(sett.DATA_VALIDATION)
-        for key, value in self.data.items():
-            key = key.capitalize()
-            log.info(sett.CHECK_KEY.format(key))
-            if key in self.rules:
-                log.info(sett.DATA_TO_BE_CHECKED.format(self.data))
-                for rule_key, rule_value in self.rules[key].items():
-                    if not Validator().validate(rule_key, rule_value, value):
-                        self.check_err_mesg = self.__set_err_msg(
-                            rule_key,
-                            rule_value,
-                            key,
-                            value
-                        )
-                        log.error(sett.CHECK_KEY_FAILED.format(key))
-                        return False
-        log.info(sett.SUCCESSFUL_VALIDATION)
-        return True
-
     def __get_data_from_excel(self) -> dict:
         """
         Получаем и округляем цену и вес из таблицы excel.
@@ -342,114 +277,10 @@ class ExcelHandler:
             key: self.sheet.Range(self.cells_output[key]).Value
             for key in self.cells_output
         }
-        return self.__decimalize_and_rounding(excel_data)
-
-    def __decimalize_and_rounding(self, excel_data: dict) -> dict:
-        """
-        Переводит в Децимал и округляет значения по заданным параметрам или
-        по умолчанию (до 2х цифр после запятой).
-
-        Parameters
-        ----------
-        - excel_data: dict
-            Словарь со значениями для перевода.
-
-        Returns
-        -------
-        - excel_data: dict
-            Словарь с переведенными значениями.
-        """
-
-        # Перевод в Децимал и округление.
-        log.info(sett.ROUNDING_UP_DATA)
-        for key, value in excel_data.items():
-            if isinstance(value, str):
-                match = re.search(sett.FLOAT_REGEX, value)
-                if match:
-                    number_str = match.group().replace(
-                        sett.COMMA_SYMBOL,
-                        sett.POINT_SYMBOL
-                    )
-                    value = number_str
-            if (
-                value and
-                str(value).replace(
-                    sett.POINT_SYMBOL,
-                    sett.EMPTY_STRING,
-                    sett.SET_TO_ONE).isdigit() and
-                float(value) > sett.SET_TO_ZERO
-            ):
-                if self.roundings and (round_limit := self.roundings.get(key)):
-                    excel_data[key] = Decimal(value).quantize(
-                        Decimal(round_limit),
-                        rounding=ROUND_HALF_UP
-                    )
-                else:
-                    excel_data[key] = Decimal(value).quantize(
-                        Decimal(sett.ROUNDING_LIMIT),
-                        rounding=ROUND_HALF_UP
-                    )
-
-            if (
-                not isinstance(
-                    excel_data[key],
-                    Decimal
-                ) or excel_data[key] < sett.SET_TO_ZERO
-            ):
-                excel_data[key] = None
-
-        return excel_data
-
-    def __set_err_msg(
-        self,
-        rule_key,
-        rule_value,
-        key,
-        value
-    ) -> str:
-        """
-        В зависимости от того, какой тип валидации не прошло значение,
-        формирует сообщение об ошибке.
-
-        Parameters
-        ----------
-        - rule_key: str
-            Имя правила, которое было провалено (например max, min и т.д.).
-        - rule_value: Any
-            Значение правила, которое было не соблюдено.
-        - key: str
-            Имя параметра, значение которого провалило валидацию.
-        - value: Any
-            Значение параметра, провалившего валидацию.
-
-        Returns
-        -------
-        - _: str
-            Сообщение об ошибке
-        """
-
-        match rule_key:
-
-            case sett.VALIDATION_MIN:
-                return sett.MIN_FAILED_MSG.format(key, rule_value, value)
-
-            case sett.VALIDATION_MAX:
-                return sett.MAX_FAILED_MSG.format(key, rule_value, value)
-
-            case sett.VALIDATION_NUMERIC:
-                return sett.NUM_FAILED_MSG.format(key, value)
-
-            case sett.VALIDATION_NATURAL:
-                return sett.NAT_FAILED_MSG.format(key, value)
-
-            case sett.VALIDATION_MULTIPLE:
-                return sett.MULT_FAILED_MSG.format(key, rule_value, value)
-
-            case sett.VALIDATION_EXISTS:
-                return sett.EXISTS_FAILED_MSG.format(key)
-
-            case _:
-                return sett.EMPTY_STRING
+        return self.preparator.decimalize_and_rounding(
+            excel_data,
+            self.roundings
+        )
 
     def __copy_cells_to_another_ones(self) -> None:
         """
