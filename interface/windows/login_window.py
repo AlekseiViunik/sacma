@@ -83,7 +83,7 @@ class LoginWindow(BaseWindow):
                     self
                 )
         except Exception as e:
-            log.error(f"Error caught: {e}")
+            log.error(sett.ERROR_CAUGHT.format(e))
 
     def toggle_password(self, checkbox: QCheckBox) -> None:
         """
