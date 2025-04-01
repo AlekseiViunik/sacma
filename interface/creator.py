@@ -444,7 +444,7 @@ class Creator:
             Объект созданного контейнера
         """
 
-        log.info(f"Create a layout. Type {layout_config[sett.TYPE]}")
+        log.info(sett.CREATE_LAYOUT.format(layout_config[sett.TYPE]))
         match layout_config[sett.TYPE]:
             case sett.LAYOUT_TYPE_GRID:
                 layout = QGridLayout()
@@ -491,7 +491,7 @@ class Creator:
             Объект созданного лейбла
         """
 
-        log.info(f"Create label: {config[sett.TEXT]}")
+        log.info(sett.CREATE_WIDGET.format(sett.LABEL, config[sett.NAME]))
         label = QLabel()
         for param, value in config.items():
             match param:
@@ -524,7 +524,7 @@ class Creator:
                 case sett.HEIGHT:
                     label.setFixedHeight(int(value))
                 case sett.BACKGROUND:
-                    styleSheet = f"background-color: {value}"
+                    styleSheet = sett.BG_COLOR.format(value)
                     label.setStyleSheet(styleSheet)
 
         return label
@@ -577,7 +577,7 @@ class Creator:
             Объект созданного чекбокса.
         """
 
-        log.info(f"Create checkbox: {config[sett.TEXT]}")
+        log.info(sett.CREATE_WIDGET.format(sett.CHECKBOX, config[sett.NAME]))
         checkbox = QCheckBox()
         for param, value in config.items():
             match param:
@@ -609,7 +609,7 @@ class Creator:
             Объект созданной кнопки.
         """
 
-        log.info(f"Create button: {config[sett.TEXT]}")
+        log.info(sett.CREATE_WIDGET.format(sett.BUTTON, config[sett.NAME]))
         button = QPushButton(config[sett.TEXT])
         for param, value in config.items():
             match param:
@@ -627,7 +627,7 @@ class Creator:
 
         # Активирует кнопку, только если в ее конфиге есть коллбэк.
         button.setObjectName(config[sett.TEXT])
-        if "callback" not in config:
+        if sett.CALLBACK not in config:
             button.setEnabled(False)
         return button
 
@@ -652,7 +652,9 @@ class Creator:
         if not self.default_values.get(name):
             self.default_values[name] = config[sett.DEFAULT_VALUE]
         for param, value in config.items():
-            log.info(f"Create dropdown list: {config[sett.NAME]}")
+            log.info(
+                sett.CREATE_WIDGET.format(sett.DROPDOWN, config[sett.NAME])
+            )
             match param:
                 case sett.OPTIONS:
                     # Настройка вариантов выбора
