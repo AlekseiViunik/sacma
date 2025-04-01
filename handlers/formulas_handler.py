@@ -66,8 +66,8 @@ class FormulasHandler:
         def replace_var(match):
             var = match.group(0)  # Получаем название переменной
             if var not in data:
-                log.error(f"Переменная '{var}' отсутствует в data")
-                raise KeyError(f"Переменная '{var}' отсутствует в data")
+                log.error(sett.VAR_IS_MISSING.format(var))
+                raise KeyError(sett.VAR_IS_MISSING.format(var))
             return str(data[var])  # Подставляем значение из словаря
 
         # Регулярное выражение для поиска переменных

@@ -52,7 +52,7 @@ class StartWindow(BaseWindow):
         """
 
         sender = self.sender()  # Получаем объект кнопки
-        log.info(f"{sender.text()} button has been pressed!")
+        log.info(sett.BUTTON_PRESSED.format(sender.text()))
         if sender:
             window_name = sender.text()  # Берем текст кнопки как имя окна
             input_window = InputWindow(

@@ -50,50 +50,52 @@ class Validator:
         """
 
         match rule_key:
+
             case sett.VALIDATION_MIN:
-                log.info(f"Should be more than {rule_value}")
+                log.info(sett.SHOULD_BE_MORE_THAN.format(rule_key, rule_value))
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(f"{value} is not numeric")
+                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value < rule_value:
-                    log.error(
-                        f"{value} is less than min possible ({rule_value})"
-                    )
+                    log.error(sett.IS_LESS_THAN.format(value, rule_value))
                     return False
+
             case sett.VALIDATION_MAX:
-                log.info(f"'{rule_key}' should be less than {rule_value}")
+                log.info(sett.SHOULD_BE_LESS_THAN.format(rule_key, rule_value))
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(f"{value} is not numeric")
+                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value > rule_value:
-                    log.error(
-                        f"{value} is greater than max possible ({rule_value})"
-                    )
+                    log.error(sett.IS_GREATER_THAN.format(value, rule_value))
                     return False
+
             case sett.VALIDATION_NUMERIC:
                 log.info(sett.SHOULD_BE_NUMERIC)
                 if not str(value).isnumeric():
-                    log.error(f"{value} is not numeric")
+                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
+
             case sett.VALIDATION_NATURAL:
                 log.info(sett.SHOULD_BE_NATURAL)
                 if not str(value).isnumeric() or int(value) < 0:
                     log.error(f"{value} is not natural")
                     return False
+
             case sett.VALIDATION_MULTIPLE:
-                log.info(f"Should be multiple of {rule_value}")
+                log.info(sett.SHOULD_BE_MULTIPLE.format(rule_value))
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(f"{value} is not numeric")
+                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value % rule_value != 0:
-                    log.error(f"{value} is not multiple of {rule_value}")
+                    log.error(sett.IS_NOT_MULTIPLE.format(value, rule_value))
                     return False
+
             case sett.VALIDATION_EXISTS:
                 log.info(sett.SHOULD_BE_PRESENTED)
                 if not value:
@@ -176,8 +178,8 @@ class Validator:
         for i in range(sett.SET_TO_ONE, int(data[sett.PIECES])+1):
             sections.append(
                 Helper.backward_convertation(
-                    data[f"section_{i}"],
-                    config[sett.CONVERTATION][f"section_{i}"]
+                    data[sett.SECTION_I.format(i)],
+                    config[sett.CONVERTATION][sett.SECTION_I.format(i)],
                 )
             )
 
@@ -208,12 +210,18 @@ class Validator:
             Результат проверки количества диагоналей и количество траверс.
         """
         for i in range(sett.SET_TO_ONE, int(data[sett.PIECES])+1):
-            expression = f"n_diagonals_{i} == n_traverse_{i} - 1"
+            expression = sett.DIAGONALS_TRAVERSE.format(i)
             modified_expr = expression
 
             variables = {
                 token for token
-                in expression.replace('(', ' ').replace(')', ' ').split()
+                in expression.replace(
+                    sett.LEFT_BRACKET_SYMBOL,
+                    sett.SPACE_SYMBOL
+                ).replace(
+                    sett.RIGHT_BRACKET_SYMBOL,
+                    sett.SPACE_SYMBOL
+                ).split()
                 if token.isidentifier()
             }
             for var in variables:
@@ -222,8 +230,11 @@ class Validator:
                     for key, value in data.items()
                     if key.startswith(var)
                     and isinstance(value, (int, float, str))
-                    and str(value).replace(",", ".").replace(
-                        ".", "", 1
+                    and str(value).replace(
+                        sett.COMMA_SYMBOL,
+                        sett.POINT_SYMBOL
+                    ).replace(
+                        sett.POINT_SYMBOL, sett.EMPTY_STRING, 1
                     ).isdigit()
                 )
 

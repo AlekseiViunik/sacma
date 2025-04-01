@@ -69,13 +69,13 @@ class OutputWindow(QWidget):
         try:
             log.info(sett.CREATE_RESULT_WINDOW)
             log.info(sett.GETTING_CONF_FOR_RESULT_WINDOW)
-            log.info(f"The path is {sett.OUTPUT_WINDOW_CONFIG_FILE}")
+            log.info(sett.PATH_IS.format(sett.OUTPUT_WINDOW_CONFIG_FILE))
 
             # Загружаем конфиг.
             config = self.config_json_handler.get_all_data()
             if config:
                 log.info(sett.CONF_DATA_RECEIVED)
-                log.info(f"Config is: {config}")
+                log.info(sett.CONFIG_IS.format(config))
             else:
                 log.error(sett.FAILED_GET_JSON_DATA)
 
@@ -154,7 +154,7 @@ class OutputWindow(QWidget):
             ok_button = QPushButton(sett.OK_BUTTON_TITLE)
             ok_button.setFixedWidth(sett.OK_BUTTON_WIDTH)
             ok_button.setFixedHeight(sett.OK_BUTTON_HEIGHT)
-            ok_button.setStyleSheet("margin-top: 10px;")
+            ok_button.setStyleSheet(sett.MARGIN_TOP)
             ok_button.clicked.connect(self.close)
             button_container = QVBoxLayout()
             button_container.addWidget(
@@ -169,4 +169,4 @@ class OutputWindow(QWidget):
             # Показываем получившееся окно.
             self.show()
         except Exception as e:
-            log.error(f"Error caught: {e}")
+            Helper.log_exception(e)

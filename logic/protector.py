@@ -45,7 +45,7 @@ class Protector:
         """
 
         for filename in os.listdir(self.current_dir):
-            if filename.lower() == "logs":
+            if filename.lower() == sett.LOGS_FOLDER_NAME:
                 continue  # пропускаем папку logs
 
             full_path = os.path.join(self.current_dir, filename)

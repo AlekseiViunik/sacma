@@ -47,7 +47,7 @@ class UserDataHandler:
             user_data.pop(sett.REPEAT_PASSWORD)
 
         log.info(sett.TRYING_ADD_USER_DATA)
-        log.info(f"The path is {sett.USER_MAIN_DATA_FILE}")
+        log.info(sett.PATH_IS.format(sett.USER_MAIN_DATA_FILE))
         self.auth_json_handler.write_into_file(key=username, value=user_data)
 
         # Проверка, что пользователь добавлен (для логов)

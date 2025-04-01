@@ -196,7 +196,7 @@ class JsonHandler:
          - path: str
             относительный путь к файлу.
         """
-        if getattr(sys, 'frozen', False):
+        if getattr(sys, sett.EXE_FROZEN, False):
             BASE_DIR = os.path.dirname(sys.executable)
             self.file_path = os.path.join(BASE_DIR, path)
         else:
