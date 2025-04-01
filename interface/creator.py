@@ -491,7 +491,7 @@ class Creator:
             Объект созданного лейбла
         """
 
-        log.info(sett.CREATE_WIDGET.format(sett.LABEL, config[sett.NAME]))
+        log.info(sett.CREATE_WIDGET.format(sett.LABEL, config[sett.TEXT]))
         label = QLabel()
         for param, value in config.items():
             match param:
@@ -609,7 +609,7 @@ class Creator:
             Объект созданной кнопки.
         """
 
-        log.info(sett.CREATE_WIDGET.format(sett.BUTTON, config[sett.NAME]))
+        log.info(sett.CREATE_WIDGET.format(sett.BUTTON, config[sett.TEXT]))
         button = QPushButton(config[sett.TEXT])
         for param, value in config.items():
             match param:

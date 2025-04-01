@@ -2,7 +2,6 @@ from handlers.excel_handler import ExcelHandler
 from handlers.formulas_handler import FormulasHandler
 from handlers.json_handler import JsonHandler
 from helpers.helper import Helper
-from logic.logger import logger as log
 from logic.translator import Translator
 from logic.validator import Validator
 from settings import settings as sett
@@ -167,7 +166,7 @@ class Calculator:
             try:
                 excel_result = self.excel_handler.initiate_process()
             except Exception as e:
-                log.error(sett.ERROR_CAUGHT.format(e))
+                Helper.log_exception(e)
         else:
             excel_result = {
                 sett.PRICE: None,
@@ -190,7 +189,7 @@ class Calculator:
                         self.data
                     )
                 except Exception as e:
-                    log.error(sett.ERROR_CAUGHT.format(e))
+                    Helper.log_exception(e)
 
             # NEW! Если post_message - не строка, а словарь (содержит помимо)
             # сообщения еще и условие для его отображения. То проверяем это

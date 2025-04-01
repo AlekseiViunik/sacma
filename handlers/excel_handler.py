@@ -6,6 +6,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
 from handlers.json_handler import JsonHandler
+from helpers.helper import Helper
 from logic.logger import logger as log
 from logic.validator import Validator
 from settings import settings as sett
@@ -215,14 +216,14 @@ class ExcelHandler:
             try:
                 self.wb.Close(SaveChanges=0)
             except Exception as e:
-                log.error(sett.ERROR_CAUGHT.format(e))
+                Helper.log_exception(e)
 
         # Закрытие приложения эксель, если открыто
         if self.excel:
             try:
                 self.excel.Quit()
             except Exception as e:
-                log.error(sett.ERROR_CAUGHT.format(e))
+                Helper.log_exception(e)
 
     def __prepare_data(self) -> dict:
         """

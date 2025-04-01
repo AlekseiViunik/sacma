@@ -169,4 +169,4 @@ class OutputWindow(QWidget):
             # Показываем получившееся окно.
             self.show()
         except Exception as e:
-            log.error(sett.ERROR_CAUGHT.format(e))
+            Helper.log_exception(e)

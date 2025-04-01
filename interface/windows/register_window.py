@@ -6,6 +6,7 @@ from handlers.input_data_handler import InputDataHandler
 from handlers.json_handler import JsonHandler
 from handlers.user_data_handler import UserDataHandler
 from helpers.authenticator import Authenticator
+from helpers.helper import Helper
 from logic.logger import logging as log
 from settings import settings as sett
 
@@ -141,7 +142,7 @@ class RegisterWindow(BaseWindow):
                 self.close()
 
         except Exception as e:
-            log.error(sett.ERROR_CAUGHT.format(e))
+            Helper.log_exception(e)
 
     def toggle_password(
         self,

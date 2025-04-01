@@ -85,7 +85,7 @@ class BaseWindow(QWidget):
         try:
             self.creator.create_widget_layout(self, config[sett.LAYOUT])
         except Exception as e:
-            log.error(sett.ERROR_CAUGHT.format(e))
+            Helper.log_exception(e)
 
     def connect_callback(
         self,

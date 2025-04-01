@@ -149,6 +149,7 @@ NUM_FAILED_MSG = "{0} should be numeric. You have {1}"
 NAT_FAILED_MSG = "{0} should be positive and numeric. You have {1}"
 MULT_FAILED_MSG = "{0} should be multiple of {1}. You have {2}"
 EXISTS_FAILED_MSG = "{0} field should not be empty"
+EXCEPTION_MSG_TEMPLATE = "{0}: {1} in {2}() at {3}:{4}"
 
 # =========================== STATIC DICTIONARY KEYS ==========================
 

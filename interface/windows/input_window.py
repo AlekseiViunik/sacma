@@ -1,8 +1,9 @@
+from .base_window import BaseWindow
 from handlers.input_data_handler import InputDataHandler
+from helpers.helper import Helper
 from interface.windows.output_window import OutputWindow
 from logic.calculator import Calculator
 from logic.logger import logger as log
-from .base_window import BaseWindow
 from settings import settings as sett
 
 
@@ -88,4 +89,4 @@ class InputWindow(BaseWindow):
                 only_keys
             )
         except Exception as e:
-            log.error(sett.ERROR_CAUGHT.format(e))
+            Helper.log_exception(e)

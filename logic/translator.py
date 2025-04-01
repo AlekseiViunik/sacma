@@ -1,4 +1,4 @@
-from logic.logger import logger as log
+from helpers.helper import Helper
 from settings import settings as sett
 
 
@@ -46,4 +46,4 @@ class Translator:
                 }
             return None
         except Exception as e:
-            log.error(sett.ERROR_CAUGHT.format(e))
+            Helper.log_exception(e)

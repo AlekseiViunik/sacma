@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
 
 from .base_window import BaseWindow
 from handlers.json_handler import JsonHandler
+from helpers.helper import Helper
 from logic.logger import logger as log
 from settings import settings as sett
 
@@ -81,4 +82,4 @@ class SettingsWindow(BaseWindow):
             self.close()
 
         except Exception as e:
-            log.error(sett.ERROR_CAUGHT.format(e))
+            Helper.log_exception(e)
