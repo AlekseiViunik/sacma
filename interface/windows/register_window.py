@@ -73,7 +73,7 @@ class RegisterWindow(BaseWindow):
                 self.creator.input_fields,
                 self.creator.chosen_fields
             )
-            log.info(f"Fulfilled fields are: {all_inputs}")
+            log.info(sett.FULFILLED_FIELDS.format(all_inputs))
 
             # Проверка, все ли обязательные поля заполнены.
             difference = self.input_data_handler.check_mandatory(
@@ -82,14 +82,15 @@ class RegisterWindow(BaseWindow):
             )
             if difference:
                 log.error(sett.MANDATORY_FIELDS_CHECK_FAILED)
-                log.error(f"Missing fields are {difference}")
+                log.error(sett.MISSING_FIELDS.format(difference))
                 if len(difference) == sett.SET_TO_ONE:
-                    err_msg = f"The field '{difference[0]}' is mandatory!"
+                    err_msg = sett.MANDATORY_FIELD.format(
+                        difference[sett.SET_TO_ZERO]
+                    )
                 else:
                     missing_fields = sett.LISTING_CONNECTOR.join(difference)
                     err_msg = (
-                        "The following fields are mandatory: "
-                        f"{missing_fields}!"
+                        sett.MANDATORY_FIELDS.format(missing_fields)
                     )
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
@@ -133,14 +134,14 @@ class RegisterWindow(BaseWindow):
                 self.user_data_handler.add_new_user_data(all_inputs)
                 Messagebox.show_messagebox(
                     sett.SUCCESS,
-                    f"User {username} is created!",
+                    sett.USER_CREATED.format(username),
                     self,
                     sett.TYPE_INFO
                 )
                 self.close()
 
         except Exception as e:
-            log.error(f"Error caught: {e}")
+            log.error(sett.ERROR_CAUGHT.format(e))
 
     def toggle_password(
         self,
