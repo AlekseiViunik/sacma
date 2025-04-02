@@ -67,12 +67,12 @@
                         },
                         {
                             "type": "dropdown",
-                            "name": "standart_hook",
+                            "name": "amount",
                             "width": 200,
                             "height": 20,
-                            "default_value": ">=1001",
+                            "default_value": ">=501",
                             "options": {
-                                "always": [">=1001", "<=1000"]
+                                "always": [">=501", "<=500"]
                             },
                             "column": "current"
                         },
