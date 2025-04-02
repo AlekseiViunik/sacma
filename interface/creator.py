@@ -558,6 +558,27 @@ class Creator:
                 case sett.HIDE:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
+
+        # Если в поле для ввода уже были внесены даные, то при
+        # перерисовке окна они будут перезаписаны.
+        try:
+            self.input_fields.get(
+                config[sett.NAME]
+            ).text()
+
+        # Если поле для ввода уже было создано до этого и потом было очищено,
+        # то оно уже мертво и выскакивает ошибка RuntimeError. Отлавливаем
+        # ошибку и удаляем поле.
+        except RuntimeError:
+            self.input_fields.pop(config[sett.NAME], None)
+
+        # Если поле для ввода, еще не было создано, то у нас NoneType и оно не
+        # имеет метода text(), о чем говорит ошибка AttributeError. Дальше все
+        # равно идет проверка на существование поля, поэтому ошибку просто
+        # игнорируем.
+        except AttributeError:
+            pass
+
         if (
             self.input_fields and
             self.input_fields.get(config[sett.NAME]) and
@@ -565,8 +586,7 @@ class Creator:
                 config[sett.NAME]
             ).text() != sett.EMPTY_STRING
         ):
-            # Если поле уже создано и в нем есть значение, то оно будет
-            # перезаписано. Если же поля еще нет, то создаем его.
+
             input_field.setText(
                 self.input_fields[config[sett.NAME]].text()
             )
@@ -680,7 +700,31 @@ class Creator:
                     dropdown.setFixedHeight(int(value))
 
         dropdown.setObjectName(config[sett.NAME])
-        dropdown.setCurrentText(self.default_values[name])
+
+        if sett.CHANGE_WIDGETS not in config.keys():
+            try:
+                self.chosen_fields.get(
+                    config[sett.NAME]
+                ).currentText()
+            except RuntimeError:
+                self.chosen_fields.pop(config[sett.NAME], None)
+            except AttributeError:
+                pass
+
+            if (
+                self.chosen_fields and
+                self.chosen_fields.get(config[sett.NAME]) and
+                self.chosen_fields.get(
+                    config[sett.NAME]
+                ).currentText() != sett.EMPTY_STRING
+            ):
+
+                dropdown.setCurrentText(
+                    self.chosen_fields[config[sett.NAME]].currentText()
+                )
+        else:
+            dropdown.setCurrentText(self.default_values[name])
+
         self.chosen_fields[config[sett.NAME]] = dropdown
 
         # Если выпадающий список является меняющим, то задаем метод, который
