@@ -559,6 +559,39 @@ class Creator:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
 
+        # Пытаемся получить данные из поля для ввода.
+        try:
+            self.input_fields.get(
+                config[sett.NAME]
+            ).text()
+
+        # Если поле для ввода уже было создано до этого и потом было очищено,
+        # то оно уже мертво и выскакивает ошибка RuntimeError. Отлавливаем
+        # ошибку и удаляем поле.
+        except RuntimeError:
+            self.input_fields.pop(config[sett.NAME], None)
+
+        # Если поле для ввода, еще не было создано, то у нас NoneType и оно не
+        # имеет метода text(), о чем говорит ошибка AttributeError. Дальше все
+        # равно идет проверка на существование поля, поэтому ошибку просто
+        # игнорируем.
+        except AttributeError:
+            pass
+
+        # Если в поле для ввода уже были внесены даные, то при
+        # перерисовке окна они будут перезаписаны.
+        if (
+            self.input_fields and
+            self.input_fields.get(config[sett.NAME]) and
+            self.input_fields.get(
+                config[sett.NAME]
+            ).text() != sett.EMPTY_STRING
+        ):
+
+            input_field.setText(
+                self.input_fields[config[sett.NAME]].text()
+            )
+
         self.input_fields[config[sett.NAME]] = input_field
         return input_field
 
@@ -668,7 +701,47 @@ class Creator:
                     dropdown.setFixedHeight(int(value))
 
         dropdown.setObjectName(config[sett.NAME])
-        dropdown.setCurrentText(self.default_values[name])
+
+        # Если выпадающий список является меняющим виджеты на окне, то
+        # оставляем как есть. В противном случае пытаемся сохранить выбранное
+        # значение. Значение останется выбранным, если такое поле есть в новом
+        # окне и если уже выбранное значение является одним из возможных
+        # вариантов выбора в новом окне.
+        if sett.CHANGE_WIDGETS not in config.keys():
+
+            # Пытаемся получить данные из поля для выбора.
+            try:
+                self.chosen_fields.get(
+                    config[sett.NAME]
+                ).currentText()
+
+            # Если поле для выбора уже было создано до этого и потом было
+            # очищено, то оно уже мертво и выскакивает ошибка RuntimeError.
+            # Отлавливаем ошибку и удаляем поле.
+            except RuntimeError:
+                self.chosen_fields.pop(config[sett.NAME], None)
+
+            # Если поле для ввода, еще не было создано, то у нас NoneType и
+            # оно не имеет метода currentText(), о чем говорит ошибка
+            # AttributeError. Дальше все равно идет проверка на существование
+            # поля, поэтому ошибку просто игнорируем.
+            except AttributeError:
+                pass
+
+            if (
+                self.chosen_fields and
+                self.chosen_fields.get(config[sett.NAME]) and
+                self.chosen_fields.get(
+                    config[sett.NAME]
+                ).currentText() != sett.EMPTY_STRING
+            ):
+
+                dropdown.setCurrentText(
+                    self.chosen_fields[config[sett.NAME]].currentText()
+                )
+        else:
+            dropdown.setCurrentText(self.default_values[name])
+
         self.chosen_fields[config[sett.NAME]] = dropdown
 
         # Если выпадающий список является меняющим, то задаем метод, который
@@ -772,7 +845,6 @@ class Creator:
         """
 
         log.info(sett.RERENDER_LAYOUTS)
-
         self.default_values[name] = selected_value
         self.remover.clear_layout(
             self.main_layout
