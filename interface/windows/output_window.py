@@ -120,6 +120,8 @@ class OutputWindow(QWidget):
                     value = f"{str(value)} {sett.EURO_SYMBOL}"
                 elif label == sett.WEIGHT_IT and value:
                     value = f"{str(value)} {sett.KILO_SYMBOL}"
+                elif label == sett.DEVELOPMENT_IT and value:
+                    value = f"{str(value)} {sett.METERS_SYMBOL}"
                 elif (
                     label == sett.PRICE_IT or label == sett.WEIGHT_IT
                 ) and not value:
