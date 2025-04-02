@@ -140,7 +140,7 @@ def test_grigliato_excel_calculation_3():
     )
 
 
-def test_grigliato_wrong_data_passed():
+def test_grigliato_wrong_data_passed_1():
     data = {
         'type': 'Grigliato',
         'thickness': '1.5',
@@ -156,6 +156,52 @@ def test_grigliato_wrong_data_passed():
 
     expected_result = {'price': None, 'weight': None}
     expected_post_message = 'Lunghezza should be less than 6000. You have 6100'
+
+    assert data_to_check, (
+        "Метод initiate_process() вернул пустой результат или None"
+    )
+
+    assert len(data_to_check) == len(expected_result), (
+        f"Количество данных не совпадает.\n"
+        f"Ожидалось: {len(expected_result)}\n"
+        f"Нашлось: {len(data_to_check)}"
+    )
+
+    assert data_to_check['price'] == expected_result['price'], (
+        f"Цена не совпадает.\n"
+        f"Ожидалось: {expected_result['price']}\n"
+        f"Нашлось: {data_to_check['price']}"
+    )
+
+    assert data_to_check['weight'] == expected_result['weight'], (
+        f"Вес не совпадает.\n"
+        f"Ожидалось: {expected_result['weight']}\n"
+        f"Нашлось: {data_to_check['weight']}"
+    )
+
+    assert post_message == expected_post_message, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: {expected_post_message}\n"
+        f"Нашлось: {post_message}"
+    )
+
+
+def test_grigliato_wrong_data_passed_2():
+    data = {
+        'type': 'Grigliato',
+        'thickness': '1.5',
+        'base': '250x50',
+        'length': '810'
+    }
+
+    choices = {'type': 'Grigliato'}
+    el_type = 'Grigliato'
+
+    calculator = Calculator(data, el_type, choices)
+    data_to_check, post_message = calculator.calc_data()
+
+    expected_result = {'price': None, 'weight': None}
+    expected_post_message = 'Lunghezza should be multiple of 40. You have 810'
 
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
@@ -324,7 +370,7 @@ def test_bugnato_excel_calculation_3():
     )
 
 
-def test_bugnato_wrong_data_passed():
+def test_bugnato_wrong_data_passed_1():
     data = {
         'type': 'Bugnato',
         'thickness': '3.0',
@@ -340,6 +386,52 @@ def test_bugnato_wrong_data_passed():
 
     expected_result = {'price': None, 'weight': None}
     expected_post_message = 'Lunghezza should be less than 6000. You have 6100'
+
+    assert data_to_check, (
+        "Метод initiate_process() вернул пустой результат или None"
+    )
+
+    assert len(data_to_check) == len(expected_result), (
+        f"Количество данных не совпадает.\n"
+        f"Ожидалось: {len(expected_result)}\n"
+        f"Нашлось: {len(data_to_check)}"
+    )
+
+    assert data_to_check['price'] == expected_result['price'], (
+        f"Цена не совпадает.\n"
+        f"Ожидалось: {expected_result['price']}\n"
+        f"Нашлось: {data_to_check['price']}"
+    )
+
+    assert data_to_check['weight'] == expected_result['weight'], (
+        f"Вес не совпадает.\n"
+        f"Ожидалось: {expected_result['weight']}\n"
+        f"Нашлось: {data_to_check['weight']}"
+    )
+
+    assert post_message == expected_post_message, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: {expected_post_message}\n"
+        f"Нашлось: {post_message}"
+    )
+
+
+def test_bugnato_wrong_data_passed_2():
+    data = {
+        'type': 'Bugnato',
+        'thickness': '3.0',
+        'base': '270x40',
+        'length': '820'
+    }
+
+    choices = {'type': 'Bugnato'}
+    el_type = 'Grigliato'
+
+    calculator = Calculator(data, el_type, choices)
+    data_to_check, post_message = calculator.calc_data()
+
+    expected_result = {'price': None, 'weight': None}
+    expected_post_message = 'Lunghezza should be multiple of 40. You have 820'
 
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
