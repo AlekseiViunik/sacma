@@ -558,6 +558,18 @@ class Creator:
                 case sett.HIDE:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
+        if (
+            self.input_fields and
+            self.input_fields.get(config[sett.NAME]) and
+            self.input_fields.get(
+                config[sett.NAME]
+            ).text() != sett.EMPTY_STRING
+        ):
+            # Если поле уже создано и в нем есть значение, то оно будет
+            # перезаписано. Если же поля еще нет, то создаем его.
+            input_field.setText(
+                self.input_fields[config[sett.NAME]].text()
+            )
 
         self.input_fields[config[sett.NAME]] = input_field
         return input_field
@@ -772,7 +784,6 @@ class Creator:
         """
 
         log.info(sett.RERENDER_LAYOUTS)
-
         self.default_values[name] = selected_value
         self.remover.clear_layout(
             self.main_layout
