@@ -361,6 +361,7 @@ PRICE_IT = "Prezzo"
 PREPARATION_IT = "Approntamento"
 WEIGHT_IT = "Peso"
 NOT_FOUND_IT = "non trovato"
+DEVELOPMENT_IT = "Sviluppo"
 
 OK_BUTTON_TITLE = "OK"
 OK_BUTTON_WIDTH = 100
@@ -384,6 +385,7 @@ COMMA_SYMBOL = ","
 SPACE_SYMBOL = " "
 LEFT_BRACKET_SYMBOL = "("
 RIGHT_BRACKET_SYMBOL = ")"
+METERS_SYMBOL = "m"
 
 FLOAT_REGEX = r"\d+(,\d+)?"
 VARIABLE_REGEX = r"[a-zA-Z_][a-zA-Z0-9_]*"
