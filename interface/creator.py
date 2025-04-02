@@ -559,8 +559,7 @@ class Creator:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
 
-        # Если в поле для ввода уже были внесены даные, то при
-        # перерисовке окна они будут перезаписаны.
+        # Пытаемся получить данные из поля для ввода.
         try:
             self.input_fields.get(
                 config[sett.NAME]
@@ -579,6 +578,8 @@ class Creator:
         except AttributeError:
             pass
 
+        # Если в поле для ввода уже были внесены даные, то при
+        # перерисовке окна они будут перезаписаны.
         if (
             self.input_fields and
             self.input_fields.get(config[sett.NAME]) and
@@ -701,13 +702,29 @@ class Creator:
 
         dropdown.setObjectName(config[sett.NAME])
 
+        # Если выпадающий список является меняющим виджеты на окне, то
+        # оставляем как есть. В противном случае пытаемся сохранить выбранное
+        # значение. Значение останется выбранным, если такое поле есть в новом
+        # окне и если уже выбранное значение является одним из возможных
+        # вариантов выбора в новом окне.
         if sett.CHANGE_WIDGETS not in config.keys():
+
+            # Пытаемся получить данные из поля для выбора.
             try:
                 self.chosen_fields.get(
                     config[sett.NAME]
                 ).currentText()
+
+            # Если поле для выбора уже было создано до этого и потом было
+            # очищено, то оно уже мертво и выскакивает ошибка RuntimeError.
+            # Отлавливаем ошибку и удаляем поле.
             except RuntimeError:
                 self.chosen_fields.pop(config[sett.NAME], None)
+
+            # Если поле для ввода, еще не было создано, то у нас NoneType и
+            # оно не имеет метода currentText(), о чем говорит ошибка
+            # AttributeError. Дальше все равно идет проверка на существование
+            # поля, поэтому ошибку просто игнорируем.
             except AttributeError:
                 pass
 
