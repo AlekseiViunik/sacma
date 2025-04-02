@@ -6,7 +6,7 @@ el_type = 'Angolari per automatici'
 calculator = Calculator({}, el_type, {})
 
 
-def test_travi_di_battuta_excel_calculation_1():
+def test_angolari_excel_calculation_1():
     data = {'section': '50x90', 'thickness': '2.0', 'length': '2000'}
 
     calculator.data = data
@@ -55,7 +55,7 @@ def test_travi_di_battuta_excel_calculation_1():
     )
 
 
-def test_travi_di_battuta_excel_calculation_2():
+def test_angolari_excel_calculation_2():
     data = {'section': '50x65', 'thickness': '3.0', 'length': '1500'}
 
     calculator.data = data
@@ -104,7 +104,7 @@ def test_travi_di_battuta_excel_calculation_2():
     )
 
 
-def test_travi_di_battuta_excel_calculation_3():
+def test_angolari_excel_calculation_3():
     data = {'section': '50x78', 'thickness': '1.5', 'length': '4100'}
 
     calculator.data = data
@@ -153,7 +153,7 @@ def test_travi_di_battuta_excel_calculation_3():
     )
 
 
-def test_travi_di_battuta_excel_validation_1():
+def test_angolari_excel_validation_1():
     data = {'section': '50x78', 'thickness': '1.5', 'length': ''}
 
     calculator.data = data
@@ -192,7 +192,7 @@ def test_travi_di_battuta_excel_validation_1():
     )
 
 
-def test_travi_di_battuta_excel_validation_2():
+def test_angolari_excel_validation_2():
     data = {'section': '50x78', 'thickness': '1.5', 'length': 'abc'}
 
     calculator.data = data
