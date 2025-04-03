@@ -579,6 +579,8 @@ class Creator:
                 case sett.HIDE:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
+                case sett.DISABLED:
+                    input_field.setEnabled(False)
 
         # Пытаемся получить данные из поля для ввода.
         try:
@@ -720,6 +722,8 @@ class Creator:
                     dropdown.setFixedWidth(int(value))
                 case sett.HEIGHT:
                     dropdown.setFixedHeight(int(value))
+                case sett.DISABLED:
+                    dropdown.setEnabled(False)
 
         dropdown.setObjectName(config[sett.NAME])
 
