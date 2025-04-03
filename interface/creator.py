@@ -293,6 +293,9 @@ class Creator:
 
         self.__update_dependent_layouts()
 
+    def update(self):
+        self.__update_dependent_layouts()
+
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
     def __add_widgets(
