@@ -17,6 +17,7 @@ from PyQt6.QtCore import Qt
 
 from helpers.finder import Finder
 from helpers.remover import Remover
+from logic.config_generator import ConfigGenerator
 from logic.logger import logger as log
 from settings import settings as sett
 
@@ -149,6 +150,7 @@ class Creator:
         self.current_changing_values: dict[str, str] = {}
         self.remover: Remover = Remover()
         self.finder: Finder = Finder()
+        self.generator = ConfigGenerator()
         self.mandatory_fields: list[str] = []
         self.main_layout = None
 
@@ -265,6 +267,38 @@ class Creator:
             self.main_layout = layout
             self.layout_parents[layout] = parent_window
             parent_window.adjustSize()
+
+    def show_response(
+        self,
+        values: dict,
+        post_message: str,
+        only_keys: list[str] | None = None,
+        pre_message: str = sett.PRE_MSG_STANDART
+    ):
+        new_config = self.generator.add_response_to_config(
+            self.config,
+            values,
+            only_keys,
+            pre_message,
+            post_message
+        )
+
+        self.config = new_config
+
+        self.__update_dependent_layouts()
+
+    def remove_result_from_config(self) -> None:
+        widgets: list[dict[str, dict]] = self.config[sett.LAYOUT][sett.WIDGETS]
+        if (
+            widgets := self.config[sett.LAYOUT][sett.WIDGETS]
+        ):
+            for i in range(len(widgets)):
+                if (
+                    widgets[i].get(sett.LAYOUT) and
+                    widgets[i][sett.LAYOUT].get(sett.NAME) == sett.RESPONSE
+                ):
+                    widgets.pop(i)
+                    break
 
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
@@ -826,8 +860,8 @@ class Creator:
 
     def __update_dependent_layouts(
         self,
-        name: str,
-        selected_value: str
+        name: str = None,
+        selected_value: str = None
     ) -> None:
         """
         Метод обновления зависимых контейнеров. Переписывает дефолтные
@@ -845,7 +879,9 @@ class Creator:
         """
 
         log.info(sett.RERENDER_LAYOUTS)
-        self.default_values[name] = selected_value
+        if name and selected_value:
+            self.default_values[name] = selected_value
+
         self.remover.clear_layout(
             self.main_layout
         )
@@ -860,6 +896,7 @@ class Creator:
         )
 
         self.parent_window.adjustSize()
+        self.remove_result_from_config()
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
