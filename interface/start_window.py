@@ -1,5 +1,6 @@
 from handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
+from interface.windows.change_pass_window import ChangePassWindow
 from interface.windows.input_window import InputWindow
 from interface.windows.login_window import LoginWindow
 from interface.windows.register_window import RegisterWindow
@@ -94,3 +95,10 @@ class StartWindow(BaseWindow):
             self._add_greetings_to_config(default_config)
             self.creator.config = default_config
             self.creator.update()
+
+    def change_password(self) -> None:
+        """
+        Открывает окно смены пароля.
+        """
+        self.change_password_window = ChangePassWindow(self.username)
+        self.change_password_window.show()
