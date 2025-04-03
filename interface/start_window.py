@@ -1,6 +1,7 @@
 from handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
 from interface.windows.input_window import InputWindow
+from interface.windows.login_window import LoginWindow
 from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
 from logic.logger import logger as log
@@ -26,9 +27,9 @@ class StartWindow(BaseWindow):
 
     CONFIG_FILE = sett.MAIN_WINDOW_CONFIG_FILE
 
-    def __init__(self, username: str = sett.EMPTY_STRING) -> None:
+    def __init__(self, username: str = sett.ALEX) -> None:
         super().__init__(username=username)
-        # Своих атрибутов у класса нет.
+
         self.userdata = JsonHandler(sett.USER_MAIN_DATA_FILE).get_value_by_key(
             self.username
         )
@@ -76,3 +77,20 @@ class StartWindow(BaseWindow):
         log.info(sett.CREATE_USER_BUTTON_PRESSED)
         self.register_window = RegisterWindow()
         self.register_window.show()
+
+    def logout(self) -> None:
+        """
+        Закрывает текущее окно и открывает окно логина.
+        """
+        self.hide()
+        self.login_window = LoginWindow()
+        if self.login_window.exec():
+            self.username = self.login_window.username
+            self.userdata = JsonHandler(
+                sett.USER_MAIN_DATA_FILE
+            ).get_value_by_key(self.username)
+            self.show()
+            default_config = self.config_json_handler.get_all_data()
+            self._add_greetings_to_config(default_config)
+            self.creator.config = default_config
+            self.creator.update()
