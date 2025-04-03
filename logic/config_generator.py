@@ -30,6 +30,65 @@ class ConfigGenerator:
         Генерирует конфиг для контейнера содержащего лейблы ответов.
     """
 
+    def add_greetings_to_config(
+        self,
+        greeting: str,
+        config: dict[str, Any]
+    ) -> dict[str, Any]:
+        """
+        Добавляет приветствие в конфиг.
+
+        Parameters
+        ----------
+        - greeting : str
+            Приветствие, которое нужно добавить в конфиг.
+
+        - config : dict[str, Any]
+            Конфиг, в который нужно добавить приветствие.
+
+        Returns
+        -------
+        - config : dict[str, Any]
+            Конфиг, в который добавлено приветствие.
+        """
+        greeting_config = {
+            sett.LAYOUT: {
+                sett.TYPE: sett.LAYOUT_TYPE_HORIZONTAL,
+                sett.NAME: sett.GREETING,
+                sett.BORDER: sett.SET_TO_ONE,
+                sett.WIDGETS: [
+                    {
+                        sett.TYPE: sett.LABEL,
+                        sett.TEXT: greeting,
+                        sett.TEXT_SIZE: sett.SPECIAL_FONT_SIZE,
+                        sett.ALIGN: sett.ALIGN_LEFT
+                    },
+                    {
+                        sett.TYPE: sett.BUTTON,
+                        sett.TEXT: sett.CHANGE_PASS,
+                        sett.CALLBACK: sett.HANDLE_CHANGE_PASS_METHOD,
+                        sett.ALIGN: sett.ALIGN_RIGHT,
+                        sett.HEIGHT: sett.NON_STANDART_BUTTON_HEIGHT,
+                        sett.WIDTH: sett.NON_STANDART_BUTTON_WIDTH
+                    },
+                    {
+                        sett.TYPE: sett.BUTTON,
+                        sett.TEXT: sett.LOGOUT,
+                        sett.CALLBACK: sett.HANDLE_LOGOUT_METHOD,
+                        sett.ALIGN: sett.ALIGN_RIGHT,
+                        sett.HEIGHT: sett.NON_STANDART_BUTTON_HEIGHT,
+                        sett.WIDTH: sett.NON_STANDART_BUTTON_WIDTH
+                    }
+                ]
+            }
+        }
+        config[sett.LAYOUT][sett.WIDGETS].insert(
+            sett.SET_TO_ZERO,
+            greeting_config
+        )
+
+        return config
+
     def add_response_to_config(
         self,
         config: dict[str, Any],

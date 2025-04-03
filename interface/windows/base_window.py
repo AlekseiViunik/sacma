@@ -1,8 +1,11 @@
+from datetime import datetime
+
 from typing import Any
 from PyQt6.QtWidgets import QWidget, QPushButton, QCheckBox
 from handlers.json_handler import JsonHandler
 from interface.creator import Creator
 from helpers.helper import Helper
+from logic.config_generator import ConfigGenerator
 from logic.logger import logger as log
 from settings import settings as sett
 
@@ -42,7 +45,7 @@ class BaseWindow(QWidget):
     def __init__(
         self,
         file_path: str | None = None,
-        username: str = sett.EMPTY_STRING,
+        username: str = sett.ALEX,
     ) -> None:
         super().__init__()
         self.username: str = username
@@ -76,6 +79,9 @@ class BaseWindow(QWidget):
             log.info(sett.CONFIG_LOADED_SUCCESSFULLY.format(config))
         else:
             log.error(sett.FAILED_GET_JSON_DATA)
+
+        if config.get(sett.WINDOW_TITLE) == sett.SACMA:
+            config = self._add_greetings_to_config(config)
 
         self.setWindowTitle(config[sett.WINDOW_TITLE])
         self.window_width = int(config[sett.WINDOW_WIDTH])
@@ -127,6 +133,7 @@ class BaseWindow(QWidget):
                 widget.stateChanged.connect(
                     lambda: inheritor.toggle_password(widget)
                 )
+
             case sett.TOGGLE_REPEAT_PASSWORD_METHOD:
                 widget.stateChanged.connect(
                     lambda: inheritor.toggle_password(
@@ -134,6 +141,7 @@ class BaseWindow(QWidget):
                         sett.REPEAT_PASSWORD
                     )
                 )
+
             case sett.TRY_LOGIN_METHOD:
                 widget.clicked.connect(inheritor.try_login)
 
@@ -148,6 +156,7 @@ class BaseWindow(QWidget):
                 widget.clicked.connect(
                     lambda: inheritor.browse_file(target_input)
                 )
+
             case sett.SAVE_SETTINGS_METHOD:
                 widget.clicked.connect(inheritor.save_settings)
 
@@ -161,6 +170,9 @@ class BaseWindow(QWidget):
 
             case sett.OPEN_REGISTER_METHOD:
                 widget.clicked.connect(inheritor.open_register)
+
+            case sett.HANDLE_LOGOUT_METHOD:
+                widget.clicked.connect(inheritor.logout)
 
     def cancel(self, inheritor: QWidget) -> None:
         """
@@ -180,3 +192,40 @@ class BaseWindow(QWidget):
 
         log.info(sett.CANCEL_BUTTON_PRESSED)
         inheritor.close()
+
+    def _add_greetings_to_config(self, config: dict) -> None:
+        """
+        Добавляет в конфиг приветствие для пользователя.
+
+        Parameters
+        ----------
+        - config: dict
+            Конфиг, в который добавляется приветствие.
+        """
+        current_hour = datetime.now().hour
+
+        if sett.MORNING_HOUR <= current_hour < sett.DAY_HOUR:
+            greeting = sett.GREETING_MSG.format(
+                sett.GOOD_MORNING,
+                self.userdata[sett.SURNAME]
+            )
+        elif sett.DAY_HOUR <= current_hour < sett.EVENING_HOUR:
+            greeting = sett.GREETING_MSG.format(
+                sett.GOOD_MORNING,
+                self.userdata[sett.SURNAME]
+            )
+        elif sett.EVENING_HOUR <= current_hour < sett.NIGHT_HOUR:
+            greeting = sett.GREETING_MSG.format(
+                sett.GOOD_MORNING,
+                self.userdata[sett.SURNAME]
+            )
+        else:
+            greeting = sett.GREETING_MSG.format(
+                sett.GOOD_MORNING,
+                self.userdata[sett.SURNAME]
+            )
+
+        return ConfigGenerator().add_greetings_to_config(
+            greeting,
+            config
+        )
