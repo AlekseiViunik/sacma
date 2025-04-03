@@ -148,6 +148,7 @@ MULT_FAILED_MSG = "{0} should be multiple of {1}. You have {2}"
 EXISTS_FAILED_MSG = "{0} field should not be empty"
 EXCEPTION_MSG_TEMPLATE = "{0}: {1} in {2}() at {3}:{4}"
 DIAGONALS_TRAVERSE = "n_diagonals_{0} == n_traverse_{0} - 1"
+GREETING_MSG = "{0}, signor {1}!"
 
 # =========================== STATIC DICTIONARY KEYS ==========================
 
@@ -229,6 +230,12 @@ CHECK_RESULT = "check_result"
 RESPONSE = "response"
 RESPONSE_LABELS = "response_labels"
 DISABLED = "disabled"
+ALEX = "alex"
+SACMA = "SACMA"
+SURNAME = "surname"
+GREETING = "greeting"
+CHANGE_PASS = "Change\nPassword"
+LOGOUT = "Logout"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -244,6 +251,8 @@ MINUS_ONE = -1
 STEP_UP = 1
 STEP_DOWN = 1
 SPECIAL_FONT_SIZE = 16
+NON_STANDART_BUTTON_HEIGHT = 40
+NON_STANDART_BUTTON_WIDTH = 100
 
 # =============================== NAMES CONSTS ================================
 LABEL = "label"
@@ -262,6 +271,8 @@ TOGGLE_REPEAT_PASSWORD_METHOD = "toggle_repeat_password"
 TRY_LOGIN_METHOD = "try_login"
 HANDLE_START_BUTTON_METHOD = "handle_start_button"
 HANDLE_FORWARD_BUTTON_METHOD = "handle_forward_button"
+HANDLE_CHANGE_PASS_METHOD = "handle_change_pass"
+HANDLE_LOGOUT_METHOD = "handle_logout"
 BROWSE_FILE_METHOD = "browse_file"
 SAVE_SETTINGS_METHOD = "save_settings"
 OPEN_SETTINGS_METHOD = "open_settings"
@@ -359,7 +370,7 @@ CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
 
 
 # ============================ PRODUCTION CONSTS ==============================
-PRODUCTION_MODE_ON = False
+PRODUCTION_MODE_ON = True
 PROTECTION_MODE_ON = True
 PROTECTION_YEAR = 2025
 PROTECTION_MONTH = 7
@@ -434,3 +445,13 @@ VALIDATION_NUMERIC = "numeric"
 VALIDATION_NATURAL = "natural"
 VALIDATION_MULTIPLE = "multiple"
 VALIDATION_EXISTS = "exists"
+
+# ============================= GREETING MESSAGES =============================
+GOOD_MORNING = "Buongiorno"
+GOOD_AFTERNOON = "Buon pomeriggio"
+GOOD_EVENING = "Buonasera"
+GOOD_NIGHT = "Buonanotte"
+MORNING_HOUR = 6
+DAY_HOUR = 14
+EVENING_HOUR = 17
+NIGHT_HOUR = 22
