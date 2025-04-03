@@ -231,7 +231,7 @@ EXCEL_APP = "Excel.Application"
 CHECK_RESULT = "check_result"
 RESPONSE = "response"
 RESPONSE_LABELS = "response_labels"
-
+DISABLED = "disabled"
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
 TOP_LEFT_X = 40
