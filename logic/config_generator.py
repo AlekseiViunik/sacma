@@ -73,6 +73,7 @@ class ConfigGenerator:
         )
         config_where_to_add: list = config[sett.LAYOUT][sett.WIDGETS]
         config_where_to_add.insert(sett.MINUS_ONE, config_to_add)
+        self.__disable_fields(config)
         return config
 
     def remove_result_from_config(
@@ -220,3 +221,17 @@ class ConfigGenerator:
                 }
             )
         return config
+
+    def __disable_fields(self, config: dict):
+        if config.get(sett.LAYOUT):
+            self.__disable_fields(config[sett.LAYOUT])
+
+        if config.get(sett.WIDGETS):
+            for widget in config[sett.WIDGETS]:
+                if widget.get(sett.LAYOUT):
+                    self.__disable_fields(widget[sett.LAYOUT])
+                elif (
+                    widget.get(sett.TYPE) == sett.DROPDOWN or
+                    widget.get(sett.TYPE) == sett.INPUT
+                ):
+                    widget[sett.DISABLED] = sett.SET_TO_ONE
