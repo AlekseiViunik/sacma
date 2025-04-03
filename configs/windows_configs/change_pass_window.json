@@ -1,0 +1,103 @@
+{
+    "window_title": "Change your password",
+    "window_width": 400,
+    "window_height": 450,
+    "layout": {
+        "type": "vertical",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Enter old pass:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "old_password",
+                            "default_value": "Enter old pass",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current",
+                            "hide": 1
+                        },
+                        {
+                            "type": "checkbox",
+                            "name": "old_pass_hide",
+                            "text": "Show password",
+                            "column": "last",
+                            "callback": "toggle_old_password"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Enter new pass:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "password",
+                            "default_value": "Enter new pass",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current",
+                            "hide": 1
+                        },
+                        {
+                            "type": "checkbox",
+                            "name": "pass_hide",
+                            "text": "Show password",
+                            "column": "last",
+                            "callback": "toggle_password"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Repeat new password:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "repeat_password",
+                            "default_value": "Repeat password",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current",
+                            "hide": 1
+                        },
+                        {
+                            "type": "checkbox",
+                            "name": "rpass_hide",
+                            "text": "Show repeated password",
+                            "column": "last",
+                            "callback": "toggle_repeat_password"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Change",
+                            "callback": "change_pass",
+                            "params": {},
+                            "width": 150,
+                            "height": 40
+                        },
+                        {
+                            "type": "button",
+                            "text": "Cancel",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "close_window"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
