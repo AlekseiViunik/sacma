@@ -5,6 +5,30 @@ from settings import settings as sett
 
 
 class ConfigGenerator:
+    """
+    Класс, модифицирующий конфиг. Создан для добавления ответа на окно ввода
+    данных. НЕ затрагивает изменения фйла конфигурации. Только свойство класса.
+
+    Methods
+    -------
+    - add_response_to_config(
+        config, response, only_keys, pre_message, post_message
+    )
+        Добавляет ответ в конфиг.
+        Если в конфиге уже есть ответ с таким же именем, то он
+        перезаписывается.
+
+    - remove_result_from_config(config)
+        Удаляет ответ из конфига.
+        Если в конфиге нет ответа с таким же именем, то ничего не происходит.
+
+    Private Methods
+    ---------------
+    - __generate_response_config(
+        response, only_keys, pre_message, post_message
+    )
+        Генерирует конфиг для контейнера содержащего лейблы ответов.
+    """
 
     def add_response_to_config(
         self,
@@ -19,15 +43,69 @@ class ConfigGenerator:
         Если в конфиге уже есть ответ с таким же именем, то он
         перезаписывается.
 
+        Parameters
+        ----------
+        - config : dict[str, Any]
+            Конфиг, в который нужно добавить ответ.
+
+        - response : dict[str, Any]
+            Ответ, который нужно добавить в конфиг.
+
+        - only_keys : list[str] | None
+            Список ключей словаря ответов, которые нужно добавить в конфиг.
+            Если None, то добавляются все ключи.
+
+        - pre_message : str
+            Сообщение, которое нужно добавить перед ответом.
+
+        - post_message : str | None
+            Сообщение, которое нужно добавить после ответа.
+            Если None, то сообщение не добавляется.
+
+        Returns
+        -------
+        - config : dict[str, Any]
+            Конфиг, в который добавлен ответ.
         """
 
         config_to_add = self.__generate_response_config(
             response, only_keys, pre_message, post_mssage
         )
-        config_where_to_add = config[sett.LAYOUT][sett.WIDGETS]
-        config_where_to_add.insert(-1, config_to_add)
+        config_where_to_add: list = config[sett.LAYOUT][sett.WIDGETS]
+        config_where_to_add.insert(sett.MINUS_ONE, config_to_add)
         return config
 
+    def remove_result_from_config(
+        self,
+        config: dict[str, Any]
+    ) -> dict[str, Any]:
+        """
+        Удаляет ответ из конфига.
+        Если в конфиге нет ответа с таким же именем, то ничего не происходит.
+
+        Parameters
+        ----------
+        - config : dict[str, Any]
+            Конфиг, из которого нужно удалить ответ.
+
+        Returns
+        -------
+        - config : dict[str, Any]
+            Конфиг, из которого удален ответ.
+        """
+        widgets: list[dict[str, dict]] = config[sett.LAYOUT][sett.WIDGETS]
+        if widgets:
+            for i in range(len(widgets)):
+                if (
+                    widgets[i].get(sett.LAYOUT) and
+                    widgets[i][sett.LAYOUT].get(sett.NAME) == sett.RESPONSE
+                ):
+                    widgets.pop(i)
+                    break
+        return config
+
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
     def __generate_response_config(
             self,
             response: dict[str, Any],
@@ -35,6 +113,30 @@ class ConfigGenerator:
             pre_message: str,
             post_message: str | None,
     ):
+        """
+        Генерирует конфиг для контейнера содержащего лейблы ответов.
+
+        Parameters
+        ----------
+        - response : dict[str, Any]
+            Ответ, который нужно добавить в конфиг.
+
+        - only_keys : list[str] | None
+            Список ключей словаря ответов, которые нужно добавить в конфиг.
+            Если None, то добавляются все ключи.
+
+        - pre_message : str
+            Сообщение, которое нужно добавить перед ответом.
+
+        - post_message : str | None
+            Сообщение, которое нужно добавить после ответа.
+            Если None, то сообщение не добавляется.
+
+        Returns
+        -------
+        - config : dict[str, Any]
+            Обновленный конфиг.
+        """
         config = {
             sett.LAYOUT: {
                 sett.TYPE: sett.LAYOUT_TYPE_VERTICAL,
