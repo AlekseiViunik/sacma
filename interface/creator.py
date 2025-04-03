@@ -896,7 +896,7 @@ class Creator:
         )
 
         self.parent_window.adjustSize()
-        self.remove_result_from_config()
+        self.generator.remove_result_from_config(self.config)
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
