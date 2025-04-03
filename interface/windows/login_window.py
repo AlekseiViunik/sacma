@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QLineEdit, QCheckBox
+from PyQt6.QtWidgets import QLineEdit, QCheckBox, QDialog
 
 from .base_window import BaseWindow
 from .messagebox import Messagebox
@@ -9,7 +9,7 @@ from logic.logger import logging as log
 from settings import settings as sett
 
 
-class LoginWindow(BaseWindow):
+class LoginWindow(QDialog, BaseWindow):
     """
     Класс, отвечающий за вывод окна авторизации.
 
@@ -77,7 +77,7 @@ class LoginWindow(BaseWindow):
                 self.auth.save_last_user(username)
                 self.username = username
                 self.auth_successful = True
-                self.close()  # Закрываем окно авторизации
+                self.accept()
             else:
                 log.error(sett.WRONG_CREDENTIALS)
                 Messagebox.show_messagebox(
