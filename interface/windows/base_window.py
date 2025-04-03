@@ -142,6 +142,14 @@ class BaseWindow(QWidget):
                     )
                 )
 
+            case sett.TOGGLE_OLD_PASSWORD_METHOD:
+                widget.stateChanged.connect(
+                    lambda: inheritor.toggle_password(
+                        widget,
+                        sett.OLD_PASSWORD
+                    )
+                )
+
             case sett.TRY_LOGIN_METHOD:
                 widget.clicked.connect(inheritor.try_login)
 
@@ -173,6 +181,12 @@ class BaseWindow(QWidget):
 
             case sett.HANDLE_LOGOUT_METHOD:
                 widget.clicked.connect(inheritor.logout)
+
+            case sett.HANDLE_CHANGE_PASS_METHOD:
+                widget.clicked.connect(inheritor.change_password)
+
+            case sett.CHANGE_PASS:
+                widget.clicked.connect(inheritor.change_pass)
 
     def cancel(self, inheritor: QWidget) -> None:
         """
