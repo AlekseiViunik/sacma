@@ -31,9 +31,7 @@ if __name__ == "__main__":
         logger.info(sett.TRYING_LOGIN)
         app = QApplication(sys.argv)
         login_window = LoginWindow()
-        login_window.show()
-        app.exec()
-        if login_window.auth_successful:
+        if login_window.exec():
             logger.info(sett.SUCCESSFUL_LOGIN)
 
             main_window = StartWindow(login_window.username)
