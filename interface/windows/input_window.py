@@ -87,3 +87,6 @@ class InputWindow(BaseWindow):
 
         except Exception as e:
             Helper.log_exception(e)
+
+    def handle_forward_button(self) -> None:
+        self.creator.hide_response()

@@ -134,13 +134,9 @@ EXCEL_LAUNCH_ERROR = "Launching excel error: {0}"
 WORKBOOK_OPENING_ERROR = "Didn't manage to open workbook: {0}"
 EXCEL_DATA_IS = "Excel data is {0}"
 
-# =========================== OTHER DYNAMIC MESSAGES ==========================
-
-DIAGONALS_TRAVERSE = "n_diagonals_{0} == n_traverse_{0} - 1"
-
-# ========================== DYNAMIC DICTIONARY KEYS ==========================
-
-SECTION_I = "section_{0}"
+# ============================== STATIC MESSAGES ==============================
+BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
+DIAGONALS_CHECK_FAILED = "Error! Check diagonals and traverses amount!"
 
 # ============================== DYNAMIC MESSAGES =============================
 
@@ -151,6 +147,7 @@ NAT_FAILED_MSG = "{0} should be positive and numeric. You have {1}"
 MULT_FAILED_MSG = "{0} should be multiple of {1}. You have {2}"
 EXISTS_FAILED_MSG = "{0} field should not be empty"
 EXCEPTION_MSG_TEMPLATE = "{0}: {1} in {2}() at {3}:{4}"
+DIAGONALS_TRAVERSE = "n_diagonals_{0} == n_traverse_{0} - 1"
 
 # =========================== STATIC DICTIONARY KEYS ==========================
 
@@ -233,6 +230,9 @@ RESPONSE = "response"
 RESPONSE_LABELS = "response_labels"
 DISABLED = "disabled"
 
+# ========================== DYNAMIC DICTIONARY KEYS ==========================
+SECTION_I = "section_{0}"
+
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
 TOP_LEFT_X = 40
@@ -261,13 +261,14 @@ TOGGLE_PASSWORD_METHOD = "toggle_password"
 TOGGLE_REPEAT_PASSWORD_METHOD = "toggle_repeat_password"
 TRY_LOGIN_METHOD = "try_login"
 HANDLE_START_BUTTON_METHOD = "handle_start_button"
+HANDLE_FORWARD_BUTTON_METHOD = "handle_forward_button"
 BROWSE_FILE_METHOD = "browse_file"
 SAVE_SETTINGS_METHOD = "save_settings"
 OPEN_SETTINGS_METHOD = "open_settings"
 OPEN_INPUT_WINDOW_METHOD = "open_input_window"
 OPEN_REGISTER_METHOD = "open_register"
 SECTION_CHECK = "section_check"
-
+BOTTOM_LAYOUT = "bottom_layout"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
@@ -344,7 +345,7 @@ DICTIONARY = {
     "n_holes": "N fori",
 }
 
-# ===================================Login=====================================
+# =============================== FILE PATHS ==================================
 AUTH_FILE = "auth.json"
 LOGIN_WINDOW_CONFIG_FILE = "configs/windows_configs/login_window.json"
 REGISTER_WINDOW_CONFIG_FILE = "configs/windows_configs/register_window.json"
@@ -354,7 +355,10 @@ SETTINGS_FILE = "settings.json"
 OUTPUT_WINDOW_CONFIG_FILE = "configs/windows_configs/output_window.json"
 USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
+CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
 
+
+# ============================ PRODUCTION CONSTS ==============================
 PRODUCTION_MODE_ON = False
 PROTECTION_MODE_ON = True
 PROTECTION_YEAR = 2025
@@ -362,15 +366,14 @@ PROTECTION_MONTH = 7
 PROTECTION_DAY = 20
 PROTECTION_HOUR = 7
 
+# ============================ ITALIAN STR CONSTS =============================
 PRICE_IT = "Prezzo"
 PREPARATION_IT = "Approntamento"
 WEIGHT_IT = "Peso"
 NOT_FOUND_IT = "non trovato"
 DEVELOPMENT_IT = "Sviluppo"
-
-OK_BUTTON_TITLE = "OK"
-OK_BUTTON_WIDTH = 100
-OK_BUTTON_HEIGHT = 50
+START_IT = "Invia"
+FORWARD_IT = "Avanti"
 
 ROUNDING_LIMIT = "0.01"
 
@@ -381,6 +384,7 @@ PRE_MSG_STANDART = "Result"
 
 TYPE_INFO = "info"
 
+# ================================== SYMBOLS ==================================
 EURO_SYMBOL = "€"
 KILO_SYMBOL = "Kg"
 EQUALS_SYMBOL = "="
@@ -392,6 +396,7 @@ LEFT_BRACKET_SYMBOL = "("
 RIGHT_BRACKET_SYMBOL = ")"
 METERS_SYMBOL = "m"
 
+# ============================ REGEX PATTERNS =================================
 FLOAT_REGEX = r"\d+(,\d+)?"
 VARIABLE_REGEX = r"[a-zA-Z_][a-zA-Z0-9_]*"
 NUMBERS_N_OPERATORS_REGEX = r"^[0-9.\s()+\-*/]+$"
@@ -399,6 +404,7 @@ NUMBERS_N_OPERATORS_REGEX = r"^[0-9.\s()+\-*/]+$"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
 CHOSE_FILE = "Chose file"
 
+# ============================ LAYOUTS AND WIDGETS ============================
 LAYOUT_TYPE_GRID = "grid"
 LAYOUT_TYPE_VERTICAL = "vertical"
 LAYOUT_TYPE_HORIZONTAL = "horizontal"
@@ -418,19 +424,13 @@ ALIGN_CENTER = "center"
 ALIGN_LEFT = "left"
 ALIGN_RIGHT = "right"
 
+BG_COLOR = "background-color: {0}"
+MARGIN_TOP = "margin-top: 10px;"
+
+# ============================ VALIDATION KEYS ================================
 VALIDATION_MIN = "min"
 VALIDATION_MAX = "max"
 VALIDATION_NUMERIC = "numeric"
 VALIDATION_NATURAL = "natural"
 VALIDATION_MULTIPLE = "multiple"
 VALIDATION_EXISTS = "exists"
-
-
-BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
-DIAGONALS_CHECK_FAILED = "Error! Check diagonals and traverses amount!"
-
-BG_COLOR = "background-color: {0}"
-MARGIN_TOP = "margin-top: 10px;"
-
-
-CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"

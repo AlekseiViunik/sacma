@@ -287,6 +287,12 @@ class Creator:
 
         self.__update_dependent_layouts()
 
+    def hide_response(self):
+        new_config = self.generator.remove_result_from_config(self.config)
+        self.config = new_config
+
+        self.__update_dependent_layouts()
+
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
     def __add_widgets(
@@ -887,7 +893,6 @@ class Creator:
         )
 
         self.parent_window.adjustSize()
-        self.generator.remove_result_from_config(self.config)
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
