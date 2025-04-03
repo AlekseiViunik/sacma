@@ -61,7 +61,9 @@ OPEN_RESPONSE_WIDGET = "Open response widget"
 ADD_LAST_USER_TO_INPUT_FIELD = "Add last user to input field default value"
 USER_VERIFIED = "User verified"
 WRONG_CREDENTIALS = "Credentials are wrong!"
+WRONG_OLD_PATH = "Old path is wrong!"
 LOGIN_ERROR = "Login error"
+CHANGE_PASS_ERROR = "Change password error"
 PASS_MARKED_AS_CHECKED = "Checkbox for password is marked as 'checked'"
 PASS_MARKED_AS_UNCHECKED = "Checkbox for password is marked as 'unchecked'"
 PASS_REPEAT_MARKED_AS_CHECKED = (
@@ -97,6 +99,9 @@ FILE_NOT_FOUND = "FILE NOT FOUND"
 FNF_MESSAGE = "Required file is missing. Please contact the developer."
 PREPARE_DICT = "Prepare dictionary where key is cell address"
 CLOSE_EXCEL = "Close excel file"
+EMPTY_FIELDS_ERROR = "One (or more) of the required fields is empty!"
+CHANGE_PASS_SUCCESS = "Password has been changed successfully!"
+USER_NOT_FOUND = "User not found!"
 
 # ============================ LOG DYNAMIC MESSAGES ===========================
 
@@ -158,6 +163,7 @@ ERROR = "error"
 USERNAME = "username"
 PASSWORD = "password"
 REPEAT_PASSWORD = "repeat_password"
+OLD_PASSWORD = "old_password"
 LAST_USER = "lastUser"
 USERS = "users"
 LAYOUT = "layout"
@@ -268,6 +274,7 @@ CREATE_USER_METHOD = "create_user"
 CLOSE_WINDOW_METHOD = "close_window"
 TOGGLE_PASSWORD_METHOD = "toggle_password"
 TOGGLE_REPEAT_PASSWORD_METHOD = "toggle_repeat_password"
+TOGGLE_OLD_PASSWORD_METHOD = "toggle_old_password"
 TRY_LOGIN_METHOD = "try_login"
 HANDLE_START_BUTTON_METHOD = "handle_start_button"
 HANDLE_FORWARD_BUTTON_METHOD = "handle_forward_button"
@@ -280,6 +287,7 @@ OPEN_INPUT_WINDOW_METHOD = "open_input_window"
 OPEN_REGISTER_METHOD = "open_register"
 SECTION_CHECK = "section_check"
 BOTTOM_LAYOUT = "bottom_layout"
+CHANGE_PASS = "change_pass"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
@@ -367,10 +375,10 @@ OUTPUT_WINDOW_CONFIG_FILE = "configs/windows_configs/output_window.json"
 USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
-
+CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
 
 # ============================ PRODUCTION CONSTS ==============================
-PRODUCTION_MODE_ON = True
+PRODUCTION_MODE_ON = False
 PROTECTION_MODE_ON = True
 PROTECTION_YEAR = 2025
 PROTECTION_MONTH = 7
