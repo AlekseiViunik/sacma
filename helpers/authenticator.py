@@ -115,6 +115,33 @@ class Authenticator:
 
         return True
 
+    def update_user_password(username, password) -> None:
+        """
+        Обновляет пароль пользователя.
+
+        Parameters
+        ----------
+        - username: str
+            Логин
+
+        - password: str
+            Пароль
+
+        Returns
+        -------
+        - _: bool
+            Информация об успешной/неуспешной регистрации.
+        """
+        users_data = Authenticator().load_users()
+        if username not in users_data[sett.USERS]:
+            return False
+        users_data[sett.USERS][username] = Authenticator().hash_password(
+            password
+        )
+        Authenticator().file_handler.rewrite_file(users_data)
+        user = Authenticator().load_users()[sett.USERS][username]
+        return True if user else False
+
     @staticmethod
     def hash_password(password: str) -> str:
         """
