@@ -39,9 +39,8 @@ class ConfigGenerator:
         post_mssage: str,
     ) -> None:
         """
-        Добавляет ответ в конфиг.
-        Если в конфиге уже есть ответ с таким же именем, то он
-        перезаписывается.
+        Добавляет ответ в конфиг и блокирует все поля для ввода и выбора.
+        Меняет кнопку "Invia" на "Avanti".
 
         Parameters
         ----------
@@ -74,6 +73,9 @@ class ConfigGenerator:
         config_where_to_add: list = config[sett.LAYOUT][sett.WIDGETS]
         config_where_to_add.insert(sett.MINUS_ONE, config_to_add)
         self.__disable_fields(config)
+        self.__change_button(
+            config, sett.FORWARD_IT, sett.HANDLE_FORWARD_BUTTON_METHOD
+        )
         return config
 
     def remove_result_from_config(
@@ -81,8 +83,8 @@ class ConfigGenerator:
         config: dict[str, Any]
     ) -> dict[str, Any]:
         """
-        Удаляет ответ из конфига.
-        Если в конфиге нет ответа с таким же именем, то ничего не происходит.
+        Удаляет ответ из конфига. Разблокирует все поля для ввода и выбора.
+        Меняет кнопку "Avanti" на "Invia".
 
         Parameters
         ----------
@@ -94,6 +96,7 @@ class ConfigGenerator:
         - config : dict[str, Any]
             Конфиг, из которого удален ответ.
         """
+
         widgets: list[dict[str, dict]] = config[sett.LAYOUT][sett.WIDGETS]
         if widgets:
             for i in range(len(widgets)):
@@ -103,6 +106,11 @@ class ConfigGenerator:
                 ):
                     widgets.pop(i)
                     break
+        self.__enable_fields(config)
+        self.__change_button(
+            config, sett.START_IT, sett.HANDLE_START_BUTTON_METHOD
+        )
+
         return config
 
     # ============================ Private Methods ============================
@@ -138,6 +146,7 @@ class ConfigGenerator:
         - config : dict[str, Any]
             Обновленный конфиг.
         """
+
         config = {
             sett.LAYOUT: {
                 sett.TYPE: sett.LAYOUT_TYPE_VERTICAL,
@@ -222,7 +231,21 @@ class ConfigGenerator:
             )
         return config
 
-    def __disable_fields(self, config: dict):
+    def __disable_fields(self, config: dict) -> None:
+        """
+        Добавляет в конфиг атрибут "disabled: 1" для всех полей ввода и выбора.
+
+        Parameters
+        ----------
+        - config : dict
+            Конфиг, в котором нужно добавить атрибут "disabled: 1".
+
+        Returns
+        -------
+        - config : dict
+            Обновленный конфиг.
+        """
+
         if config.get(sett.LAYOUT):
             self.__disable_fields(config[sett.LAYOUT])
 
@@ -235,3 +258,69 @@ class ConfigGenerator:
                     widget.get(sett.TYPE) == sett.INPUT
                 ):
                     widget[sett.DISABLED] = sett.SET_TO_ONE
+
+    def __enable_fields(self, config: dict) -> None:
+        """
+        Удаляет из конфига атрибут "disabled: 1" для всех полей ввода и выбора.
+
+        Parameters
+        ----------
+        - config : dict
+            Конфиг, в котором нужно удалить атрибут "disabled: 1".
+
+        Returns
+        -------
+        - config : dict
+            Обновленный конфиг.
+        """
+
+        if config.get(sett.LAYOUT):
+            self.__enable_fields(config[sett.LAYOUT])
+
+        if config.get(sett.WIDGETS):
+            for widget in config[sett.WIDGETS]:
+                if widget.get(sett.LAYOUT):
+                    self.__enable_fields(widget[sett.LAYOUT])
+                elif (
+                    widget.get(sett.TYPE) == sett.DROPDOWN or
+                    widget.get(sett.TYPE) == sett.INPUT
+                ):
+                    widget.pop(sett.DISABLED, None)
+
+    def __change_button(
+        self,
+        config: dict,
+        new_name: str,
+        new_method: str
+    ) -> None:
+        """
+        Меняет в конфиге кнопку "Invia" на "Avanti" и наоборот. Также меняет
+        метод, который вызывается при нажатии на кнопку.
+
+        Parameters
+        ----------
+        - config : dict
+            Конфиг, в котором нужно поменять кнопку.
+
+        - new_name : str
+            Новое имя кнопки.
+
+        - new_method : str
+            Новый метод, который вызывается при нажатии на кнопку.
+        """
+
+        widgets: list[dict[str, dict]] = config[sett.LAYOUT][sett.WIDGETS]
+
+        for widget in widgets:
+            if (
+                widget.get(sett.LAYOUT) and
+                widget[sett.LAYOUT].get(sett.NAME) == sett.BOTTOM_LAYOUT
+            ):
+                bottom_widgets: list[dict] = widget[sett.LAYOUT][sett.WIDGETS]
+                for bottom_widget in bottom_widgets:
+                    if (
+                        bottom_widget.get(sett.TYPE) == sett.BUTTON
+                    ):
+                        bottom_widget[sett.TEXT] = new_name
+                        bottom_widget[sett.CALLBACK] = new_method
+                        break
