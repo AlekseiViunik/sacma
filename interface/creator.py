@@ -287,19 +287,6 @@ class Creator:
 
         self.__update_dependent_layouts()
 
-    def remove_result_from_config(self) -> None:
-        widgets: list[dict[str, dict]] = self.config[sett.LAYOUT][sett.WIDGETS]
-        if (
-            widgets := self.config[sett.LAYOUT][sett.WIDGETS]
-        ):
-            for i in range(len(widgets)):
-                if (
-                    widgets[i].get(sett.LAYOUT) and
-                    widgets[i][sett.LAYOUT].get(sett.NAME) == sett.RESPONSE
-                ):
-                    widgets.pop(i)
-                    break
-
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
     def __add_widgets(
