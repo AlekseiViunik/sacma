@@ -1,7 +1,6 @@
 from .base_window import BaseWindow
 from handlers.input_data_handler import InputDataHandler
 from helpers.helper import Helper
-from interface.windows.output_window import OutputWindow
 from logic.calculator import Calculator
 from logic.logger import logger as log
 from settings import settings as sett
@@ -38,7 +37,6 @@ class InputWindow(BaseWindow):
     ) -> None:
         super().__init__(file_path)
         self.window_name: str = window_name
-        self.output_window: OutputWindow = None
         self.input_data_handler = InputDataHandler()
 
         self.init_ui()
@@ -65,7 +63,6 @@ class InputWindow(BaseWindow):
                 self.window_name,
                 self.creator.current_changing_values
             )
-            self.output_window = OutputWindow()
             log.info(sett.START_CALCULATING)
             result, post_message = calculator.calc_data()
 
@@ -82,11 +79,11 @@ class InputWindow(BaseWindow):
                     ].keys()
                 ]
 
-            self.output_window.open_result_window(
+            self.creator.show_response(
                 result,
-                sett.PRE_MSG_STANDART,
                 post_message,
                 only_keys
             )
+
         except Exception as e:
             Helper.log_exception(e)

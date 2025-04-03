@@ -229,6 +229,8 @@ EXCEL_IS_OPENED = "Excel is opened"
 WORKBOOK_IS_OPENED = "Workbook is opened"
 EXCEL_APP = "Excel.Application"
 CHECK_RESULT = "check_result"
+RESPONSE = "response"
+RESPONSE_LABELS = "response_labels"
 
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
@@ -236,6 +238,8 @@ TOP_LEFT_X = 40
 TOP_LEFT_Y = 50
 SET_TO_ZERO = 0
 SET_TO_ONE = 1
+SET_TO_TWO = 2
+MINUS_ONE = -1
 STEP_UP = 1
 STEP_DOWN = 1
 SPECIAL_FONT_SIZE = 16
