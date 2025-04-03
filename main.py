@@ -35,7 +35,8 @@ if __name__ == "__main__":
         app.exec()
         if login_window.auth_successful:
             logger.info(sett.SUCCESSFUL_LOGIN)
-            main_window = StartWindow()
+
+            main_window = StartWindow(login_window.username)
             main_window.show()
             sys.exit(app.exec())
         else:

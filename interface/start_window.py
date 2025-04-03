@@ -1,3 +1,4 @@
+from handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
 from interface.windows.input_window import InputWindow
 from interface.windows.register_window import RegisterWindow
@@ -25,10 +26,12 @@ class StartWindow(BaseWindow):
 
     CONFIG_FILE = sett.MAIN_WINDOW_CONFIG_FILE
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, username: str = sett.EMPTY_STRING) -> None:
+        super().__init__(username=username)
         # Своих атрибутов у класса нет.
-
+        self.userdata = JsonHandler(sett.USER_MAIN_DATA_FILE).get_value_by_key(
+            self.username
+        )
         self.init_ui()
 
     def open_settings(self) -> None:

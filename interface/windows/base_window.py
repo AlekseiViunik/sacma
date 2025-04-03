@@ -41,11 +41,14 @@ class BaseWindow(QWidget):
 
     def __init__(
         self,
-        file_path: str | None = None
+        file_path: str | None = None,
+        username: str = sett.EMPTY_STRING,
     ) -> None:
         super().__init__()
+        self.username: str = username
         self.window_width: int = sett.SET_TO_ZERO
         self.window_height: int = sett.SET_TO_ZERO
+        self.userdata: dict = {}
 
         # Для наследников, у которых путь к конфигу определяется динамически,
         # передаем file_path
