@@ -175,3 +175,6 @@ cython_debug/
 
 # Excel files
 *.xlsx
+
+# configs
+configs/users_configs/*.json
