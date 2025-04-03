@@ -232,6 +232,7 @@ CHECK_RESULT = "check_result"
 RESPONSE = "response"
 RESPONSE_LABELS = "response_labels"
 DISABLED = "disabled"
+
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2
 TOP_LEFT_X = 40
@@ -260,13 +261,14 @@ TOGGLE_PASSWORD_METHOD = "toggle_password"
 TOGGLE_REPEAT_PASSWORD_METHOD = "toggle_repeat_password"
 TRY_LOGIN_METHOD = "try_login"
 HANDLE_START_BUTTON_METHOD = "handle_start_button"
+HANDLE_FORWARD_BUTTON_METHOD = "handle_forward_button"
 BROWSE_FILE_METHOD = "browse_file"
 SAVE_SETTINGS_METHOD = "save_settings"
 OPEN_SETTINGS_METHOD = "open_settings"
 OPEN_INPUT_WINDOW_METHOD = "open_input_window"
 OPEN_REGISTER_METHOD = "open_register"
 SECTION_CHECK = "section_check"
-
+BOTTOM_LAYOUT = "bottom_layout"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
@@ -366,6 +368,8 @@ PREPARATION_IT = "Approntamento"
 WEIGHT_IT = "Peso"
 NOT_FOUND_IT = "non trovato"
 DEVELOPMENT_IT = "Sviluppo"
+START_IT = "Invia"
+FORWARD_IT = "Avanti"
 
 OK_BUTTON_TITLE = "OK"
 OK_BUTTON_WIDTH = 100
