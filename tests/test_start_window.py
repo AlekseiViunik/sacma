@@ -17,7 +17,7 @@ class FakeExcelHandler:
 
 
 def fake_exec(self):
-    self.show()  # или просто pass, если видимость не важна
+    self.show()
     return 1  # имитируем "Accepted"
 
 
