@@ -40,7 +40,11 @@ class DataPreparator:
         зависимости от того, какое правило было провалено.
     """
 
-    def __init__(self, data: dict[str, str | Any], rules: dict) -> None:
+    def __init__(
+        self,
+        data: dict[str, str | Any] = {},
+        rules: dict = {}
+    ) -> None:
         self.data = data
         self.rules = rules
 
