@@ -261,7 +261,7 @@ class ExcelHandler:
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()
 
-            return True
+        return True
 
     def __get_data_from_excel(self) -> dict:
         """
