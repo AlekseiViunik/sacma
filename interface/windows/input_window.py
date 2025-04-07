@@ -1,3 +1,4 @@
+from handlers.excel_handler import ExcelHandler
 from .base_window import BaseWindow
 from handlers.input_data_handler import InputDataHandler
 from helpers.helper import Helper
@@ -34,10 +35,12 @@ class InputWindow(BaseWindow):
         self,
         window_name: str,
         file_path: str,
+        excel_handler: ExcelHandler = None
     ) -> None:
         super().__init__(file_path)
         self.window_name: str = window_name
         self.input_data_handler = InputDataHandler()
+        self.excel_handler = excel_handler
 
         self.init_ui()
 
@@ -61,7 +64,8 @@ class InputWindow(BaseWindow):
             calculator = Calculator(
                 all_inputs,
                 self.window_name,
-                self.creator.current_changing_values
+                self.creator.current_changing_values,
+                self.excel_handler
             )
             log.info(sett.START_CALCULATING)
             result, post_message = calculator.calc_data()
