@@ -553,18 +553,15 @@ class Creator:
 
         log.info(sett.CREATE_WIDGET.format(sett.LABEL, config[sett.TEXT]))
         label = QLabel()
+        font = QFont()
         for param, value in config.items():
             match param:
                 case sett.TEXT:
                     label.setText(value)
                 case sett.TEXT_SIZE:
-                    font = QFont()
                     font.setPointSize(config[sett.TEXT_SIZE])
-                    label.setFont(font)
                 case sett.BOLD:
-                    font = QFont()
                     font.setBold(True)
-                    label.setFont(font)
                 case sett.ALIGN:
                     # Определяет расположение текста внутри лейбла.
                     if config[sett.ALIGN] == sett.ALIGN_CENTER:
@@ -587,6 +584,7 @@ class Creator:
                     styleSheet = sett.BG_COLOR.format(value)
                     label.setStyleSheet(styleSheet)
 
+        label.setFont(font)
         return label
 
     def __create_input(self, config: dict) -> QLineEdit:
