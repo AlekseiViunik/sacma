@@ -80,7 +80,7 @@ class SettingsWindow(QDialog, BaseWindow):
             self.settings_json_handler.rewrite_file(
                 self.creator.input_fields
             )
-            self.close()
+            self.accept()
 
         except Exception as e:
             Helper.log_exception(e)
