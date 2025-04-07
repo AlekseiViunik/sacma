@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Any
 from PyQt6.QtWidgets import QWidget, QPushButton, QCheckBox
 from handlers.json_handler import JsonHandler
-from interface.creator import Creator
+from interface.creators.creator import Creator
 from helpers.helper import Helper
 from logic.config_generator import ConfigGenerator
 from logic.logger import logger as log
