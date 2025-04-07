@@ -51,6 +51,7 @@ class ConfigGenerator:
         - config : dict[str, Any]
             Конфиг, в который добавлено приветствие.
         """
+
         greeting_config = {
             sett.LAYOUT: {
                 sett.TYPE: sett.LAYOUT_TYPE_HORIZONTAL,
@@ -170,6 +171,35 @@ class ConfigGenerator:
             config, sett.START_IT, sett.HANDLE_START_BUTTON_METHOD
         )
 
+        return config
+
+    def add_new_layout_to_config(
+        self,
+        config: dict[str, Any],
+        new_layout_config: dict[str, Any],
+        place: int
+    ):
+        """
+        Добавляет конфиг нового контейнера в текущий конфиг на конкретное
+        место среди виджетов.
+
+        Parameters
+        ----------
+        - config : dict[str, Any]
+            Конфиг, в который нужно добавить новый контейнер.
+
+        - new_layout_config : dict[str, Any]
+            Конфиг нового контейнера.
+
+        - place : int
+            Позиция, на которую нужно добавить новый контейнер.
+            Если -1, то добавляет в конец списка.
+        """
+
+        if place == -1:
+            config[sett.LAYOUT][sett.WIDGETS].append(new_layout_config)
+        else:
+            config[sett.LAYOUT][sett.WIDGETS].insert(place, new_layout_config)
         return config
 
     # ============================ Private Methods ============================

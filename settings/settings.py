@@ -1,3 +1,18 @@
+# ============================= PRODUCTION CONSTS =============================
+PRODUCTION_MODE_ON = False
+PROTECTION_MODE_ON = True
+PROTECTION_YEAR = 2025
+PROTECTION_MONTH = 7
+PROTECTION_DAY = 20
+PROTECTION_HOUR = 7
+
+# ============================== EXCEL SETTINGS ===============================
+
+EXCEL_VISIBILITY = True
+EXCEL_DISPLAY_ALERTS = False
+EXCEL_SAVE_CHANGES = 0
+EXCEL_UPDATE_LINKS = 0
+
 # ================================== LOGGING ==================================
 
 APP_LOGGER = "AppLogger"
@@ -102,6 +117,7 @@ CLOSE_EXCEL = "Close excel file"
 EMPTY_FIELDS_ERROR = "One (or more) of the required fields is empty!"
 CHANGE_PASS_SUCCESS = "Password has been changed successfully!"
 USER_NOT_FOUND = "User not found!"
+UNKNOWN_ERROR = "Unknown error! Call the developer!"
 
 # ============================ LOG DYNAMIC MESSAGES ===========================
 
@@ -366,24 +382,16 @@ DICTIONARY = {
 
 # =============================== FILE PATHS ==================================
 AUTH_FILE = "auth.json"
+SETTINGS_FILE = "settings.json"
 LOGIN_WINDOW_CONFIG_FILE = "configs/windows_configs/login_window.json"
 REGISTER_WINDOW_CONFIG_FILE = "configs/windows_configs/register_window.json"
 MAIN_WINDOW_CONFIG_FILE = "configs/windows_configs/main_window.json"
 SETTINGS_WINDOW_CONFIG_FILE = "configs/windows_configs/settings_window.json"
-SETTINGS_FILE = "settings.json"
 OUTPUT_WINDOW_CONFIG_FILE = "configs/windows_configs/output_window.json"
 USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
 CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
-
-# ============================ PRODUCTION CONSTS ==============================
-PRODUCTION_MODE_ON = False
-PROTECTION_MODE_ON = True
-PROTECTION_YEAR = 2025
-PROTECTION_MONTH = 7
-PROTECTION_DAY = 20
-PROTECTION_HOUR = 7
 
 # ============================ ITALIAN STR CONSTS =============================
 PRICE_IT = "Prezzo"

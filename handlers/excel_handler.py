@@ -42,13 +42,16 @@ class ExcelHandler:
         ввести в конкретные ячейки, независимо от введенных юзером данных.
         Отображаются в виде словаря {<ячейка>: <данные>}
 
-    - self.roundings: dict[str, str] | None
+    - roundings: dict[str, str] | None
         Словарь с параметром округления для конкретного поля, если округление
         нестандартное.
 
     - settings_json_handler: JsonHandler
         Обработчик файла общих настроек. Нужен для получения пути к эксель
         файлу. Путь хранится в общих настройках.
+
+    - preparator: DataPreparator
+        Подготовщик данных.
 
     - excel: win32com.client.CDispatch | None
         Объект приложения ексель.
@@ -69,13 +72,14 @@ class ExcelHandler:
         Основной метод класса. Запускает обработку, подготовку и прочие
         действия с файлом и данными.
 
-    Private pethods
-    ---------------
-    - __open_excel()
+    - open_excel()
         Открывает файл эксель.
 
-    - __close_excel()
+    - close_excel()
         Закрывает ставший уже ненужным файл эксель.
+
+    Private pethods
+    ---------------
 
     - __input_cells()
         Вставляет подготовленные данные в эксель и обновляет страницу для
@@ -93,9 +97,9 @@ class ExcelHandler:
 
     def __init__(
         self,
-        data: dict,
-        rules: dict | None,
-        worksheet: str,
+        data: dict = {},
+        rules: dict | None = None,
+        worksheet: str = sett.EMPTY_STRING,
         cells_input: dict | None = None,
         cells_output: dict | None = None,
         copy_cells: dict | None = None,
@@ -113,10 +117,7 @@ class ExcelHandler:
         self.settings_json_handler: JsonHandler = JsonHandler(
             sett.SETTINGS_FILE
         )
-        self.preparator: DataPreparator = DataPreparator(
-            self.data,
-            self.rules
-        )
+        self.preparator: DataPreparator = DataPreparator()
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
         self.sheet: win32com.client.CDispatch | None = None
@@ -124,8 +125,8 @@ class ExcelHandler:
 
     def initiate_process(self) -> dict:
         """
-        Основной метод класса. Запускает процессы проверки данных,
-        открытия/закрытия файла и вставки/получения данных
+        Основной метод класса. Запускает процессы проверки и вставки/получения
+        данных.
 
         Returns
         -------
@@ -143,10 +144,13 @@ class ExcelHandler:
                 sett.ERROR: check_result[sett.ERROR_MESSAGE]
             }
 
-        self.__open_excel()
-
         # Запись ячеек в таблицу и пересчет формул
-        self.__input_cells()
+        if not self.__input_cells():
+            return {
+                sett.PRICE: None,
+                sett.WEIGHT: None,
+                sett.ERROR: sett.UNKNOWN_ERROR
+            }
 
         if self.copy_cells:
             self.__copy_cells_to_another_ones()
@@ -154,14 +158,9 @@ class ExcelHandler:
         # Извлечение пересчитанных ячеек
         data = self.__get_data_from_excel()
 
-        # Закрытие книги и приложения, чтобы не висели в трекере
-        self.__close_excel()
-
         return data
 
-    # ============================ Private Methods ============================
-    # -------------------------------------------------------------------------
-    def __open_excel(self) -> None:
+    def open_excel(self) -> None:
         """
         Открывает файл для работы и обновляет свойства класса, связанные с
         файлом.
@@ -177,23 +176,30 @@ class ExcelHandler:
         log.info(sett.OPEN_EXCEL)
         try:
             self.excel = win32.DispatchEx(sett.EXCEL_APP)
-            self.excel.Visible = False  # Запуск в фоновом режиме
-            self.excel.DisplayAlerts = False  # Отключаем предупреждения
+
+            # Запуск в фоновом режиме
+            self.excel.Visible = sett.EXCEL_VISIBILITY
+
+            # Отключаем предупреждения
+            self.excel.DisplayAlerts = sett.EXCEL_DISPLAY_ALERTS
+
             log.info(sett.EXCEL_FILE_PATH.format(file_path))
+
         except Exception as e:
             log.error(sett.EXCEL_LAUNCH_ERROR.format(e))
         log.info(sett.EXCEL_IS_OPENED)
 
         # Попытка открыть книгу
         try:
-            self.wb = self.excel.Workbooks.Open(file_path, UpdateLinks=0)
+            self.wb = self.excel.Workbooks.Open(
+                file_path,
+                UpdateLinks=sett.EXCEL_UPDATE_LINKS
+            )
             log.info(sett.WORKBOOK_IS_OPENED)
         except Exception as e:
             log.error(sett.WORKBOOK_OPENING_ERROR.format(e))
 
-        self.sheet = self.wb.Sheets(self.worksheet)
-
-    def __close_excel(self) -> None:
+    def close_excel(self) -> None:
         """
         После работы с файлом, даже когда уже текущее приложение остановлено,
         файл продолжает висеть в задачах и потреблять ресурсы. Этот метод
@@ -204,7 +210,7 @@ class ExcelHandler:
         # Закрытие книги, если открыта
         if self.wb:
             try:
-                self.wb.Close(SaveChanges=0)
+                self.wb.Close(SaveChanges=sett.EXCEL_SAVE_CHANGES)
             except Exception as e:
                 Helper.log_exception(e)
 
@@ -215,18 +221,27 @@ class ExcelHandler:
             except Exception as e:
                 Helper.log_exception(e)
 
-    def __input_cells(self) -> None:
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
+    def __input_cells(self) -> bool:
         """
         Вызывает процесс подготовки данных и вписывает их в соответствующие
         ячейки в экселе. После чего обновляет страницу, чтобы пересчитались
         формулы.
+
+        Returns
+        -------
+        - _: bool
+            True, если все прошло успешно. False, если произошла ошибка.
         """
 
         if self.cells_input:
             # Подготавливаем данные для записи в Excel
+            self.preparator.data = self.data
+            self.preparator.rules = self.rules
             data_prepared = self.preparator.prepare_data(self.cells_input)
             if not data_prepared:
-                return None, None
+                return False
 
             # Вставляем данные в Excel
             log.info(sett.INSERT_DATA_INTO_EXCEL)
@@ -245,6 +260,8 @@ class ExcelHandler:
             log.info(sett.REFRESH_EXCEL)
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()
+
+        return True
 
     def __get_data_from_excel(self) -> dict:
         """

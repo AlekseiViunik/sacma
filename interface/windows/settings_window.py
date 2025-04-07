@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import (
+    QDialog,
     QLineEdit,
     QFileDialog
 )
@@ -10,7 +11,7 @@ from logic.logger import logger as log
 from settings import settings as sett
 
 
-class SettingsWindow(BaseWindow):
+class SettingsWindow(QDialog, BaseWindow):
     """
     Окно настроек.
 
@@ -79,7 +80,7 @@ class SettingsWindow(BaseWindow):
             self.settings_json_handler.rewrite_file(
                 self.creator.input_fields
             )
-            self.close()
+            self.accept()
 
         except Exception as e:
             Helper.log_exception(e)

@@ -2,7 +2,7 @@ from decimal import Decimal
 from logic.calculator import Calculator
 
 
-def test_travi_di_battuta_excel_calculation_1():
+def test_travi_di_battuta_excel_calculation_1(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
         'standart_hook': 'Sì',
@@ -14,7 +14,7 @@ def test_travi_di_battuta_excel_calculation_1():
     choices = {}
     el_type = 'Travi di Battuta'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('35.50'), 'weight': None}
@@ -49,7 +49,7 @@ def test_travi_di_battuta_excel_calculation_1():
     )
 
 
-def test_travi_di_battuta_excel_calculation_2():
+def test_travi_di_battuta_excel_calculation_2(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
         'standart_hook': 'No',
@@ -61,7 +61,7 @@ def test_travi_di_battuta_excel_calculation_2():
     choices = {}
     el_type = 'Travi di Battuta'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -96,7 +96,7 @@ def test_travi_di_battuta_excel_calculation_2():
     )
 
 
-def test_travi_di_battuta_excel_calculation_3():
+def test_travi_di_battuta_excel_calculation_3(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
         'standart_hook': 'No',
@@ -108,7 +108,7 @@ def test_travi_di_battuta_excel_calculation_3():
     choices = {}
     el_type = 'Travi di Battuta'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('42.50'), 'weight': None}
@@ -143,7 +143,7 @@ def test_travi_di_battuta_excel_calculation_3():
     )
 
 
-def test_travi_di_battuta_excel_validation_1():
+def test_travi_di_battuta_excel_validation_1(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
         'standart_hook': 'No',
@@ -155,7 +155,7 @@ def test_travi_di_battuta_excel_validation_1():
     choices = {}
     el_type = 'Travi di Battuta'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -190,7 +190,7 @@ def test_travi_di_battuta_excel_validation_1():
     )
 
 
-def test_travi_di_battuta_excel_validation_2():
+def test_travi_di_battuta_excel_validation_2(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
         'standart_hook': 'No',
@@ -202,7 +202,7 @@ def test_travi_di_battuta_excel_validation_2():
     choices = {}
     el_type = 'Travi di Battuta'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -237,7 +237,7 @@ def test_travi_di_battuta_excel_validation_2():
     )
 
 
-def test_travi_di_battuta_excel_validation_3():
+def test_travi_di_battuta_excel_validation_3(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
         'standart_hook': 'No',
@@ -249,7 +249,7 @@ def test_travi_di_battuta_excel_validation_3():
     choices = {}
     el_type = 'Travi di Battuta'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}

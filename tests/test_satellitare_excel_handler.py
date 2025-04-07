@@ -2,7 +2,7 @@ from decimal import Decimal
 from logic.calculator import Calculator
 
 
-def test_automha_excel_calculation():
+def test_automha_excel_calculation(excel_handler):
     datas = [
         {'type': 'AUTOMHA', 'element': "Profilo a 'Z' 50x190x60x2"},
         {'type': 'AUTOMHA', 'element': "Profilo a 'Z' 50x190x60x2.5"},
@@ -39,9 +39,11 @@ def test_automha_excel_calculation():
     choices = {'type': 'AUTOMHA'}
     el_type = 'Satellitare'
 
+    calculator = Calculator({}, el_type, choices, excel_handler)
+
     for i in range(len(datas)):
 
-        calculator = Calculator(datas[i], el_type, choices)
+        calculator.data = datas[i]
         data_to_check, post_message = calculator.calc_data()
 
         assert data_to_check, (
@@ -82,7 +84,7 @@ def test_automha_excel_calculation():
         )
 
 
-def test_other_excel_calculation_2():
+def test_other_excel_calculation(excel_handler):
     datas = [
         {
             'type': 'Altro',
@@ -131,9 +133,11 @@ def test_other_excel_calculation_2():
     choices = {'type': 'Altro'}
     el_type = 'Satellitare'
 
+    calculator = Calculator({}, el_type, choices, excel_handler)
+
     for i in range(len(datas)):
 
-        calculator = Calculator(datas[i], el_type, choices)
+        calculator.data = datas[i]
         data_to_check, post_message = calculator.calc_data()
 
         assert data_to_check, (

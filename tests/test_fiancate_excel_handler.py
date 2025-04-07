@@ -2,7 +2,7 @@ from decimal import Decimal
 from logic.calculator import Calculator
 
 
-def test_fiancate_excel_calculation_1():
+def test_fiancate_excel_calculation_1(excel_handler):
     data = {
         'type': 'Non-sismo',
         'pieces': '1',
@@ -16,7 +16,7 @@ def test_fiancate_excel_calculation_1():
     choices = {'pieces': '1', 'type': 'Non-sismo'}
     el_type = 'Fiancate'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('296.63')}
@@ -44,7 +44,7 @@ def test_fiancate_excel_calculation_1():
     )
 
 
-def test_fiancate_excel_calculation_2():
+def test_fiancate_excel_calculation_2(excel_handler):
     data = {
         'type': 'Non-sismo',
         'pieces': '3',
@@ -64,7 +64,7 @@ def test_fiancate_excel_calculation_2():
     choices = {'pieces': '3', 'type': 'Non-sismo'}
     el_type = 'Fiancate'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('695.10')}
@@ -92,7 +92,7 @@ def test_fiancate_excel_calculation_2():
     )
 
 
-def test_fiancate_max_height_validation():
+def test_fiancate_max_height_validation(excel_handler):
     data = {
         'type': 'Non-sismo',
         'pieces': '1',
@@ -106,7 +106,7 @@ def test_fiancate_max_height_validation():
     choices = {'pieces': '1', 'type': 'Non-sismo'}
     el_type = 'FIancate'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -137,7 +137,7 @@ def test_fiancate_max_height_validation():
     )
 
 
-def test_fiancate_multiple_validation():
+def test_fiancate_multiple_validation(excel_handler):
     data = {
         'type': 'Non-sismo',
         'pieces': '1',
@@ -151,7 +151,7 @@ def test_fiancate_multiple_validation():
     choices = {'pieces': '1', 'type': 'Non-sismo'}
     el_type = 'FIancate'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -182,7 +182,7 @@ def test_fiancate_multiple_validation():
     )
 
 
-def test_fiancate_sismo_calculation_1():
+def test_fiancate_sismo_calculation_1(excel_handler):
     data = {
         'type': 'Sismo',
         'pieces': '1',
@@ -211,7 +211,7 @@ def test_fiancate_sismo_calculation_1():
     choices = {'pieces': '1', 'type': 'Sismo'}
     el_type = 'Fiancate'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('461.67'), 'weight': Decimal('166.83')}
@@ -245,7 +245,7 @@ def test_fiancate_sismo_calculation_1():
     )
 
 
-def test_fiancate_sismo_calculation_2():
+def test_fiancate_sismo_calculation_2(excel_handler):
     data = {
         'type': 'Sismo',
         'pieces': '2',
@@ -286,7 +286,7 @@ def test_fiancate_sismo_calculation_2():
     choices = {'pieces': '2', 'type': 'Sismo'}
     el_type = 'Fiancate'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('851.11'), 'weight': Decimal('317.53')}
@@ -320,7 +320,7 @@ def test_fiancate_sismo_calculation_2():
     )
 
 
-def test_fiancate_sismo_calculation_3():
+def test_fiancate_sismo_calculation_3(excel_handler):
     data = {
         'type': 'Sismo',
         'pieces': '3',
@@ -373,7 +373,7 @@ def test_fiancate_sismo_calculation_3():
     choices = {'pieces': '3', 'type': 'Sismo'}
     el_type = 'Fiancate'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {
@@ -409,7 +409,7 @@ def test_fiancate_sismo_calculation_3():
     )
 
 
-def test_fiancate_diagonals_validation():
+def test_fiancate_diagonals_validation(excel_handler):
     data = {
         'type': 'Sismo',
         'pieces': '3',
@@ -462,7 +462,7 @@ def test_fiancate_diagonals_validation():
     choices = {'pieces': '3', 'type': 'Sismo'}
     el_type = 'Fiancate'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}

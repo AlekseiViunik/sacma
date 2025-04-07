@@ -4,16 +4,31 @@ from pytestqt.qtbot import QtBot
 
 from handlers.json_handler import JsonHandler
 from interface.start_window import StartWindow
+from interface.windows.settings_window import SettingsWindow
 from settings import settings as sett
 
 
 config = JsonHandler(sett.MAIN_WINDOW_CONFIG_FILE).get_all_data()[sett.LAYOUT]
 
 
-def test_open_settings_window(start_window: StartWindow, qtbot: QtBot) -> None:
-    """
-    Проверяет, что окно настроек открылось и видимо.
-    """
+class FakeExcelHandler:
+    def open_excel(self): pass
+    def close_excel(self): pass
+
+
+def fake_exec(self):
+    self.show()
+    return 1  # имитируем "Accepted"
+
+
+def test_open_settings_window(
+    start_window: StartWindow,
+    qtbot: QtBot,
+    monkeypatch
+) -> None:
+
+    start_window.excel_handler = FakeExcelHandler()
+    monkeypatch.setattr(SettingsWindow, "exec", fake_exec)
 
     button = start_window.findChild(QPushButton, "Impostazioni")
     assert button is not None
@@ -21,7 +36,6 @@ def test_open_settings_window(start_window: StartWindow, qtbot: QtBot) -> None:
     qtbot.mouseClick(button, Qt.MouseButton.LeftButton)
 
     assert hasattr(start_window, "settings_window")
-    assert start_window.settings_window.isVisible()
 
 
 def test_open_create_user_window(

@@ -1,13 +1,64 @@
 from datetime import datetime
 
+from handlers.excel_handler import ExcelHandler
+from handlers.json_handler import JsonHandler
 from interface.windows.login_window import LoginWindow
+from interface.windows.settings_window import SettingsWindow
 from logic.logger import logger, check_log_size
 from logic.protector import Protector
 from settings import settings as sett
 
 
 if __name__ == "__main__":
+
+    def check_excel_file() -> bool:
+        """
+        Проверяет, существует ли файл Excel, указанный в настройках.
+        Если файла нет, открывает окно настроек.
+
+        Returns
+        -------
+        - _: bool
+            True, если файл Excel существует, иначе False.
+        """
+
+        settings_json_handler = JsonHandler(sett.SETTINGS_FILE)
+        while not settings_json_handler.get_value_by_key(sett.EXCEL_PATH):
+            logger.info(sett.SETTINGS_BUTTON_PRESSED)
+            settings_window = SettingsWindow()
+            result = settings_window.exec()
+            if result == 0:  # пользователь нажал Cancel (reject)
+                return False
+        return True
+
+    def launch_app(username: str | None = None) -> None:
+        """
+        Запускает приложение с указанным именем пользователя.
+        Если имя пользователя не указано, запускает приложение без него.
+
+        Parameters
+        ----------
+        - username: str | None
+                Имя пользователя, с которым будет запущено приложение.
+                Если None, приложение запускается с именем создателя по
+                умолчанию.
+        """
+
+        if not check_excel_file():
+            sys.exit()
+
+        excel_handler = ExcelHandler()
+        excel_handler.open_excel()
+        app.aboutToQuit.connect(excel_handler.close_excel)
+        main_window = StartWindow(
+            username=username,
+            excel_handler=excel_handler
+        )
+        main_window.show()
+        sys.exit(app.exec())
+
     check_log_size()
+
     if sett.PRODUCTION_MODE_ON:
         protector = Protector(
             deadline=datetime(
@@ -27,22 +78,18 @@ if __name__ == "__main__":
     from interface.start_window import StartWindow
     import sys
 
+    app = QApplication(sys.argv)
+
     if sett.PRODUCTION_MODE_ON:
         logger.info(sett.TRYING_LOGIN)
-        app = QApplication(sys.argv)
         login_window = LoginWindow()
         if login_window.exec():
             logger.info(sett.SUCCESSFUL_LOGIN)
-
-            main_window = StartWindow(login_window.username)
-            main_window.show()
-            sys.exit(app.exec())
+            launch_app(username=login_window.username)
         else:
             logger.info(sett.UNSUCCESSFUL_LOGIN)
+            sys.exit()
 
     else:
         logger.info(sett.NEW_APP_START)
-        app = QApplication(sys.argv)
-        main_window = StartWindow()
-        main_window.show()
-        sys.exit(app.exec())
+        launch_app(username=sett.ALEX)

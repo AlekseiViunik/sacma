@@ -1,3 +1,4 @@
+from handlers.excel_handler import ExcelHandler
 from handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
 from interface.windows.change_pass_window import ChangePassWindow
@@ -12,7 +13,14 @@ from settings import settings as sett
 class StartWindow(BaseWindow):
     """
     Стартовое окно с кнопками открытия второстепенных окон.
-    Своих атрибутов нет.
+
+    Attributes
+    ----------
+    - username: str
+        Логин юзера, под которым выполнен вход.
+
+    - excel_handler: ExcelHandler | None
+        Обработчик Excel файла, который будет использоваться в дальнейшем.
 
     Methods
     -------
@@ -24,16 +32,30 @@ class StartWindow(BaseWindow):
 
     - open_register()
         Открывает окно регистрации нового юзера.
+
+    - logout()
+        Закрывает текущее окно и открывает окно логина. Срабатывает при
+        нажатии соответствующей кнопки.
+
+    - change_password()
+        Открывает окно смены пароля. Срабатывает при нажатии соответствующей
+        кнопки.
     """
 
     CONFIG_FILE = sett.MAIN_WINDOW_CONFIG_FILE
 
-    def __init__(self, username: str = sett.ALEX) -> None:
+    def __init__(
+        self,
+        username: str = sett.ALEX,
+        excel_handler: ExcelHandler | None = None
+    ) -> None:
         super().__init__(username=username)
 
         self.userdata = JsonHandler(sett.USER_MAIN_DATA_FILE).get_value_by_key(
             self.username
         )
+
+        self.excel_handler = excel_handler
         self.init_ui()
 
     def open_settings(self) -> None:
@@ -43,7 +65,10 @@ class StartWindow(BaseWindow):
 
         log.info(sett.SETTINGS_BUTTON_PRESSED)
         self.settings_window = SettingsWindow()
-        self.settings_window.show()
+        if self.settings_window.exec():
+            self.excel_handler.close_excel()
+            self.excel_handler.open_excel()
+            self.creator.update()
 
     def open_input_window(self, params: dict[str, str]) -> None:
         """
@@ -62,7 +87,8 @@ class StartWindow(BaseWindow):
             window_name = sender.text()  # Берем текст кнопки как имя окна
             input_window = InputWindow(
                 window_name,
-                params[sett.JSON_FILE_PATH]
+                params[sett.JSON_FILE_PATH],
+                self.excel_handler
             )
 
             # Для тестов

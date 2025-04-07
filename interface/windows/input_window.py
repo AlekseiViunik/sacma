@@ -1,3 +1,4 @@
+from handlers.excel_handler import ExcelHandler
 from .base_window import BaseWindow
 from handlers.input_data_handler import InputDataHandler
 from helpers.helper import Helper
@@ -18,26 +19,32 @@ class InputWindow(BaseWindow):
         Имя окна, которое передается в Калькулятор для получения имени файла
         конфига для расчетов.
 
-    - output_window: OutputWindow
-        Класс окна вывода рещультата.
-
     - input_data_handler: InputDataHandler
         Обработчик данных, введенных/выбранных пользователем.
+
+    - excel_handler: ExcelHandler
+        Обработчик excel-файла, который передается в Калькулятор для дальнейшей
+        обработки данных.
 
     Methods
     -------
     - handle_start_button()
         Обработчик нажатия кнопки Invia.
+
+    - handle_forward_button()
+        Обработчик нажатия кнопки Avanti.
     """
 
     def __init__(
         self,
         window_name: str,
         file_path: str,
+        excel_handler: ExcelHandler = None
     ) -> None:
         super().__init__(file_path)
         self.window_name: str = window_name
         self.input_data_handler = InputDataHandler()
+        self.excel_handler = excel_handler
 
         self.init_ui()
 
@@ -49,7 +56,7 @@ class InputWindow(BaseWindow):
         один словарь.
         - Запускает класс-Калькулятор для дальнейшей обработки данных
         пользователя и получения итогового результата.
-        - Открывает окно с выводом результата.
+        - Добвляет результат на окно ввода данных.
         """
 
         try:
@@ -61,7 +68,8 @@ class InputWindow(BaseWindow):
             calculator = Calculator(
                 all_inputs,
                 self.window_name,
-                self.creator.current_changing_values
+                self.creator.current_changing_values,
+                self.excel_handler
             )
             log.info(sett.START_CALCULATING)
             result, post_message = calculator.calc_data()
@@ -89,4 +97,9 @@ class InputWindow(BaseWindow):
             Helper.log_exception(e)
 
     def handle_forward_button(self) -> None:
+        """
+        Обработчик нажатия кнопки Avanti. Снимает блокировку изменения
+        виджетов, удаляет ответ.
+        """
+
         self.creator.hide_response()
