@@ -117,6 +117,7 @@ CLOSE_EXCEL = "Close excel file"
 EMPTY_FIELDS_ERROR = "One (or more) of the required fields is empty!"
 CHANGE_PASS_SUCCESS = "Password has been changed successfully!"
 USER_NOT_FOUND = "User not found!"
+UNKNOWN_ERROR = "Unknown error! Call the developer!"
 
 # ============================ LOG DYNAMIC MESSAGES ===========================
 
