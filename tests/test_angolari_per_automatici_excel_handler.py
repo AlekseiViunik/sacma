@@ -6,10 +6,11 @@ el_type = 'Angolari per automatici'
 calculator = Calculator({}, el_type, {})
 
 
-def test_angolari_excel_calculation_1():
+def test_angolari_excel_calculation_1(excel_handler):
     data = {'section': '50x90', 'thickness': '2.0', 'length': '2000'}
 
     calculator.data = data
+    calculator.excel_handler = excel_handler
 
     data_to_check, post_message = calculator.calc_data()
 
@@ -55,10 +56,11 @@ def test_angolari_excel_calculation_1():
     )
 
 
-def test_angolari_excel_calculation_2():
+def test_angolari_excel_calculation_2(excel_handler):
     data = {'section': '50x65', 'thickness': '3.0', 'length': '1500'}
 
     calculator.data = data
+    calculator.excel_handler = excel_handler
 
     data_to_check, post_message = calculator.calc_data()
 
@@ -104,10 +106,11 @@ def test_angolari_excel_calculation_2():
     )
 
 
-def test_angolari_excel_calculation_3():
+def test_angolari_excel_calculation_3(excel_handler):
     data = {'section': '50x78', 'thickness': '1.5', 'length': '4100'}
 
     calculator.data = data
+    calculator.excel_handler = excel_handler
 
     data_to_check, post_message = calculator.calc_data()
 
@@ -153,10 +156,11 @@ def test_angolari_excel_calculation_3():
     )
 
 
-def test_angolari_excel_validation_1():
+def test_angolari_excel_validation_1(excel_handler):
     data = {'section': '50x78', 'thickness': '1.5', 'length': ''}
 
     calculator.data = data
+    calculator.excel_handler = excel_handler
 
     data_to_check, post_message = calculator.calc_data()
 
@@ -192,10 +196,11 @@ def test_angolari_excel_validation_1():
     )
 
 
-def test_angolari_excel_validation_2():
+def test_angolari_excel_validation_2(excel_handler):
     data = {'section': '50x78', 'thickness': '1.5', 'length': 'abc'}
 
     calculator.data = data
+    calculator.excel_handler = excel_handler
 
     data_to_check, post_message = calculator.calc_data()
 
