@@ -93,9 +93,9 @@ class ExcelHandler:
 
     def __init__(
         self,
-        data: dict,
-        rules: dict | None,
-        worksheet: str,
+        data: dict = {},
+        rules: dict | None = None,
+        worksheet: str = sett.EMPTY_STRING,
         cells_input: dict | None = None,
         cells_output: dict | None = None,
         copy_cells: dict | None = None,
@@ -113,10 +113,7 @@ class ExcelHandler:
         self.settings_json_handler: JsonHandler = JsonHandler(
             sett.SETTINGS_FILE
         )
-        self.preparator: DataPreparator = DataPreparator(
-            self.data,
-            self.rules
-        )
+        self.preparator: DataPreparator = DataPreparator()
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
         self.sheet: win32com.client.CDispatch | None = None
@@ -143,8 +140,6 @@ class ExcelHandler:
                 sett.ERROR: check_result[sett.ERROR_MESSAGE]
             }
 
-        self.__open_excel()
-
         # Запись ячеек в таблицу и пересчет формул
         self.__input_cells()
 
@@ -154,14 +149,9 @@ class ExcelHandler:
         # Извлечение пересчитанных ячеек
         data = self.__get_data_from_excel()
 
-        # Закрытие книги и приложения, чтобы не висели в трекере
-        self.__close_excel()
-
         return data
 
-    # ============================ Private Methods ============================
-    # -------------------------------------------------------------------------
-    def __open_excel(self) -> None:
+    def open_excel(self) -> None:
         """
         Открывает файл для работы и обновляет свойства класса, связанные с
         файлом.
@@ -177,23 +167,30 @@ class ExcelHandler:
         log.info(sett.OPEN_EXCEL)
         try:
             self.excel = win32.DispatchEx(sett.EXCEL_APP)
-            self.excel.Visible = False  # Запуск в фоновом режиме
-            self.excel.DisplayAlerts = False  # Отключаем предупреждения
+
+            # Запуск в фоновом режиме
+            self.excel.Visible = sett.EXCEL_VISIBILITY
+
+            # Отключаем предупреждения
+            self.excel.DisplayAlerts = sett.EXCEL_DISPLAY_ALERTS
+
             log.info(sett.EXCEL_FILE_PATH.format(file_path))
+
         except Exception as e:
             log.error(sett.EXCEL_LAUNCH_ERROR.format(e))
         log.info(sett.EXCEL_IS_OPENED)
 
         # Попытка открыть книгу
         try:
-            self.wb = self.excel.Workbooks.Open(file_path, UpdateLinks=0)
+            self.wb = self.excel.Workbooks.Open(
+                file_path,
+                UpdateLinks=sett.EXCEL_UPDATE_LINKS
+            )
             log.info(sett.WORKBOOK_IS_OPENED)
         except Exception as e:
             log.error(sett.WORKBOOK_OPENING_ERROR.format(e))
 
-        self.sheet = self.wb.Sheets(self.worksheet)
-
-    def __close_excel(self) -> None:
+    def close_excel(self) -> None:
         """
         После работы с файлом, даже когда уже текущее приложение остановлено,
         файл продолжает висеть в задачах и потреблять ресурсы. Этот метод
@@ -204,7 +201,7 @@ class ExcelHandler:
         # Закрытие книги, если открыта
         if self.wb:
             try:
-                self.wb.Close(SaveChanges=0)
+                self.wb.Close(SaveChanges=sett.EXCEL_SAVE_CHANGES)
             except Exception as e:
                 Helper.log_exception(e)
 
@@ -215,6 +212,8 @@ class ExcelHandler:
             except Exception as e:
                 Helper.log_exception(e)
 
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
     def __input_cells(self) -> None:
         """
         Вызывает процесс подготовки данных и вписывает их в соответствующие
@@ -224,6 +223,8 @@ class ExcelHandler:
 
         if self.cells_input:
             # Подготавливаем данные для записи в Excel
+            self.preparator.data = self.data
+            self.preparator.rules = self.rules
             data_prepared = self.preparator.prepare_data(self.cells_input)
             if not data_prepared:
                 return None, None
