@@ -1,3 +1,18 @@
+# ============================= PRODUCTION CONSTS =============================
+PRODUCTION_MODE_ON = False
+PROTECTION_MODE_ON = True
+PROTECTION_YEAR = 2025
+PROTECTION_MONTH = 7
+PROTECTION_DAY = 20
+PROTECTION_HOUR = 7
+
+# ============================== EXCEL SETTINGS ===============================
+
+EXCEL_VISIBILITY = True
+EXCEL_DISPLAY_ALERTS = False
+EXCEL_SAVE_CHANGES = 0
+EXCEL_UPDATE_LINKS = 0
+
 # ================================== LOGGING ==================================
 
 APP_LOGGER = "AppLogger"
@@ -376,14 +391,6 @@ USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
 CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
-
-# ============================ PRODUCTION CONSTS ==============================
-PRODUCTION_MODE_ON = False
-PROTECTION_MODE_ON = True
-PROTECTION_YEAR = 2025
-PROTECTION_MONTH = 7
-PROTECTION_DAY = 20
-PROTECTION_HOUR = 7
 
 # ============================ ITALIAN STR CONSTS =============================
 PRICE_IT = "Prezzo"
