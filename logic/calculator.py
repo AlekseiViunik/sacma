@@ -141,9 +141,11 @@ class Calculator:
             # итальянский. Почему при этом мы не переводим на итальянский
             # данные по извлекаемым ячейкам - я не помню.
 
-            self.excel_handler.data = Translator.translate_dict(self.data)
-            self.excel_handler.rules = Translator.translate_dict(
-                self.calc_config[sett.RULES]
+            self.excel_handler.data = self.excel_handler.preparator.data = (
+                Translator.translate_dict(self.data)
+            )
+            self.excel_handler.rules = self.excel_handler.preparator.rules = (
+                Translator.translate_dict(self.calc_config[sett.RULES])
             )
             self.excel_handler.worksheet = self.calc_config[sett.WORKSHEET]
             self.excel_handler.cells_input = Translator.translate_dict(
@@ -167,7 +169,6 @@ class Calculator:
             self.excel_handler.sheet = self.excel_handler.wb.Sheets(
                 self.excel_handler.worksheet
             )
-
             # Запускаем обработчик эксель файла
             try:
                 excel_result = self.excel_handler.initiate_process()
