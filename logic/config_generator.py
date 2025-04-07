@@ -172,6 +172,33 @@ class ConfigGenerator:
 
         return config
 
+    def add_new_layout_to_config(
+        self,
+        config: dict[str, Any],
+        new_layout_config: dict[str, Any],
+        place: int
+    ):
+        """
+        Добавляет новый лэйаут в конфиг.
+
+        Parameters
+        ----------
+        - config : dict[str, Any]
+            Конфиг, в который нужно добавить новый лэйаут.
+
+        - new_layout_config : dict[str, Any]
+            Конфиг нового лэйаута.
+
+        - place : int
+            Позиция, на которую нужно добавить новый лэйаут.
+            Если -1, то добавляет в конец списка.
+        """
+        if place == -1:
+            config[sett.LAYOUT][sett.WIDGETS].append(new_layout_config)
+        else:
+            config[sett.LAYOUT][sett.WIDGETS].insert(place, new_layout_config)
+        return config
+
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
     def __generate_response_config(
