@@ -2,7 +2,7 @@ from decimal import Decimal
 from logic.calculator import Calculator
 
 
-def test_grigliato_excel_calculation_1():
+def test_grigliato_excel_calculation_1(excel_handler):
     data = {
         'type': 'Grigliato',
         'thickness': '1.5',
@@ -13,7 +13,7 @@ def test_grigliato_excel_calculation_1():
     choices = {'type': 'Grigliato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('37.69'), 'weight': Decimal('15.70')}
@@ -48,7 +48,7 @@ def test_grigliato_excel_calculation_1():
     )
 
 
-def test_grigliato_excel_calculation_2():
+def test_grigliato_excel_calculation_2(excel_handler):
     data = {
         'type': 'Grigliato',
         'thickness': '1.2',
@@ -59,7 +59,7 @@ def test_grigliato_excel_calculation_2():
     choices = {'type': 'Grigliato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('6.17'), 'weight': Decimal('2.50')}
@@ -94,7 +94,7 @@ def test_grigliato_excel_calculation_2():
     )
 
 
-def test_grigliato_excel_calculation_3():
+def test_grigliato_excel_calculation_3(excel_handler):
     data = {
         'type': 'Grigliato',
         'thickness': '2.0',
@@ -105,7 +105,7 @@ def test_grigliato_excel_calculation_3():
     choices = {'type': 'Grigliato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -140,7 +140,7 @@ def test_grigliato_excel_calculation_3():
     )
 
 
-def test_grigliato_wrong_data_passed_1():
+def test_grigliato_wrong_data_passed_1(excel_handler):
     data = {
         'type': 'Grigliato',
         'thickness': '1.5',
@@ -151,7 +151,7 @@ def test_grigliato_wrong_data_passed_1():
     choices = {'type': 'Grigliato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -186,7 +186,7 @@ def test_grigliato_wrong_data_passed_1():
     )
 
 
-def test_grigliato_wrong_data_passed_2():
+def test_grigliato_wrong_data_passed_2(excel_handler):
     data = {
         'type': 'Grigliato',
         'thickness': '1.5',
@@ -197,7 +197,7 @@ def test_grigliato_wrong_data_passed_2():
     choices = {'type': 'Grigliato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -232,7 +232,7 @@ def test_grigliato_wrong_data_passed_2():
     )
 
 
-def test_bugnato_excel_calculation_1():
+def test_bugnato_excel_calculation_1(excel_handler):
     data = {
         'type': 'Bugnato',
         'thickness': '2.0',
@@ -243,7 +243,7 @@ def test_bugnato_excel_calculation_1():
     choices = {'type': 'Bugnato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('40.77'), 'weight': Decimal('17.46')}
@@ -278,7 +278,7 @@ def test_bugnato_excel_calculation_1():
     )
 
 
-def test_bugnato_excel_calculation_2():
+def test_bugnato_excel_calculation_2(excel_handler):
     data = {
         'type': 'Bugnato',
         'thickness': '3.0',
@@ -289,7 +289,7 @@ def test_bugnato_excel_calculation_2():
     choices = {'type': 'Bugnato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('15.91'), 'weight': Decimal('6.26')}
@@ -324,7 +324,7 @@ def test_bugnato_excel_calculation_2():
     )
 
 
-def test_bugnato_excel_calculation_3():
+def test_bugnato_excel_calculation_3(excel_handler):
     data = {
         'type': 'Bugnato',
         'thickness': '3.0',
@@ -335,7 +335,7 @@ def test_bugnato_excel_calculation_3():
     choices = {'type': 'Bugnato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -370,7 +370,7 @@ def test_bugnato_excel_calculation_3():
     )
 
 
-def test_bugnato_wrong_data_passed_1():
+def test_bugnato_wrong_data_passed_1(excel_handler):
     data = {
         'type': 'Bugnato',
         'thickness': '3.0',
@@ -381,7 +381,7 @@ def test_bugnato_wrong_data_passed_1():
     choices = {'type': 'Bugnato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
@@ -416,7 +416,7 @@ def test_bugnato_wrong_data_passed_1():
     )
 
 
-def test_bugnato_wrong_data_passed_2():
+def test_bugnato_wrong_data_passed_2(excel_handler):
     data = {
         'type': 'Bugnato',
         'thickness': '3.0',
@@ -427,7 +427,7 @@ def test_bugnato_wrong_data_passed_2():
     choices = {'type': 'Bugnato'}
     el_type = 'Grigliato'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}

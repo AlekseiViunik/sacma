@@ -1,41 +1,29 @@
 from decimal import Decimal
-from handlers.excel_handler import ExcelHandler as EH
+from logic.calculator import Calculator
 
 
-def test_travi_tg_excel_calculation():
+def test_travi_tg_excel_calculation(excel_handler):
     data = {
-        'Tipo': 'TG',
-        'Altezza': '130',
-        'Base': '50',
-        'Spessore': '1.5',
-        'Staffa speciale': 'Sì',
-        'Quantità': '<=1000',
-        'Lunghezza': '3600'
+        'type': 'TG',
+        'height': '130',
+        'base': '50',
+        'thickness': '1.5',
+        'special_hook': 'Sì',
+        'amount': '<=1000',
+        'length': '3600'
     }
 
-    rules = {
-        'Altezza': {'min': 70, 'max': 170},
-        'Lunghezza': {'exists': 1, 'numeric': 1, 'min': 1200, 'max': 3600}
+    choices = {
+        'type': 'TG'
     }
 
-    worksheet = 'Listino travi'
+    el_type = 'Travi'
 
-    cells_input = {
-        'Altezza': 'B4',
-        'Base': 'B6',
-        'Spessore': 'B8',
-        'Lunghezza': 'B12',
-        'Staffa speciale': 'B14',
-        'Quantità': 'B16'
-    }
-
-    cells_output = {'price': 'E4', 'weight': 'E6'}
+    calculator = Calculator(data, el_type, choices, excel_handler)
+    data_to_check, post_message = calculator.calc_data()
 
     expected_data = {'price': Decimal('71.03'), 'weight': Decimal('21.00')}
 
-    handler = EH(data, rules, worksheet, cells_input, cells_output)
-    data_to_check = handler.initiate_process()
-
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
     )
@@ -58,46 +46,40 @@ def test_travi_tg_excel_calculation():
         f"Нашлось: {data_to_check['weight']}"
     )
 
+    assert post_message is None, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: None\n"
+        f"Нашлось: {post_message}"
+    )
 
-def test_travi_tg_wrong_data_passed():
+
+def test_travi_tg_wrong_data_passed(excel_handler):
     data = {
-        'Tipo': 'TG',
-        'Altezza': '130',
-        'Base': '50',
-        'Spessore': '1.5',
-        'Staffa speciale': 'Sì',
-        'Quantità': '<=1000',
-        'Lunghezza': '900'
+        'type': 'TG',
+        'height': '130',
+        'base': '50',
+        'thickness': '1.5',
+        'special_hook': 'Sì',
+        'amount': '<=1000',
+        'length': '900'
     }
 
-    rules = {
-        'Altezza': {'min': 70, 'max': 170},
-        'Lunghezza': {'exists': 1, 'numeric': 1, 'min': 1200, 'max': 3600}
+    choices = {
+        'type': 'TG'
     }
 
-    worksheet = 'Listino travi'
-
-    cells_input = {
-        'Altezza': 'B4',
-        'Base': 'B6',
-        'Spessore': 'B8',
-        'Lunghezza': 'B12',
-        'Staffa speciale': 'B14',
-        'Quantità': 'B16'
-    }
-
-    cells_output = {'price': 'E4', 'weight': 'E6'}
+    el_type = 'Travi'
 
     expected_data = {
         'price': None,
         'weight': None,
-        'error': 'Lunghezza should be more than 1200. You have 900'
     }
 
-    handler = EH(data, rules, worksheet, cells_input, cells_output)
-    data_to_check = handler.initiate_process()
+    expected_post_message = 'Lunghezza should be more than 1200. You have 900'
 
-    print(data_to_check)
+    calculator = Calculator(data, el_type, choices, excel_handler)
+    data_to_check, post_message = calculator.calc_data()
+
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
     )
@@ -120,37 +102,34 @@ def test_travi_tg_wrong_data_passed():
         f"Нашлось: {data_to_check['weight']}"
     )
 
+    assert post_message == expected_post_message, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: {expected_post_message}\n"
+        f"Нашлось: {post_message}"
+    )
 
-def test_travi_sat_excel_calculation():
+
+def test_travi_sat_excel_calculation(excel_handler):
     data = {
-        'Tipo': 'SAT',
-        'Altezza': '100',
-        'Appoggio': 'Sì',
-        'Spessore': '3.0',
-        'Staffa speciale': 'Sì',
-        'Quantità': '<=1000',
-        'Lunghezza': '3000'
+        'type': 'SAT',
+        'height': '100',
+        'support': 'Sì',
+        'thickness': '3.0',
+        'special_hook': 'Sì',
+        'amount': '<=1000',
+        'length': '3000'
     }
 
-    rules = {'Lunghezza': {'exists': 1, 'numeric': 1}}
-
-    worksheet = 'Listino travi'
-
-    cells_input = {
-        'Altezza': 'B21',
-        'Spessore': 'B23',
-        'Appoggio': 'B27',
-        'Lunghezza': 'B29',
-        'Staffa speciale': 'B31',
-        'Quantità': 'B33'
+    choices = {
+        'type': 'SAT'
     }
 
-    cells_output = {'price': 'E21', 'weight': 'E23'}
+    el_type = 'Travi'
 
     expected_data = {'price': Decimal('59.26'), 'weight': Decimal('13.25')}
 
-    handler = EH(data, rules, worksheet, cells_input, cells_output)
-    data_to_check = handler.initiate_process()
+    calculator = Calculator(data, el_type, choices, excel_handler)
+    data_to_check, post_message = calculator.calc_data()
 
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
@@ -174,41 +153,39 @@ def test_travi_sat_excel_calculation():
         f"Нашлось: {data_to_check['weight']}"
     )
 
+    assert post_message is None, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: None\n"
+        f"Нашлось: {post_message}"
+    )
 
-def test_travi_sat_wrong_data_passed():
+
+def test_travi_sat_wrong_data_passed(excel_handler):
     data = {
-        'Tipo': 'SAT',
-        'Altezza': '100',
-        'Appoggio': 'Sì',
-        'Spessore': '3.0',
-        'Staffa speciale': 'Sì',
-        'Quantità': '<=1000',
-        'Lunghezza': 'abc'
+        'type': 'SAT',
+        'height': '100',
+        'support': 'Sì',
+        'thickness': '3.0',
+        'special_hook': 'Sì',
+        'amount': '<=1000',
+        'length': 'abc'
     }
 
-    rules = {'Lunghezza': {'exists': 1, 'numeric': 1}}
-
-    worksheet = 'Listino travi'
-
-    cells_input = {
-        'Altezza': 'B21',
-        'Spessore': 'B23',
-        'Appoggio': 'B27',
-        'Lunghezza': 'B29',
-        'Staffa speciale': 'B31',
-        'Quantità': 'B33'
+    choices = {
+        'type': 'SAT'
     }
 
-    cells_output = {'price': 'E21', 'weight': 'E23'}
+    el_type = 'Travi'
 
     expected_data = {
         'price': None,
-        'weight': None,
-        'error': 'Lunghezza should be numeric. You have abc'
+        'weight': None
     }
 
-    handler = EH(data, rules, worksheet, cells_input, cells_output)
-    data_to_check = handler.initiate_process()
+    expected_post_message = 'Lunghezza should be numeric. You have abc'
+
+    calculator = Calculator(data, el_type, choices, excel_handler)
+    data_to_check, post_message = calculator.calc_data()
 
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
@@ -232,46 +209,34 @@ def test_travi_sat_wrong_data_passed():
         f"Нашлось: {data_to_check['weight']}"
     )
 
-    assert data_to_check['error'] == expected_data['error'], (
-        f"Вес не совпадает.\n"
-        f"Ожидалось: {expected_data['error']}\n"
-        f"Нашлось: {data_to_check['error']}"
+    assert post_message == expected_post_message, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: {expected_post_message}\n"
+        f"Нашлось: {post_message}"
     )
 
 
-def test_travi_aperte_excel_calculation():
+def test_travi_aperte_excel_calculation(excel_handler):
     data = {
-        'Tipo': 'APERTE',
-        'Altezza': '70',
-        'Spessore': '2.0',
-        'Staffa speciale': 'No',
-        'Quantità': '>=1001',
-        'Base': '45',
-        'Lunghezza': '1200'
+        'type': 'APERTE',
+        'height': '70',
+        'thickness': '2.0',
+        'special_hook': 'No',
+        'amount': '>=1001',
+        'base': '45',
+        'length': '1200'
     }
 
-    rules = {
-        'Altezza': {'min': 70, 'max': 170},
-        'Lunghezza': {'exists': 1, 'numeric': 1, 'min': 1200, 'max': 3600}
+    choices = {
+        'type': 'APERTE'
     }
 
-    worksheet = 'Listino travi'
-
-    cells_input = {
-        'Altezza': 'B37',
-        'Base': 'B39',
-        'Spessore': 'B41',
-        'Lunghezza': 'B45',
-        'Staffa speciale': 'B47',
-        'Quantità': 'B49'
-    }
-
-    cells_output = {'price': 'E37', 'weight': 'E39'}
+    el_type = 'Travi'
 
     expected_data = {'price': Decimal('15.84'), 'weight': Decimal('4.86')}
 
-    handler = EH(data, rules, worksheet, cells_input, cells_output)
-    data_to_check = handler.initiate_process()
+    calculator = Calculator(data, el_type, choices, excel_handler)
+    data_to_check, post_message = calculator.calc_data()
 
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
@@ -295,44 +260,39 @@ def test_travi_aperte_excel_calculation():
         f"Нашлось: {data_to_check['weight']}"
     )
 
+    assert post_message is None, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: None\n"
+        f"Нашлось: {post_message}"
+    )
 
-def test_travi_aperte_wrong_data_passed():
+
+def test_travi_aperte_wrong_data_passed(excel_handler):
     data = {
-        'Tipo': 'APERTE',
-        'Altezza': '70',
-        'Spessore': '2.0',
-        'Staffa speciale': 'No',
-        'Quantità': '>=1001',
-        'Base': '45',
-        'Lunghezza': '1000'
+        'type': 'APERTE',
+        'height': '70',
+        'thickness': '2.0',
+        'special_hook': 'No',
+        'amount': '>=1001',
+        'base': '45',
+        'length': '1000'
     }
 
-    rules = {
-        'Altezza': {'min': 70, 'max': 170},
-        'Lunghezza': {'exists': 1, 'numeric': 1, 'min': 1200, 'max': 3600}
+    choices = {
+        'type': 'APERTE'
     }
 
-    worksheet = 'Listino travi'
-
-    cells_input = {
-        'Altezza': 'B37',
-        'Base': 'B39',
-        'Spessore': 'B41',
-        'Lunghezza': 'B45',
-        'Staffa speciale': 'B47',
-        'Quantità': 'B49'
-    }
-
-    cells_output = {'price': 'E37', 'weight': 'E39'}
+    el_type = 'Travi'
 
     expected_data = {
         'price': None,
-        'weight': None,
-        'error': 'Lunghezza should be more than 1200. You have 1000'
+        'weight': None
     }
 
-    handler = EH(data, rules, worksheet, cells_input, cells_output)
-    data_to_check = handler.initiate_process()
+    expected_post_message = 'Lunghezza should be more than 1200. You have 1000'
+
+    calculator = Calculator(data, el_type, choices, excel_handler)
+    data_to_check, post_message = calculator.calc_data()
 
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
@@ -356,36 +316,32 @@ def test_travi_aperte_wrong_data_passed():
         f"Нашлось: {data_to_check['weight']}"
     )
 
-    assert data_to_check['error'] == expected_data['error'], (
-        f"Вес не совпадает.\n"
-        f"Ожидалось: {expected_data['error']}\n"
-        f"Нашлось: {data_to_check['error']}"
+    assert post_message == expected_post_message, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: {expected_post_message}\n"
+        f"Нашлось: {post_message}"
     )
 
 
-def test_travi_porta_skid_excel_calculation():
+def test_travi_porta_skid_excel_calculation(excel_handler):
     data = {
-        'Tipo': 'PORTA SKID',
-        'Altezza': '40',
-        'Base': '40',
-        'Spessore': '2.0',
-        'Lunghezza': '2000'
+        'type': 'PORTA SKID',
+        'height': '40',
+        'base': '40',
+        'thickness': '2.0',
+        'length': '2000'
     }
 
-    rules = {'Lunghezza': {'exists': 1, 'numeric': 1}}
-
-    worksheet = 'Listino travi'
-
-    cells_input = {
-        'Altezza': 'B53', 'Base': 'B55', 'Spessore': 'B57', 'Lunghezza': 'B61'
+    choices = {
+        'type': 'PORTA SKID'
     }
 
-    cells_output = {'price': 'E53', 'weight': 'E55'}
+    el_type = 'Travi'
 
     expected_data = {'price': Decimal('15.74'), 'weight': Decimal('4.76')}
 
-    handler = EH(data, rules, worksheet, cells_input, cells_output)
-    data_to_check = handler.initiate_process()
+    calculator = Calculator(data, el_type, choices, excel_handler)
+    data_to_check, post_message = calculator.calc_data()
 
     assert data_to_check, (
         "Метод initiate_process() вернул пустой результат или None"
@@ -409,30 +365,37 @@ def test_travi_porta_skid_excel_calculation():
         f"Нашлось: {data_to_check['weight']}"
     )
 
+    assert post_message is None, (
+        f"Сообщение не совпадает.\n"
+        f"Ожидалось: None\n"
+        f"Нашлось: {post_message}"
+    )
 
-def test_travi_porta_skid_wrong_data_passed():
 
-    rules = {'Lunghezza': {'exists': 1, 'numeric': 1}}
+def test_travi_porta_skid_wrong_data_passed(excel_handler):
 
-    worksheet = 'Listino travi'
-
-    cells_input = {
-        'Altezza': 'B53', 'Base': 'B55', 'Spessore': 'B57', 'Lunghezza': 'B61'
+    choices = {
+        'type': 'PORTA SKID'
     }
 
-    cells_output = {'price': 'E53', 'weight': 'E55'}
+    el_type = 'Travi'
+
+    calculator = Calculator({}, el_type, choices, excel_handler)
 
     expected_data = [
         {
             'price': None,
-            'weight': None,
-            'error': 'Lunghezza field should not be empty'
+            'weight': None
         },
         {
             'price': None,
-            'weight': None,
-            'error': 'Lunghezza should be numeric. You have abc'
+            'weight': None
         }
+    ]
+
+    expected_post_messages = [
+        'Lunghezza field should not be empty',
+        'Lunghezza should be numeric. You have abc'
     ]
 
     lunghezze = ['', 'abc']
@@ -445,8 +408,8 @@ def test_travi_porta_skid_wrong_data_passed():
             'Lunghezza': lunghezze[i]
         }
 
-        handler = EH(data, rules, worksheet, cells_input, cells_output)
-        data_to_check = handler.initiate_process()
+        calculator.data = data
+        data_to_check, post_message = calculator.calc_data()
 
         assert data_to_check, (
             "Метод initiate_process() вернул пустой результат или None"
@@ -470,8 +433,8 @@ def test_travi_porta_skid_wrong_data_passed():
             f"Нашлось: {data_to_check['weight']}"
         )
 
-        assert data_to_check['error'] == expected_data[i]['error'], (
-            f"Ошибка не совпадает.\n"
-            f"Ожидалось: {expected_data[i]['error']}\n"
-            f"Нашлось: {data_to_check['error']}"
+        assert post_message == expected_post_messages[i], (
+            f"Сообщение не совпадает.\n"
+            f"Ожидалось: {expected_post_messages[i]}\n"
+            f"Нашлось: {post_message}"
         )

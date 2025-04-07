@@ -2,16 +2,14 @@ from decimal import Decimal
 from logic.calculator import Calculator
 
 
-el_type = 'Option di sicurezza'
-calculator = Calculator({}, el_type, {})
-
-
-def test_option_di_sicurezza_excel_calculation_1():
-    calculator.data = {
+def test_option_di_sicurezza_excel_calculation_1(excel_handler):
+    data = {
         'type': 'PARACOLPI', 'element_type': 'Frontale per montante serie 80'
     }
-    calculator.choices = {'type': 'PARACOLPI'}
+    choices = {'type': 'PARACOLPI'}
+    el_type = 'Option di sicurezza'
 
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('24.31'), 'weight': Decimal('4.90')}
@@ -46,12 +44,14 @@ def test_option_di_sicurezza_excel_calculation_1():
     )
 
 
-def test_option_di_sicurezza_excel_calculation_2():
-    calculator.data = {
+def test_option_di_sicurezza_excel_calculation_2(excel_handler):
+    data = {
         'type': 'PARACOLPI', 'element_type': 'Frontale per montante serie 100'
     }
-    calculator.choices = {'type': 'PARACOLPI'}
+    choices = {'type': 'PARACOLPI'}
+    el_type = 'Option di sicurezza'
 
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('30.84'), 'weight': Decimal('5.50')}
@@ -86,13 +86,15 @@ def test_option_di_sicurezza_excel_calculation_2():
     )
 
 
-def test_option_di_sicurezza_excel_calculation_3():
-    calculator.data = {
+def test_option_di_sicurezza_excel_calculation_3(excel_handler):
+    data = {
         'type': 'PARACOLPI',
         'element_type': 'Angolare per monttante serie 80/100 H=400mm'
     }
-    calculator.choices = {'type': 'PARACOLPI'}
+    choices = {'type': 'PARACOLPI'}
+    el_type = 'Option di sicurezza'
 
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('32.99'), 'weight': Decimal('6.40')}
@@ -127,13 +129,15 @@ def test_option_di_sicurezza_excel_calculation_3():
     )
 
 
-def test_option_di_sicurezza_excel_calculation_4():
-    calculator.data = {
+def test_option_di_sicurezza_excel_calculation_4(excel_handler):
+    data = {
         'type': 'PARACOLPI',
         'element_type': 'Angolare frontale tipo Metelli'
     }
-    calculator.choices = {'type': 'PARACOLPI'}
+    choices = {'type': 'PARACOLPI'}
+    el_type = 'Option di sicurezza'
 
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('50.09'), 'weight': Decimal('10.99')}
@@ -168,13 +172,15 @@ def test_option_di_sicurezza_excel_calculation_4():
     )
 
 
-def test_option_di_sicurezza_excel_calculation_5():
-    calculator.data = {
+def test_option_di_sicurezza_excel_calculation_5(excel_handler):
+    data = {
         'type': 'GUARDRAIL',
         'element_type': 'Bifronte (2 paracolpi + Sigma 255x3)'
     }
-    calculator.choices = {'type': 'GUARDRAIL'}
+    choices = {'type': 'GUARDRAIL'}
+    el_type = 'Option di sicurezza'
 
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('129.65'), 'weight': Decimal('38.00')}
@@ -209,13 +215,15 @@ def test_option_di_sicurezza_excel_calculation_5():
     )
 
 
-def test_option_di_sicurezza_excel_calculation_6():
-    calculator.data = {
+def test_option_di_sicurezza_excel_calculation_6(excel_handler):
+    data = {
         'type': 'GUARDRAIL',
         'element_type': 'Monofronte (2 paracolpi + Sigma 255x3)'
     }
-    calculator.choices = {'type': 'GUARDRAIL'}
+    choices = {'type': 'GUARDRAIL'}
+    el_type = 'Option di sicurezza'
 
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': Decimal('94.92'), 'weight': Decimal('24.00')}

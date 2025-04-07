@@ -2,13 +2,13 @@ from decimal import Decimal
 from logic.calculator import Calculator
 
 
-def test_pianetti_excel_calculation_1():
+def test_pianetti_excel_calculation_1(excel_handler):
     data = {'thickness': '0.6', 'depth': '100', 'length': '1000'}
 
     choices = {}
     el_type = 'Pianetti'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, _ = calculator.calc_data()
 
     expected_result = {'price': Decimal('2.79'), 'weight': Decimal('1.05')}
@@ -36,13 +36,13 @@ def test_pianetti_excel_calculation_1():
     )
 
 
-def test_pianetti_excel_calculation_2():
+def test_pianetti_excel_calculation_2(excel_handler):
     data = {'thickness': '0.9', 'depth': '300', 'length': '400'}
 
     choices = {}
     el_type = 'Pianetti'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, _ = calculator.calc_data()
 
     expected_result = {'price': Decimal('3.23'), 'weight': Decimal('1.31')}
@@ -70,13 +70,13 @@ def test_pianetti_excel_calculation_2():
     )
 
 
-def test_pianetti_wrong_data_passed():
+def test_pianetti_wrong_data_passed(excel_handler):
     data = {'thickness': '0.9', 'depth': '300', 'length': '300'}
 
     choices = {}
     el_type = 'Pianetti'
 
-    calculator = Calculator(data, el_type, choices)
+    calculator = Calculator(data, el_type, choices, excel_handler)
     data_to_check, post_message = calculator.calc_data()
 
     expected_result = {'price': None, 'weight': None}
