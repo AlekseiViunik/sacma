@@ -8,7 +8,7 @@ PROTECTION_HOUR = 7
 
 # ============================== EXCEL SETTINGS ===============================
 
-EXCEL_VISIBILITY = True
+EXCEL_VISIBILITY = False
 EXCEL_DISPLAY_ALERTS = False
 EXCEL_SAVE_CHANGES = 0
 EXCEL_UPDATE_LINKS = 0
