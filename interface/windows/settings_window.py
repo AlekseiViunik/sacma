@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import (
+    QDialog,
     QLineEdit,
     QFileDialog
 )
@@ -10,7 +11,7 @@ from logic.logger import logger as log
 from settings import settings as sett
 
 
-class SettingsWindow(BaseWindow):
+class SettingsWindow(QDialog, BaseWindow):
     """
     Окно настроек.
 
