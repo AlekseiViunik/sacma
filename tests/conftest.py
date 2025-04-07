@@ -5,6 +5,8 @@ import logging
 import pytest
 
 from PyQt6.QtWidgets import QApplication
+
+from handlers.excel_handler import ExcelHandler
 from interface.start_window import StartWindow
 
 
@@ -24,3 +26,11 @@ def start_window(qtbot):
 @pytest.fixture(autouse=True, scope="session")
 def disable_logging():
     logging.disable(logging.CRITICAL)
+
+
+@pytest.fixture(scope="session")
+def excel_handler():
+    handler = ExcelHandler()
+    handler.open_excel()  # Открываем один раз
+    yield handler
+    handler.close_excel()
