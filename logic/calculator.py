@@ -63,14 +63,15 @@ class Calculator:
         self,
         data: dict,
         type: str,
-        choices: dict
+        choices: dict,
+        excel_handler: ExcelHandler = None
     ) -> None:
         self.data: dict = data
         self.choices: dict = choices
         self.calc_file_path: str = Helper.get_calculation_file(type)
         self.calc_config: dict = {}
         self.config_file_handler = JsonHandler(self.calc_file_path)
-        self.excel_handler: ExcelHandler | None = None
+        self.excel_handler: ExcelHandler | None = excel_handler
 
     def calc_data(self) -> tuple:
         """
@@ -139,27 +140,32 @@ class Calculator:
             # обозначены на итальянском, поэтому переводим все ключи на
             # итальянский. Почему при этом мы не переводим на итальянский
             # данные по извлекаемым ячейкам - я не помню.
-            self.excel_handler = ExcelHandler(
-                Translator.translate_dict(self.data),
-                Translator.translate_dict(self.calc_config[sett.RULES]),
-                self.calc_config[sett.WORKSHEET],
-                Translator.translate_dict(self.calc_config[sett.CELLS_INPUT]),
-                self.calc_config[sett.CELLS_OUTPUT],
 
-                # copy_cells указывает значения каких ячеек (ключи) и
-                # куда (значения) надо будет копировать после внесения
-                # собранных данных в эксель. Изначально введено для fiancate.
-                self.calc_config.get(sett.COPY_CELLS, None),
-
-                # additional_input - словарь, кторый указывает, в какие ячейки
-                # (ключи) какие значения (значения) надо внести, независимо от
-                # введенных юзером данных. Изначально введено для указания
-                # толщины диагоналей и траверс для fiancate.
-                self.calc_config.get(sett.ADDITIONAL_INPUT, None),
-
-                # Словарь с уточненными значениями округления для конкретных
-                # полей.
-                self.calc_config.get(sett.ROUNDINGS, None)
+            self.excel_handler.data = Translator.translate_dict(self.data)
+            self.excel_handler.rules = Translator.translate_dict(
+                self.calc_config[sett.RULES]
+            )
+            self.excel_handler.worksheet = self.calc_config[sett.WORKSHEET]
+            self.excel_handler.cells_input = Translator.translate_dict(
+                self.calc_config[sett.CELLS_INPUT]
+            )
+            self.excel_handler.cells_output = (
+                self.calc_config[sett.CELLS_OUTPUT]
+            )
+            self.excel_handler.copy_cells = self.calc_config.get(
+                sett.COPY_CELLS,
+                None
+            )
+            self.excel_handler.additional_input = self.calc_config.get(
+                sett.ADDITIONAL_INPUT,
+                None
+            )
+            self.excel_handler.roundings = self.calc_config.get(
+                sett.ROUNDINGS,
+                None
+            )
+            self.excel_handler.sheet = self.excel_handler.wb.Sheets(
+                self.excel_handler.worksheet
             )
 
             # Запускаем обработчик эксель файла
