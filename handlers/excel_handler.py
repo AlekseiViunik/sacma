@@ -42,13 +42,16 @@ class ExcelHandler:
         ввести в конкретные ячейки, независимо от введенных юзером данных.
         Отображаются в виде словаря {<ячейка>: <данные>}
 
-    - self.roundings: dict[str, str] | None
+    - roundings: dict[str, str] | None
         Словарь с параметром округления для конкретного поля, если округление
         нестандартное.
 
     - settings_json_handler: JsonHandler
         Обработчик файла общих настроек. Нужен для получения пути к эксель
         файлу. Путь хранится в общих настройках.
+
+    - preparator: DataPreparator
+        Подготовщик данных.
 
     - excel: win32com.client.CDispatch | None
         Объект приложения ексель.
@@ -69,13 +72,14 @@ class ExcelHandler:
         Основной метод класса. Запускает обработку, подготовку и прочие
         действия с файлом и данными.
 
-    Private pethods
-    ---------------
-    - __open_excel()
+    - open_excel()
         Открывает файл эксель.
 
-    - __close_excel()
+    - close_excel()
         Закрывает ставший уже ненужным файл эксель.
+
+    Private pethods
+    ---------------
 
     - __input_cells()
         Вставляет подготовленные данные в эксель и обновляет страницу для
@@ -121,8 +125,8 @@ class ExcelHandler:
 
     def initiate_process(self) -> dict:
         """
-        Основной метод класса. Запускает процессы проверки данных,
-        открытия/закрытия файла и вставки/получения данных
+        Основной метод класса. Запускает процессы проверки и вставки/получения
+        данных.
 
         Returns
         -------
@@ -141,7 +145,12 @@ class ExcelHandler:
             }
 
         # Запись ячеек в таблицу и пересчет формул
-        self.__input_cells()
+        if not self.__input_cells():
+            return {
+                sett.PRICE: None,
+                sett.WEIGHT: None,
+                sett.ERROR: sett.UNKNOWN_ERROR
+            }
 
         if self.copy_cells:
             self.__copy_cells_to_another_ones()
@@ -214,11 +223,16 @@ class ExcelHandler:
 
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
-    def __input_cells(self) -> None:
+    def __input_cells(self) -> bool:
         """
         Вызывает процесс подготовки данных и вписывает их в соответствующие
         ячейки в экселе. После чего обновляет страницу, чтобы пересчитались
         формулы.
+
+        Returns
+        -------
+        - _: bool
+            True, если все прошло успешно. False, если произошла ошибка.
         """
 
         if self.cells_input:
@@ -227,7 +241,7 @@ class ExcelHandler:
             self.preparator.rules = self.rules
             data_prepared = self.preparator.prepare_data(self.cells_input)
             if not data_prepared:
-                return None, None
+                return False
 
             # Вставляем данные в Excel
             log.info(sett.INSERT_DATA_INTO_EXCEL)
@@ -246,6 +260,8 @@ class ExcelHandler:
             log.info(sett.REFRESH_EXCEL)
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()
+
+            return True
 
     def __get_data_from_excel(self) -> dict:
         """

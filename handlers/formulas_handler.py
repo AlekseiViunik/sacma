@@ -19,6 +19,7 @@ class FormulasHandler:
     - check_condition(data, condition)
         Применяет условие к данным и возвращает True, если условие выполнено.
     """
+
     def apply_formula(
         self,
         data: dict,

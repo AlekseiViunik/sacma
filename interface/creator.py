@@ -275,6 +275,26 @@ class Creator:
         only_keys: list[str] | None = None,
         pre_message: str = sett.PRE_MSG_STANDART
     ):
+        """
+        Используя конфиг генератор, добавляет в текущий конфиг виджеты для
+        отображения результатов и вызывает метод обновления окна.
+
+        Parameters
+        ----------
+        - values: dict
+            Словарь с полученными для результата данными.
+
+        - post_message: str
+            Сообщение, которое необходимо отобразить после результата.
+
+        - only_keys: list[str] | None
+            Список ключей, значения которых из словаря values будут отражены в
+            ответе.
+
+        - pre_message: str
+            Сообщение для отображения перед отображением результатов.
+        """
+
         new_config = self.generator.add_response_to_config(
             self.config,
             values,
@@ -287,13 +307,23 @@ class Creator:
 
         self.__update_dependent_layouts()
 
-    def hide_response(self):
+    def hide_response(self) -> None:
+        """
+        Используя генератор конфигов удаляет результат предыдущей работы из
+        конфига и с обновленным конфигом вызывает метод перестроения окна.
+        """
+
         new_config = self.generator.remove_result_from_config(self.config)
         self.config = new_config
 
         self.__update_dependent_layouts()
 
-    def update(self):
+    def update(self) -> None:
+        """
+        Публичный метод для обновления окна, который служит для вызова
+        приватного метода.
+        """
+
         self.__update_dependent_layouts()
 
     # ============================ Private Methods ============================

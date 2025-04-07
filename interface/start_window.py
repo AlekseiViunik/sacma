@@ -13,7 +13,14 @@ from settings import settings as sett
 class StartWindow(BaseWindow):
     """
     Стартовое окно с кнопками открытия второстепенных окон.
-    Своих атрибутов нет.
+
+    Attributes
+    ----------
+    - username: str
+        Логин юзера, под которым выполнен вход.
+
+    - excel_handler: ExcelHandler | None
+        Обработчик Excel файла, который будет использоваться в дальнейшем.
 
     Methods
     -------
@@ -25,6 +32,14 @@ class StartWindow(BaseWindow):
 
     - open_register()
         Открывает окно регистрации нового юзера.
+
+    - logout()
+        Закрывает текущее окно и открывает окно логина. Срабатывает при
+        нажатии соответствующей кнопки.
+
+    - change_password()
+        Открывает окно смены пароля. Срабатывает при нажатии соответствующей
+        кнопки.
     """
 
     CONFIG_FILE = sett.MAIN_WINDOW_CONFIG_FILE
@@ -32,7 +47,7 @@ class StartWindow(BaseWindow):
     def __init__(
         self,
         username: str = sett.ALEX,
-        excel_handler: ExcelHandler = None
+        excel_handler: ExcelHandler | None = None
     ) -> None:
         super().__init__(username=username)
 

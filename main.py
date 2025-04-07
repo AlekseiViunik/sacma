@@ -11,11 +11,17 @@ from settings import settings as sett
 
 if __name__ == "__main__":
 
-    def check_excel_file() -> None:
+    def check_excel_file() -> bool:
         """
         Проверяет, существует ли файл Excel, указанный в настройках.
         Если файла нет, открывает окно настроек.
+
+        Returns
+        -------
+        - _: bool
+            True, если файл Excel существует, иначе False.
         """
+
         settings_json_handler = JsonHandler(sett.SETTINGS_FILE)
         while not settings_json_handler.get_value_by_key(sett.EXCEL_PATH):
             logger.info(sett.SETTINGS_BUTTON_PRESSED)
@@ -29,10 +35,18 @@ if __name__ == "__main__":
         """
         Запускает приложение с указанным именем пользователя.
         Если имя пользователя не указано, запускает приложение без него.
+
+        Parameters
+        ----------
+        - username: str | None
+                Имя пользователя, с которым будет запущено приложение.
+                Если None, приложение запускается с именем создателя по
+                умолчанию.
         """
+
         if not check_excel_file():
-            logger.info("User cancelled settings — exiting app.")
             sys.exit()
+
         excel_handler = ExcelHandler()
         excel_handler.open_excel()
         app.aboutToQuit.connect(excel_handler.close_excel)
@@ -44,6 +58,7 @@ if __name__ == "__main__":
         sys.exit(app.exec())
 
     check_log_size()
+
     if sett.PRODUCTION_MODE_ON:
         protector = Protector(
             deadline=datetime(
