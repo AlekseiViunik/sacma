@@ -4,7 +4,6 @@ from PyQt6.QtWidgets import (
     QFrame,
     QGridLayout,
     QHBoxLayout,
-    QLabel,
     QLayout,
     QLineEdit,
     QPushButton,
@@ -12,11 +11,11 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget
 )
-from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 
 from helpers.finder import Finder
 from helpers.remover import Remover
+from interface.creators.widget_creators.label_creator import LabelCreator
 from logic.config_generator import ConfigGenerator
 from logic.logger import logger as log
 from settings import settings as sett
@@ -472,7 +471,9 @@ class Creator:
             # прописанного в конфиге.
             match config.get(sett.TYPE):
                 case sett.WIDGET_TYPE_LABEL:
-                    widget = self.__create_label(config)
+                    widget, mandatory_field = LabelCreator.create_label(config)
+                    if mandatory_field:
+                        self.mandatory_fields.append(mandatory_field)
                 case sett.WIDGET_TYPE_INPUT:
                     widget = self.__create_input(config)
                 case sett.WIDGET_TYPE_BUTTON:
@@ -535,57 +536,6 @@ class Creator:
 
             return layout
         return None
-
-    def __create_label(self, config: dict) -> QLabel:
-        """
-        Создает, конфигурирует и возвращает объект лейбла.
-
-        Parameters
-        ----------
-        - config: dict
-            Конфиг, по которому будет создан и сконфигурирован лейбл.
-
-        Returns
-        -------
-        - label: QLabel
-            Объект созданного лейбла
-        """
-
-        log.info(sett.CREATE_WIDGET.format(sett.LABEL, config[sett.TEXT]))
-        label = QLabel()
-        font = QFont()
-        for param, value in config.items():
-            match param:
-                case sett.TEXT:
-                    label.setText(value)
-                case sett.TEXT_SIZE:
-                    font.setPointSize(config[sett.TEXT_SIZE])
-                case sett.BOLD:
-                    font.setBold(True)
-                case sett.ALIGN:
-                    # Определяет расположение текста внутри лейбла.
-                    if config[sett.ALIGN] == sett.ALIGN_CENTER:
-                        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                    if config[sett.ALIGN] == sett.ALIGN_LEFT:
-                        label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-                    if config[sett.ALIGN] == sett.ALIGN_RIGHT:
-                        label.setAlignment(Qt.AlignmentFlag.AlignRight)
-                case sett.MANDATORY:
-                    # Добавляет звездочку в начале текста, если в конфиге
-                    # Лейбл помечен как обязательный.
-                    text = f"*{config[sett.TEXT]}"
-                    label.setText(text)
-                    self.mandatory_fields.append(config[sett.MANDATORY])
-                case sett.WIDTH:
-                    label.setFixedWidth(int(value))
-                case sett.HEIGHT:
-                    label.setFixedHeight(int(value))
-                case sett.BACKGROUND:
-                    styleSheet = sett.BG_COLOR.format(value)
-                    label.setStyleSheet(styleSheet)
-
-        label.setFont(font)
-        return label
 
     def __create_input(self, config: dict) -> QLineEdit:
         """
