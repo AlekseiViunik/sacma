@@ -87,7 +87,7 @@ class BaseWindow(QWidget):
         self.window_width = int(config[sett.WINDOW_WIDTH])
         self.window_height = int(config[sett.WINDOW_HEIGHT])
 
-        Helper.move_window_to_top_left_corner(self)
+        Helper.move_window_to_center(self)
 
         log.info(sett.USE_CREATOR)
         self.creator = Creator(config, self)
@@ -217,26 +217,28 @@ class BaseWindow(QWidget):
             Конфиг, в который добавляется приветствие.
         """
         current_hour = datetime.now().hour
-
+        surname = sett.SIGNORI + self.userdata.get(
+            sett.SURNAME, sett.EMPTY_STRING
+        )
         if sett.MORNING_HOUR <= current_hour < sett.DAY_HOUR:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,
-                self.userdata[sett.SURNAME]
+                surname
             )
         elif sett.DAY_HOUR <= current_hour < sett.EVENING_HOUR:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,
-                self.userdata[sett.SURNAME]
+                surname
             )
         elif sett.EVENING_HOUR <= current_hour < sett.NIGHT_HOUR:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,
-                self.userdata[sett.SURNAME]
+                surname
             )
         else:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,
-                self.userdata[sett.SURNAME]
+                surname
             )
 
         return ConfigGenerator().add_greetings_to_config(
