@@ -75,10 +75,12 @@ if __name__ == "__main__":
     logger.info("============================================================")
 
     from PyQt6.QtWidgets import QApplication
+    from PyQt6.QtGui import QIcon
     from interface.start_window import StartWindow
     import sys
 
     app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon("files/icons/logo_s.ico"))
 
     if sett.PRODUCTION_MODE_ON:
         logger.info(sett.TRYING_LOGIN)
