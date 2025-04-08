@@ -60,6 +60,9 @@ class Creator:
     - finder: Finder
         Класс-находитель.
 
+    - generator: ConfigGenerator
+        Класс, меняющий конфиги на лету.
+
     - mandatory_fields: list[str]
         Поля, обязательные для заполнения.
 
@@ -75,15 +78,23 @@ class Creator:
         а значений - родительский. Нужен для четкого определения родителя
         при перерисовке контейнера.
 
-    - update_dependent_layouts(name, selected_value)
-        Обновляет окно при выборе другого значения, которое меняет расположение
-        виджетов.
-
     Methods
     -------
     - create_widget_layout()
         Создает контейнер для размещения виджетов и раполагает его на текущем
         окне или другом контейнере.
+
+    - show_response(values, post_message, only_keys, pre_message)
+        Используя конфиг генератор, добавляет в текущий конфиг виджеты для
+        отображения результатов и вызывает метод обновления окна.
+
+    - hide_response()
+        Используя генератор конфигов удаляет результат предыдущей работы с
+        окна ввода.
+
+    - update_dependent_layouts(name, selected_value)
+        Обновляет окно при выборе другого значения, которое меняет расположение
+        виджетов.
 
     Private methods
     ---------------
@@ -93,33 +104,13 @@ class Creator:
 
     - __create_widget(config, layout, row, column)
         В зависимости от типа виджета (взятого из его конфига), вызывает
-        соответствующий метод создания виджета и возвращает созданный виджет.
-        Если вместо виджета передан контейнер, вызывает заново метод
+        соответствующий класс для создания виджета и возвращает созданный
+        виджет. Если вместо виджета передан контейнер, вызывает заново метод
         create_widget_layout().
 
     - __create_layout(layout_config)
         Создает и возвращает объект контейнера в зависимости от его типа,
         указанного в его конфиге.
-
-    - __create_label(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QLabel.
-
-    - __create_input(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QLineEdit.
-
-    - __create_checkbox(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QCheckBox.
-
-    - __create_button(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QPushButton.
-
-    - __create_dropdown(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QComboBox.
 
     - __get_widget_pos(current_row, current_col, col_amount, widget_pos)
         Виджеты, располоагающиеся на контейнере типа "сетка", имеют в конфиге
@@ -151,7 +142,7 @@ class Creator:
         self.current_changing_values: dict[str, str] = {}
         self.remover: Remover = Remover()
         self.finder: Finder = Finder()
-        self.generator = ConfigGenerator()
+        self.generator: ConfigGenerator = ConfigGenerator()
         self.mandatory_fields: list[str] = []
         self.main_layout = None
 
