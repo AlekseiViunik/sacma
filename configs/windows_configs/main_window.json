@@ -138,15 +138,23 @@
             },
             {
                 "layout": {
-                    "type": "horizontal",
+                    "type": "vertical",
+                    "name": "author",
+                    "setSpacing": -5,
+                    "align": "center",
                     "widgets": [
+                        {
+                            "type": "image",
+                            "path": "files/icons/logo_sacma5.png",
+                            "align": "center"
+                            
+                        },
                         {
                             "type": "label",
                             "text": "Created by Aleksei Viunik",
                             "align": "center",
-                            "text_size": 12,
-                            "width": 220,
-                            "height": 40
+                            "text_size": 8,
+                            "width": 220
                         }
                     ]
                 }
