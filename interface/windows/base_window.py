@@ -83,6 +83,8 @@ class BaseWindow(QWidget):
         if config.get(sett.WINDOW_TITLE) == sett.SACMA:
             config = self._add_greetings_to_config(config)
 
+        config = ConfigGenerator().add_logo_to_config(config, sett.MINUS_ONE)
+
         self.setWindowTitle(config[sett.WINDOW_TITLE])
         self.window_width = int(config[sett.WINDOW_WIDTH])
         self.window_height = int(config[sett.WINDOW_HEIGHT])
@@ -95,6 +97,10 @@ class BaseWindow(QWidget):
             self.creator.create_widget_layout(self, config[sett.LAYOUT])
         except Exception as e:
             Helper.log_exception(e)
+
+        if sett.SIZE_BLOCKER in config.keys():
+            self.setMaximumSize(self.size())
+            self.setMinimumSize(self.size())
 
     def connect_callback(
         self,
@@ -227,17 +233,17 @@ class BaseWindow(QWidget):
             )
         elif sett.DAY_HOUR <= current_hour < sett.EVENING_HOUR:
             greeting = sett.GREETING_MSG.format(
-                sett.GOOD_MORNING,
+                sett.GOOD_AFTERNOON,
                 name
             )
         elif sett.EVENING_HOUR <= current_hour < sett.NIGHT_HOUR:
             greeting = sett.GREETING_MSG.format(
-                sett.GOOD_MORNING,
+                sett.GOOD_EVENING,
                 name
             )
         else:
             greeting = sett.GREETING_MSG.format(
-                sett.GOOD_MORNING,
+                sett.GOOD_NIGHT,
                 name
             )
 

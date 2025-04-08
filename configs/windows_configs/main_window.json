@@ -2,6 +2,7 @@
     "window_title": "SACMA",
     "window_width": 450,
     "window_height": 300,
+    "size_blocker": 1,
     "layout": {
         "type": "vertical",
         "widgets": [
@@ -138,15 +139,17 @@
             },
             {
                 "layout": {
-                    "type": "horizontal",
+                    "type": "vertical",
+                    "name": "author",
+                    "setSpacing": -5,
+                    "align": "center",
                     "widgets": [
                         {
                             "type": "label",
                             "text": "Created by Aleksei Viunik",
                             "align": "center",
-                            "text_size": 12,
-                            "width": 220,
-                            "height": 40
+                            "text_size": 8,
+                            "width": 220
                         }
                     ]
                 }

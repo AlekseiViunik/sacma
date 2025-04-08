@@ -23,7 +23,7 @@ class LabelCreator:
 
         Parameters
         ----------
-        - config: dict
+        - label_config: dict
             Конфиг, по которому будет создан и сконфигурирован лейбл.
 
         Returns
@@ -46,17 +46,24 @@ class LabelCreator:
                     font.setPointSize(label_config[sett.TEXT_SIZE])
                 case sett.BOLD:
                     font.setBold(True)
+
+                # Выравнивание текста по горизонтали.
                 case sett.ALIGN:
-                    # Определяет расположение текста внутри лейбла.
                     if label_config[sett.ALIGN] == sett.ALIGN_CENTER:
                         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                     if label_config[sett.ALIGN] == sett.ALIGN_LEFT:
                         label.setAlignment(Qt.AlignmentFlag.AlignLeft)
                     if label_config[sett.ALIGN] == sett.ALIGN_RIGHT:
                         label.setAlignment(Qt.AlignmentFlag.AlignRight)
+
+                # Выравнивание текста по вертикали.
+                case sett.ALIGNV:
+                    if label_config[sett.ALIGNV] == sett.ALIGN_CENTER:
+                        label.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+
+                # Добавляет звездочку в начале текста, если в конфиге
+                # Лейбл помечен как обязательный.
                 case sett.MANDATORY:
-                    # Добавляет звездочку в начале текста, если в конфиге
-                    # Лейбл помечен как обязательный.
                     text = f"*{label_config[sett.TEXT]}"
                     label.setText(text)
                     mandatory_field = label_config[sett.MANDATORY]

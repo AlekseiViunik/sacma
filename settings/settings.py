@@ -200,6 +200,7 @@ COLUMN = "column"
 TEXT = "text"
 TEXT_SIZE = "text_size"
 ALIGN = "align"
+ALIGNV = "align_v"
 MANDATORY = "mandatory"
 WIDTH = "width"
 HEIGHT = "height"
@@ -260,6 +261,14 @@ GREETING = "greeting"
 CHANGE_PASS = "Change\nPassword"
 LOGOUT = "Logout"
 SIGNORI = "Signor(a) "
+IMAGE = "image"
+PATH = "path"
+SCALED_CONTENTS = "scaled_contents"
+LOGO = "logo"
+AUTHOR = "author"
+SETSPACING = "setSpacing"
+SIZE_BLOCKER = "size_blocker"
+SACMA_APP = "sacma.app"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -272,6 +281,7 @@ SET_TO_ZERO = 0
 SET_TO_ONE = 1
 SET_TO_TWO = 2
 MINUS_ONE = -1
+MINUS_TWO = -2
 STEP_UP = 1
 STEP_DOWN = 1
 SPECIAL_FONT_SIZE = 16
@@ -382,7 +392,7 @@ DICTIONARY = {
     "n_holes": "N fori",
 }
 
-# =============================== FILE PATHS ==================================
+# =============================== JSON PATHS ==================================
 AUTH_FILE = "auth.json"
 SETTINGS_FILE = "settings.json"
 LOGIN_WINDOW_CONFIG_FILE = "configs/windows_configs/login_window.json"
@@ -394,6 +404,11 @@ USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
 CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
+
+# =============================== LOGO PATHS ==================================
+
+LOGO_PATH = "files/icons/logo_sacma.png"
+ICON_PATH = "files/icons/logo_s.ico"
 
 # ============================ ITALIAN STR CONSTS =============================
 PRICE_IT = "Prezzo"
