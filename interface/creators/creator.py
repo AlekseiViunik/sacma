@@ -6,7 +6,6 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QLayout,
     QLineEdit,
-    QPushButton,
     QSizePolicy,
     QVBoxLayout,
     QWidget
@@ -15,6 +14,8 @@ from PyQt6.QtCore import Qt
 
 from helpers.finder import Finder
 from helpers.remover import Remover
+from interface.creators.widget_creators.button_creator import ButtonCreator
+from interface.creators.widget_creators.dropdown_creator import DropdownCreator
 from interface.creators.widget_creators.input_creator import InputCreator
 from interface.creators.widget_creators.label_creator import LabelCreator
 from logic.config_generator import ConfigGenerator
@@ -74,6 +75,10 @@ class Creator:
         а значений - родительский. Нужен для четкого определения родителя
         при перерисовке контейнера.
 
+    - update_dependent_layouts(name, selected_value)
+        Обновляет окно при выборе другого значения, которое меняет расположение
+        виджетов.
+
     Methods
     -------
     - create_widget_layout()
@@ -120,10 +125,6 @@ class Creator:
         Виджеты, располоагающиеся на контейнере типа "сетка", имеют в конфиге
         указание по своему расположению в строке. В зависимости от этого
         параметра высчитываем новые координаты виджета в сетке.
-
-    - __update_dependent_layouts(name, selected_value)
-        Обновляет окно при выборе другого значения, которое меняет расположение
-        виджетов.
 
     - __check_if_widget_is_active(config)
         Проверяет, активен ли виджет при текщих изменяющих значениях.
@@ -305,7 +306,7 @@ class Creator:
 
         self.config = new_config
 
-        self.__update_dependent_layouts()
+        self.update_dependent_layouts()
 
     def hide_response(self) -> None:
         """
@@ -316,7 +317,7 @@ class Creator:
         new_config = self.generator.remove_result_from_config(self.config)
         self.config = new_config
 
-        self.__update_dependent_layouts()
+        self.update_dependent_layouts()
 
     def update(self) -> None:
         """
@@ -324,7 +325,7 @@ class Creator:
         приватного метода.
         """
 
-        self.__update_dependent_layouts()
+        self.update_dependent_layouts()
 
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
@@ -478,9 +479,11 @@ class Creator:
                 case sett.WIDGET_TYPE_INPUT:
                     widget = InputCreator.create_input(config, self)
                 case sett.WIDGET_TYPE_BUTTON:
-                    widget = self.__create_button(config)
+                    widget = ButtonCreator.create_button(
+                        config, self.parent_window
+                    )
                 case sett.WIDGET_TYPE_DROPDOWN:
-                    widget = self.__create_dropdown(config)
+                    widget = DropdownCreator.create_dropdown(config, self)
                 case sett.WIDGET_TYPE_CHECKBOX:
                     widget = self.__create_checkbox(config)
                 case _:
@@ -570,43 +573,6 @@ class Creator:
                     )
         return checkbox
 
-    def __create_button(self, config: dict) -> QPushButton:
-        """
-        Создает, конфигурирует и возвращает объект кнопки.
-
-        Parameters
-        ----------
-        - config: dict
-            Конфиг, по которому будет создана и сконфигурирована кнопка.
-
-        Returns
-        -------
-        - button: QPushButton
-            Объект созданной кнопки.
-        """
-
-        log.info(sett.CREATE_WIDGET.format(sett.BUTTON, config[sett.TEXT]))
-        button = QPushButton(config[sett.TEXT])
-        for param, value in config.items():
-            match param:
-                case sett.WIDTH:
-                    button.setFixedWidth(int(value))
-                case sett.HEIGHT:
-                    button.setFixedHeight(int(value))
-                case sett.CALLBACK:
-                    self.parent_window.connect_callback(
-                        button,
-                        value,
-                        config.get(sett.PARAMS, {}),
-                        self.parent_window
-                    )
-
-        # Активирует кнопку, только если в ее конфиге есть коллбэк.
-        button.setObjectName(config[sett.TEXT])
-        if sett.CALLBACK not in config:
-            button.setEnabled(False)
-        return button
-
     def __create_dropdown(self, config: dict):
         """
         Создает, конфигурирует и возвращает объект выпадающего списка.
@@ -693,7 +659,7 @@ class Creator:
         # будет срабатывать при смене выбора этого списка.
         if config.get(sett.CHANGE_WIDGETS):
             dropdown.currentIndexChanged.connect(
-                lambda index: self.__update_dependent_layouts(
+                lambda index: self.update_dependent_layouts(
                     config[sett.NAME],
                     dropdown.itemText(index)
                 )
@@ -769,7 +735,7 @@ class Creator:
 
         return current_row, current_col
 
-    def __update_dependent_layouts(
+    def update_dependent_layouts(
         self,
         name: str = None,
         selected_value: str = None
