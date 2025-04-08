@@ -1,10 +1,11 @@
 # ============================= PRODUCTION CONSTS =============================
 PRODUCTION_MODE_ON = False
 PROTECTION_MODE_ON = True
-PROTECTION_YEAR = 2025
-PROTECTION_MONTH = 7
-PROTECTION_DAY = 20
-PROTECTION_HOUR = 7
+PROTECTION_1 = 20
+PROTECTION_2 = 7
+PROTECTION_3 = 7
+PROTECTION_4 = 2025
+
 
 # ============================== EXCEL SETTINGS ===============================
 

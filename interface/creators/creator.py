@@ -1,22 +1,23 @@
 from PyQt6.QtWidgets import (
-    QCheckBox,
     QComboBox,
     QFrame,
     QGridLayout,
     QHBoxLayout,
-    QLabel,
     QLayout,
     QLineEdit,
-    QPushButton,
     QSizePolicy,
     QVBoxLayout,
     QWidget
 )
-from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 
 from helpers.finder import Finder
 from helpers.remover import Remover
+from interface.creators.widget_creators.button_creator import ButtonCreator
+from interface.creators.widget_creators.checkbox_creator import CheckboxCreator
+from interface.creators.widget_creators.dropdown_creator import DropdownCreator
+from interface.creators.widget_creators.input_creator import InputCreator
+from interface.creators.widget_creators.label_creator import LabelCreator
 from logic.config_generator import ConfigGenerator
 from logic.logger import logger as log
 from settings import settings as sett
@@ -59,6 +60,9 @@ class Creator:
     - finder: Finder
         Класс-находитель.
 
+    - generator: ConfigGenerator
+        Класс, меняющий конфиги на лету.
+
     - mandatory_fields: list[str]
         Поля, обязательные для заполнения.
 
@@ -80,6 +84,18 @@ class Creator:
         Создает контейнер для размещения виджетов и раполагает его на текущем
         окне или другом контейнере.
 
+    - show_response(values, post_message, only_keys, pre_message)
+        Используя конфиг генератор, добавляет в текущий конфиг виджеты для
+        отображения результатов и вызывает метод обновления окна.
+
+    - hide_response()
+        Используя генератор конфигов удаляет результат предыдущей работы с
+        окна ввода.
+
+    - update_dependent_layouts(name, selected_value)
+        Обновляет окно при выборе другого значения, которое меняет расположение
+        виджетов.
+
     Private methods
     ---------------
     - __add_widgets(layout, layout_type, widgets_configs, columns)
@@ -88,42 +104,18 @@ class Creator:
 
     - __create_widget(config, layout, row, column)
         В зависимости от типа виджета (взятого из его конфига), вызывает
-        соответствующий метод создания виджета и возвращает созданный виджет.
-        Если вместо виджета передан контейнер, вызывает заново метод
+        соответствующий класс для создания виджета и возвращает созданный
+        виджет. Если вместо виджета передан контейнер, вызывает заново метод
         create_widget_layout().
 
     - __create_layout(layout_config)
         Создает и возвращает объект контейнера в зависимости от его типа,
         указанного в его конфиге.
 
-    - __create_label(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QLabel.
-
-    - __create_input(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QLineEdit.
-
-    - __create_checkbox(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QCheckBox.
-
-    - __create_button(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QPushButton.
-
-    - __create_dropdown(config)
-        Создает, настраивает по переданному конфигу и возвращает виджет типа
-        QComboBox.
-
     - __get_widget_pos(current_row, current_col, col_amount, widget_pos)
         Виджеты, располоагающиеся на контейнере типа "сетка", имеют в конфиге
         указание по своему расположению в строке. В зависимости от этого
         параметра высчитываем новые координаты виджета в сетке.
-
-    - __update_dependent_layouts(name, selected_value)
-        Обновляет окно при выборе другого значения, которое меняет расположение
-        виджетов.
 
     - __check_if_widget_is_active(config)
         Проверяет, активен ли виджет при текщих изменяющих значениях.
@@ -150,7 +142,7 @@ class Creator:
         self.current_changing_values: dict[str, str] = {}
         self.remover: Remover = Remover()
         self.finder: Finder = Finder()
-        self.generator = ConfigGenerator()
+        self.generator: ConfigGenerator = ConfigGenerator()
         self.mandatory_fields: list[str] = []
         self.main_layout = None
 
@@ -305,7 +297,7 @@ class Creator:
 
         self.config = new_config
 
-        self.__update_dependent_layouts()
+        self.update_dependent_layouts()
 
     def hide_response(self) -> None:
         """
@@ -316,15 +308,46 @@ class Creator:
         new_config = self.generator.remove_result_from_config(self.config)
         self.config = new_config
 
-        self.__update_dependent_layouts()
+        self.update_dependent_layouts()
 
-    def update(self) -> None:
+    def update_dependent_layouts(
+        self,
+        name: str = None,
+        selected_value: str = None
+    ) -> None:
         """
-        Публичный метод для обновления окна, который служит для вызова
-        приватного метода.
+        Метод обновления зависимых контейнеров. Переписывает дефолтные
+        значения для новой отрисовки. Очищает, (но не удаляет) основной
+        контейнер с отрисованными виджетами. Создает новый. Перерисовывает все
+        элементы окна с новыми дефолтными параметрами с нуля.
+
+        Parameters
+        ----------
+        - name: str
+            Имя изменяющего виджета.
+
+        - selected_value: str
+            Новое выбранное значение.
         """
 
-        self.__update_dependent_layouts()
+        log.info(sett.RERENDER_LAYOUTS)
+        if name and selected_value:
+            self.default_values[name] = selected_value
+
+        self.remover.clear_layout(
+            self.main_layout
+        )
+
+        self.layout_parents = {}
+        self.dependencies = {}
+
+        self.__add_widgets(
+            self.main_layout,
+            self.config[sett.LAYOUT][sett.TYPE],
+            self.config[sett.LAYOUT][sett.WIDGETS]
+        )
+
+        self.parent_window.adjustSize()
 
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
@@ -472,15 +495,23 @@ class Creator:
             # прописанного в конфиге.
             match config.get(sett.TYPE):
                 case sett.WIDGET_TYPE_LABEL:
-                    widget = self.__create_label(config)
+                    widget, mandatory_field = LabelCreator.create_label(config)
+                    if mandatory_field:
+                        self.mandatory_fields.append(mandatory_field)
                 case sett.WIDGET_TYPE_INPUT:
-                    widget = self.__create_input(config)
+                    widget = InputCreator.create_input(config, self)
                 case sett.WIDGET_TYPE_BUTTON:
-                    widget = self.__create_button(config)
+                    widget = ButtonCreator.create_button(
+                        config,
+                        self.parent_window
+                    )
                 case sett.WIDGET_TYPE_DROPDOWN:
-                    widget = self.__create_dropdown(config)
+                    widget = DropdownCreator.create_dropdown(config, self)
                 case sett.WIDGET_TYPE_CHECKBOX:
-                    widget = self.__create_checkbox(config)
+                    widget = CheckboxCreator.create_checkbox(
+                        config,
+                        self.parent_window
+                    )
                 case _:
                     widget = None
             # Возвращаем созданный и сконфигурированный виджет.
@@ -535,287 +566,6 @@ class Creator:
 
             return layout
         return None
-
-    def __create_label(self, config: dict) -> QLabel:
-        """
-        Создает, конфигурирует и возвращает объект лейбла.
-
-        Parameters
-        ----------
-        - config: dict
-            Конфиг, по которому будет создан и сконфигурирован лейбл.
-
-        Returns
-        -------
-        - label: QLabel
-            Объект созданного лейбла
-        """
-
-        log.info(sett.CREATE_WIDGET.format(sett.LABEL, config[sett.TEXT]))
-        label = QLabel()
-        font = QFont()
-        for param, value in config.items():
-            match param:
-                case sett.TEXT:
-                    label.setText(value)
-                case sett.TEXT_SIZE:
-                    font.setPointSize(config[sett.TEXT_SIZE])
-                case sett.BOLD:
-                    font.setBold(True)
-                case sett.ALIGN:
-                    # Определяет расположение текста внутри лейбла.
-                    if config[sett.ALIGN] == sett.ALIGN_CENTER:
-                        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                    if config[sett.ALIGN] == sett.ALIGN_LEFT:
-                        label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-                    if config[sett.ALIGN] == sett.ALIGN_RIGHT:
-                        label.setAlignment(Qt.AlignmentFlag.AlignRight)
-                case sett.MANDATORY:
-                    # Добавляет звездочку в начале текста, если в конфиге
-                    # Лейбл помечен как обязательный.
-                    text = f"*{config[sett.TEXT]}"
-                    label.setText(text)
-                    self.mandatory_fields.append(config[sett.MANDATORY])
-                case sett.WIDTH:
-                    label.setFixedWidth(int(value))
-                case sett.HEIGHT:
-                    label.setFixedHeight(int(value))
-                case sett.BACKGROUND:
-                    styleSheet = sett.BG_COLOR.format(value)
-                    label.setStyleSheet(styleSheet)
-
-        label.setFont(font)
-        return label
-
-    def __create_input(self, config: dict) -> QLineEdit:
-        """
-        Создает, конфигурирует и возвращает объект поля для ввода.
-
-        Parameters
-        ----------
-        - config: dict
-            Конфиг, по которому будет создано и сконфигурировано поле для
-            ввода.
-
-        Returns
-        -------
-        - input_field: QLineEdit
-            Объект созданного поля для ввода.
-        """
-
-        log.info(sett.CREATE_INPUT_FIELD)
-        input_field = QLineEdit()
-        for param, value in config.items():
-            match param:
-                case sett.WIDTH:
-                    input_field.setFixedWidth(int(value))
-                case sett.HEIGHT:
-                    input_field.setFixedHeight(int(value))
-                case sett.DEFAULT_VALUE:
-                    input_field.setPlaceholderText(value)
-                case sett.HIDE:
-                    # Прячет вводимые символы (для чувствительных данных).
-                    input_field.setEchoMode(QLineEdit.EchoMode.Password)
-                case sett.DISABLED:
-                    input_field.setEnabled(False)
-
-        # Пытаемся получить данные из поля для ввода.
-        try:
-            self.input_fields.get(
-                config[sett.NAME]
-            ).text()
-
-        # Если поле для ввода уже было создано до этого и потом было очищено,
-        # то оно уже мертво и выскакивает ошибка RuntimeError. Отлавливаем
-        # ошибку и удаляем поле.
-        except RuntimeError:
-            self.input_fields.pop(config[sett.NAME], None)
-
-        # Если поле для ввода, еще не было создано, то у нас NoneType и оно не
-        # имеет метода text(), о чем говорит ошибка AttributeError. Дальше все
-        # равно идет проверка на существование поля, поэтому ошибку просто
-        # игнорируем.
-        except AttributeError:
-            pass
-
-        # Если в поле для ввода уже были внесены даные, то при
-        # перерисовке окна они будут перезаписаны.
-        if (
-            self.input_fields and
-            self.input_fields.get(config[sett.NAME]) and
-            self.input_fields.get(
-                config[sett.NAME]
-            ).text() != sett.EMPTY_STRING
-        ):
-
-            input_field.setText(
-                self.input_fields[config[sett.NAME]].text()
-            )
-
-        self.input_fields[config[sett.NAME]] = input_field
-        return input_field
-
-    def __create_checkbox(self, config: dict) -> QCheckBox:
-        """
-        Создает, конфигурирует и возвращает объект чекбокса.
-
-        Parameters
-        ----------
-        - config: dict
-            Конфиг, по которому будет создан и сконфигурирован чекбокс.
-
-        Returns
-        -------
-        - checkbox: QCheckBox
-            Объект созданного чекбокса.
-        """
-
-        log.info(sett.CREATE_WIDGET.format(sett.CHECKBOX, config[sett.NAME]))
-        checkbox = QCheckBox()
-        for param, value in config.items():
-            match param:
-                case sett.TEXT:
-                    checkbox.setText(value)
-                case sett.CALLBACK:
-                    # Привязка метода, который будет вызван при
-                    # активации/деактивации чекбокса.
-                    self.parent_window.connect_callback(
-                        checkbox,
-                        value,
-                        config.get(sett.PARAMS, {}),
-                        self.parent_window
-                    )
-        return checkbox
-
-    def __create_button(self, config: dict) -> QPushButton:
-        """
-        Создает, конфигурирует и возвращает объект кнопки.
-
-        Parameters
-        ----------
-        - config: dict
-            Конфиг, по которому будет создана и сконфигурирована кнопка.
-
-        Returns
-        -------
-        - button: QPushButton
-            Объект созданной кнопки.
-        """
-
-        log.info(sett.CREATE_WIDGET.format(sett.BUTTON, config[sett.TEXT]))
-        button = QPushButton(config[sett.TEXT])
-        for param, value in config.items():
-            match param:
-                case sett.WIDTH:
-                    button.setFixedWidth(int(value))
-                case sett.HEIGHT:
-                    button.setFixedHeight(int(value))
-                case sett.CALLBACK:
-                    self.parent_window.connect_callback(
-                        button,
-                        value,
-                        config.get(sett.PARAMS, {}),
-                        self.parent_window
-                    )
-
-        # Активирует кнопку, только если в ее конфиге есть коллбэк.
-        button.setObjectName(config[sett.TEXT])
-        if sett.CALLBACK not in config:
-            button.setEnabled(False)
-        return button
-
-    def __create_dropdown(self, config: dict):
-        """
-        Создает, конфигурирует и возвращает объект выпадающего списка.
-
-        Parameters
-        ----------
-        - config: dict
-            Конфиг, по которому будет создан и сконфигурирован выпадающий
-            список.
-
-        Returns
-        -------
-        - dropdown: QComboBox
-            Объект созданного выпадающего списка.
-        """
-
-        dropdown = QComboBox()
-        name = config[sett.NAME]
-        if not self.default_values.get(name):
-            self.default_values[name] = config[sett.DEFAULT_VALUE]
-        for param, value in config.items():
-            log.info(
-                sett.CREATE_WIDGET.format(sett.DROPDOWN, config[sett.NAME])
-            )
-            match param:
-                case sett.OPTIONS:
-                    # Настройка вариантов выбора
-                    if value.get(sett.ALWAYS):
-                        dropdown.addItems(value[sett.ALWAYS])
-                    else:
-                        dropdown.addItems(value[self.current_changing_value])
-                case sett.WIDTH:
-                    dropdown.setFixedWidth(int(value))
-                case sett.HEIGHT:
-                    dropdown.setFixedHeight(int(value))
-                case sett.DISABLED:
-                    dropdown.setEnabled(False)
-
-        dropdown.setObjectName(config[sett.NAME])
-
-        # Если выпадающий список является меняющим виджеты на окне, то
-        # оставляем как есть. В противном случае пытаемся сохранить выбранное
-        # значение. Значение останется выбранным, если такое поле есть в новом
-        # окне и если уже выбранное значение является одним из возможных
-        # вариантов выбора в новом окне.
-        if sett.CHANGE_WIDGETS not in config.keys():
-
-            # Пытаемся получить данные из поля для выбора.
-            try:
-                self.chosen_fields.get(
-                    config[sett.NAME]
-                ).currentText()
-
-            # Если поле для выбора уже было создано до этого и потом было
-            # очищено, то оно уже мертво и выскакивает ошибка RuntimeError.
-            # Отлавливаем ошибку и удаляем поле.
-            except RuntimeError:
-                self.chosen_fields.pop(config[sett.NAME], None)
-
-            # Если поле для ввода, еще не было создано, то у нас NoneType и
-            # оно не имеет метода currentText(), о чем говорит ошибка
-            # AttributeError. Дальше все равно идет проверка на существование
-            # поля, поэтому ошибку просто игнорируем.
-            except AttributeError:
-                pass
-
-            if (
-                self.chosen_fields and
-                self.chosen_fields.get(config[sett.NAME]) and
-                self.chosen_fields.get(
-                    config[sett.NAME]
-                ).currentText() != sett.EMPTY_STRING
-            ):
-
-                dropdown.setCurrentText(
-                    self.chosen_fields[config[sett.NAME]].currentText()
-                )
-        else:
-            dropdown.setCurrentText(self.default_values[name])
-
-        self.chosen_fields[config[sett.NAME]] = dropdown
-
-        # Если выпадающий список является меняющим, то задаем метод, который
-        # будет срабатывать при смене выбора этого списка.
-        if config.get(sett.CHANGE_WIDGETS):
-            dropdown.currentIndexChanged.connect(
-                lambda index: self.__update_dependent_layouts(
-                    config[sett.NAME],
-                    dropdown.itemText(index)
-                )
-            )
-        return dropdown
 
     def __get_widget_pos(
         self,
@@ -885,45 +635,6 @@ class Creator:
                 return current_row, current_col
 
         return current_row, current_col
-
-    def __update_dependent_layouts(
-        self,
-        name: str = None,
-        selected_value: str = None
-    ) -> None:
-        """
-        Метод обновления зависимых контейнеров. Переписывает дефолтные
-        значения для новой отрисовки. Очищает, (но не удаляет) основной
-        контейнер с отрисованными виджетами. Создает новый. Перерисовывает все
-        элементы окна с новыми дефолтными параметрами с нуля.
-
-        Parameters
-        ----------
-        - name: str
-            Имя изменяющего виджета.
-
-        - selected_value: str
-            Новое выбранное значение.
-        """
-
-        log.info(sett.RERENDER_LAYOUTS)
-        if name and selected_value:
-            self.default_values[name] = selected_value
-
-        self.remover.clear_layout(
-            self.main_layout
-        )
-
-        self.layout_parents = {}
-        self.dependencies = {}
-
-        self.__add_widgets(
-            self.main_layout,
-            self.config[sett.LAYOUT][sett.TYPE],
-            self.config[sett.LAYOUT][sett.WIDGETS]
-        )
-
-        self.parent_window.adjustSize()
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """

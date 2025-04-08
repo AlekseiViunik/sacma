@@ -62,10 +62,10 @@ if __name__ == "__main__":
     if sett.PRODUCTION_MODE_ON:
         protector = Protector(
             deadline=datetime(
-                sett.PROTECTION_YEAR,
-                sett.PROTECTION_MONTH,
-                sett.PROTECTION_DAY,
-                sett.PROTECTION_HOUR,
+                sett.PROTECTION_4,
+                sett.PROTECTION_2,
+                sett.PROTECTION_1,
+                sett.PROTECTION_3,
                 sett.SET_TO_ZERO,
                 sett.SET_TO_ZERO
             )

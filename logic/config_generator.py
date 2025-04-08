@@ -252,6 +252,7 @@ class ConfigGenerator:
                     sett.TYPE: sett.LABEL,
                     sett.TEXT: pre_message,
                     sett.TEXT_SIZE: sett.SPECIAL_FONT_SIZE,
+                    sett.BOLD: sett.SET_TO_ONE,
                     sett.ALIGN: sett.ALIGN_CENTER
                 }
             )
