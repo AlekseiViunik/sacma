@@ -68,7 +68,7 @@ class StartWindow(BaseWindow):
         if self.settings_window.exec():
             self.excel_handler.close_excel()
             self.excel_handler.open_excel()
-            self.creator.update()
+            self.creator.update_dependent_layouts()
 
     def open_input_window(self, params: dict[str, str]) -> None:
         """
@@ -120,7 +120,7 @@ class StartWindow(BaseWindow):
             default_config = self.config_json_handler.get_all_data()
             self._add_greetings_to_config(default_config)
             self.creator.config = default_config
-            self.creator.update()
+            self.creator.update_dependent_layouts()
 
     def change_password(self) -> None:
         """

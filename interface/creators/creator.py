@@ -1,5 +1,4 @@
 from PyQt6.QtWidgets import (
-    QCheckBox,
     QComboBox,
     QFrame,
     QGridLayout,
@@ -15,6 +14,7 @@ from PyQt6.QtCore import Qt
 from helpers.finder import Finder
 from helpers.remover import Remover
 from interface.creators.widget_creators.button_creator import ButtonCreator
+from interface.creators.widget_creators.checkbox_creator import CheckboxCreator
 from interface.creators.widget_creators.dropdown_creator import DropdownCreator
 from interface.creators.widget_creators.input_creator import InputCreator
 from interface.creators.widget_creators.label_creator import LabelCreator
@@ -319,13 +319,44 @@ class Creator:
 
         self.update_dependent_layouts()
 
-    def update(self) -> None:
+    def update_dependent_layouts(
+        self,
+        name: str = None,
+        selected_value: str = None
+    ) -> None:
         """
-        Публичный метод для обновления окна, который служит для вызова
-        приватного метода.
+        Метод обновления зависимых контейнеров. Переписывает дефолтные
+        значения для новой отрисовки. Очищает, (но не удаляет) основной
+        контейнер с отрисованными виджетами. Создает новый. Перерисовывает все
+        элементы окна с новыми дефолтными параметрами с нуля.
+
+        Parameters
+        ----------
+        - name: str
+            Имя изменяющего виджета.
+
+        - selected_value: str
+            Новое выбранное значение.
         """
 
-        self.update_dependent_layouts()
+        log.info(sett.RERENDER_LAYOUTS)
+        if name and selected_value:
+            self.default_values[name] = selected_value
+
+        self.remover.clear_layout(
+            self.main_layout
+        )
+
+        self.layout_parents = {}
+        self.dependencies = {}
+
+        self.__add_widgets(
+            self.main_layout,
+            self.config[sett.LAYOUT][sett.TYPE],
+            self.config[sett.LAYOUT][sett.WIDGETS]
+        )
+
+        self.parent_window.adjustSize()
 
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
@@ -480,12 +511,16 @@ class Creator:
                     widget = InputCreator.create_input(config, self)
                 case sett.WIDGET_TYPE_BUTTON:
                     widget = ButtonCreator.create_button(
-                        config, self.parent_window
+                        config,
+                        self.parent_window
                     )
                 case sett.WIDGET_TYPE_DROPDOWN:
                     widget = DropdownCreator.create_dropdown(config, self)
                 case sett.WIDGET_TYPE_CHECKBOX:
-                    widget = self.__create_checkbox(config)
+                    widget = CheckboxCreator.create_checkbox(
+                        config,
+                        self.parent_window
+                    )
                 case _:
                     widget = None
             # Возвращаем созданный и сконфигурированный виджет.
@@ -540,38 +575,6 @@ class Creator:
 
             return layout
         return None
-
-    def __create_checkbox(self, config: dict) -> QCheckBox:
-        """
-        Создает, конфигурирует и возвращает объект чекбокса.
-
-        Parameters
-        ----------
-        - config: dict
-            Конфиг, по которому будет создан и сконфигурирован чекбокс.
-
-        Returns
-        -------
-        - checkbox: QCheckBox
-            Объект созданного чекбокса.
-        """
-
-        log.info(sett.CREATE_WIDGET.format(sett.CHECKBOX, config[sett.NAME]))
-        checkbox = QCheckBox()
-        for param, value in config.items():
-            match param:
-                case sett.TEXT:
-                    checkbox.setText(value)
-                case sett.CALLBACK:
-                    # Привязка метода, который будет вызван при
-                    # активации/деактивации чекбокса.
-                    self.parent_window.connect_callback(
-                        checkbox,
-                        value,
-                        config.get(sett.PARAMS, {}),
-                        self.parent_window
-                    )
-        return checkbox
 
     def __get_widget_pos(
         self,
@@ -641,45 +644,6 @@ class Creator:
                 return current_row, current_col
 
         return current_row, current_col
-
-    def update_dependent_layouts(
-        self,
-        name: str = None,
-        selected_value: str = None
-    ) -> None:
-        """
-        Метод обновления зависимых контейнеров. Переписывает дефолтные
-        значения для новой отрисовки. Очищает, (но не удаляет) основной
-        контейнер с отрисованными виджетами. Создает новый. Перерисовывает все
-        элементы окна с новыми дефолтными параметрами с нуля.
-
-        Parameters
-        ----------
-        - name: str
-            Имя изменяющего виджета.
-
-        - selected_value: str
-            Новое выбранное значение.
-        """
-
-        log.info(sett.RERENDER_LAYOUTS)
-        if name and selected_value:
-            self.default_values[name] = selected_value
-
-        self.remover.clear_layout(
-            self.main_layout
-        )
-
-        self.layout_parents = {}
-        self.dependencies = {}
-
-        self.__add_widgets(
-            self.main_layout,
-            self.config[sett.LAYOUT][sett.TYPE],
-            self.config[sett.LAYOUT][sett.WIDGETS]
-        )
-
-        self.parent_window.adjustSize()
 
     def __check_if_widget_is_active(self, config: dict) -> bool:
         """
