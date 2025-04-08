@@ -54,6 +54,9 @@ class LabelCreator:
                         label.setAlignment(Qt.AlignmentFlag.AlignLeft)
                     if label_config[sett.ALIGN] == sett.ALIGN_RIGHT:
                         label.setAlignment(Qt.AlignmentFlag.AlignRight)
+                case sett.ALIGNV:
+                    if label_config[sett.ALIGNV] == sett.ALIGN_CENTER:
+                        label.setAlignment(Qt.AlignmentFlag.AlignVCenter)
                 case sett.MANDATORY:
                     # Добавляет звездочку в начале текста, если в конфиге
                     # Лейбл помечен как обязательный.

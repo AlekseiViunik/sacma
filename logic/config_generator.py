@@ -62,7 +62,8 @@ class ConfigGenerator:
                         sett.TYPE: sett.LABEL,
                         sett.TEXT: greeting,
                         sett.TEXT_SIZE: sett.SPECIAL_FONT_SIZE,
-                        sett.ALIGN: sett.ALIGN_LEFT
+                        sett.ALIGN: sett.ALIGN_LEFT,
+                        sett.ALIGNV: sett.ALIGN_CENTER
                     },
                     {
                         sett.TYPE: sett.BUTTON,
