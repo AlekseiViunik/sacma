@@ -16,6 +16,7 @@ from helpers.remover import Remover
 from interface.creators.widget_creators.button_creator import ButtonCreator
 from interface.creators.widget_creators.checkbox_creator import CheckboxCreator
 from interface.creators.widget_creators.dropdown_creator import DropdownCreator
+from interface.creators.widget_creators.image_creator import ImageCreator
 from interface.creators.widget_creators.input_creator import InputCreator
 from interface.creators.widget_creators.label_creator import LabelCreator
 from logic.config_generator import ConfigGenerator
@@ -512,6 +513,8 @@ class Creator:
                         config,
                         self.parent_window
                     )
+                case sett.IMAGE:
+                    widget = ImageCreator.create_image(config)
                 case _:
                     widget = None
             # Возвращаем созданный и сконфигурированный виджет.
@@ -555,6 +558,9 @@ class Creator:
                 layout_config[sett.ALIGN] == sett.ALIGN_CENTER
             ):
                 layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+            if sett.SETSPACING in layout_config.keys():
+                layout.setSpacing(layout_config[sett.SETSPACING])
 
             # Если контейнер зависим, то записываем/перезаписываем его как
             # словарь типа "имя контейнера - объект контейнера" в словарь по
