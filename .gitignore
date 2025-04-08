@@ -179,3 +179,9 @@ cython_debug/
 # configs
 configs/users_configs/user_main_data.json
 auth.json
+
+# images
+*.png
+*.jpg
+*.jpeg
+*.ico
