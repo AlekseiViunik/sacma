@@ -1,6 +1,6 @@
 PYTHON = python
 PYINSTALLER = $(PYTHON) -m PyInstaller
-ICON = files/icons/cartman32.ico
+ICON = files/icons/logo_s.ico
 MAIN_FILE = main.py
 SPEC_FILE = main.spec
 BUILD_DIR = build
