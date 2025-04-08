@@ -1,0 +1,156 @@
+{
+    "window_title": "SACMA",
+    "window_width": 450,
+    "window_height": 300,
+    "layout": {
+        "type": "vertical",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Fiancate",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/fiancate_window.json"
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Travi",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/travi_window.json"
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Tasselli",
+                            "width": 150,
+                            "height": 40,
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Satellitare",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/satellitare_window.json"
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Pianetti",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/pianetti_window.json"
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Grigliato",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/grigliato_window.json"
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Travi di battuta",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/travi_di_battuta_window.json"
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Angolari per automatici",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/angolari_per_automatici_window.json"
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Gravità leggera",
+                            "width": 150,
+                            "height": 40,
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Option di sicurezza",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_input_window",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/option_di_sicurezza_window.json"
+                            },
+                            "column": "middle"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Impostazioni",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_settings"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Create user",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "open_register"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Created by Aleksei Viunik",
+                            "align": "center",
+                            "text_size": 12,
+                            "width": 220,
+                            "height": 40
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

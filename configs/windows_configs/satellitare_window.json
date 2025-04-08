@@ -1,0 +1,139 @@
+{
+    "window_title": "Satellitare",
+    "window_width": 500,
+    "window_height": 200,
+    "layout": {
+        "type": "vertical",
+        "name": "base_layout",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "changing",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Tipo",
+                            "width": 100,
+                            "height": 20,
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "width": 300,
+                            "height": 20,
+                            "name": "type",
+                            "default_value": "AUTOMHA",
+                            "options": {"always": ["AUTOMHA", "Altro"]},
+                            "change_widgets": 1,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "main_layout",
+                    "depends_on": "type",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Elemento",
+                            "width": 100,
+                            "height": 20,
+                            "column": "first",
+                            "active_when": ["AUTOMHA"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "element",
+                            "width": 300,
+                            "height": 20,
+                            "default_value": "2.0",
+                            "column": "current",
+                            "active_when": ["AUTOMHA"],
+                            "options": {
+                                "AUTOMHA": ["Profilo a 'Z' 50x190x60x2", "Profilo a 'Z' 50x190x60x2.5","Profilo a 'Z' 50x190x60x3", "Profilo a 'Z' 50x190x60x3.5"]
+                            }
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last",
+                            "active_when": ["AUTOMHA"]
+                        },
+                        {
+                            "type": "label",
+                            "text": "Elemento",
+                            "width": 100,
+                            "height": 20,
+                            "column": "first",
+                            "active_when": ["Altro"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "element",
+                            "width": 300,
+                            "height": 20,
+                            "default_value": "45",
+                            "active_when": ["Altro"],
+                            "options": {
+                                "Altro": [
+                                    "Battute posteriori per pallet e satellite",
+                                    "Battute posteriori solo pallet",
+                                    "Angolare zincato di fissaggio 'Z'",
+                                    "Mensola di ingresso",
+                                    "Giunti",
+                                    "Inviti satellitare",
+                                    "DISTANZIALI L=1368mm"
+                                ]
+                            },
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last",
+                            "active_when": ["Altro"]
+                        }
+                    ]        
+                }
+            },
+            {
+                "layout": {
+                    "type":"grid",
+                    "columns": 3,
+                    "name": "bottom_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Invia",
+                            "height": 40,
+                            "callback": "handle_start_button",
+                            "params": {},
+                            "column": "last"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

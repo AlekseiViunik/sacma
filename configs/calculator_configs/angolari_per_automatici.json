@@ -1,0 +1,24 @@
+{
+    "choices": {
+        "worksheet": "Angolari per automatici",
+        "rules":{
+            "length": {
+                "exists": 1,
+                "numeric": 1
+            }
+        },
+        "cells_input": {
+            "section": "B3",
+            "thickness": "B5",
+            "length": "B7"
+        },
+        "cells_output": {
+            "price": "E3",
+            "weight": "E5",
+            "development": "B9"
+        },
+        "roundings": {
+            "development": "0.001"
+        }
+    }
+}

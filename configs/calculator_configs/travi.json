@@ -1,0 +1,98 @@
+{
+    "choices": {
+        "TG": {
+            "worksheet": "Listino travi",
+            "rules":{
+                "height": {
+                    "min": 70,
+                    "max": 170
+                },
+                "length": {
+                    "exists": 1,
+                    "numeric": 1,
+                    "min": 1200,
+                    "max": 3600
+                }
+            },
+            "cells_input": {
+                "height": "B4",
+                "base": "B6",
+                "thickness": "B8",
+                "length": "B12",
+                "special_hook": "B14",
+                "amount": "B16"
+            },
+            "cells_output": {
+                "price": "E4",
+                "weight": "E6"
+            }
+        },
+        "SAT":{
+            "worksheet": "Listino travi",
+            "rules": {
+                "length": {
+                    "exists": 1,
+                    "numeric": 1
+                }
+            },
+            "cells_input": {
+                "height": "B21",
+                "thickness": "B23",
+                "support": "B27",
+                "length": "B29",
+                "special_hook": "B31",
+                "amount": "B33"
+            },
+            "cells_output": {
+                "price": "E21",
+                "weight": "E23"
+            }
+        },
+        "APERTE":{
+            "worksheet": "Listino travi",
+            "rules":{
+                "height": {
+                    "min": 70,
+                    "max": 170
+                },
+                "length": {
+                    "exists": 1,
+                    "numeric": 1,
+                    "min": 1200,
+                    "max": 3600
+                }
+            },
+            "cells_input": {
+                "height": "B37",
+                "base": "B39",
+                "thickness": "B41",
+                "length": "B45",
+                "special_hook": "B47",
+                "amount": "B49"
+            },
+            "cells_output": {
+                "price": "E37",
+                "weight": "E39"
+            }
+        },
+        "PORTA SKID":{
+            "worksheet": "Listino travi",
+            "rules":{
+                "length": {
+                    "exists": 1,
+                    "numeric": 1
+                }
+            },
+            "cells_input":{
+                "height": "B53",
+                "base": "B55",
+                "thickness": "B57",
+                "length": "B61"
+            },
+            "cells_output":{
+                "price": "E53",
+                "weight": "E55"
+            }
+        }
+    }
+}

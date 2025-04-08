@@ -1,0 +1,114 @@
+{
+    "window_title": "Option di sicurezza",
+    "window_width": 500,
+    "window_height": 150,
+    "layout": {
+        "type": "vertical",
+        "name": "base_layout",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "changing",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Tipo",
+                            "width": 100,
+                            "height": 20,
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "width": 300,
+                            "height": 20,
+                            "name": "type",
+                            "default_value": "PARACOLPI",
+                            "options": {"always": ["PARACOLPI", "GUARDRAIL"]},
+                            "change_widgets": 1,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "name": "main_layout",
+                    "depends_on": "type",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Tipo elemento",
+                            "width": 100,
+                            "height": 20,
+                            "column": "first",
+                            "active_when": ["PARACOLPI", "GUARDRAIL"]
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "element_type",
+                            "width": 300,
+                            "height": 20,
+                            "default_value": "Frontale per montante serie 80",
+                            "column": "current",
+                            "active_when": ["PARACOLPI", "GUARDRAIL"],
+                            "options": {
+                                "PARACOLPI": [
+                                    "Frontale per montante serie 80",
+                                    "Frontale per montante serie 100",
+                                    "Angolare per monttante serie 80/100 H=400mm",
+                                    "Angolare frontale tipo Metelli"
+                                ],
+                                "GUARDRAIL": [
+                                    "Bifronte (2 paracolpi + Sigma 255x3)",
+                                    "Monofronte (2 paracolpi + Sigma 255x3)"
+                                ]
+                            }
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "last",
+                            "active_when": ["PARACOLPI", "GUARDRAIL"]
+                        }
+                    ]        
+                }
+            },
+            {
+                "layout": {
+                    "type":"grid",
+                    "columns": 3,
+                    "name": "bottom_layout",
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "first"
+                        },
+                        {
+                            "type": "label",
+                            "text": "",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Invia",
+                            "height": 40,
+                            "callback": "handle_start_button",
+                            "params": {},
+                            "column": "last"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

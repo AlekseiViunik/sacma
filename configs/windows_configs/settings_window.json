@@ -1,0 +1,62 @@
+{
+    "window_title": "Impostazioni",
+    "window_width": 450,
+    "window_height": 150,
+    "layout": {
+        "type": "vertical",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 3,
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Select excel file:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "excel_path",
+                            "default_value": "Enter the path",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Browse",
+                            "callback": "browse_file",
+                            "height": 40,
+                            "params": {
+                                "target_input": "excel_path"
+                            },
+                            "column": "last"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "callback": "save_settings",
+                            "width": 150,
+                            "height": 40
+                        },
+                        {
+                            "type": "button",
+                            "text": "Cancel",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "close_window"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

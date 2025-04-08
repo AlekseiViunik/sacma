@@ -170,6 +170,18 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# vscode
+.vscode/
 
 # Excel files
 *.xlsx
+
+# configs
+configs/users_configs/user_main_data.json
+auth.json
+
+# images
+*.png
+*.jpg
+*.jpeg
+*.ico
