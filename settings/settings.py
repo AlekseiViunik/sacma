@@ -1,5 +1,5 @@
 # ============================= PRODUCTION CONSTS =============================
-PRODUCTION_MODE_ON = True
+PRODUCTION_MODE_ON = False
 PROTECTION_MODE_ON = True
 PROTECTION_1 = 20
 PROTECTION_2 = 7
@@ -9,7 +9,7 @@ PROTECTION_4 = 2025
 
 # ============================== EXCEL SETTINGS ===============================
 
-EXCEL_VISIBILITY = False
+EXCEL_VISIBILITY = True
 EXCEL_DISPLAY_ALERTS = False
 EXCEL_SAVE_CHANGES = 0
 EXCEL_UPDATE_LINKS = 0
@@ -170,7 +170,7 @@ MULT_FAILED_MSG = "{0} should be multiple of {1}. You have {2}"
 EXISTS_FAILED_MSG = "{0} field should not be empty"
 EXCEPTION_MSG_TEMPLATE = "{0}: {1} in {2}() at {3}:{4}"
 DIAGONALS_TRAVERSE = "n_diagonals_{0} == n_traverse_{0} - 1"
-GREETING_MSG = "{0}, {1}!"
+GREETING_MSG = "{0} {1}!"
 
 # =========================== STATIC DICTIONARY KEYS ==========================
 
