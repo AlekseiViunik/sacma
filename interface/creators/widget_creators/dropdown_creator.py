@@ -9,6 +9,15 @@ if TYPE_CHECKING:
 
 
 class DropdownCreator:
+    """
+    Класс для создания выпадающих списков.
+
+    Methods
+    -------
+    - create_dropdown(dropdown_config, parent_window)
+        Создает выпадающий список по заданному конфигу и возвращает его
+        объект.
+    """
 
     @staticmethod
     def create_dropdown(

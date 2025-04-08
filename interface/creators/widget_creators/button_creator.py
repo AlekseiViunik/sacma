@@ -9,6 +9,14 @@ if TYPE_CHECKING:
 
 
 class ButtonCreator:
+    """
+    Класс для создания кнопок.
+
+    Methods
+    -------
+    - create_button(button_config, parent_window)
+        Создает кнопку по заданному конфигу и возвращает ее объект.
+    """
 
     @staticmethod
     def create_button(

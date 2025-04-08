@@ -7,6 +7,14 @@ from settings import settings as sett
 
 
 class LabelCreator:
+    """
+    Класс для создания лейблов.
+
+    Methods
+    -------
+    - create_label(label_config)
+        Создает лейбл по заданному конфигу и возвращает его объект.
+    """
 
     @staticmethod
     def create_label(label_config: dict) -> tuple[QLabel, str | None]:

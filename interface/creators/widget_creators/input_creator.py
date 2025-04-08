@@ -9,6 +9,14 @@ if TYPE_CHECKING:
 
 
 class InputCreator:
+    """
+    Класс для создания полей для ввода.
+
+    Methods
+    -------
+    - create_input(input_config, creator)
+        Создает поле для ввода по заданному конфигу и возвращает его объект.
+    """
 
     @staticmethod
     def create_input(

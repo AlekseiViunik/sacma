@@ -9,6 +9,14 @@ if TYPE_CHECKING:
 
 
 class CheckboxCreator:
+    """
+    Класс для создания чекбоксов.
+
+    Methods
+    -------
+    - create_checkbox(checkbox_config, parent_window)
+        Создает чекбокс по заданному конфигу и возвращает его объект.
+    """
 
     @staticmethod
     def create_checkbox(
