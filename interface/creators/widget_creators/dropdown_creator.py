@@ -14,7 +14,7 @@ class DropdownCreator:
     def create_dropdown(
         dropdown_config: dict,
         creator: "Creator"
-    ) -> tuple[QComboBox, str | None]:
+    ) -> QComboBox:
         """
         Создает, конфигурирует и возвращает объект выпадающего списка.
 
