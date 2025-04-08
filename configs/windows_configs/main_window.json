@@ -2,6 +2,7 @@
     "window_title": "SACMA",
     "window_width": 450,
     "window_height": 300,
+    "size_blocker": 1,
     "layout": {
         "type": "vertical",
         "widgets": [
@@ -143,12 +144,6 @@
                     "setSpacing": -5,
                     "align": "center",
                     "widgets": [
-                        {
-                            "type": "image",
-                            "path": "files/icons/logo_sacma5.png",
-                            "align": "center"
-                            
-                        },
                         {
                             "type": "label",
                             "text": "Created by Aleksei Viunik",
