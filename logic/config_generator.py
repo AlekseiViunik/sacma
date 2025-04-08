@@ -132,7 +132,7 @@ class ConfigGenerator:
             response, only_keys, pre_message, post_mssage
         )
         config_where_to_add: list = config[sett.LAYOUT][sett.WIDGETS]
-        config_where_to_add.insert(sett.MINUS_ONE, config_to_add)
+        config_where_to_add.insert(sett.MINUS_TWO, config_to_add)
         self.__disable_fields(config)
         self.__change_button(
             config, sett.FORWARD_IT, sett.HANDLE_FORWARD_BUTTON_METHOD
@@ -174,11 +174,17 @@ class ConfigGenerator:
 
         return config
 
+    def add_logo_to_config(self, config, place):
+        logo_config = self.__generate_logo_config()
+        return self.add_new_layout_to_config(
+            config, logo_config, place
+        )
+
     def add_new_layout_to_config(
         self,
         config: dict[str, Any],
         new_layout_config: dict[str, Any],
-        place: int
+        place: int = -100
     ):
         """
         Добавляет конфиг нового контейнера в текущий конфиг на конкретное
@@ -197,7 +203,7 @@ class ConfigGenerator:
             Если -1, то добавляет в конец списка.
         """
 
-        if place == -1:
+        if place == -100:
             config[sett.LAYOUT][sett.WIDGETS].append(new_layout_config)
         else:
             config[sett.LAYOUT][sett.WIDGETS].insert(place, new_layout_config)
@@ -415,3 +421,20 @@ class ConfigGenerator:
                         bottom_widget[sett.TEXT] = new_name
                         bottom_widget[sett.CALLBACK] = new_method
                         break
+
+    def __generate_logo_config(self) -> dict:
+        return {
+            sett.LAYOUT: {
+                sett.TYPE: sett.LAYOUT_TYPE_VERTICAL,
+                sett.NAME: sett.LOGO,
+                sett.ALIGN: sett.ALIGN_CENTER,
+                sett.SETSPACING: sett.SET_TO_ZERO,
+                sett.WIDGETS: [
+                    {
+                        sett.TYPE: sett.IMAGE,
+                        sett.PATH: sett.LOGO_PATH,
+                        sett.ALIGN: sett.ALIGN_CENTER
+                    }
+                ]
+            }
+        }
