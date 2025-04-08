@@ -23,7 +23,7 @@ class LabelCreator:
 
         Parameters
         ----------
-        - config: dict
+        - label_config: dict
             Конфиг, по которому будет создан и сконфигурирован лейбл.
 
         Returns
