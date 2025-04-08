@@ -81,10 +81,12 @@ if __name__ == "__main__":
     from interface.start_window import StartWindow
     import sys
 
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("sacma.app")
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
+        sett.SACMA_APP
+    )
 
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("files/icons/logo_s.ico"))
+    app.setWindowIcon(QIcon(sett.ICON_PATH))
 
     if sett.PRODUCTION_MODE_ON:
         logger.info(sett.TRYING_LOGIN)

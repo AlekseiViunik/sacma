@@ -268,6 +268,7 @@ LOGO = "logo"
 AUTHOR = "author"
 SETSPACING = "setSpacing"
 SIZE_BLOCKER = "size_blocker"
+SACMA_APP = "sacma.app"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -407,6 +408,7 @@ CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
 # =============================== LOGO PATHS ==================================
 
 LOGO_PATH = "files/icons/logo_sacma.png"
+ICON_PATH = "files/icons/logo_s.ico"
 
 # ============================ ITALIAN STR CONSTS =============================
 PRICE_IT = "Prezzo"
