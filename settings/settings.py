@@ -260,6 +260,12 @@ GREETING = "greeting"
 CHANGE_PASS = "Change\nPassword"
 LOGOUT = "Logout"
 SIGNORI = "Signor(a) "
+IMAGE = "image"
+PATH = "path"
+SCALED_CONTENTS = "scaled_contents"
+LOGO = "logo"
+AUTHOR = "author"
+SETSPACING = "setSpacing"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -382,7 +388,7 @@ DICTIONARY = {
     "n_holes": "N fori",
 }
 
-# =============================== FILE PATHS ==================================
+# =============================== JSON PATHS ==================================
 AUTH_FILE = "auth.json"
 SETTINGS_FILE = "settings.json"
 LOGIN_WINDOW_CONFIG_FILE = "configs/windows_configs/login_window.json"
@@ -394,6 +400,10 @@ USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
 CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
+
+# =============================== LOGO PATHS ==================================
+
+LOGO_PATH = "files/icons/logo_sacma4.png"
 
 # ============================ ITALIAN STR CONSTS =============================
 PRICE_IT = "Prezzo"
