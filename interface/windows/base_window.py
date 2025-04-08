@@ -227,17 +227,17 @@ class BaseWindow(QWidget):
             )
         elif sett.DAY_HOUR <= current_hour < sett.EVENING_HOUR:
             greeting = sett.GREETING_MSG.format(
-                sett.GOOD_MORNING,
+                sett.GOOD_AFTERNOON,
                 name
             )
         elif sett.EVENING_HOUR <= current_hour < sett.NIGHT_HOUR:
             greeting = sett.GREETING_MSG.format(
-                sett.GOOD_MORNING,
+                sett.GOOD_EVENING,
                 name
             )
         else:
             greeting = sett.GREETING_MSG.format(
-                sett.GOOD_MORNING,
+                sett.GOOD_NIGHT,
                 name
             )
 
