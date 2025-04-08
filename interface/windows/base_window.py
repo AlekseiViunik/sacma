@@ -217,28 +217,28 @@ class BaseWindow(QWidget):
             Конфиг, в который добавляется приветствие.
         """
         current_hour = datetime.now().hour
-        surname = sett.SIGNORI + self.userdata.get(
-            sett.SURNAME, sett.EMPTY_STRING
+        name = self.userdata.get(
+            sett.NAME, sett.EMPTY_STRING
         )
         if sett.MORNING_HOUR <= current_hour < sett.DAY_HOUR:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,
-                surname
+                name
             )
         elif sett.DAY_HOUR <= current_hour < sett.EVENING_HOUR:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,
-                surname
+                name
             )
         elif sett.EVENING_HOUR <= current_hour < sett.NIGHT_HOUR:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,
-                surname
+                name
             )
         else:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,
-                surname
+                name
             )
 
         return ConfigGenerator().add_greetings_to_config(
