@@ -1,3 +1,5 @@
+import ctypes
+
 from datetime import datetime
 
 from handlers.excel_handler import ExcelHandler
@@ -78,6 +80,8 @@ if __name__ == "__main__":
     from PyQt6.QtGui import QIcon
     from interface.start_window import StartWindow
     import sys
+
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("sacma.app")
 
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("files/icons/logo_s.ico"))
