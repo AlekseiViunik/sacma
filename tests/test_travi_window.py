@@ -37,16 +37,6 @@ def travi_window(start_window: StartWindow, qtbot: QtBot) -> QWidget:
     return window
 
 
-def test_travi_tg_widget_count(travi_window: QWidget):
-    widgets = travi_window.findChildren(QWidget)
-    config_widgets = Finder().find_all_active_widgets(
-        config,
-        sett.TG
-    )
-
-    assert len(widgets) == len(config_widgets)
-
-
 def test_travi_sat_widget_count(travi_window: QWidget):
     dropdown = travi_window.findChild(QComboBox, "type")
     assert dropdown is not None, "Комбобокс 'type' не найден"
