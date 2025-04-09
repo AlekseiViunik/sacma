@@ -50,8 +50,9 @@ if __name__ == "__main__":
             sys.exit()
 
         excel_handler = ExcelHandler()
-        excel_handler.open_excel()
-        app.aboutToQuit.connect(excel_handler.close_excel)
+        if not sett.TEST_GUI:
+            excel_handler.open_excel()
+            app.aboutToQuit.connect(excel_handler.close_excel)
         main_window = StartWindow(
             username=username,
             excel_handler=excel_handler

@@ -1,6 +1,7 @@
 # ============================= PRODUCTION CONSTS =============================
 PRODUCTION_MODE_ON = False
 PROTECTION_MODE_ON = True
+TEST_GUI = True
 PROTECTION_1 = 20
 PROTECTION_2 = 7
 PROTECTION_3 = 7
