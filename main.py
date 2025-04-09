@@ -8,6 +8,7 @@ from interface.windows.login_window import LoginWindow
 from interface.windows.settings_window import SettingsWindow
 from logic.logger import logger, check_log_size
 from logic.protector import Protector
+from logic.config_protector import ConfigProtector
 from settings import settings as sett
 
 
@@ -53,6 +54,11 @@ if __name__ == "__main__":
         if not sett.TEST_GUI:
             excel_handler.open_excel()
             app.aboutToQuit.connect(excel_handler.close_excel)
+            app.aboutToQuit.connect(
+                lambda: ConfigProtector.protect_all_json_files(
+                    sett.CONFIGS_FOLDER
+                )
+            )
         main_window = StartWindow(
             username=username,
             excel_handler=excel_handler
@@ -90,6 +96,7 @@ if __name__ == "__main__":
     app.setWindowIcon(QIcon(sett.ICON_PATH))
 
     if sett.PRODUCTION_MODE_ON:
+        ConfigProtector.protect_all_json_files(sett.CONFIGS_FOLDER)
         logger.info(sett.TRYING_LOGIN)
         login_window = LoginWindow()
         if login_window.exec():
@@ -100,5 +107,6 @@ if __name__ == "__main__":
             sys.exit()
 
     else:
+        ConfigProtector.unprotect_all_json_files(sett.CONFIGS_FOLDER)
         logger.info(sett.NEW_APP_START)
         launch_app(username=sett.ALEX)
