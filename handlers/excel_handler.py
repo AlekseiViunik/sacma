@@ -1,3 +1,4 @@
+import gc
 import win32com.client
 import win32com.client as win32
 
@@ -208,9 +209,13 @@ class ExcelHandler:
 
         log.info(sett.CLOSE_EXCEL)
         # Закрытие книги, если открыта
+        if self.sheet:
+            self.sheet = None
+
         if self.wb:
             try:
                 self.wb.Close(SaveChanges=sett.EXCEL_SAVE_CHANGES)
+                self.wb = None
             except Exception as e:
                 Helper.log_exception(e)
 
@@ -218,8 +223,11 @@ class ExcelHandler:
         if self.excel:
             try:
                 self.excel.Quit()
+                self.excel = None
             except Exception as e:
                 Helper.log_exception(e)
+
+        gc.collect()
 
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
