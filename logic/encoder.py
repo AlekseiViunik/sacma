@@ -1,6 +1,9 @@
 import json
 import random
 
+from logic.logger import logger as log
+from settings import settings as sett
+
 
 class Encoder:
     """
@@ -41,15 +44,17 @@ class Encoder:
         """
 
         # Загружаем словарь дешифровки
-        with open("configs/encryption.json", "r", encoding="utf-8") as f:
-            decryption = json.load(f)["decription"]
+        with open(
+            sett.ENCRYPTION_FILE, sett.FILE_READ, encoding=sett.STR_CODING
+        ) as f:
+            decryption: dict = json.load(f)[sett.DECRYPTION]
 
         decrypted_text = []
 
         for line in data:
             chunks = [line[i:i+5] for i in range(0, len(line), 5)]
             decoded = ''.join(
-                decryption.get(code, '?') for code in chunks
+                decryption.get(code, sett.QUESTION_MARK) for code in chunks
             ).rstrip()
             decrypted_text.append(decoded)
 
@@ -57,7 +62,8 @@ class Encoder:
         try:
             return json.loads(''.join(decrypted_text))
         except json.JSONDecodeError:
-            return {"error": "Failed to decode JSON"}
+            log.error(sett.FAILED_TO_DECODE)
+            return {sett.ERROR: sett.FAILED_TO_DECODE}
 
     def encrypt_data(self, data_dict):
         """
@@ -75,22 +81,24 @@ class Encoder:
             Список строк, содержащих зашифрованные данные.
         """
 
-        with open("configs/encryption.json", "r", encoding="utf-8") as f:
-            encryption = json.load(f)["encryption"]
+        with open(
+            sett.ENCRYPTION_FILE, sett.FILE_READ, encoding=sett.STR_CODING
+        ) as f:
+            encryption = json.load(f)[sett.ENCRYPTION]
 
         json_lines = json.dumps(
-            data_dict, indent=4, ensure_ascii=False
+            data_dict, indent=sett.INDENT, ensure_ascii=False
         ).splitlines()
 
         encrypted_lines = []
 
         for line in json_lines:
-            line = line.ljust(100)[:100]
+            line = line.ljust(sett.HUNDRED)[:sett.HUNDRED]
             encrypted_line = [
                 random.choice(
-                    encryption.get(ch, encryption[" "])
+                    encryption.get(ch, encryption[sett.SPACE_SYMBOL])
                 ) for ch in line
             ]
-            encrypted_lines.append("".join(encrypted_line))
+            encrypted_lines.append(sett.EMPTY_STRING.join(encrypted_line))
 
         return encrypted_lines

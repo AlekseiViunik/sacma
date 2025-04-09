@@ -304,17 +304,26 @@ class ConfigGenerator:
                 (title == sett.PRICE_IT and value) or
                 (title == sett.PREPARATION_IT and value)
             ):
-                value = f"{str(value)} {sett.EURO_SYMBOL}"
+                value = sett.CONCAT_TWO_MSGS(
+                    str(value),
+                    sett.EURO_SYMBOL
+                )
             elif title == sett.WEIGHT_IT and value:
-                value = f"{str(value)} {sett.KILO_SYMBOL}"
+                value = sett.CONCAT_TWO_MSGS(
+                    str(value),
+                    sett.KILO_SYMBOL
+                )
             elif title == sett.DEVELOPMENT_IT and value:
-                value = f"{str(value)} {sett.METERS_SYMBOL}"
+                value = sett.CONCAT_TWO_MSGS(
+                    str(value),
+                    sett.METERS_SYMBOL
+                )
             elif (
                 title == sett.PRICE_IT or title == sett.WEIGHT_IT
             ) and not value:
                 value = sett.NOT_FOUND_IT
 
-            title = f"{title}: "
+            title = sett.ADD_COLON.format(title)
 
             response_widgets.append(
                 {

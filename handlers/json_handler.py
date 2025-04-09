@@ -184,7 +184,7 @@ class JsonHandler:
                     print(e)
 
             json.dump(
-                data, f, indent=4, ensure_ascii=False
+                data, f, indent=sett.INDENT, ensure_ascii=False
             )
 
         if sett.PRODUCTION_MODE_ON:

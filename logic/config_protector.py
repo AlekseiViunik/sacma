@@ -58,6 +58,7 @@ class ConfigProtector:
         - folder_path: str
             Путь к папке, содержащей файлы JSON, с которых нужно убрать защиту.
         """
+
         for root, _, files in os.walk(folder_path):
             for file in files:
                 if file.endswith(".json"):
@@ -67,4 +68,4 @@ class ConfigProtector:
 
 if __name__ == "__main__":
     # Example usage
-    ConfigProtector.set_read_only("configs/users_configs/user_main_data.json")
+    ConfigProtector.set_read_only("configs/encryption.json")
