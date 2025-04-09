@@ -39,7 +39,7 @@ class Authenticator:
     """
 
     def __init__(self) -> None:
-        self.file_handler: JsonHandler = JsonHandler(sett.AUTH_FILE)
+        self.file_handler: JsonHandler = JsonHandler(sett.AUTH_FILE, True)
 
     def load_users(self) -> dict:
         """
