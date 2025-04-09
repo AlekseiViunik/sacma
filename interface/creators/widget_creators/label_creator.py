@@ -65,7 +65,7 @@ class LabelCreator:
                 # Лейбл помечен как обязательный.
                 case sett.MANDATORY:
                     text = sett.MANDATORY_FIELD_LABEL.format(
-                        {label_config[sett.TEXT]}
+                        label_config[sett.TEXT]
                     )
                     label.setText(text)
                     mandatory_field = label_config[sett.MANDATORY]
