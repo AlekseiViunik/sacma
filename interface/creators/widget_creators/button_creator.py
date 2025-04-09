@@ -55,6 +55,10 @@ class ButtonCreator:
                         button_config.get(sett.PARAMS, {}),
                         parent_window
                     )
+                case sett.ALLOWED_TO_GROUPS:
+                    user_group = parent_window.userdata.get(sett.GROUP)
+                    if user_group not in value:
+                        button.setEnabled(False)
 
         # Активирует кнопку, только если в ее конфиге есть коллбэк.
         button.setObjectName(button_config[sett.TEXT])
