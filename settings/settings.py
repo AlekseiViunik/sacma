@@ -394,6 +394,7 @@ DICTIONARY = {
 }
 
 # =============================== JSON PATHS ==================================
+CONFIGS_FOLDER = "configs"
 AUTH_FILE = "configs/auth.json"
 SETTINGS_FILE = "configs/settings.json"
 LOGIN_WINDOW_CONFIG_FILE = "configs/windows_configs/login_window.json"
