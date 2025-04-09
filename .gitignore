@@ -185,3 +185,7 @@ auth.json
 *.jpg
 *.jpeg
 *.ico
+
+# encoder
+encryption.json
+keys_generator.py

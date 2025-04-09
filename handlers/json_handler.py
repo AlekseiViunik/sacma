@@ -6,7 +6,9 @@ from PyQt6.QtWidgets import QLineEdit
 from typing import Any
 
 from interface.windows.messagebox import Messagebox
+from logic.encoder import Encoder
 from logic.logger import logger as log
+from logic.config_protector import ConfigProtector
 from settings import settings as sett
 
 
@@ -18,6 +20,12 @@ class JsonHandler:
     ----------
     - file_path: str
         Путь к файлу JSON
+
+    - is_encoded: bool
+        Флаг, указывающий, закодирован ли файл.
+
+    - encoder: Encoder
+        Экземпляр класса Encoder для шифрования/дешифрования данных.
 
     Methods
     -------
@@ -42,8 +50,10 @@ class JsonHandler:
         приложение работает как ехе файл.
     """
 
-    def __init__(self, file_path: str) -> None:
+    def __init__(self, file_path: str, is_encoded: bool = False) -> None:
         self.file_path: str = sett.EMPTY_STRING
+        self.is_encoded: bool = is_encoded
+        self.encoder = Encoder()
 
         self.set_file_path(file_path)
 
@@ -65,7 +75,17 @@ class JsonHandler:
                     sett.FILE_READ,
                     encoding=sett.STR_CODING
                 ) as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    if self.is_encoded:
+                        # Если файл закодирован, то сначала его нужно
+                        # расшифровать.
+                        data = self.encoder.decrypt_data(data)
+                if isinstance(data, list):
+                    # Если данные в файле - это список, то преобразуем его в
+                    # словарь.
+                    return data[sett.SET_TO_ZERO]
+                return data
+
             except FileNotFoundError:
                 Messagebox.show_messagebox(
                     sett.FILE_NOT_FOUND,
@@ -136,25 +156,39 @@ class JsonHandler:
         - data: dict
             Данные, которыми будет перезаписан файл.
         """
+
+        ConfigProtector.unset_read_only(self.file_path)
+
         log.info(sett.JSON_REWRITE_FILE)
         with open(
             self.file_path,
             sett.FILE_WRITE,
             encoding=sett.STR_CODING
         ) as f:
+            data = {
+                # Иногда в качестве значений может быть объект QLineEdit, а
+                # нам нужно введенное в это поле значение. В таком случае
+                # Передаем в создаваемый словарь его значение. В остальных
+                # случаях передаем непреобразованное значение.
+                key: field.text()
+                if isinstance(field, QLineEdit)
+                else field
+                for key, field in data.items()
+            }
+            if self.is_encoded:
+                # Если файл закодирован, то сначала его нужно
+                # зашифровать.
+                try:
+                    data = self.encoder.encrypt_data(data)
+                except Exception as e:
+                    print(e)
+
             json.dump(
-                {
-                    # Иногда в качестве значений может быть объект QLineEdit, а
-                    # нам нужно введенное в это поле значение. В таком случае
-                    # Передаем в создаваемый словарь его значение. В остальных
-                    # случаях передаем непреобразованное значение.
-                    key: field.text()
-                    if isinstance(field, QLineEdit)
-                    else field
-                    for key, field in data.items()
-                },
-                f, indent=4, ensure_ascii=False
+                data, f, indent=sett.INDENT, ensure_ascii=False
             )
+
+        if sett.PRODUCTION_MODE_ON:
+            ConfigProtector.set_read_only(self.file_path)
 
     def write_into_file(
         self,

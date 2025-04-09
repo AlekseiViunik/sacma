@@ -64,7 +64,9 @@ class LabelCreator:
                 # Добавляет звездочку в начале текста, если в конфиге
                 # Лейбл помечен как обязательный.
                 case sett.MANDATORY:
-                    text = f"*{label_config[sett.TEXT]}"
+                    text = sett.MANDATORY_FIELD_LABEL.format(
+                        {label_config[sett.TEXT]}
+                    )
                     label.setText(text)
                     mandatory_field = label_config[sett.MANDATORY]
                 case sett.WIDTH:

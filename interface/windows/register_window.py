@@ -102,7 +102,13 @@ class RegisterWindow(BaseWindow):
 
             # Проверка, совпадает ли введенный пароль с повторенным.
             if all_inputs[sett.PASSWORD] != all_inputs[sett.REPEAT_PASSWORD]:
-                log.error(f"{sett.CHECK_FAILED} {sett.REPEAT_IS_DIFFERENT}")
+
+                log.error(
+                    sett.CONCAT_TWO_MSGS.format(
+                        sett.CHECK_FAILED,
+                        sett.REPEAT_IS_DIFFERENT
+                    )
+                )
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.REPEAT_IS_DIFFERENT,
@@ -118,7 +124,12 @@ class RegisterWindow(BaseWindow):
                 all_inputs[sett.USERNAME],
                 all_inputs[sett.PASSWORD]
             ):
-                log.error(f"{sett.CREATION_FAILED} {sett.USER_EXISTS}")
+                log.error(
+                    sett.CONCAT_TWO_MSGS.format(
+                        sett.CREATION_FAILED,
+                        sett.USER_EXISTS
+                    )
+                )
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.USER_EXISTS,

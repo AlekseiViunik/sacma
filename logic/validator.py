@@ -82,7 +82,7 @@ class Validator:
             case sett.VALIDATION_NATURAL:
                 log.info(sett.SHOULD_BE_NATURAL)
                 if not str(value).isnumeric() or int(value) < 0:
-                    log.error(f"{value} is not natural")
+                    log.error(sett.IS_NOT_NATURAL.format(value))
                     return False
 
             case sett.VALIDATION_MULTIPLE:

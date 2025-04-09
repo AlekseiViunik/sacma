@@ -41,7 +41,7 @@ class LoginWindow(QDialog, BaseWindow):
     def __init__(self) -> None:
         super().__init__()
         self.username: str = sett.EMPTY_STRING
-        self.auth_json_handler: JsonHandler = JsonHandler(sett.AUTH_FILE)
+        self.auth_json_handler: JsonHandler = JsonHandler(sett.AUTH_FILE, True)
         self.auth_successful: bool = False
         self.auth: Authenticator = Authenticator()
 

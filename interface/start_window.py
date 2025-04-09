@@ -6,6 +6,7 @@ from interface.windows.input_window import InputWindow
 from interface.windows.login_window import LoginWindow
 from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
+from logic.config_generator import ConfigGenerator
 from logic.logger import logger as log
 from settings import settings as sett
 
@@ -51,9 +52,9 @@ class StartWindow(BaseWindow):
     ) -> None:
         super().__init__(username=username)
 
-        self.userdata = JsonHandler(sett.USER_MAIN_DATA_FILE).get_value_by_key(
-            self.username
-        )
+        self.userdata = JsonHandler(
+            sett.USER_MAIN_DATA_FILE, True
+        ).get_value_by_key(self.username)
 
         self.excel_handler = excel_handler
         self.init_ui()
@@ -114,11 +115,14 @@ class StartWindow(BaseWindow):
         if self.login_window.exec():
             self.username = self.login_window.username
             self.userdata = JsonHandler(
-                sett.USER_MAIN_DATA_FILE
+                sett.USER_MAIN_DATA_FILE, True
             ).get_value_by_key(self.username)
             self.show()
             default_config = self.config_json_handler.get_all_data()
             self._add_greetings_to_config(default_config)
+            default_config = ConfigGenerator().add_logo_to_config(
+                default_config, sett.MINUS_ONE
+            )
             self.creator.config = default_config
             self.creator.update_dependent_layouts()
 

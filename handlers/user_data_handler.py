@@ -23,7 +23,7 @@ class UserDataHandler:
 
     def __init__(self) -> None:
         self.auth_json_handler: JsonHandler = (
-            JsonHandler(sett.USER_MAIN_DATA_FILE)
+            JsonHandler(sett.USER_MAIN_DATA_FILE, True)
         )
 
     def add_new_user_data(self, user_data: dict) -> None:

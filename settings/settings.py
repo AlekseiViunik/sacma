@@ -1,6 +1,7 @@
 # ============================= PRODUCTION CONSTS =============================
 PRODUCTION_MODE_ON = False
 PROTECTION_MODE_ON = True
+TEST_GUI = True
 PROTECTION_1 = 20
 PROTECTION_2 = 7
 PROTECTION_3 = 7
@@ -119,6 +120,7 @@ EMPTY_FIELDS_ERROR = "One (or more) of the required fields is empty!"
 CHANGE_PASS_SUCCESS = "Password has been changed successfully!"
 USER_NOT_FOUND = "User not found!"
 UNKNOWN_ERROR = "Unknown error! Call the developer!"
+FAILED_TO_DECODE = "Failed to decode JSON"
 
 # ============================ LOG DYNAMIC MESSAGES ===========================
 
@@ -171,6 +173,9 @@ EXISTS_FAILED_MSG = "{0} field should not be empty"
 EXCEPTION_MSG_TEMPLATE = "{0}: {1} in {2}() at {3}:{4}"
 DIAGONALS_TRAVERSE = "n_diagonals_{0} == n_traverse_{0} - 1"
 GREETING_MSG = "{0} {1}!"
+MANDATORY_FIELD_LABEL = "*{0}"
+CONCAT_TWO_MSGS = "{0} {1}"
+ADD_COLON = "{0}: "
 
 # =========================== STATIC DICTIONARY KEYS ==========================
 
@@ -269,6 +274,8 @@ AUTHOR = "author"
 SETSPACING = "setSpacing"
 SIZE_BLOCKER = "size_blocker"
 SACMA_APP = "sacma.app"
+DECRYPTION = "decryption"
+ENCRYPTION = "encryption"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -287,6 +294,8 @@ STEP_DOWN = 1
 SPECIAL_FONT_SIZE = 16
 NON_STANDART_BUTTON_HEIGHT = 40
 NON_STANDART_BUTTON_WIDTH = 100
+INDENT = 4
+HUNDRED = 100
 
 # =============================== NAMES CONSTS ================================
 LABEL = "label"
@@ -393,8 +402,11 @@ DICTIONARY = {
 }
 
 # =============================== JSON PATHS ==================================
-AUTH_FILE = "auth.json"
-SETTINGS_FILE = "settings.json"
+
+JSON_EXTENSION = ".json"
+CONFIGS_FOLDER = "configs"
+AUTH_FILE = "configs/auth.json"
+SETTINGS_FILE = "configs/settings.json"
 LOGIN_WINDOW_CONFIG_FILE = "configs/windows_configs/login_window.json"
 REGISTER_WINDOW_CONFIG_FILE = "configs/windows_configs/register_window.json"
 MAIN_WINDOW_CONFIG_FILE = "configs/windows_configs/main_window.json"
@@ -404,6 +416,8 @@ USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
 CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
+ENCRYPTION_FILE = "configs/encryption.json"
+
 
 # =============================== LOGO PATHS ==================================
 
@@ -439,6 +453,7 @@ SPACE_SYMBOL = " "
 LEFT_BRACKET_SYMBOL = "("
 RIGHT_BRACKET_SYMBOL = ")"
 METERS_SYMBOL = "m"
+QUESTION_MARK = "?"
 
 # ============================ REGEX PATTERNS =================================
 FLOAT_REGEX = r"\d+(,\d+)?"
