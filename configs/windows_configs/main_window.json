@@ -125,7 +125,17 @@
                             "text": "Impostazioni",
                             "width": 150,
                             "height": 40,
+                            "button_color": "#628713",
                             "callback": "open_settings"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Delete user",
+                            "allowed_to_groups": ["admins"],
+                            "width": 150,
+                            "height": 40,
+                            "button_color": "#628713",
+                            "callback": "open_delete_user"
                         },
                         {
                             "type": "button",
@@ -133,6 +143,7 @@
                             "allowed_to_groups": ["admins"],
                             "width": 150,
                             "height": 40,
+                            "button_color": "#628713",
                             "callback": "open_register"
                         }
                     ]
