@@ -318,6 +318,8 @@ SIZE_BLOCKER = "size_blocker"
 SACMA_APP = "sacma.app"
 DECRYPTION = "decryption"
 ENCRYPTION = "encryption"
+ALLOWED_TO_GROUPS = "allowed_to_groups"
+GROUP = "group"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
