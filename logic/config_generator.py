@@ -56,7 +56,6 @@ class ConfigGenerator:
             sett.LAYOUT: {
                 sett.TYPE: sett.LAYOUT_TYPE_HORIZONTAL,
                 sett.NAME: sett.GREETING,
-                sett.BORDER: sett.SET_TO_ONE,
                 sett.WIDGETS: [
                     {
                         sett.TYPE: sett.LABEL,
