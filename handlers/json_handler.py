@@ -8,6 +8,7 @@ from typing import Any
 from interface.windows.messagebox import Messagebox
 from logic.encoder import Encoder
 from logic.logger import logger as log
+from logic.config_protector import ConfigProtector
 from settings import settings as sett
 
 
@@ -155,6 +156,9 @@ class JsonHandler:
         - data: dict
             Данные, которыми будет перезаписан файл.
         """
+
+        ConfigProtector.unset_read_only(self.file_path)
+
         log.info(sett.JSON_REWRITE_FILE)
         with open(
             self.file_path,
@@ -182,6 +186,9 @@ class JsonHandler:
             json.dump(
                 data, f, indent=4, ensure_ascii=False
             )
+
+        if sett.PRODUCTION_MODE_ON:
+            ConfigProtector.set_read_only(self.file_path)
 
     def write_into_file(
         self,
