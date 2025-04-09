@@ -116,6 +116,17 @@ class RegisterWindow(BaseWindow):
                 )
                 return
 
+            if not Authenticator.check_password_strength(
+                all_inputs[sett.PASSWORD]
+            ):
+                log.error(sett.PASSWORD_IS_WEAK)
+                Messagebox.show_messagebox(
+                    sett.CREATION_FAILED,
+                    sett.PASSWORD_IS_WEAK,
+                    self
+                )
+                return
+
             # Юзернейм вынесен в отдельную переменную для вставки его в строку
             username = all_inputs[sett.USERNAME]
 

@@ -4,7 +4,7 @@ from helpers.authenticator import Authenticator
 from interface.windows.messagebox import Messagebox
 
 from .base_window import BaseWindow
-from logic.logger import logging as log
+from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -58,7 +58,7 @@ class ChangePassWindow(BaseWindow):
         пароль". В любом случае показывает окно с текстом об ошибке
         или успешной смене пароля.
         """
-
+        log.info(sett.TRYING_TO_CHANGE_PASS.format(self.username))
         old_pass = self.creator.input_fields[sett.OLD_PASSWORD].text()
         new_pass = self.creator.input_fields[sett.PASSWORD].text()
         repeat_pass = self.creator.input_fields[sett.REPEAT_PASSWORD].text()
@@ -67,6 +67,7 @@ class ChangePassWindow(BaseWindow):
             new_pass == sett.EMPTY_STRING or
             repeat_pass == sett.EMPTY_STRING
         ):
+            log.error(sett.EMPTY_FIELDS_ERROR)
             Messagebox.show_messagebox(
                 sett.CHANGE_PASS_ERROR,
                 sett.EMPTY_FIELDS_ERROR,
@@ -75,6 +76,7 @@ class ChangePassWindow(BaseWindow):
             return
 
         if not Authenticator.verify_user(self.username, old_pass):
+            log.error(sett.WRONG_OLD_PATH)
             Messagebox.show_messagebox(
                 sett.CHANGE_PASS_ERROR,
                 sett.WRONG_OLD_PATH,
@@ -83,9 +85,19 @@ class ChangePassWindow(BaseWindow):
             return
 
         if new_pass != repeat_pass:
+            log.error(sett.REPEAT_IS_DIFFERENT)
             Messagebox.show_messagebox(
                 sett.CHANGE_PASS_ERROR,
                 sett.REPEAT_IS_DIFFERENT,
+                self
+            )
+            return
+
+        if not Authenticator.check_password_strength(new_pass):
+            log.error(sett.PASSWORD_IS_WEAK)
+            Messagebox.show_messagebox(
+                sett.CHANGE_PASS_ERROR,
+                sett.PASSWORD_IS_WEAK,
                 self
             )
             return
