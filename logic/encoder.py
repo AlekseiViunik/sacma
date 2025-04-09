@@ -6,62 +6,40 @@ class Encoder:
     """
     Класс для шифрования и дешифрования текстовых файлов с использованием
     уникальных кодов.
+
+    Methods
+    -------
+    - decrypt_data(data)
+        Дешифрует данные, используя словарь дешифровки из файла
+        "configs/encryption.json".
+
+    - encrypt_data(data_dict)
+        Шифрует данные, используя словарь шифрования из файла
+        "configs/encryption.json".
     """
     def __init__(self):
         pass
-
-    def encrypt_file(self, file_path):
-        # Загружаем словарь шифрования
-        with open("encryption.json", "r", encoding="utf-8") as f:
-            enc_dict = json.load(f)["encryption"]
-
-        encrypted_lines = []
-
-        with open(file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.rstrip("\n")
-                line = line.ljust(100)[:100]
-                encrypted_line = [
-                    random.choice(
-                        enc_dict.get(ch, enc_dict[" "])
-                    ) for ch in line
-                ]
-                encrypted_lines.append("".join(encrypted_line))
-
-        # Запись в JSON
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(encrypted_lines, f, indent=4, ensure_ascii=False)
-
-    def decrypt_file(
-        self,
-        encrypted_file_path,
-        output_path="decrypted_file.json"
-    ):
-        # Загружаем словарь дешифровки
-        with open("encryption.json", "r", encoding="utf-8") as f:
-            decryption = json.load(f)["decription"]
-
-        # Загружаем зашифрованные строки
-        with open(encrypted_file_path, "r", encoding="utf-8") as f:
-            encrypted_lines = json.load(f)
-
-        decrypted_lines = []
-
-        for line in encrypted_lines:
-            chars = [line[i:i+5] for i in range(0, len(line), 5)]
-            decoded = ''.join(
-                decryption.get(code, '?') for code in chars
-            ).rstrip()
-            decrypted_lines.append(decoded)
-
-        # Сохраняем результат
-        with open(encrypted_file_path, "w", encoding="utf-8") as f:
-            f.write('\n'.join(decrypted_lines))
 
     def decrypt_data(
         self,
         data: list[str],
     ) -> dict:
+        """
+        Дешифрует данные, используя словарь дешифровки из файла
+        "configs/encryption.json".
+
+        Parameters
+        ----------
+        - data: list[str]
+            Список строк, содержащих закодированные данные.
+
+        Returns
+        -------
+        - _: dict
+            Дешифрованные данные в виде словаря. Если дешифровка не удалась,
+            возвращает словарь с ошибкой.
+        """
+
         # Загружаем словарь дешифровки
         with open("configs/encryption.json", "r", encoding="utf-8") as f:
             decryption = json.load(f)["decription"]
@@ -82,6 +60,21 @@ class Encoder:
             return {"error": "Failed to decode JSON"}
 
     def encrypt_data(self, data_dict):
+        """
+        Шифрует данные, используя словарь шифрования из файла
+        "configs/encryption.json".
+
+        Parameters
+        ----------
+        - data_dict: dict
+            Словарь данных, которые нужно зашифровать.
+
+        Returns
+        -------
+        - encrypted_lines: list[str]
+            Список строк, содержащих зашифрованные данные.
+        """
+
         with open("configs/encryption.json", "r", encoding="utf-8") as f:
             encryption = json.load(f)["encryption"]
 
@@ -101,7 +94,3 @@ class Encoder:
             encrypted_lines.append("".join(encrypted_line))
 
         return encrypted_lines
-
-
-if __name__ == "__main__":
-    pass
