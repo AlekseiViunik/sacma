@@ -320,6 +320,8 @@ DECRYPTION = "decryption"
 ENCRYPTION = "encryption"
 ALLOWED_TO_GROUPS = "allowed_to_groups"
 GROUP = "group"
+OPEN_DELETE_USER = "open_delete_user"
+BUTTON_COLOR = "button_color"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
