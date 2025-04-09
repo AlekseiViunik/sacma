@@ -130,6 +130,7 @@
                         {
                             "type": "button",
                             "text": "Create user",
+                            "allowed_to_groups": ["admins"],
                             "width": 150,
                             "height": 40,
                             "callback": "open_register"
