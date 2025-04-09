@@ -174,13 +174,35 @@ class ConfigGenerator:
 
         return config
 
-    def add_logo_to_config(self, config, place):
+    def add_logo_to_config(
+        self,
+        config: dict[str, Any],
+        place: int = -100
+    ) -> dict[str, Any]:
+        """
+        Добавляет логотип в конкретное место конфига.
+
+        Parameters
+        ----------
+        - config : dict[str, Any]
+            Конфиг, в который нужно добавить логотип.
+
+        - place : int
+            Позиция, на которую нужно добавить логотип.
+
+        Returns
+        -------
+        - config : dict[str, Any]
+            Конфиг, в который добавлен логотип.
+        """
         logo_config = self.__generate_logo_config()
-        return self.add_new_layout_to_config(
+        return self.__add_new_layout_to_config(
             config, logo_config, place
         )
 
-    def add_new_layout_to_config(
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
+    def __add_new_layout_to_config(
         self,
         config: dict[str, Any],
         new_layout_config: dict[str, Any],
@@ -209,8 +231,6 @@ class ConfigGenerator:
             config[sett.LAYOUT][sett.WIDGETS].insert(place, new_layout_config)
         return config
 
-    # ============================ Private Methods ============================
-    # -------------------------------------------------------------------------
     def __generate_response_config(
             self,
             response: dict[str, Any],
@@ -423,6 +443,15 @@ class ConfigGenerator:
                         break
 
     def __generate_logo_config(self) -> dict:
+        """
+        Просто возвращает конфиг контейнера с логотипом.
+
+        Returns
+        -------
+        - config : dict
+            Конфиг контейнера с логотипом.
+        """
+
         return {
             sett.LAYOUT: {
                 sett.TYPE: sett.LAYOUT_TYPE_VERTICAL,

@@ -22,6 +22,18 @@ class ChangePassWindow(BaseWindow):
         checkbox: QCheckBox,
         field: str = sett.PASSWORD
     ) -> None:
+        """
+        Метод для переключения режима отображения пароля в поле ввода.
+        Вызывается при активации/деактивации чекбокса "Показать пароль".
+
+        Parameters
+        ----------
+        - checkbox: QCheckBox
+            Чекбокс, который вызывает этот метод.
+        - field: str
+            Поле ввода, для которого нужно переключить режим отображения
+            пароля. По умолчанию - поле пароля.
+        """
 
         if checkbox.isChecked():
             if field == sett.PASSWORD:
@@ -41,6 +53,12 @@ class ChangePassWindow(BaseWindow):
             )
 
     def change_pass(self) -> None:
+        """
+        Метод для смены пароля. Вызывается при нажатии кнопки "Сменить
+        пароль". В любом случае показывает окно с текстом об ошибке
+        или успешной смене пароля.
+        """
+
         old_pass = self.creator.input_fields[sett.OLD_PASSWORD].text()
         new_pass = self.creator.input_fields[sett.PASSWORD].text()
         repeat_pass = self.creator.input_fields[sett.REPEAT_PASSWORD].text()
