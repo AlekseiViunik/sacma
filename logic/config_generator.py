@@ -304,17 +304,17 @@ class ConfigGenerator:
                 (title == sett.PRICE_IT and value) or
                 (title == sett.PREPARATION_IT and value)
             ):
-                value = sett.CONCAT_TWO_MSGS(
+                value = sett.CONCAT_TWO_MSGS.format(
                     str(value),
                     sett.EURO_SYMBOL
                 )
             elif title == sett.WEIGHT_IT and value:
-                value = sett.CONCAT_TWO_MSGS(
+                value = sett.CONCAT_TWO_MSGS.format(
                     str(value),
                     sett.KILO_SYMBOL
                 )
             elif title == sett.DEVELOPMENT_IT and value:
-                value = sett.CONCAT_TWO_MSGS(
+                value = sett.CONCAT_TWO_MSGS.format(
                     str(value),
                     sett.METERS_SYMBOL
                 )
