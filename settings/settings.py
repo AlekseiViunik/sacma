@@ -1,22 +1,46 @@
 # ============================= PRODUCTION CONSTS =============================
+
+# В продакшене просит залогиниться прежде всего.
+# Deafult: True
 PRODUCTION_MODE_ON = False
+
+# Защита должна быть всегда включена.
+# Default: True
 PROTECTION_MODE_ON = True
-TEST_GUI = True
-PROTECTION_1 = 20
-PROTECTION_2 = 7
-PROTECTION_3 = 7
-PROTECTION_4 = 2025
+
+# Включаем, если нужно тестировать GUI без екселя.
+# В таком случае вместо файла будет вставлена заглушка, которая не будет
+# открывать excel.
+# Default: False
+TEST_GUI = False
+
+PROTECTION_1 = 20  # День. Default: 20
+PROTECTION_2 = 7   # Месяц. Default: 7
+PROTECTION_3 = 7   # Час. Default: 7
+PROTECTION_4 = 2025  # Год. Default: 2025
 
 
 # ============================== EXCEL SETTINGS ===============================
 
-EXCEL_VISIBILITY = True
+# Делает, с которым работает программа, видимым.
+# Default: False
+EXCEL_VISIBILITY = False
+
+# Отображение предупреждений в Excel.
+# Default: False
 EXCEL_DISPLAY_ALERTS = False
+
+# Сохраняет изменения в файле Excel перед закрытием.
+# Default: 0
 EXCEL_SAVE_CHANGES = 0
+
+# Обновление ссылок при открытии файла Excel.
+# Default: 0
 EXCEL_UPDATE_LINKS = 0
 
 # ================================== LOGGING ==================================
 
+# Имя логгера. Default: "AppLogger"
 APP_LOGGER = "AppLogger"
 
 # Max number of the log file lines. Default: 20000
@@ -28,13 +52,22 @@ LOG_FILE_NAME = "app.log"
 # Log coding type. Default: "utf-8"
 STR_CODING = "utf-8"
 
+# Log folder name. Default: "logs"
 LOGS_FOLDER_NAME = "logs"
 
+# Формат логов.
+# Default: "%(asctime)s [%(levelname)s] %(message)s"
 LOGS_FORMAT = "%(asctime)s [%(levelname)s] %(message)s"
 
+# На один уровень вверх в пути к файлу/папке
 ONE_LEVEL_UP_FOLDER = ".."
 
+# Открытие файла для чтения
+# Default: "r"
 FILE_READ = "r"
+
+# Открытие файла для записи
+# Default: "w"
 FILE_WRITE = "w"
 
 # ============================= LOG STATIC MESSAGES ===========================
@@ -281,28 +314,28 @@ ENCRYPTION = "encryption"
 SECTION_I = "section_{0}"
 
 # =============================== NUMBER CONSTS ===============================
-MIDDLE_DETERMINANT_DIVIDER = 2
-TOP_LEFT_X = 40
-TOP_LEFT_Y = 50
-SET_TO_ZERO = 0
-SET_TO_ONE = 1
-SET_TO_TWO = 2
-MINUS_ONE = -1
-MINUS_TWO = -2
-STEP_UP = 1
-STEP_DOWN = 1
-SPECIAL_FONT_SIZE = 16
-NON_STANDART_BUTTON_HEIGHT = 40
-NON_STANDART_BUTTON_WIDTH = 100
-INDENT = 4
-HUNDRED = 100
+MIDDLE_DETERMINANT_DIVIDER = 2  # Default: 2
+TOP_LEFT_X = 40  # Default: 40
+TOP_LEFT_Y = 50  # Default: 50
+SET_TO_ZERO = 0  # Default: 0
+SET_TO_ONE = 1  # Default: 1
+SET_TO_TWO = 2  # Default: 2
+MINUS_ONE = -1  # Default: -1
+MINUS_TWO = -2  # Default: -2
+STEP_UP = 1  # Default: 1
+STEP_DOWN = 1  # Default: 1
+SPECIAL_FONT_SIZE = 16  # Default: 16
+NON_STANDART_BUTTON_HEIGHT = 40  # Default: 40
+NON_STANDART_BUTTON_WIDTH = 100  # Default: 100
+INDENT = 4  # Default: 4
+HUNDRED = 100  # Default: 100
 
 # =============================== NAMES CONSTS ================================
-LABEL = "label"
-BUTTON = "button"
-CHECKBOX = "checkbox"
-DROPDOWN = "dropdown"
-INPUT = "input"
+LABEL = "label"  # Default: "label"
+BUTTON = "button"  # Default: "button"
+CHECKBOX = "checkbox"  # Default: "checkbox"
+DROPDOWN = "dropdown"  # Default: "dropdown"
+INPUT = "input"  # Default: "input"
 
 # =============================== METHOD NAMES ================================
 CURRENT_TEXT_METHOD = "currentText"
