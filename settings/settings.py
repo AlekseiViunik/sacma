@@ -154,6 +154,14 @@ CHANGE_PASS_SUCCESS = "Password has been changed successfully!"
 USER_NOT_FOUND = "User not found!"
 UNKNOWN_ERROR = "Unknown error! Call the developer!"
 FAILED_TO_DECODE = "Failed to decode JSON"
+PASSWORD_IS_WEAK = (
+    "Password is weak! It should contain at least:\n"
+    "- 8 characters\n"
+    "- 1 Uppercase letter\n"
+    "- 1 Lowercase letter\n"
+    "- 1 Digit\n"
+    "- 1 Special character"
+)
 
 # ============================ LOG DYNAMIC MESSAGES ===========================
 
@@ -190,6 +198,7 @@ EXCEL_FILE_PATH = "Excel file path is {0}"
 EXCEL_LAUNCH_ERROR = "Launching excel error: {0}"
 WORKBOOK_OPENING_ERROR = "Didn't manage to open workbook: {0}"
 EXCEL_DATA_IS = "Excel data is {0}"
+TRYING_TO_CHANGE_PASS = "Trying to change pass for {0}"
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
@@ -329,6 +338,7 @@ NON_STANDART_BUTTON_HEIGHT = 40  # Default: 40
 NON_STANDART_BUTTON_WIDTH = 100  # Default: 100
 INDENT = 4  # Default: 4
 HUNDRED = 100  # Default: 100
+MIN_PASS_LENGTH = 8  # Default: 8
 
 # =============================== NAMES CONSTS ================================
 LABEL = "label"  # Default: "label"
@@ -492,7 +502,7 @@ QUESTION_MARK = "?"
 FLOAT_REGEX = r"\d+(,\d+)?"
 VARIABLE_REGEX = r"[a-zA-Z_][a-zA-Z0-9_]*"
 NUMBERS_N_OPERATORS_REGEX = r"^[0-9.\s()+\-*/]+$"
-
+SPECIAL_CHARS = "[!@#$%^&*()_+={}[]:;\"'<>?,./\\|`~]"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
 CHOSE_FILE = "Chose file"
 
