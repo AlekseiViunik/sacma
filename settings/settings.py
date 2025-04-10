@@ -152,6 +152,7 @@ CLOSE_EXCEL = "Close excel file"
 EMPTY_FIELDS_ERROR = "One (or more) of the required fields is empty!"
 CHANGE_PASS_SUCCESS = "Password has been changed successfully!"
 USER_NOT_FOUND = "User not found!"
+EMAIL_NOT_FOUND = "Email not found!"
 UNKNOWN_ERROR = "Unknown error! Call the developer!"
 FAILED_TO_DECODE = "Failed to decode JSON"
 PASSWORD_IS_WEAK = (
@@ -162,6 +163,8 @@ PASSWORD_IS_WEAK = (
     "- 1 Digit\n"
     "- 1 Special character"
 )
+TRYING_RECOVER_PASSWORD = "Trying to recover password"
+RECOVER_ERROR = "Couldn't recover password!"
 
 # ============================ LOG DYNAMIC MESSAGES ===========================
 
@@ -201,10 +204,18 @@ EXCEL_DATA_IS = "Excel data is {0}"
 TRYING_TO_CHANGE_PASS = "Trying to change pass for {0}"
 DELETE_USER_ERROR = "Couldn't delete user {0}: {1}"
 CANT_CLEAR_LOG = "Can't check or clear log {0}: {1}"
+MAIL_ERROR = "Mail error: {0}"
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
 DIAGONALS_CHECK_FAILED = "Error! Check diagonals and traverses amount!"
+RECOVER_PASS_SUBJECT = "Recover password"
+RECOVER_SUCCESS = "Done!"
+RECOVER_SUCCESS_MESSAGE = (
+    "Done! Check your email for the new password.\n"
+    "Check the spam folder if you don't see it in the inbox.\n"
+    "Don't forget to change it!"
+)
 
 # ============================== DYNAMIC MESSAGES =============================
 
@@ -327,6 +338,7 @@ BUTTON_COLOR = "button_color"
 GET_FROM_FILE = "get_from_file"
 FILE_PATH = "file_path"
 KEY = "key"
+EMAIL = "email"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -338,6 +350,8 @@ TOP_LEFT_Y = 50  # Default: 50
 SET_TO_ZERO = 0  # Default: 0
 SET_TO_ONE = 1  # Default: 1
 SET_TO_TWO = 2  # Default: 2
+SET_TO_TWELVE = 12  # Default: 12
+SET_TO_TWENTY = 20  # Default: 20
 MINUS_ONE = -1  # Default: -1
 MINUS_TWO = -2  # Default: -2
 STEP_UP = 1  # Default: 1
@@ -378,6 +392,9 @@ SECTION_CHECK = "section_check"
 BOTTOM_LAYOUT = "bottom_layout"
 CHANGE_PASS = "change_pass"
 DELETE_USER = "delete_user"
+FORGOT_PASS = "forgot_pass"
+REMEMBER_PASSWORD = "remember_password"
+OPEN_LOGIN = "open_login"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
@@ -513,6 +530,7 @@ FLOAT_REGEX = r"\d+(,\d+)?"
 VARIABLE_REGEX = r"[a-zA-Z_][a-zA-Z0-9_]*"
 NUMBERS_N_OPERATORS_REGEX = r"^[0-9.\s()+\-*/]+$"
 SPECIAL_CHARS = "[!@#$%^&*()_+={}[]:;\"'<>?,./\\|`~]"
+COMMON_SPECIAL_CHARS = "!@#$%^&*()_+"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
 CHOSE_FILE = "Chose file"
 
@@ -557,3 +575,33 @@ MORNING_HOUR = 6
 DAY_HOUR = 14
 EVENING_HOUR = 17
 NIGHT_HOUR = 22
+
+# =============================== MAIL SETTINGS ===============================
+
+SMTP_SERVER_KEY = "SMTP_SERVER"
+SMTP_PORT_KEY = "SMTP_PORT"
+EMAIL_ADDRESS_KEY = "EMAIL_ADDRESS"
+EMAIL_PASSWORD_KEY = "EMAIL_PASSWORD"
+SUBJECT = "Subject"
+FROM = "From"
+TO = "To"
+
+D_GREETING = "Good afternoon, {0}!"
+GREETING = "Good afternoon!"
+RECOVER_MAIL_MESSAGE = """
+        {0}
+
+        Вы запросили восстановление пароля.
+
+        Ваш временный пароль: {1}
+
+        Пожалуйста, измените его сразу после входа в систему.
+
+        Если это были не вы, то париться не очем. Злоумышленники не смогут
+        ничего сделать, поскольку личных данных мы не храним, БД у нас нет,
+        и вообще приложение не представляет серьезной ценности ни для кого
+        особо, кроме нас.
+
+        С уважением,
+        Ваша команда.
+        """

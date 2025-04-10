@@ -1,5 +1,5 @@
 {
-    "window_title": "Login",
+    "window_title": "Passaparola dimenticata",
     "window_width": 450,
     "window_height": 150,
     "layout": {
@@ -8,46 +8,33 @@
             {
                 "layout": {
                     "type": "grid",
-                    "columns": 3,
+                    "columns": 2,
                     "widgets": [
                         {
                             "type": "label",
-                            "text": "Enter username:",
+                            "text": "Metti il tuo username:",
                             "column": "first"
                         },
                         {
                             "type": "input",
                             "name": "username",
-                            "default_value": "Enter login",
+                            "default_value": "Enter your username",
                             "width": 250,
                             "height": 40,
                             "column": "current"
                         },
                         {
                             "type": "label",
-                            "text": "",
-                            "column": "first"
-                        },
-                        {
-                            "type": "label",
-                            "text": "Enter password:",
+                            "text": "Metti la tua email:",
                             "column": "first"
                         },
                         {
                             "type": "input",
-                            "name": "password",
-                            "default_value": "Enter password",
+                            "name": "email",
+                            "default_value": "Enter your email",
                             "width": 250,
                             "height": 40,
-                            "column": "current",
-                            "hide": 1
-                        },
-                        {
-                            "type": "checkbox",
-                            "name": "pass_hide",
-                            "text": "Show password",
-                            "column": "last",
-                            "callback": "toggle_password"
+                            "column": "current"
                         }
                     ]
                 }
@@ -58,19 +45,9 @@
                     "widgets": [
                         {
                             "type": "button",
-                            "text": "Try",
-                            "callback": "try_login",
+                            "text": "OK",
+                            "callback": "remember_password",
                             "params": {},
-                            "width": 150,
-                            "height": 40
-                        },
-                        {
-                            "type": "button",
-                            "text": "Forgot pass",
-                            "callback": "forgot_pass",
-                            "params": {
-                                "json_file_path": "configs/windows_configs/forgot_pass_window.json"
-                            },
                             "width": 150,
                             "height": 40
                         },

@@ -1,0 +1,101 @@
+from handlers.mail_handler import MailHandler
+from helpers.authenticator import Authenticator
+from interface.windows.messagebox import Messagebox
+from .base_window import BaseWindow
+from PyQt6.QtWidgets import QDialog
+from handlers.json_handler import JsonHandler
+from logic.logger import logger as log
+from logic.pass_generator import PassGenerator
+from settings import settings as sett
+
+
+class ForgotPasswordWindow(QDialog, BaseWindow):
+
+    def __init__(
+        self,
+        window_name: str,
+        file_path: str
+    ) -> None:
+        super().__init__(file_path)
+        self.window_name: str = window_name
+
+        self.init_ui()
+
+    def remember_password(self) -> None:
+        log.info(sett.TRYING_RECOVER_PASSWORD)
+        username = self.creator.input_fields[sett.USERNAME].text()
+        useremail = self.creator.input_fields[sett.EMAIL].text()
+        userdata_json_handler = JsonHandler(sett.USER_MAIN_DATA_FILE, True)
+        auth_json_handler = JsonHandler(sett.AUTH_FILE, True)
+
+        userdata = userdata_json_handler.get_all_data()
+        authdata = auth_json_handler.get_all_data()
+
+        if (
+            userdata.get(username) is None or
+            authdata[sett.USERS].get(username) is None
+        ):
+            Messagebox.show_messagebox(
+                    sett.RECOVER_ERROR,
+                    sett.USER_NOT_FOUND,
+                    None,
+                    exec=True
+                )
+            return
+
+        if (
+            userdata[username].get(sett.EMAIL) is None or
+            userdata[username].get(sett.EMAIL) == sett.EMPTY_STRING
+        ):
+            Messagebox.show_messagebox(
+                    sett.RECOVER_ERROR,
+                    sett.EMAIL_NOT_FOUND,
+                    None,
+                    exec=True
+                )
+            return
+
+        if userdata[username][sett.EMAIL] != useremail:
+            Messagebox.show_messagebox(
+                    sett.RECOVER_ERROR,
+                    sett.WRONG_CREDENTIALS,
+                    None,
+                    exec=True
+                )
+            return
+
+        temp_pass = PassGenerator.generate_password(sett.SET_TO_TWENTY)
+        hashed_temp_pass = Authenticator.hash_password(temp_pass)
+        mailer = MailHandler()
+
+        if sett.PRODUCTION_MODE_ON:
+            try:
+                mailer.send_mail(
+                    useremail,
+                    sett.RECOVER_PASS_SUBJECT,
+                    mailer.generate_recover_pass_message(
+                        userdata[username],
+                        temp_pass
+                    )
+                )
+            except Exception as e:
+                log.error(sett.MAIL_ERROR.format(e))
+                Messagebox.show_messagebox(
+                    sett.RECOVER_ERROR,
+                    sett.MAIL_ERROR.format(e),
+                    None,
+                    exec=True
+                )
+                return
+
+        authdata[sett.USERS][username] = hashed_temp_pass
+        auth_json_handler.rewrite_file(authdata)
+
+        Messagebox.show_messagebox(
+            sett.RECOVER_SUCCESS,
+            sett.RECOVER_SUCCESS_MESSAGE,
+            None,
+            type=sett.TYPE_INFO,
+            exec=True
+        )
+        self.close()
