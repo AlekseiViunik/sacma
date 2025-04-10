@@ -68,7 +68,9 @@
                             "type": "button",
                             "text": "Forgot pass",
                             "callback": "forgot_pass",
-                            "params": {},
+                            "params": {
+                                "json_file_path": "configs/windows_configs/forgot_pass_window.json"
+                            },
                             "width": 150,
                             "height": 40
                         },
