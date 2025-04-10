@@ -135,7 +135,10 @@
                             "width": 150,
                             "height": 40,
                             "button_color": "#628713",
-                            "callback": "open_delete_user"
+                            "callback": "open_delete_user",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/delete_user_window.json"
+                            }
                         },
                         {
                             "type": "button",
