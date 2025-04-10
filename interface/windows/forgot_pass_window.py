@@ -43,7 +43,10 @@ class ForgotPasswordWindow(QDialog, BaseWindow):
                 )
             return
 
-        if userdata[username].get(sett.EMAIL) is None:
+        if (
+            userdata[username].get(sett.EMAIL) is None or
+            userdata[username].get(sett.EMAIL) == sett.EMPTY_STRING
+        ):
             Messagebox.show_messagebox(
                     sett.RECOVER_ERROR,
                     sett.EMAIL_NOT_FOUND,
