@@ -1,5 +1,7 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox, QDialog
 
+from interface.windows.forgot_pass_window import ForgotPasswordWindow
+
 from .base_window import BaseWindow
 from .messagebox import Messagebox
 from handlers.json_handler import JsonHandler
@@ -110,3 +112,26 @@ class LoginWindow(QDialog, BaseWindow):
             self.creator.input_fields[sett.PASSWORD].setEchoMode(
                 QLineEdit.EchoMode.Password
             )
+
+    def forgot_password(self, params: dict) -> None:
+        """
+        Открывает окно восстановления пароля.
+
+        Parameters
+        ----------
+        - params: dict
+            Параметры для кнопки окна открытия. По сути содержат пока что
+            только одно значение - путь к файлу с конфигом этого окна.
+        """
+
+        sender = self.sender()
+        if sender:
+            window_name = sender.text()  # Берем текст кнопки как имя окна
+
+            self.forgot_pass_window = ForgotPasswordWindow(
+                window_name,
+                params[sett.JSON_FILE_PATH],
+            )
+
+            self.forgot_pass_window.setModal(True)
+            self.forgot_pass_window.show()
