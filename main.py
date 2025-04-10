@@ -6,7 +6,7 @@ from handlers.excel_handler import ExcelHandler
 from handlers.json_handler import JsonHandler
 from interface.windows.login_window import LoginWindow
 from interface.windows.settings_window import SettingsWindow
-from logic.logger import logger, check_log_size
+from logic.logger import logger, check_log_size, switch_log_to_user
 from logic.protector import Protector
 from logic.config_protector import ConfigProtector
 from settings import settings as sett
@@ -101,6 +101,7 @@ if __name__ == "__main__":
         login_window = LoginWindow()
         if login_window.exec():
             logger.info(sett.SUCCESSFUL_LOGIN)
+            switch_log_to_user(login_window.username)
             launch_app(username=login_window.username)
         else:
             logger.info(sett.UNSUCCESSFUL_LOGIN)
