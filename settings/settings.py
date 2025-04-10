@@ -200,6 +200,7 @@ WORKBOOK_OPENING_ERROR = "Didn't manage to open workbook: {0}"
 EXCEL_DATA_IS = "Excel data is {0}"
 TRYING_TO_CHANGE_PASS = "Trying to change pass for {0}"
 DELETE_USER_ERROR = "Couldn't delete user {0}: {1}"
+CANT_CLEAR_LOG = "Can't check or clear log {0}: {1}"
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
