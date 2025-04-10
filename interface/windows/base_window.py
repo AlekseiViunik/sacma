@@ -208,6 +208,14 @@ class BaseWindow(QWidget):
             case sett.DELETE_USER:
                 widget.clicked.connect(inheritor.delete_user)
 
+            case sett.FORGOT_PASS:
+                widget.clicked.connect(
+                    lambda: inheritor.forgot_password(params)
+                )
+
+            case sett.REMEMBER_PASSWORD:
+                widget.clicked.connect(inheritor.remember_password)
+
     def cancel(self, inheritor: QWidget) -> None:
         """
         В случае, если нажата кнопка `Cancel`, то действия общие для всех этих
