@@ -4,22 +4,24 @@ import smtplib
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
 
+from settings import settings as sett
+
 load_dotenv()
 
 
 class MailHandler:
 
     def __init__(self):
-        self.smtp_server = os.getenv("SMTP_SERVER")
-        self.smtp_port = int(os.getenv("SMTP_PORT"))
-        self.email_address = os.getenv("EMAIL_ADDRESS")
-        self.email_password = os.getenv("EMAIL_PASSWORD")
+        self.smtp_server = os.getenv(sett.SMTP_SERVER_KEY)
+        self.smtp_port = int(os.getenv(sett.SMTP_PORT_KEY))
+        self.email_address = os.getenv(sett.EMAIL_ADDRESS_KEY)
+        self.email_password = os.getenv(sett.EMAIL_PASSWORD_KEY)
 
     def send_mail(self, to, subject, msg):
         msg = MIMEText(msg)
-        msg["Subject"] = subject
-        msg["From"] = self.email_address
-        msg["To"] = to
+        msg[sett.SUBJECT] = subject
+        msg[sett.FROM] = self.email_address
+        msg[sett.TO] = to
 
         with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
             server.starttls()
@@ -28,25 +30,9 @@ class MailHandler:
 
     def generate_recover_pass_message(self, userdata, temp_pass):
         name = userdata.get(
-            "name", userdata.get(
-                "surname", ""
+            sett.NAME, userdata.get(
+                sett.SURNAME, sett.EMPTY_STRING
             )
         )
-        greeting = f"Здравствуйте, {name}!" if name else "Здравствуйте!"
-        return f"""
-        {greeting}
-
-        Вы запросили восстановление пароля.
-
-        Ваш временный пароль: {temp_pass}
-
-        Пожалуйста, измените его сразу после входа в систему.
-
-        Если это были не вы, то париться не очем. Злоумышленники не смогут
-        ничего сделать, поскольку личных данных мы не храним, БД у нас нет,
-        и вообще приложение не представляет серьезной ценности ни для кого
-        особо, кроме нас.
-
-        С уважением,
-        Ваша команда.
-        """
+        greeting = sett.D_GREETING.format(name) if name else sett.GREETING
+        return sett.RECOVER_MAIL_MESSAGE.format(greeting, temp_pass)

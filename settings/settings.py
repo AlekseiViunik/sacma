@@ -575,3 +575,33 @@ MORNING_HOUR = 6
 DAY_HOUR = 14
 EVENING_HOUR = 17
 NIGHT_HOUR = 22
+
+# =============================== MAIL SETTINGS ===============================
+
+SMTP_SERVER_KEY = "SMTP_SERVER"
+SMTP_PORT_KEY = "SMTP_PORT"
+EMAIL_ADDRESS_KEY = "EMAIL_ADDRESS"
+EMAIL_PASSWORD_KEY = "EMAIL_PASSWORD"
+SUBJECT = "Subject"
+FROM = "From"
+TO = "To"
+
+D_GREETING = "Good afternoon, {0}!"
+GREETING = "Good afternoon!"
+RECOVER_MAIL_MESSAGE = """
+        {0}
+
+        Вы запросили восстановление пароля.
+
+        Ваш временный пароль: {1}
+
+        Пожалуйста, измените его сразу после входа в систему.
+
+        Если это были не вы, то париться не очем. Злоумышленники не смогут
+        ничего сделать, поскольку личных данных мы не храним, БД у нас нет,
+        и вообще приложение не представляет серьезной ценности ни для кого
+        особо, кроме нас.
+
+        С уважением,
+        Ваша команда.
+        """
