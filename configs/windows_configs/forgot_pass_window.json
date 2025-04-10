@@ -22,6 +22,19 @@
                             "width": 250,
                             "height": 40,
                             "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Metti la tua email:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "email",
+                            "default_value": "Enter your email",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current"
                         }
                     ]
                 }
