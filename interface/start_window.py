@@ -2,6 +2,7 @@ from handlers.excel_handler import ExcelHandler
 from handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
 from interface.windows.change_pass_window import ChangePassWindow
+from interface.windows.delete_user_window import DeleteUserWindow
 from interface.windows.input_window import InputWindow
 from interface.windows.login_window import LoginWindow
 from interface.windows.register_window import RegisterWindow
@@ -132,3 +133,19 @@ class StartWindow(BaseWindow):
         """
         self.change_password_window = ChangePassWindow(self.username)
         self.change_password_window.show()
+
+    def open_delete_user(self, params: dict[str, str]) -> None:
+        """
+        Открывает окно удаления юзера.
+        """
+
+        sender = self.sender()
+        if sender:
+            window_name = sender.text()  # Берем текст кнопки как имя окна
+
+            delete_user_window = DeleteUserWindow(
+                window_name,
+                params[sett.JSON_FILE_PATH],
+            )
+
+            delete_user_window.show()

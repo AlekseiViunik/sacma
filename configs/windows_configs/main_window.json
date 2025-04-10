@@ -125,7 +125,20 @@
                             "text": "Impostazioni",
                             "width": 150,
                             "height": 40,
+                            "button_color": "#d0d0d0",
                             "callback": "open_settings"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Delete user",
+                            "allowed_to_groups": ["admins"],
+                            "width": 150,
+                            "height": 40,
+                            "button_color": "#d0d0d0",
+                            "callback": "open_delete_user",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/delete_user_window.json"
+                            }
                         },
                         {
                             "type": "button",
@@ -133,6 +146,7 @@
                             "allowed_to_groups": ["admins"],
                             "width": 150,
                             "height": 40,
+                            "button_color": "#d0d0d0",
                             "callback": "open_register"
                         }
                     ]

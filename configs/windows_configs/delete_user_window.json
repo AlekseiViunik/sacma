@@ -1,0 +1,59 @@
+{
+    "window_title": "Delete User",
+    "window_width": 450,
+    "window_height": 150,
+    "layout": {
+        "type": "vertical",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 2,
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Scegli user to delete:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "username",
+                            "default_value": "--select--",
+                            "options": {
+                                "get_from_file": {
+                                    "file_path": "configs/auth.json",
+                                    "key": "users"
+                                }
+                            },
+                            "width": 250,
+                            "height": 40,
+                            "column": "current"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Delete",
+                            "callback": "delete_user",
+                            "params": {},
+                            "width": 150,
+                            "height": 40
+                        },
+                        {
+                            "type": "button",
+                            "text": "Cancel",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "close_window"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

@@ -97,7 +97,7 @@ class ConfigGenerator:
         only_keys: list[str] | None,
         pre_message: str,
         post_mssage: str,
-    ) -> None:
+    ) -> dict[str, Any]:
         """
         Добавляет ответ в конфиг и блокирует все поля для ввода и выбора.
         Меняет кнопку "Invia" на "Avanti".

@@ -2,7 +2,7 @@
 
 # В продакшене просит залогиниться прежде всего.
 # Deafult: True
-PRODUCTION_MODE_ON = False
+PRODUCTION_MODE_ON = True
 
 # Защита должна быть всегда включена.
 # Default: True
@@ -199,6 +199,7 @@ EXCEL_LAUNCH_ERROR = "Launching excel error: {0}"
 WORKBOOK_OPENING_ERROR = "Didn't manage to open workbook: {0}"
 EXCEL_DATA_IS = "Excel data is {0}"
 TRYING_TO_CHANGE_PASS = "Trying to change pass for {0}"
+DELETE_USER_ERROR = "Couldn't delete user {0}: {1}"
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
@@ -320,6 +321,11 @@ DECRYPTION = "decryption"
 ENCRYPTION = "encryption"
 ALLOWED_TO_GROUPS = "allowed_to_groups"
 GROUP = "group"
+OPEN_DELETE_USER = "open_delete_user"
+BUTTON_COLOR = "button_color"
+GET_FROM_FILE = "get_from_file"
+FILE_PATH = "file_path"
+KEY = "key"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -370,6 +376,7 @@ OPEN_REGISTER_METHOD = "open_register"
 SECTION_CHECK = "section_check"
 BOTTOM_LAYOUT = "bottom_layout"
 CHANGE_PASS = "change_pass"
+DELETE_USER = "delete_user"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
@@ -529,6 +536,7 @@ ALIGN_LEFT = "left"
 ALIGN_RIGHT = "right"
 
 BG_COLOR = "background-color: {0}"
+FONT_COLOR = "color: {0}"
 MARGIN_TOP = "margin-top: 10px;"
 
 # ============================ VALIDATION KEYS ================================

@@ -60,6 +60,11 @@ class ButtonCreator:
                     if user_group not in value:
                         button.setEnabled(False)
 
+                case sett.BUTTON_COLOR:
+                    button.setStyleSheet(
+                        sett.BG_COLOR.format(value)
+                    )
+
         # Активирует кнопку, только если в ее конфиге есть коллбэк.
         button.setObjectName(button_config[sett.TEXT])
         if sett.CALLBACK not in button_config:
