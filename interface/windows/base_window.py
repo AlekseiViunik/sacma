@@ -16,11 +16,17 @@ class BaseWindow(QWidget):
 
     Attributes
     ----------
+    - username: str
+        Имя пользователя, с которым открыто окно.
+
     - window_width: int
         Начальная ширина окна класса-наследника.
 
     - window_height: int
         Начальная высота окна класса-наследника.
+
+    - userdata: dict
+        Словарь с данными пользователя, полученными из JSON файла.
 
     - config_json_handler: JsonHandler
         Обработчик JSON файла с конфигом, содержащим информацию о виджетах.
