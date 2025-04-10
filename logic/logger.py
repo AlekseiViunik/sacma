@@ -26,19 +26,42 @@ LOG_FILE = os.path.join(LOG_DIR, sett.LOG_FILE_NAME)
 
 def check_log_size() -> None:
     """
-    Метод проверяет текущий размер файла логирования перед стартом приложения.
-    Если количество строк в файле превышает заданное, то файл очищается и
-    начинает писаться заново.
+    Проверяет каждый .log файл в папке логов.
+    Если количество строк в любом из них превышает лимит — очищает файл.
     """
-    if os.path.exists(LOG_FILE):
-        with open(LOG_FILE, sett.FILE_READ, encoding=sett.STR_CODING) as f:
-            lines = f.readlines()
+    for filename in os.listdir(LOG_DIR):
+        if filename.endswith(".log"):
+            path = os.path.join(LOG_DIR, filename)
+            try:
+                with open(path, sett.FILE_READ, encoding=sett.STR_CODING) as f:
+                    lines = f.readlines()
+                if len(lines) >= sett.MAX_LOG_LINES:
+                    with open(
+                        path, sett.FILE_WRITE, encoding=sett.STR_CODING
+                    ) as f:
+                        f.write(sett.EMPTY_STRING)
+            except Exception as e:
+                logger.error(sett.CANT_CLEAR_LOG.format(filename, e))
 
-        if len(lines) >= sett.MAX_LOG_LINES:
-            with open(
-                LOG_FILE, sett.FILE_WRITE, encoding=sett.STR_CODING
-            ) as f:
-                f.write(sett.EMPTY_STRING)  # Очищаем файл
+
+def switch_log_to_user(username: str) -> None:
+    """
+    Меняет лог-файл на файл пользователя с именем <username>.log.
+
+    Parameters
+    ----------
+    - username: str
+            Имя пользователя, для которого будет создан лог-файл.
+    """
+    user_log_file = os.path.join(LOG_DIR, f"{username}.log")
+
+    for h in logger.handlers[:]:
+        logger.removeHandler(h)
+
+    user_handler = logging.FileHandler(user_log_file, encoding=sett.STR_CODING)
+    user_handler.setFormatter(logging.Formatter(sett.LOGS_FORMAT))
+
+    logger.addHandler(user_handler)
 
 
 # Настройка логирования
