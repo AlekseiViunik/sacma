@@ -68,4 +68,4 @@ class ConfigProtector:
 
 if __name__ == "__main__":
     # Example usage
-    ConfigProtector.set_read_only("configs/encryption.json")
+    ConfigProtector.unset_read_only("configs/windows_configs/main_window.json")
