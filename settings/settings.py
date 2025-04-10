@@ -378,6 +378,9 @@ SECTION_CHECK = "section_check"
 BOTTOM_LAYOUT = "bottom_layout"
 CHANGE_PASS = "change_pass"
 DELETE_USER = "delete_user"
+FORGOT_PASS = "forgot_pass"
+REMEMBER_PASSWORD = "remember_password"
+OPEN_LOGIN = "open_login"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
