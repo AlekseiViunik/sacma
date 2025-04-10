@@ -1,0 +1,2 @@
+class MailHandler:
+    pass
