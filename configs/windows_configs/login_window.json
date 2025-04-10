@@ -66,6 +66,14 @@
                         },
                         {
                             "type": "button",
+                            "text": "Forgot pass",
+                            "callback": "forgot_pass",
+                            "params": {},
+                            "width": 150,
+                            "height": 40
+                        },
+                        {
+                            "type": "button",
                             "text": "Cancel",
                             "width": 150,
                             "height": 40,
