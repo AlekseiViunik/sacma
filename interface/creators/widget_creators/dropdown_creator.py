@@ -15,7 +15,7 @@ class DropdownCreator:
 
     Methods
     -------
-    - create_dropdown(dropdown_config, parent_window)
+    - create_dropdown(dropdown_config, creator)
         Создает выпадающий список по заданному конфигу и возвращает его
         объект.
     """
@@ -33,6 +33,10 @@ class DropdownCreator:
         - config: dict
             Конфиг, по которому будет создан и сконфигурирован выпадающий
             список.
+
+        - creator: Creator
+            Объект класса Creator, который будет хранить выбранное и доступные
+            для выбора значения, связанные с этим выпадающим списком.
 
         Returns
         -------
