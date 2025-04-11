@@ -38,47 +38,6 @@ class Creator:
     - parent_window: QWidget
         Класс окна, на котором мы размещаем виджеты.
 
-    - input_fields: dict[str, QLineEdit]
-        Словарь с именем полей для ввода и их объектами, расположенных в
-        текущем окне.
-
-    - chosen_fields: dict[str, QComboBox]
-        Словарь с именем полей для выбора и их объектами, расположенных в
-        текущем окне.
-
-    - default_values: dict[str, str]
-        Помощник, отвечающий за авторизацию и создание юзеров.
-
-    - current_changing_value: str | None
-        Текущее значение, которое меняет расположение виджетов.
-
-    - current_changing_values: dict[str, str]
-        Словарь текущих значений, меняющих расположение виджетов.
-
-    - remover: Remover
-        Класс-удалитель.
-
-    - finder: Finder
-        Класс-находитель.
-
-    - generator: ConfigGenerator
-        Класс, меняющий конфиги на лету.
-
-    - mandatory_fields: list[str]
-        Поля, обязательные для заполнения.
-
-    - main_layout: None
-        Содержит ссылку на главный контейнер для его последующей перерисовки.
-
-    - dependencies: dict
-        Словарь зависимых контейнеров, которые будут меняться в зависимости от
-        того, какое поле было выбрано.
-
-    - layout_parents: dict
-        Словарь, который в качестве ключей содержит текущий контйенер,
-        а значений - родительский. Нужен для четкого определения родителя
-        при перерисовке контейнера.
-
     Methods
     -------
     - create_widget_layout()
@@ -161,7 +120,7 @@ class Creator:
 
     def create_widget_layout(
         self,
-        parent_window: QHBoxLayout | QVBoxLayout | QGridLayout | QWidget,
+        parent_window: QLayout | QWidget,
         layout_config: dict | None
     ) -> None:
         """
@@ -281,10 +240,12 @@ class Creator:
             Сообщение, которое необходимо отобразить после результата.
 
         - only_keys: list[str] | None
+            Default = None\n
             Список ключей, значения которых из словаря values будут отражены в
             ответе.
 
         - pre_message: str
+            Default = 'Result'\n
             Сообщение для отображения перед отображением результатов.
         """
 
@@ -325,9 +286,11 @@ class Creator:
         Parameters
         ----------
         - name: str
+            Default = None\n
             Имя изменяющего виджета.
 
         - selected_value: str
+            Default = None\n
             Новое выбранное значение.
         """
 
@@ -386,6 +349,7 @@ class Creator:
             контейнере в порядке их перечисления в списке.
 
         - columns: int | None
+            Default = None\n
             Только для виджета типа "сетка". Количество колонок, которое должно
             быть в сетке.
         """
@@ -471,7 +435,8 @@ class Creator:
         - config: dict
             Конфиг, по которому будет создаваться и настраиваться виджет.
 
-        - layout: QLayout | None = None
+        - layout: QLayout | None
+            Default = None\n
             Контейнер, на котором виджет будет располгаться.
 
         Returns
@@ -597,6 +562,7 @@ class Creator:
             Количество колонок в сетке.
 
         - widget_pos: str | None
+            Default = None\n
             Позиция в сетке, на которой должен быть расположен виджет.
             Возможные варианты: first, current, last, middle
 
