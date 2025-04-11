@@ -10,10 +10,27 @@ from settings import settings as sett
 
 
 class ChangePassWindow(BaseWindow):
+    """
+    Класс для окна смены пароля.
+
+    Attributes
+    ----------
+    - username: str
+        Имя пользователя, от которого открыто окно смены пароля.
+        Передается в родительский класс BaseWindow.
+
+    Methods
+    -------
+    - toggle_password(checkbox, field)
+        Переключает режим отображения пароля в поле ввода.
+
+    - change_pass()
+        Сменяет пароль пользователя.
+    """
 
     CONFIG_FILE = sett.CHANGE_PASS_CONFIG_FILE
 
-    def __init__(self, username) -> None:
+    def __init__(self, username: str) -> None:
         super().__init__(username=username)
 
         self.init_ui()
@@ -32,6 +49,7 @@ class ChangePassWindow(BaseWindow):
         - checkbox: QCheckBox
             Чекбокс, который вызывает этот метод.
         - field: str
+            Default = 'password'\n
             Поле ввода, для которого нужно переключить режим отображения
             пароля. По умолчанию - поле пароля.
         """
