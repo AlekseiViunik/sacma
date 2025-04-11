@@ -1,3 +1,4 @@
+from datetime import datetime
 import traceback
 import re
 
@@ -267,3 +268,17 @@ class Helper:
             type(e).__name__, e, func, filename, line
         )
         log.error(sett.ERROR_CAUGHT.format(full_msg))
+
+    @staticmethod
+    def get_current_time() -> str:
+        """
+        Возвращает текущую дату и время в формате "YYYY-MM-DD HH:MM:SS".
+
+        Returns
+        -------
+        - _: str
+            Текущая дата и время.
+        """
+        return datetime.now().strftime(
+            sett.DATE_TIME_FORMAT
+        )
