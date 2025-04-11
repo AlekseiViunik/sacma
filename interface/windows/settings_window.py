@@ -26,9 +26,9 @@ class SettingsWindow(QDialog, BaseWindow):
 
     CONFIG_FILE = sett.SETTINGS_WINDOW_CONFIG_FILE
 
-    def __init__(self) -> None:
+    def __init__(self, user_settings_path: str = sett.SETTINGS_FILE) -> None:
         super().__init__()
-        self.settings_json_handler = JsonHandler(sett.SETTINGS_FILE)
+        self.settings_json_handler = JsonHandler(user_settings_path)
 
         self.init_ui()
 

@@ -9,6 +9,7 @@ from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
 from interface.windows.users_settings_window import UsersSettingsWindow
 from logic.config_generator import ConfigGenerator
+from logic.filepath_generator import FilepathGenerator
 from logic.logger import logger as log
 from settings import settings as sett
 
@@ -52,7 +53,8 @@ class StartWindow(BaseWindow):
     def __init__(
         self,
         username: str = sett.ALEX,
-        excel_handler: ExcelHandler | None = None
+        excel_handler: ExcelHandler | None = None,
+        user_settings_path: str = sett.SETTINGS_FILE
     ) -> None:
         super().__init__(username=username)
 
@@ -61,6 +63,8 @@ class StartWindow(BaseWindow):
         ).get_value_by_key(self.username)
 
         self.excel_handler = excel_handler
+        self.user_settings_path = user_settings_path
+
         self.init_ui()
 
     def open_settings(self) -> None:
@@ -69,10 +73,11 @@ class StartWindow(BaseWindow):
         """
 
         log.info(sett.SETTINGS_BUTTON_PRESSED)
-        self.settings_window = SettingsWindow()
+        self.settings_window = SettingsWindow(self.user_settings_path)
         if self.settings_window.exec():
-            self.excel_handler.close_excel()
-            self.excel_handler.open_excel()
+            self.excel_handler.restart_excel(
+                self.user_settings_path
+            )
             self.creator.update_dependent_layouts()
 
     def open_input_window(self, params: dict[str, str]) -> None:
@@ -118,6 +123,11 @@ class StartWindow(BaseWindow):
         self.login_window = LoginWindow()
         if self.login_window.exec():
             self.username = self.login_window.username
+            self.user_settings_path = (
+                FilepathGenerator.generate_settings_filepath(
+                    sett.SETTINGS_FILE, self.username
+                )
+            )
             self.userdata = JsonHandler(
                 sett.USER_MAIN_DATA_FILE, True
             ).get_value_by_key(self.username)
@@ -128,6 +138,9 @@ class StartWindow(BaseWindow):
                 default_config, sett.MINUS_ONE
             )
             self.creator.config = default_config
+            self.excel_handler.restart_excel(
+                self.user_settings_path
+            )
             self.creator.update_dependent_layouts()
 
     def change_password(self) -> None:

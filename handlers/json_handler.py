@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 import sys
 
 from PyQt6.QtWidgets import QLineEdit
@@ -236,3 +237,28 @@ class JsonHandler:
             self.file_path = os.path.join(BASE_DIR, path)
         else:
             self.file_path = path
+
+    def create_file_if_not_exists(self) -> None:
+        """
+        Если файл не существует, то создает его и копирует туда файл
+        настроек по умолчанию. Если не получается, то выводит сообщение об
+        ошибке.
+        """
+
+        if not os.path.exists(self.file_path):
+            try:
+                os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
+                shutil.copy(sett.SETTINGS_FILE, self.file_path)
+                log.info(
+                    sett.USER_SETTINGS_FILE_CREATED.format(
+                        self.file_path
+                    )
+                )
+            except Exception as e:
+                log.error(sett.COULDNT_CREATE_FILE.format(e))
+                Messagebox.show_messagebox(
+                    sett.FAILED_TO_CREATE_FILE,
+                    sett.COULDNT_CREATE_FILE.format(e),
+                    None,
+                    exec=True
+                )

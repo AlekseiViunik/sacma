@@ -3,9 +3,8 @@ import ctypes
 from datetime import datetime
 
 from handlers.excel_handler import ExcelHandler
-from handlers.json_handler import JsonHandler
 from interface.windows.login_window import LoginWindow
-from interface.windows.settings_window import SettingsWindow
+from logic.filepath_generator import FilepathGenerator
 from logic.logger import logger, check_log_size, switch_log_to_user
 from logic.protector import Protector
 from logic.config_protector import ConfigProtector
@@ -13,26 +12,6 @@ from settings import settings as sett
 
 
 if __name__ == "__main__":
-
-    def check_excel_file() -> bool:
-        """
-        Проверяет, существует ли файл Excel, указанный в настройках.
-        Если файла нет, открывает окно настроек.
-
-        Returns
-        -------
-        - _: bool
-            True, если файл Excel существует, иначе False.
-        """
-
-        settings_json_handler = JsonHandler(sett.SETTINGS_FILE)
-        while not settings_json_handler.get_value_by_key(sett.EXCEL_PATH):
-            logger.info(sett.SETTINGS_BUTTON_PRESSED)
-            settings_window = SettingsWindow()
-            result = settings_window.exec()
-            if result == 0:  # пользователь нажал Cancel (reject)
-                return False
-        return True
 
     def launch_app(username: str | None = None) -> None:
         """
@@ -47,11 +26,14 @@ if __name__ == "__main__":
             Если None, приложение запускается с именем создателя по
             умолчанию.
         """
+        user_settings_path = FilepathGenerator.generate_settings_filepath(
+            sett.SETTINGS_FILE, username
+        )
 
-        if not check_excel_file():
+        excel_handler = ExcelHandler(settings_file_path=user_settings_path)
+        if not excel_handler.check_excel_file():
             sys.exit()
 
-        excel_handler = ExcelHandler()
         if not sett.TEST_GUI:
             excel_handler.open_excel()
             app.aboutToQuit.connect(excel_handler.close_excel)
@@ -62,7 +44,8 @@ if __name__ == "__main__":
             )
         main_window = StartWindow(
             username=username,
-            excel_handler=excel_handler
+            excel_handler=excel_handler,
+            user_settings_path=user_settings_path
         )
         main_window.show()
         sys.exit(app.exec())
@@ -102,7 +85,10 @@ if __name__ == "__main__":
         login_window = LoginWindow()
         if login_window.exec():
             logger.info(sett.SUCCESSFUL_LOGIN)
+            # Меняем файл логов на файл с именем пользователя
             switch_log_to_user(login_window.username)
+
+            # Запускаем приложение с именем пользователя
             launch_app(username=login_window.username)
         else:
             logger.info(sett.UNSUCCESSFUL_LOGIN)
