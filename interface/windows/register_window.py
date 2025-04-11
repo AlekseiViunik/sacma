@@ -134,6 +134,12 @@ class RegisterWindow(BaseWindow):
                 )
                 return
 
+            created_by = self.username
+            created_on = Helper.get_current_time()
+
+            all_inputs[sett.CREATED_BY] = created_by
+            all_inputs[sett.CREATED_ON] = created_on
+
             # Юзернейм вынесен в отдельную переменную для вставки его в строку
             username = all_inputs[sett.USERNAME]
 

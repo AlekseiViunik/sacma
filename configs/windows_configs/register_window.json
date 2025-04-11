@@ -104,6 +104,36 @@
                         },
                         {
                             "type": "label",
+                            "text": "Sex:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "sex",
+                            "width": 250,
+                            "height": 40,
+                            "default_value": "m",
+                            "options": {
+                                "always": ["m", "f"]
+                            },
+                            "column": "current"
+
+                        },
+                        {
+                            "type": "label",
+                            "text": "Phone:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "input",
+                            "name": "phone",
+                            "default_value": "351-234-5678",
+                            "width": 250,
+                            "height": 40,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
                             "text": "Email:",
                             "column": "first"
                         },
