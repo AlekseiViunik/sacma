@@ -1,5 +1,7 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
+from logic.validator import Validator
+
 from .base_window import BaseWindow
 from .messagebox import Messagebox
 from handlers.input_data_handler import InputDataHandler
@@ -116,13 +118,32 @@ class RegisterWindow(BaseWindow):
                 )
                 return
 
-            if not Authenticator.check_password_strength(
-                all_inputs[sett.PASSWORD]
+            if (
+                sett.PRODUCTION_MODE_ON and
+                not Validator.check_password_strength(
+                    all_inputs[sett.PASSWORD]
+                )
             ):
                 log.error(sett.PASSWORD_IS_WEAK)
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.PASSWORD_IS_WEAK,
+                    self
+                )
+                return
+
+            if (
+                all_inputs[sett.EMAIL] != sett.EMPTY_STRING and
+                not Validator.validate_email(
+                    all_inputs[sett.EMAIL]
+                )
+            ):
+                log.error(
+                    sett.EMAIL_IS_NOT_VALID.format(all_inputs[sett.EMAIL])
+                )
+                Messagebox.show_messagebox(
+                    sett.CREATION_FAILED,
+                    sett.EMAIL_IS_NOT_VALID.format(all_inputs[sett.EMAIL]),
                     self
                 )
                 return

@@ -1,3 +1,5 @@
+import re
+
 from typing import Any
 
 from helpers.helper import Helper
@@ -26,6 +28,48 @@ class Validator:
         Проверяет, что количество диагоналей на 1 меньше, чем траверс.
         Проверка осуществляется для каждой существующей секции независимо.
     """
+
+    def custom_validation(
+        self,
+        config: list,
+        data: dict
+    ) -> bool:
+        """
+        По очереди вызывает тот или иной метод валидации из имеющихся
+        приватных. Методы берутся из конфига.
+
+        Parameters
+        ----------
+        - config : dict
+                Конфиг расчетов, в котором указаны методы валидации.
+        - data : dict[str, Any]
+                Данные для проверки.
+
+        Returns
+        -------
+        - _: dict
+            Результат проверки. И сообщение об ошибке, если проверка не
+            пройдена.
+        """
+
+        for method in config[sett.CUSTOM_VALIDATIONS]:
+            match method:
+                case sett.SECTION_CHECK:
+                    if not self.__check_section(data, config):
+                        return {
+                            sett.IS_CORRECT: False,
+                            sett.ERROR_MESSAGE: sett.BASE_CHECK_FAILED
+                        }
+                case sett.DIAGONALS_CHECK:
+                    if not self.__diagonals_check(data):
+                        return {
+                            sett.IS_CORRECT: False,
+                            sett.ERROR_MESSAGE: sett.DIAGONALS_CHECK_FAILED
+                        }
+        return {
+            sett.IS_CORRECT: True,
+            sett.ERROR_MESSAGE: None
+        }
 
     @staticmethod
     def validate(rule_key: str, rule_value: Any, value: Any) -> bool:
@@ -105,47 +149,55 @@ class Validator:
         log.info(sett.VALIDATION_IS_OK)
         return True
 
-    def custom_validation(
-        self,
-        config: list,
-        data: dict
-    ) -> bool:
+    @staticmethod
+    def validate_email(email: str) -> bool:
         """
-        По очереди вызывает тот или иной метод валидации из имеющихся
-        приватных. Методы берутся из конфига.
+        Метод валидации email адреса. Проверяет, что email адрес имеет
+        корректный формат.
 
         Parameters
         ----------
-        - config : dict
-                Конфиг расчетов, в котором указаны методы валидации.
-        - data : dict[str, Any]
-                Данные для проверки.
+            email : str
+                Email адрес для проверки.
+
+        Return
+        ------
+            result: bool
+                Результат валидации.
+        """
+
+        if re.match(sett.EMAIL_REGEX, email):
+            return True
+
+        log.error(sett.EMAIL_IS_NOT_VALID.format(email))
+        return False
+
+    @staticmethod
+    def check_password_strength(password: str) -> bool:
+        """
+        Проверяет сложность пароля.
+
+        Parameters
+        ----------
+        - password: str
+            Пароль для проверки.
 
         Returns
         -------
-        - _: dict
-            Результат проверки. И сообщение об ошибке, если проверка не
-            пройдена.
+        - _: bool
+            True, если пароль соответствует критериям сложности, иначе False.
         """
-
-        for method in config[sett.CUSTOM_VALIDATIONS]:
-            match method:
-                case sett.SECTION_CHECK:
-                    if not self.__check_section(data, config):
-                        return {
-                            sett.IS_CORRECT: False,
-                            sett.ERROR_MESSAGE: sett.BASE_CHECK_FAILED
-                        }
-                case sett.DIAGONALS_CHECK:
-                    if not self.__diagonals_check(data):
-                        return {
-                            sett.IS_CORRECT: False,
-                            sett.ERROR_MESSAGE: sett.DIAGONALS_CHECK_FAILED
-                        }
-        return {
-            sett.IS_CORRECT: True,
-            sett.ERROR_MESSAGE: None
-        }
+        if len(password) < sett.MIN_PASS_LENGTH:
+            return False
+        if not any(char.isdigit() for char in password):
+            return False
+        if not any(char.isupper() for char in password):
+            return False
+        if not any(char.islower() for char in password):
+            return False
+        if not any(char in sett.SPECIAL_CHARS for char in password):
+            return False
+        return True
 
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------

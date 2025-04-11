@@ -205,6 +205,7 @@ TRYING_TO_CHANGE_PASS = "Trying to change pass for {0}"
 DELETE_USER_ERROR = "Couldn't delete user {0}: {1}"
 CANT_CLEAR_LOG = "Can't check or clear log {0}: {1}"
 MAIL_ERROR = "Mail error: {0}"
+EMAIL_IS_NOT_VALID = "Email is not valid: {0}"
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
@@ -231,6 +232,10 @@ GREETING_MSG = "{0} {1}!"
 MANDATORY_FIELD_LABEL = "*{0}"
 CONCAT_TWO_MSGS = "{0} {1}"
 ADD_COLON = "{0}: "
+WRONG_EMAIL = "R U sure that email '{0}' is email?"
+WRONG_EMAIL_FORGOT_PASS = (
+    "Worng email ({0}) is passed when the user tried to recover the password"
+)
 
 # =========================== STATIC DICTIONARY KEYS ==========================
 
@@ -529,6 +534,7 @@ QUESTION_MARK = "?"
 FLOAT_REGEX = r"\d+(,\d+)?"
 VARIABLE_REGEX = r"[a-zA-Z_][a-zA-Z0-9_]*"
 NUMBERS_N_OPERATORS_REGEX = r"^[0-9.\s()+\-*/]+$"
+EMAIL_REGEX = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 SPECIAL_CHARS = "[!@#$%^&*()_+={}[]:;\"'<>?,./\\|`~]"
 COMMON_SPECIAL_CHARS = "!@#$%^&*()_+"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"

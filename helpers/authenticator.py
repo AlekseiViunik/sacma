@@ -177,30 +177,3 @@ class Authenticator:
         hashed_password = Authenticator().hash_password(password)
         log.info(sett.CHECK_USER_EXISTS.format(username, password))
         return users_data[sett.USERS].get(username) == hashed_password
-
-    @staticmethod
-    def check_password_strength(password: str) -> bool:
-        """
-        Проверяет сложность пароля.
-
-        Parameters
-        ----------
-        - password: str
-            Пароль для проверки.
-
-        Returns
-        -------
-        - _: bool
-            True, если пароль соответствует критериям сложности, иначе False.
-        """
-        if len(password) < sett.MIN_PASS_LENGTH:
-            return False
-        if not any(char.isdigit() for char in password):
-            return False
-        if not any(char.isupper() for char in password):
-            return False
-        if not any(char.islower() for char in password):
-            return False
-        if not any(char in sett.SPECIAL_CHARS for char in password):
-            return False
-        return True
