@@ -11,6 +11,7 @@ class PassGenerator:
         Parameters
         ----------
         - length: int
+            Default = 12\n
             Длина пароля (по умолчанию 12 символов).
 
         Returns
