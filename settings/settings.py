@@ -355,6 +355,8 @@ FILE_PATH = "file_path"
 KEY = "key"
 EMAIL = "email"
 USERGROUP = "usergroup"
+CREATED_BY = "created_by"
+CREATED_ON = "created_on"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -555,6 +557,7 @@ SPECIAL_CHARS = "[!@#$%^&*()_+={}[]:;\"'<>?,./\\|`~]"
 COMMON_SPECIAL_CHARS = "!@#$%^&*()_+"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
 CHOSE_FILE = "Chose file"
+DATE_TIME_FORMAT = "%H:%M:%S %d/%m/%Y"
 
 # ============================ LAYOUTS AND WIDGETS ============================
 LAYOUT_TYPE_GRID = "grid"
