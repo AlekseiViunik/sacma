@@ -179,6 +179,17 @@ class Validator:
         return False
 
     @staticmethod
+    def validate_phone(phone: str) -> bool:
+        """
+        Метод валидации телефонного номера. Проверяет, что номер имеет
+        корректный формат.
+        """
+        if re.match(sett.PHONE_REGEX, phone):
+            return True
+
+        return False
+
+    @staticmethod
     def check_password_strength(password: str) -> bool:
         """
         Проверяет сложность пароля. Пароль должен содержать:
