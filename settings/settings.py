@@ -206,6 +206,12 @@ DELETE_USER_ERROR = "Couldn't delete user {0}: {1}"
 CANT_CLEAR_LOG = "Can't check or clear log {0}: {1}"
 MAIL_ERROR = "Mail error: {0}"
 EMAIL_IS_NOT_VALID = "Email is not valid: {0}"
+SAVE_USER_SETTINGS_ERROR = (
+    "Couldn't save user settings for {0}: {1}"
+)
+SAVE_USER_SETTINGS_SUCCESS = (
+    "User settings for {0} have been saved successfully!"
+)
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
@@ -217,6 +223,7 @@ RECOVER_SUCCESS_MESSAGE = (
     "Check the spam folder if you don't see it in the inbox.\n"
     "Don't forget to change it!"
 )
+CHANGE_GROUP_ERROR = "Couldn't change group!"
 
 # ============================== DYNAMIC MESSAGES =============================
 
@@ -344,6 +351,7 @@ GET_FROM_FILE = "get_from_file"
 FILE_PATH = "file_path"
 KEY = "key"
 EMAIL = "email"
+USERGROUP = "usergroup"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -400,6 +408,8 @@ DELETE_USER = "delete_user"
 FORGOT_PASS = "forgot_pass"
 REMEMBER_PASSWORD = "remember_password"
 OPEN_LOGIN = "open_login"
+OPEN_USERS_SETTINGS = "open_users_settings"
+SAVE_USERS_SETTINGS = "save_users_settings"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
