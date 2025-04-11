@@ -134,6 +134,22 @@ class RegisterWindow(BaseWindow):
                 )
                 return
 
+            if (
+                all_inputs[sett.PHONE] != sett.EMPTY_STRING and
+                not Validator.validate_phone(
+                    all_inputs[sett.PHONE]
+                )
+            ):
+                log.error(
+                    sett.PHONE_IS_NOT_VALID.format(all_inputs[sett.PHONE])
+                )
+                Messagebox.show_messagebox(
+                    sett.CREATION_FAILED,
+                    sett.PHONE_IS_NOT_VALID.format(all_inputs[sett.PHONE]),
+                    self
+                )
+                return
+
             created_by = self.username
             created_on = Helper.get_current_time()
 

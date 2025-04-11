@@ -214,6 +214,10 @@ SAVE_USER_SETTINGS_SUCCESS = (
 )
 COULDNT_CREATE_FILE = "Couldn't create file: {0}"
 USER_SETTINGS_FILE_CREATED = "Created settings file: {0}"
+PHONE_IS_NOT_VALID = """
+    Phone number is not valid: {0}\n
+    Valid format is XXX-XXX-XX-XX only!
+"""
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
@@ -357,6 +361,7 @@ EMAIL = "email"
 USERGROUP = "usergroup"
 CREATED_BY = "created_by"
 CREATED_ON = "created_on"
+PHONE = "phone"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -558,6 +563,7 @@ COMMON_SPECIAL_CHARS = "!@#$%^&*()_+"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
 CHOSE_FILE = "Chose file"
 DATE_TIME_FORMAT = "%H:%M:%S %d/%m/%Y"
+PHONE_REGEX = r"^\d{3}-\d{3}-\d{2}-\d{2}$"
 
 # ============================ LAYOUTS AND WIDGETS ============================
 LAYOUT_TYPE_GRID = "grid"
