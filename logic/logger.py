@@ -51,7 +51,7 @@ def switch_log_to_user(username: str) -> None:
     Parameters
     ----------
     - username: str
-            Имя пользователя, для которого будет создан лог-файл.
+        Имя пользователя, для которого будет создан лог-файл.
     """
     user_log_file = os.path.join(LOG_DIR, f"{username}.log")
 
