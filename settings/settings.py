@@ -212,6 +212,8 @@ SAVE_USER_SETTINGS_ERROR = (
 SAVE_USER_SETTINGS_SUCCESS = (
     "User settings for {0} have been saved successfully!"
 )
+COULDNT_CREATE_FILE = "Couldn't create file: {0}"
+USER_SETTINGS_FILE_CREATED = "Created settings file: {0}"
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
@@ -224,6 +226,7 @@ RECOVER_SUCCESS_MESSAGE = (
     "Don't forget to change it!"
 )
 CHANGE_GROUP_ERROR = "Couldn't change group!"
+FAILED_TO_CREATE_FILE = "Failed to create file!"
 
 # ============================== DYNAMIC MESSAGES =============================
 
@@ -503,6 +506,8 @@ TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
 CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
 ENCRYPTION_FILE = "configs/encryption.json"
+SETTINGS_JSON = "settings.json"
+MODIFIED_SETTINGS_JSON = "settings_{0}.json"
 
 
 # =============================== LOGO PATHS ==================================
