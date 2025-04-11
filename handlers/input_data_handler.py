@@ -8,11 +8,6 @@ class InputDataHandler:
     """
     Обработчик данных, введенных/выбранных пользователем.
 
-    Attributes
-    ----------
-    - remover: Remover
-        Один из помощников, который удаляет ненужные данные.
-
     Methods
     -------
     - collect_all_inputs(input_fields, choice_fields)
