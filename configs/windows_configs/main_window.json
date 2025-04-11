@@ -118,7 +118,8 @@
             },
             {
                 "layout": {
-                    "type": "horizontal",
+                    "type": "grid",
+                    "columns": 3,
                     "widgets": [
                         {
                             "type": "button",
@@ -126,7 +127,8 @@
                             "width": 150,
                             "height": 40,
                             "button_color": "#d0d0d0",
-                            "callback": "open_settings"
+                            "callback": "open_settings",
+                            "column": "current"
                         },
                         {
                             "type": "button",
@@ -138,7 +140,8 @@
                             "callback": "open_delete_user",
                             "params": {
                                 "json_file_path": "configs/windows_configs/delete_user_window.json"
-                            }
+                            },
+                            "column": "current"
                         },
                         {
                             "type": "button",
@@ -147,7 +150,21 @@
                             "width": 150,
                             "height": 40,
                             "button_color": "#d0d0d0",
-                            "callback": "open_register"
+                            "callback": "open_register",
+                            "column": "current"
+                        },
+                        {
+                            "type": "button",
+                            "text": "Users\nsettings",
+                            "allowed_to_groups": ["admins"],
+                            "width": 150,
+                            "height": 40,
+                            "button_color": "#d0d0d0",
+                            "callback": "open_users_settings",
+                            "params": {
+                                "json_file_path": "configs/windows_configs/users_settings_window.json"
+                            },
+                            "column": "middle"
                         }
                     ]
                 }
