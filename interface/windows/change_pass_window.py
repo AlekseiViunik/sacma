@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
 from helpers.authenticator import Authenticator
 from interface.windows.messagebox import Messagebox
+from logic.validator import Validator
 
 from .base_window import BaseWindow
 from logic.logger import logger as log
@@ -93,7 +94,7 @@ class ChangePassWindow(BaseWindow):
             )
             return
 
-        if not Authenticator.check_password_strength(new_pass):
+        if not Validator.check_password_strength(new_pass):
             log.error(sett.PASSWORD_IS_WEAK)
             Messagebox.show_messagebox(
                 sett.CHANGE_PASS_ERROR,
