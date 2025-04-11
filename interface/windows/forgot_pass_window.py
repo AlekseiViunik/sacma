@@ -11,7 +11,26 @@ from settings import settings as sett
 
 
 class ForgotPasswordWindow(QDialog, BaseWindow):
+    """
+    Класс восстановления пароля.
+    Позволяет пользователю восстановить пароль, отправив временный пароль на
+    его электронную почту.
 
+    Attributes
+    ----------
+    - window_name: str
+        Имя окна, которое будет отображаться в заголовке.
+
+    - file_path: str
+        Путь к конфигу, который будет использоваться построения окна.
+        Передается в родительский класс BaseWindow.
+
+    Methods
+    -------
+    - recover_password()
+        Восстанавливает пароль пользователя, отправляя временный пароль на его
+        электронную почту.
+    """
     def __init__(
         self,
         window_name: str,
@@ -22,7 +41,13 @@ class ForgotPasswordWindow(QDialog, BaseWindow):
 
         self.init_ui()
 
-    def remember_password(self) -> None:
+    def recover_password(self) -> None:
+        """
+        Восстанавливает пароль пользователя, отправляя временный пароль на его
+        почту, если она есть. Но перед этим проводит валидацию введенных
+        данных. Если данные не валидны, то выводит сообщение об ошибке.
+        """
+
         log.info(sett.TRYING_RECOVER_PASSWORD)
         username = self.creator.input_fields[sett.USERNAME].text()
         useremail = self.creator.input_fields[sett.EMAIL].text()
