@@ -16,23 +16,14 @@ class BaseWindow(QWidget):
 
     Attributes
     ----------
+    - file_path: str | None
+        Default = None\n
+        Путь к файлу конфигурации. Если None, то используется путь из
+        наследников.
+
     - username: str
+        Default = 'alex'\n
         Имя пользователя, с которым открыто окно.
-
-    - window_width: int
-        Начальная ширина окна класса-наследника.
-
-    - window_height: int
-        Начальная высота окна класса-наследника.
-
-    - userdata: dict
-        Словарь с данными пользователя, полученными из JSON файла.
-
-    - config_json_handler: JsonHandler
-        Обработчик JSON файла с конфигом, содержащим информацию о виджетах.
-
-    - creator: Creator | None
-        Класс, используемый для создания и размещения виджетов и контейнеров.
 
     Methods
     -------
@@ -44,6 +35,11 @@ class BaseWindow(QWidget):
 
     - cancel(inheritor)
         Свой метод для кнопки Cancel. Закрывает окно и пишет об этом в лог.
+
+    Protected Methods
+    -----------------
+    - _add_greetings_to_config(config)
+        Добавляет в конфиг приветствие для пользователя.
     """
 
     CONFIG_FILE = None  # Путь к конфигу должен задаваться в наследниках
@@ -71,9 +67,12 @@ class BaseWindow(QWidget):
         """
         Создает интерфейс окна на основе JSON-конфига.
         - Загружает конфиг из JSON файла.
+        - Добавляет лого в конфиг.
+        - Добавляет приветствие в конфиг.
         - Настраивает Титул и размеры окна.
         - Перемещает окно в центр экрана.
         - Размещает виджеты, используя креатор.
+        - Блокирует размеры окна, если это указано в конфиге.
         """
 
         log.info(sett.CREATE_WINDOW_WITH_CONF.format(self.CONFIG_FILE))
@@ -127,10 +126,12 @@ class BaseWindow(QWidget):
         - callback_name: str,
             Имя метода в виде строки.
 
-        - params: dict = {},
+        - params: dict
+            Default = {}\n
             Параметры для вызова метода (если есть).
 
-        - inheritor: Any = None
+        - inheritor: Any
+            Default = None\n
             Класс насследник, чьи методы будет использовать виджет.
         """
 
@@ -213,8 +214,8 @@ class BaseWindow(QWidget):
                     lambda: inheritor.forgot_password(params)
                 )
 
-            case sett.REMEMBER_PASSWORD:
-                widget.clicked.connect(inheritor.remember_password)
+            case sett.RECOVER_PASSWORD:
+                widget.clicked.connect(inheritor.recover_password)
 
             case sett.OPEN_USERS_SETTINGS:
                 widget.clicked.connect(
@@ -242,6 +243,8 @@ class BaseWindow(QWidget):
         log.info(sett.CANCEL_BUTTON_PRESSED)
         inheritor.close()
 
+    # =========================== Protected methods ===========================
+    # -------------------------------------------------------------------------
     def _add_greetings_to_config(self, config: dict) -> None:
         """
         Добавляет в конфиг приветствие для пользователя.
