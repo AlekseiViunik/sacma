@@ -1,6 +1,7 @@
 from handlers.mail_handler import MailHandler
 from helpers.authenticator import Authenticator
 from interface.windows.messagebox import Messagebox
+from logic.validator import Validator
 from .base_window import BaseWindow
 from PyQt6.QtWidgets import QDialog
 from handlers.json_handler import JsonHandler
@@ -25,6 +26,16 @@ class ForgotPasswordWindow(QDialog, BaseWindow):
         log.info(sett.TRYING_RECOVER_PASSWORD)
         username = self.creator.input_fields[sett.USERNAME].text()
         useremail = self.creator.input_fields[sett.EMAIL].text()
+        if not Validator.validate_email(useremail):
+            log.error(sett.WRONG_EMAIL_FORGOT_PASS.format(useremail))
+            Messagebox.show_messagebox(
+                sett.RECOVER_ERROR,
+                sett.WRONG_EMAIL.format(useremail),
+                None,
+                exec=True
+            )
+            return
+
         userdata_json_handler = JsonHandler(sett.USER_MAIN_DATA_FILE, True)
         auth_json_handler = JsonHandler(sett.AUTH_FILE, True)
 
