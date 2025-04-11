@@ -17,20 +17,6 @@ class RegisterWindow(BaseWindow):
     """
     Окно регистрации нового пользователя.
 
-    Attributes
-    ----------
-    - auth_json_handler: JsonHandler
-        Обработчик JSON файла авторизации.
-
-    - auth: Authenticator
-        Помощник, отвечающий за авторизацию и создание юзеров.
-
-    - input_data_handler: InputDataHandler
-        Класс для обработки входных данных.
-
-    - user_data_handler: UserDataHandler
-        Класс для работы с данными юзера.
-
     Methods
     -------
     - create_user()
@@ -202,6 +188,7 @@ class RegisterWindow(BaseWindow):
             Объект чекбокса, на основе которого меняется видимость поля.
 
         - field: str
+            Default = 'password'\n
             Имя поля, видимость которого меняется.
         """
 
