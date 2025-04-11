@@ -1,3 +1,4 @@
+from logic.filepath_generator import FilepathGenerator
 from .base_window import BaseWindow
 from handlers.json_handler import JsonHandler
 from logic.logger import logger as log
@@ -63,6 +64,10 @@ class DeleteUserWindow(BaseWindow):
 
             auth = auth_json_handler.get_all_data()
             userdata = user_data_json_handler.get_all_data()
+
+            filepath = FilepathGenerator.generate_settings_filepath(
+                sett.SETTINGS_FILE, username
+            )
 
             userdata.pop(username, None)
             auth[sett.USERS].pop(username, None)
