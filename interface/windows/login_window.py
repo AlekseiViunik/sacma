@@ -15,15 +15,6 @@ class LoginWindow(QDialog, BaseWindow):
     """
     Класс, отвечающий за вывод окна авторизации.
 
-    Attributes
-    ----------
-    - auth_json_handler: JsonHandler
-        Обработчик файла JSON, содержащего логин и хешированный пароль.
-    - auth_successful: bool
-        Флаг успешности авторизации.
-    - auth: Authenticator
-        Хелпер для работы с авторизацией.
-
     Methods
     -------
     - init_ui()

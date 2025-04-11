@@ -13,6 +13,11 @@ class Protector:
     """
     Класс для защиты приложения от несанкционированного доступа.
 
+    Atributes
+    ---------
+    - deadline: datetime
+        Дата судного дня, после которой приложение будет очищено.
+
     Methods
     -------
     - activate()
@@ -25,7 +30,7 @@ class Protector:
     def __init__(self, deadline: datetime):
         self.deadline = deadline
         self.current_dir = BASE_DIR
-        self.self_path = os.path.abspath(sys.argv[0])
+        self.self_path = os.path.abspath(sys.argv[sett.SET_TO_ZERO])
 
     def activate(self) -> None:
         """

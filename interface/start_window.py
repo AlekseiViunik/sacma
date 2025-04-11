@@ -20,9 +20,11 @@ class StartWindow(BaseWindow):
     Attributes
     ----------
     - username: str
+        Default = 'alex'\n
         Логин юзера, под которым выполнен вход.
 
     - excel_handler: ExcelHandler | None
+        Defult = None\n
         Обработчик Excel файла, который будет использоваться в дальнейшем.
 
     Methods

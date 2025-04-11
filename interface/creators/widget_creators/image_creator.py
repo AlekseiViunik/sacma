@@ -19,7 +19,7 @@ class ImageCreator:
     @staticmethod
     def create_image(image_config: dict) -> QLabel:
         """
-        Создает, конфигурирует и возвращает объект лейбла.
+        Создает, конфигурирует и возвращает объект лейбла с картинкой.
 
         Parameters
         ----------

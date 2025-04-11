@@ -176,7 +176,7 @@ class ConfigGenerator:
     def add_logo_to_config(
         self,
         config: dict[str, Any],
-        place: int = -100
+        place: int = sett.DEFAULT_PLACE_TO_PASTE
     ) -> dict[str, Any]:
         """
         Добавляет логотип в конкретное место конфига.
@@ -187,7 +187,9 @@ class ConfigGenerator:
             Конфиг, в который нужно добавить логотип.
 
         - place : int
+            Default = -100\n
             Позиция, на которую нужно добавить логотип.
+            По умолчанию -100, что означает добавление в конец списка.
 
         Returns
         -------
@@ -205,7 +207,7 @@ class ConfigGenerator:
         self,
         config: dict[str, Any],
         new_layout_config: dict[str, Any],
-        place: int = -100
+        place: int = sett.DEFAULT_PLACE_TO_PASTE
     ):
         """
         Добавляет конфиг нового контейнера в текущий конфиг на конкретное
@@ -220,11 +222,12 @@ class ConfigGenerator:
             Конфиг нового контейнера.
 
         - place : int
+            Default = -100\n
             Позиция, на которую нужно добавить новый контейнер.
             Если -1, то добавляет в конец списка.
         """
 
-        if place == -100:
+        if place == sett.DEFAULT_PLACE_TO_PASTE:
             config[sett.LAYOUT][sett.WIDGETS].append(new_layout_config)
         else:
             config[sett.LAYOUT][sett.WIDGETS].insert(place, new_layout_config)

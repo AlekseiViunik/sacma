@@ -32,6 +32,9 @@ class CheckboxCreator:
         - config: dict
             Конфиг, по которому будет создан и сконфигурирован чекбокс.
 
+        - parent_window: BaseWindow
+            Родительское окно, к которому будет привязан чекбокс.
+
         Returns
         -------
         - checkbox: QCheckBox

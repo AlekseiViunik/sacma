@@ -5,7 +5,32 @@ from settings import settings as sett
 
 
 class DeleteUserWindow(BaseWindow):
+    """
+    Класс для окна удаления пользователя.
+    Удаляет пользователя из JSON файла с данными пользователей и
+    из JSON файла с аутентификацией.
 
+    Attributes
+    ----------
+    - window_name: str
+        Имя окна, которое будет отображаться в заголовке.
+
+    - file_path: str
+        Путь к конфигу, который будет использоваться построения окна.
+        Передается в родительский класс BaseWindow.
+
+    Methods
+    -------
+    - delete_user()
+        Удаляет пользователя из JSON файлов с данными пользователей и
+        аутентификацией.
+
+    Private Methods
+    ---------------
+    - __remove_yourself_from_dropdown()
+        Удаляет себя из выпадающего списка выбора пользователя, чтобы случайно
+        не вызвать ошибку, попытавшись удалить себя.
+    """
     def __init__(
         self,
         window_name: str,
@@ -18,6 +43,13 @@ class DeleteUserWindow(BaseWindow):
         self.__remove_yourself_from_dropdown()
 
     def delete_user(self) -> None:
+        """
+        Удаляет записи о выбранным пользователем из JSON файлов с данными
+        пользователей и аутентификацией. Выбор происходит по username.
+        Username выбранного пользователя хранится в объекте класса Creator,
+        который является атрибутом класса-родителя BaseWindow.
+        """
+
         auth_json_handler = JsonHandler(
             sett.AUTH_FILE, True
         )
@@ -48,7 +80,10 @@ class DeleteUserWindow(BaseWindow):
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------
     def __remove_yourself_from_dropdown(self) -> None:
-
+        """
+        Чтобы случайно не вызвать ошибку, попытавшись удалить самого себя,
+        удаляет себя из списка доступных юзеров для удаления.
+        """
         dropdown = self.creator.chosen_fields[sett.USERNAME]
         current_options = [
             dropdown.itemText(i) for i in range(dropdown.count())

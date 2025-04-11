@@ -16,9 +16,11 @@ class DataPreparator:
     Attributes
     ----------
     - data : dict[str, str | Any]
+        Default = {}\n
         Словарь с данными, которые нужно подготовить.
 
     - rules : dict
+        Default = {}\n
         Словарь с правилами валидации данных.
 
     Methods

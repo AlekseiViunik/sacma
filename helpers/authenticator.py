@@ -10,11 +10,6 @@ class Authenticator:
     """
     Класс для управления авторизацией пользователей.
 
-    Attributes
-    ----------
-    - file_handler: JsonHandler
-        Обработчик JSON файла авторизации.
-
     Methods
     -------
     - load_users()
@@ -24,18 +19,22 @@ class Authenticator:
     - load_last_user()
         Загружает последнего успешно вошедшего юзера (только username).
 
-    - hash_password(password)
-        Хеширует пароль.
-
-    - verify_user(username, password)
-        Проверяет соответствие логина паролю.
-
     - save_last_user(username)
         Сохраняет последнего успешно вошедшего юзера (только юзернейм).
 
     - register_user(username, password).
         Добавляет нового юзера (юзернейм и хешированный пароль)в файл
         аутентификации.
+
+    - update_user_password(username, password)
+        Обновляет пароль пользователя.
+
+    - hash_password(password)
+        Хеширует пароль.
+
+    - verify_user(username, password)
+        Проверяет соответствие логина паролю.
+
     """
 
     def __init__(self) -> None:
@@ -115,7 +114,7 @@ class Authenticator:
 
         return True
 
-    def update_user_password(username, password) -> None:
+    def update_user_password(username: str, password: str) -> bool:
         """
         Обновляет пароль пользователя.
 

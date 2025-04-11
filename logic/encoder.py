@@ -20,8 +20,6 @@ class Encoder:
         Шифрует данные, используя словарь шифрования из файла
         "configs/encryption.json".
     """
-    def __init__(self):
-        pass
 
     def decrypt_data(
         self,
@@ -65,7 +63,7 @@ class Encoder:
             log.error(sett.FAILED_TO_DECODE)
             return {sett.ERROR: sett.FAILED_TO_DECODE}
 
-    def encrypt_data(self, data_dict):
+    def encrypt_data(self, data_dict: dict) -> list[str]:
         """
         Шифрует данные, используя словарь шифрования из файла
         "configs/encryption.json".

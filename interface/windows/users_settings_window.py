@@ -6,6 +6,18 @@ from settings import settings as sett
 
 
 class UsersSettingsWindow(BaseWindow):
+    """
+    Окно для изменения настроек пользователей. На данном этапе
+    реализована возможность изменения только группы пользователя.
+
+    Attributes
+    ----------
+    - window_name: str
+        Имя окна.
+    - file_path: str
+        Путь к конфигу для построения окна. Передаётся в родительский
+        класс BaseWindow.
+    """
 
     def __init__(
         self,
@@ -18,6 +30,11 @@ class UsersSettingsWindow(BaseWindow):
         self.init_ui()
 
     def save_users_settings(self) -> None:
+        """
+        Сохраняет измененные настройки выбранного бзера. На данный момент
+        реализована возможность изменения только группы пользователя.
+        """
+
         user_data_json_handler = JsonHandler(
             sett.USER_MAIN_DATA_FILE, True
         )
