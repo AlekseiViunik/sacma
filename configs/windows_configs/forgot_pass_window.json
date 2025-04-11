@@ -46,7 +46,7 @@
                         {
                             "type": "button",
                             "text": "OK",
-                            "callback": "remember_password",
+                            "callback": "recover_password",
                             "params": {},
                             "width": 150,
                             "height": 40
