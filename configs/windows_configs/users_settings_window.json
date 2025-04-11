@@ -1,0 +1,78 @@
+{
+    "window_title": "Users settings",
+    "window_width": 450,
+    "window_height": 150,
+    "layout": {
+        "type": "vertical",
+        "widgets": [
+            {
+                "layout": {
+                    "type": "grid",
+                    "columns": 2,
+                    "widgets": [
+                        {
+                            "type": "label",
+                            "text": "Scegli username:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "username",
+                            "default_value": "--select--",
+                            "options": {
+                                "get_from_file": {
+                                    "file_path": "configs/auth.json",
+                                    "key": "users"
+                                }
+                            },
+                            "width": 250,
+                            "height": 40,
+                            "column": "current"
+                        },
+                        {
+                            "type": "label",
+                            "text": "Scegli il gruppo:",
+                            "column": "first"
+                        },
+                        {
+                            "type": "dropdown",
+                            "name": "usergroup",
+                            "default_value": "users",
+                            "options": {
+                                "always": [
+                                    "users",
+                                    "admins"
+                                ]
+                            },
+                            "width": 250,
+                            "height": 40,
+                            "column": "current"
+                        }
+                    ]
+                }
+            },
+            {
+                "layout": {
+                    "type": "horizontal",
+                    "widgets": [
+                        {
+                            "type": "button",
+                            "text": "Save",
+                            "callback": "save_users_settings",
+                            "params": {},
+                            "width": 150,
+                            "height": 40
+                        },
+                        {
+                            "type": "button",
+                            "text": "Cancel",
+                            "width": 150,
+                            "height": 40,
+                            "callback": "close_window"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
