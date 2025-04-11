@@ -15,11 +15,6 @@ class SettingsWindow(QDialog, BaseWindow):
     """
     Окно настроек.
 
-    Attributes
-    ----------
-    - settings_json_handler: JsonHandler
-        Обработчик JSON файла, хранящего пользовательские настройки.
-
     Methods
     -------
     - browse_file(target_input)
