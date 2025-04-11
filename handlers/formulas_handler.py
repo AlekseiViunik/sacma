@@ -40,6 +40,7 @@ class FormulasHandler:
             Формула в виде строки.
 
         - formula_name: str
+            Default = 'price'\n
             Имя формулы (ключ, по которому она хранилась в словаре формул
             в конфиге).
 
