@@ -42,6 +42,7 @@ class Remover:
             который надо удалить.
 
         - layout_to_delete: QLayout | None
+            Default = None\n
             Виджет, который надо удалить.
         """
 
