@@ -7,6 +7,7 @@ from interface.windows.input_window import InputWindow
 from interface.windows.login_window import LoginWindow
 from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
+from interface.windows.users_settings_window import UsersSettingsWindow
 from logic.config_generator import ConfigGenerator
 from logic.logger import logger as log
 from settings import settings as sett
@@ -149,3 +150,17 @@ class StartWindow(BaseWindow):
             )
 
             delete_user_window.show()
+
+    def open_users_settings(self, params: dict[str, str]) -> None:
+        """
+        Открывает окно настроек юзера.
+        """
+
+        sender = self.sender()
+        if sender:
+            window_name = sender.text()
+            users_settings_window = UsersSettingsWindow(
+                window_name,
+                params[sett.JSON_FILE_PATH]
+            )
+            users_settings_window.show()
