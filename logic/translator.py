@@ -27,7 +27,8 @@ class Translator:
         ----------
         value : dict
             Словарь, который нужно перевести.
-        only_keys : bool, optional
+        only_keys : bool
+            Default = True\n
             Если True, то переводит только ключи словаря. По умолчанию True.
             (это задел на будущее)
 
