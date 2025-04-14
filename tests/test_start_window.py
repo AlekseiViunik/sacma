@@ -14,6 +14,7 @@ config = JsonHandler(sett.MAIN_WINDOW_CONFIG_FILE).get_all_data()[sett.LAYOUT]
 class FakeExcelHandler:
     def open_excel(self): pass
     def close_excel(self): pass
+    def restart_excel(self, *args): pass
 
 
 def fake_exec(self):
