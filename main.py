@@ -2,8 +2,9 @@ import ctypes
 
 from datetime import datetime
 
-from logic.handlers.excel_handler import ExcelHandler
 from interface.windows.login_window import LoginWindow
+from logic.handlers.excel_handler import ExcelHandler
+from logic.helpers.backuper import Backuper
 from logic.generators.filepath_generator import FilepathGenerator
 from logic.logger import logger, check_log_size, switch_log_to_user
 from logic.protectors.protector import Protector
@@ -64,6 +65,12 @@ if __name__ == "__main__":
             )
         )
         protector.activate()
+
+    Backuper.backup_files(
+        sett.SETTINGS_FILE,
+        sett.CONFIGS_FOLDER,
+        sett.BACKUPS_FOLDER
+    )
 
     logger.info("============================================================")
 
