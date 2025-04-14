@@ -1,3 +1,5 @@
+import os
+
 from logic.filepath_generator import FilepathGenerator
 from .base_window import BaseWindow
 from handlers.json_handler import JsonHandler
@@ -74,6 +76,9 @@ class DeleteUserWindow(BaseWindow):
 
             auth_json_handler.rewrite_file(auth)
             user_data_json_handler.rewrite_file(userdata)
+
+            if os.path.exists(filepath):
+                os.remove(filepath)
 
             self.creator.update_dependent_layouts()
             self.__remove_yourself_from_dropdown()
