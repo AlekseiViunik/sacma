@@ -3,7 +3,6 @@ import random
 
 from logic.logger import logger as log
 from settings import settings as sett
-from settings.global_variables import encryption_data
 
 
 class Encoder:
@@ -21,7 +20,8 @@ class Encoder:
     """
     def __init__(self) -> None:
         if sett.PRODUCTION_MODE_ON:
-            self.enctryption_data = encryption_data
+            from settings.global_variables import encryption_data
+            self.encryption_data = encryption_data
         else:
             with open(
                 sett.ENCRYPTION_FILE, sett.FILE_READ, encoding=sett.STR_CODING
