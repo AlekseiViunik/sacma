@@ -1,7 +1,7 @@
 from handlers.excel_handler import ExcelHandler
 from handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
-from interface.windows.change_pass_window import ChangePassWindow
+from interface.windows.my_profile_window import MyProfile
 from interface.windows.delete_user_window import DeleteUserWindow
 from interface.windows.input_window import InputWindow
 from interface.windows.login_window import LoginWindow
@@ -43,8 +43,8 @@ class StartWindow(BaseWindow):
         Закрывает текущее окно и открывает окно логина. Срабатывает при
         нажатии соответствующей кнопки.
 
-    - change_password()
-        Открывает окно смены пароля. Срабатывает при нажатии соответствующей
+    - open_my_profile()
+        Открывает окно настроек юзера. Срабатывает при нажатии соответствующей
         кнопки.
     """
 
@@ -143,12 +143,12 @@ class StartWindow(BaseWindow):
             )
             self.creator.update_dependent_layouts()
 
-    def change_password(self) -> None:
+    def open_my_profile(self) -> None:
         """
         Открывает окно смены пароля.
         """
-        self.change_password_window = ChangePassWindow(self.username)
-        self.change_password_window.show()
+        self.my_profile_window = MyProfile(self.username)
+        self.my_profile_window.show()
 
     def open_delete_user(self, params: dict[str, str]) -> None:
         """
@@ -162,6 +162,7 @@ class StartWindow(BaseWindow):
             delete_user_window = DeleteUserWindow(
                 window_name,
                 params[sett.JSON_FILE_PATH],
+                self.username
             )
 
             delete_user_window.show()

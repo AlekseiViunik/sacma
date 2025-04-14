@@ -38,8 +38,9 @@ class DeleteUserWindow(BaseWindow):
         self,
         window_name: str,
         file_path: str,
+        username: str | None
     ) -> None:
-        super().__init__(file_path)
+        super().__init__(file_path, username)
         self.window_name: str = window_name
 
         self.init_ui()

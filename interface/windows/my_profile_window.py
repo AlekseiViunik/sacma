@@ -1,6 +1,8 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
+from handlers.user_data_handler import UserDataHandler
 from helpers.authenticator import Authenticator
+from helpers.helper import Helper
 from interface.windows.messagebox import Messagebox
 from logic.validator import Validator
 
@@ -9,7 +11,7 @@ from logic.logger import logger as log
 from settings import settings as sett
 
 
-class ChangePassWindow(BaseWindow):
+class MyProfile(BaseWindow):
     """
     Класс для окна смены пароля.
 
@@ -28,12 +30,13 @@ class ChangePassWindow(BaseWindow):
         Сменяет пароль пользователя.
     """
 
-    CONFIG_FILE = sett.CHANGE_PASS_CONFIG_FILE
+    CONFIG_FILE = sett.MY_PROFILE_CONFIG_FILE
 
     def __init__(self, username: str) -> None:
         super().__init__(username=username)
-
+        self.user_data_handler = UserDataHandler()
         self.init_ui()
+        Helper.move_window_to_top_center(self)
 
     def toggle_password(
         self,
@@ -138,3 +141,64 @@ class ChangePassWindow(BaseWindow):
                 sett.USER_NOT_FOUND,
                 self
             )
+
+    def change_email(self) -> None:
+        if not Validator.validate_email(
+            self.creator.input_fields[sett.NEW_EMAIL].text()
+        ):
+            Messagebox.show_messagebox(
+                sett.CHANGING_FAILED,
+                sett.EMAIL_IS_NOT_VALID.format(
+                    self.creator.input_fields[sett.NEW_EMAIL].text()
+                ),
+                None,
+                exec=True
+            )
+            return
+
+        self.user_data_handler.change_user_data(
+            username=self.username,
+            field=sett.EMAIL,
+            new_value=self.creator.input_fields[sett.NEW_EMAIL].text()
+        )
+
+    def change_name(self) -> None:
+        self.user_data_handler.change_user_data(
+            username=self.username,
+            field=sett.NAME,
+            new_value=self.creator.input_fields[sett.NEW_NAME].text()
+        )
+
+    def change_surname(self) -> None:
+        self.user_data_handler.change_user_data(
+            username=self.username,
+            field=sett.SURNAME,
+            new_value=self.creator.input_fields[sett.NEW_SURNAME].text()
+        )
+
+    def change_phone(self) -> None:
+        if not Validator.validate_phone(
+            self.creator.input_fields[sett.NEW_PHONE].text()
+        ):
+            Messagebox.show_messagebox(
+                sett.CHANGING_FAILED,
+                sett.PHONE_IS_NOT_VALID.format(
+                    self.creator.input_fields[sett.NEW_PHONE].text()
+                ),
+                None,
+                exec=True
+            )
+            return
+
+        self.user_data_handler.change_user_data(
+            username=self.username,
+            field=sett.PHONE,
+            new_value=self.creator.input_fields[sett.NEW_PHONE].text()
+        )
+
+    def change_sex(self) -> None:
+        self.user_data_handler.change_user_data(
+            username=self.username,
+            field=sett.SEX,
+            new_value=self.creator.chosen_fields[sett.NEW_SEX].currentText()
+        )

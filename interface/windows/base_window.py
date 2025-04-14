@@ -195,8 +195,8 @@ class BaseWindow(QWidget):
             case sett.HANDLE_LOGOUT_METHOD:
                 widget.clicked.connect(inheritor.logout)
 
-            case sett.HANDLE_CHANGE_PASS_METHOD:
-                widget.clicked.connect(inheritor.change_password)
+            case sett.HANDLE_OPEN_MY_PROFILE_METHOD:
+                widget.clicked.connect(inheritor.open_my_profile)
 
             case sett.CHANGE_PASS:
                 widget.clicked.connect(inheritor.change_pass)
@@ -223,6 +223,21 @@ class BaseWindow(QWidget):
                 )
             case sett.SAVE_USERS_SETTINGS:
                 widget.clicked.connect(inheritor.save_users_settings)
+
+            case sett.CHANGE_EMAIL:
+                widget.clicked.connect(inheritor.change_email)
+
+            case sett.CHANGE_PHONE:
+                widget.clicked.connect(inheritor.change_phone)
+
+            case sett.CHANGE_NAME:
+                widget.clicked.connect(inheritor.change_name)
+
+            case sett.CHANGE_SURNAME:
+                widget.clicked.connect(inheritor.change_surname)
+
+            case sett.CHANGE_SEX:
+                widget.clicked.connect(inheritor.change_sex)
 
     def cancel(self, inheritor: QWidget) -> None:
         """

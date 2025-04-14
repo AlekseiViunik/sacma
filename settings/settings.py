@@ -218,6 +218,7 @@ PHONE_IS_NOT_VALID = """
     Phone number is not valid: {0}\n
     Valid format is XXX-XXX-XX-XX only!
 """
+TRYING_CHANGE_USER_DATA = "Trying to change user data: {0} = {1}"
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"
@@ -231,6 +232,8 @@ RECOVER_SUCCESS_MESSAGE = (
 )
 CHANGE_GROUP_ERROR = "Couldn't change group!"
 FAILED_TO_CREATE_FILE = "Failed to create file!"
+CHANGE_USER_DATA_SUCCESS = "Successful change!"
+CHANGING_FAILED = "Changing failed!"
 
 # ============================== DYNAMIC MESSAGES =============================
 
@@ -249,6 +252,9 @@ ADD_COLON = "{0}: "
 WRONG_EMAIL = "R U sure that email '{0}' is email?"
 WRONG_EMAIL_FORGOT_PASS = (
     "Worng email ({0}) is passed when the user tried to recover the password"
+)
+D_CHANGE_USER_DATA_SUCCESS = (
+    "User's {0} has been changed successfully on '{1}'!"
 )
 
 # =========================== STATIC DICTIONARY KEYS ==========================
@@ -362,6 +368,16 @@ USERGROUP = "usergroup"
 CREATED_BY = "created_by"
 CREATED_ON = "created_on"
 PHONE = "phone"
+CONFIG = "config"
+STARTS_WITH = "starts_with"
+ENDS_WITH = "ends_with"
+IS_ENCODED = "is_encoded"
+NEW_EMAIL = "new_email"
+NEW_NAME = "new_name"
+NEW_SURNAME = "new_surname"
+NEW_PHONE = "new_phone"
+NEW_SEX = "new_sex"
+SEX = "sex"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -369,7 +385,7 @@ SECTION_I = "section_{0}"
 # =============================== NUMBER CONSTS ===============================
 MIDDLE_DETERMINANT_DIVIDER = 2  # Default: 2
 TOP_LEFT_X = 40  # Default: 40
-TOP_LEFT_Y = 50  # Default: 50
+TOP_Y = 50  # Default: 50
 SET_TO_ZERO = 0  # Default: 0
 SET_TO_ONE = 1  # Default: 1
 SET_TO_TWO = 2  # Default: 2
@@ -393,6 +409,7 @@ BUTTON = "button"  # Default: "button"
 CHECKBOX = "checkbox"  # Default: "checkbox"
 DROPDOWN = "dropdown"  # Default: "dropdown"
 INPUT = "input"  # Default: "input"
+MY_PROFILE = "My profile"
 
 # =============================== METHOD NAMES ================================
 CURRENT_TEXT_METHOD = "currentText"
@@ -405,7 +422,7 @@ TOGGLE_OLD_PASSWORD_METHOD = "toggle_old_password"
 TRY_LOGIN_METHOD = "try_login"
 HANDLE_START_BUTTON_METHOD = "handle_start_button"
 HANDLE_FORWARD_BUTTON_METHOD = "handle_forward_button"
-HANDLE_CHANGE_PASS_METHOD = "handle_change_pass"
+HANDLE_OPEN_MY_PROFILE_METHOD = "handle_open_my_profile"
 HANDLE_LOGOUT_METHOD = "handle_logout"
 BROWSE_FILE_METHOD = "browse_file"
 SAVE_SETTINGS_METHOD = "save_settings"
@@ -421,6 +438,11 @@ RECOVER_PASSWORD = "recover_password"
 OPEN_LOGIN = "open_login"
 OPEN_USERS_SETTINGS = "open_users_settings"
 SAVE_USERS_SETTINGS = "save_users_settings"
+CHANGE_EMAIL = "change_email"
+CHANGE_NAME = "change_name"
+CHANGE_SURNAME = "change_surname"
+CHANGE_PHONE = "change_phone"
+CHANGE_SEX = "change_sex"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
@@ -511,11 +533,10 @@ OUTPUT_WINDOW_CONFIG_FILE = "configs/windows_configs/output_window.json"
 USER_MAIN_DATA_FILE = "configs/users_configs/user_main_data.json"
 TRAVI_WINDOW_CONFIG_FILE = "configs/windows_configs/travi_window.json"
 CALC_CONFIG_PATH = "configs/calculator_configs/{0}.json"
-CHANGE_PASS_CONFIG_FILE = "configs/windows_configs/change_pass_window.json"
+MY_PROFILE_CONFIG_FILE = "configs/windows_configs/my_profile_window.json"
 ENCRYPTION_FILE = "configs/encryption.json"
 SETTINGS_JSON = "settings.json"
 MODIFIED_SETTINGS_JSON = "settings_{0}.json"
-
 
 # =============================== LOGO PATHS ==================================
 
@@ -552,6 +573,8 @@ LEFT_BRACKET_SYMBOL = "("
 RIGHT_BRACKET_SYMBOL = ")"
 METERS_SYMBOL = "m"
 QUESTION_MARK = "?"
+LESS_THAN = "<"
+GREATER_THAN = ">"
 
 # ============================ REGEX PATTERNS =================================
 FLOAT_REGEX = r"\d+(,\d+)?"

@@ -66,8 +66,8 @@ class ConfigGenerator:
                     },
                     {
                         sett.TYPE: sett.BUTTON,
-                        sett.TEXT: sett.CHANGE_PASSWORD,
-                        sett.CALLBACK: sett.HANDLE_CHANGE_PASS_METHOD,
+                        sett.TEXT: sett.MY_PROFILE,
+                        sett.CALLBACK: sett.HANDLE_OPEN_MY_PROFILE_METHOD,
                         sett.ALIGN: sett.ALIGN_RIGHT,
                         sett.HEIGHT: sett.NON_STANDART_BUTTON_HEIGHT,
                         sett.WIDTH: sett.NON_STANDART_BUTTON_WIDTH
