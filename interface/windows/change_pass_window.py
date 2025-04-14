@@ -9,7 +9,7 @@ from logic.logger import logger as log
 from settings import settings as sett
 
 
-class ChangePassWindow(BaseWindow):
+class MySettings(BaseWindow):
     """
     Класс для окна смены пароля.
 
@@ -28,7 +28,7 @@ class ChangePassWindow(BaseWindow):
         Сменяет пароль пользователя.
     """
 
-    CONFIG_FILE = sett.CHANGE_PASS_CONFIG_FILE
+    CONFIG_FILE = sett.MY_SETTINGS_CONFIG_FILE
 
     def __init__(self, username: str) -> None:
         super().__init__(username=username)
