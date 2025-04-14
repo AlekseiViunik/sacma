@@ -4,10 +4,10 @@ import win32com.client as win32
 
 from typing import Any
 
-from handlers.json_handler import JsonHandler
-from helpers.helper import Helper
+from logic.handlers.json_handler import JsonHandler
+from logic.helpers.helper import Helper
 from interface.windows.settings_window import SettingsWindow
-from logic.data_preparator import DataPreparator
+from logic.preparators.data_preparator import DataPreparator
 from logic.logger import logger as log
 from settings import settings as sett
 

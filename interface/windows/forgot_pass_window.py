@@ -1,12 +1,13 @@
-from handlers.mail_handler import MailHandler
-from helpers.authenticator import Authenticator
-from interface.windows.messagebox import Messagebox
-from logic.validator import Validator
-from .base_window import BaseWindow
 from PyQt6.QtWidgets import QDialog
-from handlers.json_handler import JsonHandler
+
+from .base_window import BaseWindow
+from interface.windows.messagebox import Messagebox
+from logic.handlers.mail_handler import MailHandler
+from logic.helpers.authenticator import Authenticator
+from logic.helpers.validator import Validator
+from logic.handlers.json_handler import JsonHandler
 from logic.logger import logger as log
-from logic.pass_generator import PassGenerator
+from logic.generators.pass_generator import PassGenerator
 from settings import settings as sett
 
 

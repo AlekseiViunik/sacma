@@ -11,15 +11,15 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 
-from helpers.finder import Finder
-from helpers.remover import Remover
+from logic.helpers.finder import Finder
+from logic.helpers.remover import Remover
 from interface.creators.widget_creators.button_creator import ButtonCreator
 from interface.creators.widget_creators.checkbox_creator import CheckboxCreator
 from interface.creators.widget_creators.dropdown_creator import DropdownCreator
 from interface.creators.widget_creators.image_creator import ImageCreator
 from interface.creators.widget_creators.input_creator import InputCreator
 from interface.creators.widget_creators.label_creator import LabelCreator
-from logic.config_generator import ConfigGenerator
+from logic.generators.config_generator import ConfigGenerator
 from logic.logger import logger as log
 from settings import settings as sett
 

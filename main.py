@@ -2,12 +2,12 @@ import ctypes
 
 from datetime import datetime
 
-from handlers.excel_handler import ExcelHandler
+from logic.handlers.excel_handler import ExcelHandler
 from interface.windows.login_window import LoginWindow
-from logic.filepath_generator import FilepathGenerator
+from logic.generators.filepath_generator import FilepathGenerator
 from logic.logger import logger, check_log_size, switch_log_to_user
-from logic.protector import Protector
-from logic.config_protector import ConfigProtector
+from logic.protectors.protector import Protector
+from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
 
 

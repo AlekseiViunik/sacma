@@ -1,10 +1,10 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
-from handlers.user_data_handler import UserDataHandler
-from helpers.authenticator import Authenticator
-from helpers.helper import Helper
+from logic.handlers.user_data_handler import UserDataHandler
+from logic.helpers.authenticator import Authenticator
+from logic.helpers.mover import Mover
 from interface.windows.messagebox import Messagebox
-from logic.validator import Validator
+from logic.helpers.validator import Validator
 
 from .base_window import BaseWindow
 from logic.logger import logger as log
@@ -36,7 +36,7 @@ class MyProfile(BaseWindow):
         super().__init__(username=username)
         self.user_data_handler = UserDataHandler()
         self.init_ui()
-        Helper.move_window_to_top_center(self)
+        Mover.move_window_to_top_center(self)
 
     def toggle_password(
         self,

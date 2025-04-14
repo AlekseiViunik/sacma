@@ -1,14 +1,14 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
-from logic.validator import Validator
+from logic.helpers.validator import Validator
 
 from .base_window import BaseWindow
 from .messagebox import Messagebox
-from handlers.input_data_handler import InputDataHandler
-from handlers.json_handler import JsonHandler
-from handlers.user_data_handler import UserDataHandler
-from helpers.authenticator import Authenticator
-from helpers.helper import Helper
+from logic.handlers.input_data_handler import InputDataHandler
+from logic.handlers.json_handler import JsonHandler
+from logic.handlers.user_data_handler import UserDataHandler
+from logic.helpers.authenticator import Authenticator
+from logic.helpers.helper import Helper
 from logic.logger import logging as log
 from settings import settings as sett
 

@@ -5,8 +5,8 @@ from PyQt6.QtCore import Qt
 from pytestqt.qtbot import QtBot
 from PyQt6.QtTest import QTest
 
-from helpers.finder import Finder
-from handlers.json_handler import JsonHandler
+from logic.helpers.finder import Finder
+from logic.handlers.json_handler import JsonHandler
 from interface.start_window import StartWindow
 from settings import settings as sett
 
