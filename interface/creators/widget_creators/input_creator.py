@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QLineEdit
 from typing import TYPE_CHECKING
 
 from logic.logger import logger as log
+from logic.widget_preparator import WidgetPreparator
 from settings import settings as sett
 
 if TYPE_CHECKING:
@@ -52,7 +53,17 @@ class InputCreator:
                 case sett.HEIGHT:
                     input_field.setFixedHeight(int(value))
                 case sett.DEFAULT_VALUE:
-                    input_field.setPlaceholderText(value)
+                    if isinstance(value, dict):
+
+                        # Если дефолт задан динамически
+                        text = WidgetPreparator.prepare_default_for_input(
+                            config=value,
+                            username=creator.parent_window.username
+                        )
+                        input_field.setPlaceholderText(text)
+
+                    else:
+                        input_field.setPlaceholderText(value)
                 case sett.HIDE:
                     # Прячет вводимые символы (для чувствительных данных).
                     input_field.setEchoMode(QLineEdit.EchoMode.Password)
