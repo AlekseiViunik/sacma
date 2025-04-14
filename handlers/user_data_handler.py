@@ -1,4 +1,5 @@
 from handlers.json_handler import JsonHandler
+from interface.windows.messagebox import Messagebox
 from logic.logger import logger as log
 from settings import settings as sett
 
@@ -48,3 +49,39 @@ class UserDataHandler:
             log.info(sett.USER_DATA_IS_ADDED)
         else:
             log.info(sett.USER_DATA_IS_NOT_ADDED)
+
+    def change_user_data(
+        self,
+        username: str,
+        field: str,
+        new_value: str
+    ) -> None:
+        """
+        Изменяет данные пользователя в файле.
+
+        Parameters
+        ----------
+        - username: str
+            Имя пользователя, данные которого нужно изменить.
+
+        - field: str
+            Поле, которое нужно изменить.
+
+        - new_value: str
+            Новое значение поля.
+        """
+
+        log.info(sett.TRYING_CHANGE_USER_DATA.format(field, new_value))
+        self.auth_json_handler.write_into_file(
+            key=username,
+            key2=field,
+            value=new_value
+        )
+
+        Messagebox.show_messagebox(
+            sett.CHANGE_USER_DATA_SUCCESS,
+            sett.D_CHANGE_USER_DATA_SUCCESS.format(field, new_value),
+            None,
+            sett.TYPE_INFO,
+            exec=True
+        )
