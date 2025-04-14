@@ -1,5 +1,5 @@
-from handlers.excel_handler import ExcelHandler
-from handlers.json_handler import JsonHandler
+from logic.handlers.excel_handler import ExcelHandler
+from logic.handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
 from interface.windows.my_profile_window import MyProfile
 from interface.windows.delete_user_window import DeleteUserWindow
@@ -8,8 +8,8 @@ from interface.windows.login_window import LoginWindow
 from interface.windows.register_window import RegisterWindow
 from interface.windows.settings_window import SettingsWindow
 from interface.windows.users_settings_window import UsersSettingsWindow
-from logic.config_generator import ConfigGenerator
-from logic.filepath_generator import FilepathGenerator
+from logic.generators.config_generator import ConfigGenerator
+from logic.generators.filepath_generator import FilepathGenerator
 from logic.logger import logger as log
 from settings import settings as sett
 

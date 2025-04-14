@@ -2,7 +2,7 @@ import re
 
 from typing import Any
 
-from helpers.helper import Helper
+from logic.helpers.helper import Helper
 from logic.logger import logger as log
 from settings import settings as sett
 

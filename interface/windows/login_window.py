@@ -4,9 +4,9 @@ from interface.windows.forgot_pass_window import ForgotPasswordWindow
 
 from .base_window import BaseWindow
 from .messagebox import Messagebox
-from handlers.json_handler import JsonHandler
-from helpers.authenticator import Authenticator
-from helpers.helper import Helper
+from logic.handlers.json_handler import JsonHandler
+from logic.helpers.authenticator import Authenticator
+from logic.helpers.helper import Helper
 from logic.logger import logging as log
 from settings import settings as sett
 

@@ -1,5 +1,5 @@
 {
-    "window_title": "Change your password",
+    "window_title": "Change your data",
     "window_width": 400,
     "window_height": 450,
     "layout": {
@@ -36,15 +36,15 @@
                             "type": "input",
                             "name": "old_password",
                             "default_value": "Enter old pass",
-                            "width": 250,
-                            "height": 40,
+                            "width": 200,
+                            "height": 30,
                             "column": "current",
                             "hide": 1
                         },
                         {
                             "type": "checkbox",
                             "name": "old_pass_hide",
-                            "text": "Show password",
+                            "text": "Show",
                             "column": "last",
                             "callback": "toggle_old_password"
                         },
@@ -57,15 +57,15 @@
                             "type": "input",
                             "name": "password",
                             "default_value": "Enter new pass",
-                            "width": 250,
-                            "height": 40,
+                            "width": 200,
+                            "height": 30,
                             "column": "current",
                             "hide": 1
                         },
                         {
                             "type": "checkbox",
                             "name": "pass_hide",
-                            "text": "Show password",
+                            "text": "Show",
                             "column": "last",
                             "callback": "toggle_password"
                         },
@@ -78,15 +78,15 @@
                             "type": "input",
                             "name": "repeat_password",
                             "default_value": "Repeat password",
-                            "width": 250,
-                            "height": 40,
+                            "width": 200,
+                            "height": 30,
                             "column": "current",
                             "hide": 1
                         },
                         {
                             "type": "checkbox",
                             "name": "rpass_hide",
-                            "text": "Show repeated password",
+                            "text": "Show",
                             "column": "last",
                             "callback": "toggle_repeat_password"
                         },
@@ -95,8 +95,8 @@
                             "text": "Change",
                             "callback": "change_pass",
                             "params": {},
-                            "width": 150,
-                            "height": 40,
+                            "width": 100,
+                            "height": 30,
                             "column": "last"
                         }
                     ]
@@ -112,7 +112,7 @@
                             "type": "label",
                             "text": "Change your email",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "bold": 1,
                             "column": "first"
                         },
@@ -129,8 +129,8 @@
                         {
                             "type": "label",
                             "text": "Enter new email:",
-                            "width": 150,
-                            "height": 40,
+                            "width": 100,
+                            "height": 30,
                             "column": "first"
                         },
                         {
@@ -144,16 +144,16 @@
                                 },
                                 "starts_with": "Current is: "
                             },
-                            "width": 250,
-                            "height": 40,
+                            "width": 200,
+                            "height": 30,
                             "column": "current"
                         },
                         {
                             "type": "button",
                             "text": "Change",
                             "callback": "change_email",
-                            "width": 150,
-                            "height": 40
+                            "width": 100,
+                            "height": 30
                         }
                     ]
                 }
@@ -168,7 +168,7 @@
                             "type": "label",
                             "text": "Change your name",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "bold": 1,
                             "column": "first"
                         },
@@ -186,7 +186,7 @@
                             "type": "label",
                             "text": "Enter new name:",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "column": "first"
                         },
                         {
@@ -200,16 +200,16 @@
                                 },
                                 "starts_with": "Current is: "
                             },
-                            "width": 250,
-                            "height": 40,
+                            "width": 200,
+                            "height": 30,
                             "column": "current"
                         },
                         {
                             "type": "button",
                             "text": "Change",
                             "callback": "change_name",
-                            "width": 150,
-                            "height": 40
+                            "width": 100,
+                            "height": 30
                         }
                     ]
                 }
@@ -224,7 +224,7 @@
                             "type": "label",
                             "text": "Change your surname",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "bold": 1,
                             "column": "first"
                         },
@@ -242,7 +242,7 @@
                             "type": "label",
                             "text": "Enter new surname:",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "column": "first"
                         },
                         {
@@ -256,16 +256,16 @@
                                 },
                                 "starts_with": "Current is: "
                             },
-                            "width": 250,
-                            "height": 40,
+                            "width": 200,
+                            "height": 30,
                             "column": "current"
                         },
                         {
                             "type": "button",
                             "text": "Change",
                             "callback": "change_surname",
-                            "width": 150,
-                            "height": 40
+                            "width": 100,
+                            "height": 30
                         }
                     ]
                 }
@@ -280,7 +280,7 @@
                             "type": "label",
                             "text": "Change your phone",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "bold": 1,
                             "column": "first"
                         },
@@ -298,7 +298,7 @@
                             "type": "label",
                             "text": "Enter new phone:",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "column": "first"
                         },
                         {
@@ -312,16 +312,16 @@
                                 },
                                 "starts_with": "Current is: "
                             },
-                            "width": 250,
-                            "height": 40,
+                            "width": 200,
+                            "height": 30,
                             "column": "current"
                         },
                         {
                             "type": "button",
                             "text": "Change",
                             "callback": "change_phone",
-                            "width": 150,
-                            "height": 40
+                            "width": 100,
+                            "height": 30
                         }
                     ]
                 }
@@ -336,7 +336,7 @@
                             "type": "label",
                             "text": "Change your sex",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "bold": 1,
                             "column": "first"
                         },
@@ -354,7 +354,7 @@
                             "type": "label",
                             "text": "Select new sex:",
                             "width": 150,
-                            "height": 40,
+                            "height": 30,
                             "column": "first"
                         },
                         {
@@ -364,16 +364,16 @@
                             "options": {
                                 "always": ["m", "f"]
                             },
-                            "width": 250,
-                            "height": 40,
+                            "width": 200,
+                            "height": 30,
                             "column": "current"
                         },
                         {
                             "type": "button",
                             "text": "Change",
                             "callback": "change_sex",
-                            "width": 150,
-                            "height": 40
+                            "width": 100,
+                            "height": 30
                         }
                     ]
                 }

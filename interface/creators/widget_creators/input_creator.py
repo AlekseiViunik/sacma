@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QLineEdit
 from typing import TYPE_CHECKING
 
 from logic.logger import logger as log
-from logic.widget_preparator import WidgetPreparator
+from logic.preparators.widget_preparator import WidgetPreparator
 from settings import settings as sett
 
 if TYPE_CHECKING:

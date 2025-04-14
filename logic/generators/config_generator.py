@@ -1,6 +1,6 @@
 from typing import Any
 
-from logic.translator import Translator
+from logic.helpers.translator import Translator
 from settings import settings as sett
 
 

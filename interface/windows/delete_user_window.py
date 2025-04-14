@@ -1,8 +1,8 @@
 import os
 
-from logic.filepath_generator import FilepathGenerator
+from logic.generators.filepath_generator import FilepathGenerator
 from .base_window import BaseWindow
-from handlers.json_handler import JsonHandler
+from logic.handlers.json_handler import JsonHandler
 from logic.logger import logger as log
 from settings import settings as sett
 

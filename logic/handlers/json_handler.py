@@ -7,9 +7,9 @@ from PyQt6.QtWidgets import QLineEdit
 from typing import Any
 
 from interface.windows.messagebox import Messagebox
-from logic.encoder import Encoder
+from logic.protectors.encoder import Encoder
 from logic.logger import logger as log
-from logic.config_protector import ConfigProtector
+from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
 
 

@@ -6,7 +6,7 @@ import pytest
 
 from PyQt6.QtWidgets import QApplication
 
-from handlers.excel_handler import ExcelHandler
+from logic.handlers.excel_handler import ExcelHandler
 from interface.start_window import StartWindow
 
 

@@ -4,7 +4,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
 from logic.logger import logger as log
-from logic.validator import Validator
+from logic.helpers.validator import Validator
 from settings import settings as sett
 
 

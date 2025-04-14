@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QComboBox
 from typing import TYPE_CHECKING
 
-from handlers.json_handler import JsonHandler
+from logic.handlers.json_handler import JsonHandler
 from logic.logger import logger as log
 from settings import settings as sett
 

@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QPushButton
 from PyQt6.QtCore import Qt
 from pytestqt.qtbot import QtBot
 
-from handlers.json_handler import JsonHandler
+from logic.handlers.json_handler import JsonHandler
 from interface.start_window import StartWindow
 from interface.windows.settings_window import SettingsWindow
 from settings import settings as sett

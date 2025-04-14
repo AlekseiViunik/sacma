@@ -1,10 +1,9 @@
-from datetime import datetime
 import traceback
 import re
 
+from datetime import datetime
 from decimal import Decimal
 from numbers import Number
-from PyQt6.QtWidgets import QApplication
 from typing import Any
 
 from logic.logger import logger as log
@@ -18,12 +17,6 @@ class Helper:
 
     Methods
     -------
-    - move_window_to_center(window)
-        Сдвигает в центр указанное окно.
-
-    - move_window_to_top_left_corner(window)
-        Сдвигает в верхний левый угол указанное окно.
-
     - get_calculation_file(name)
         Генерирует имя файла конфига для калькулятора в зависимости от
         названия кнопки, которая была нажата.
@@ -42,66 +35,10 @@ class Helper:
     - log_exception(e)
         Логирует исключение с указанием типа, сообщения, функции, файла и
         строки, где произошло исключение.
+
+    - get_current_time()
+        Возвращает текущую дату и время в формате "YYYY-MM-DD HH:MM:SS".
     """
-
-    @staticmethod
-    def move_window_to_center(window: Any) -> None:
-        """
-        Сдвигает в центр указанное окно.
-
-        Parameters
-        ----------
-        - window: QWidget
-            Окно, которое нужно сдвинуть.
-        """
-        screen_geometry = QApplication.primaryScreen().geometry()
-
-        x = (
-            screen_geometry.width() - window.window_width
-        ) // sett.MIDDLE_DETERMINANT_DIVIDER
-
-        y = (
-            screen_geometry.height() - window.window_height
-        ) // sett.MIDDLE_DETERMINANT_DIVIDER
-
-        window.setGeometry(x, y, window.window_width, window.window_height)
-
-    @staticmethod
-    def move_window_to_top_left_corner(window: Any) -> None:
-        """
-        Сдвигает в верхний левый угол указанное окно.
-
-        Parameters
-        ----------
-        - window: QWidget
-            Окно, которое нужно сдвинуть.
-        """
-        window.setGeometry(
-            sett.TOP_LEFT_X,
-            sett.TOP_Y,
-            window.window_width,
-            window.window_height
-        )
-
-    @staticmethod
-    def move_window_to_top_center(window: Any) -> None:
-        """
-        Сдвигает в верхний центр указанное окно.
-
-        Parameters
-        ----------
-        - window: QWidget
-            Окно, которое нужно сдвинуть.
-        """
-        screen_geometry = QApplication.primaryScreen().geometry()
-
-        x = (
-            screen_geometry.width() - window.window_width
-        ) // sett.MIDDLE_DETERMINANT_DIVIDER
-
-        y = sett.TOP_Y
-
-        window.setGeometry(x, y, window.window_width, window.window_height)
 
     @staticmethod
     def get_calculation_file(name: str) -> str:

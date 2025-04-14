@@ -1,4 +1,4 @@
-from handlers.json_handler import JsonHandler
+from logic.handlers.json_handler import JsonHandler
 from settings import settings as sett
 
 

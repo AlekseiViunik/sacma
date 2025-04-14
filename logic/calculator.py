@@ -1,9 +1,9 @@
-from handlers.excel_handler import ExcelHandler
-from handlers.formulas_handler import FormulasHandler
-from handlers.json_handler import JsonHandler
-from helpers.helper import Helper
-from logic.translator import Translator
-from logic.validator import Validator
+from logic.handlers.excel_handler import ExcelHandler
+from logic.handlers.formulas_handler import FormulasHandler
+from logic.handlers.json_handler import JsonHandler
+from logic.helpers.helper import Helper
+from logic.helpers.translator import Translator
+from logic.helpers.validator import Validator
 from settings import settings as sett
 
 

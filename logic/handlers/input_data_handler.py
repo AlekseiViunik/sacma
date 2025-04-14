@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import (QLineEdit, QComboBox)
 from typing import Dict
 
-from helpers.remover import Remover
+from logic.helpers.remover import Remover
 
 
 class InputDataHandler:

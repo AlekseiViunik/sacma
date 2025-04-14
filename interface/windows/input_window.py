@@ -1,7 +1,7 @@
-from handlers.excel_handler import ExcelHandler
 from .base_window import BaseWindow
-from handlers.input_data_handler import InputDataHandler
-from helpers.helper import Helper
+from logic.handlers.excel_handler import ExcelHandler
+from logic.handlers.input_data_handler import InputDataHandler
+from logic.helpers.helper import Helper
 from logic.calculator import Calculator
 from logic.logger import logger as log
 from settings import settings as sett

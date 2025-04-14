@@ -2,10 +2,11 @@ from datetime import datetime
 
 from typing import Any
 from PyQt6.QtWidgets import QWidget, QPushButton, QCheckBox
-from handlers.json_handler import JsonHandler
+from logic.handlers.json_handler import JsonHandler
+from logic.helpers.mover import Mover
 from interface.creators.creator import Creator
-from helpers.helper import Helper
-from logic.config_generator import ConfigGenerator
+from logic.helpers.helper import Helper
+from logic.generators.config_generator import ConfigGenerator
 from logic.logger import logger as log
 from settings import settings as sett
 
@@ -94,7 +95,7 @@ class BaseWindow(QWidget):
         self.window_width = int(config[sett.WINDOW_WIDTH])
         self.window_height = int(config[sett.WINDOW_HEIGHT])
 
-        Helper.move_window_to_center(self)
+        Mover.move_window_to_center(self)
 
         log.info(sett.USE_CREATOR)
         self.creator = Creator(config, self)
