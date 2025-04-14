@@ -190,3 +190,6 @@ auth.json
 # encoder
 encryption.json
 keys_generator.py
+
+# backups
+backups/
