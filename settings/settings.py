@@ -234,6 +234,7 @@ CHANGE_GROUP_ERROR = "Couldn't change group!"
 FAILED_TO_CREATE_FILE = "Failed to create file!"
 CHANGE_USER_DATA_SUCCESS = "Successful change!"
 CHANGING_FAILED = "Changing failed!"
+FILE_ID_PARSING_FALIED = "File ID parsing failed!"
 
 # ============================== DYNAMIC MESSAGES =============================
 
@@ -379,6 +380,7 @@ NEW_PHONE = "new_phone"
 NEW_SEX = "new_sex"
 SEX = "sex"
 LAST_BACKUP = "last_backup"
+SYMBOLS = "symbols"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -662,3 +664,10 @@ RECOVER_MAIL_MESSAGE = """
         С уважением,
         Ваша команда.
         """
+
+# ============================== GOOGLE SETTINGS ==============================
+ENCRYPTION_FILE_LINK = "ENCRYPTION_FILE_LINK"
+GOOGLE_ENCRYPTION_FILE_LINK = (
+    "https://drive.google.com/uc?export=download&id={0}"
+)
+GOOGLE_FILE_ID_REGEX = r"/d/([a-zA-Z0-9_-]+)"
