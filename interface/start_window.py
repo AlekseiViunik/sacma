@@ -1,7 +1,7 @@
 from handlers.excel_handler import ExcelHandler
 from handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
-from interface.windows.change_pass_window import ChangePassWindow
+from interface.windows.change_pass_window import MySettings
 from interface.windows.delete_user_window import DeleteUserWindow
 from interface.windows.input_window import InputWindow
 from interface.windows.login_window import LoginWindow
@@ -147,7 +147,7 @@ class StartWindow(BaseWindow):
         """
         Открывает окно смены пароля.
         """
-        self.change_password_window = ChangePassWindow(self.username)
+        self.change_password_window = MySettings(self.username)
         self.change_password_window.show()
 
     def open_delete_user(self, params: dict[str, str]) -> None:
