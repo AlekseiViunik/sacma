@@ -378,6 +378,7 @@ NEW_SURNAME = "new_surname"
 NEW_PHONE = "new_phone"
 NEW_SEX = "new_sex"
 SEX = "sex"
+LAST_BACKUP = "last_backup"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -402,6 +403,7 @@ DEFAULT_PLACE_TO_PASTE = -100  # Default: -100
 INDENT = 4  # Default: 4
 HUNDRED = 100  # Default: 100
 MIN_PASS_LENGTH = 8  # Default: 8
+BACKUP_PERIOD = 24
 
 # =============================== NAMES CONSTS ================================
 LABEL = "label"  # Default: "label"
@@ -523,6 +525,7 @@ DICTIONARY = {
 
 JSON_EXTENSION = ".json"
 CONFIGS_FOLDER = "configs"
+BACKUPS_FOLDER = "backups"
 AUTH_FILE = "configs/auth.json"
 SETTINGS_FILE = "configs/users_settings_files/settings.json"
 LOGIN_WINDOW_CONFIG_FILE = "configs/windows_configs/login_window.json"
