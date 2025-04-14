@@ -78,10 +78,30 @@ class Helper:
         """
         window.setGeometry(
             sett.TOP_LEFT_X,
-            sett.TOP_LEFT_Y,
+            sett.TOP_Y,
             window.window_width,
             window.window_height
         )
+
+    @staticmethod
+    def move_window_to_top_center(window: Any) -> None:
+        """
+        Сдвигает в верхний центр указанное окно.
+
+        Parameters
+        ----------
+        - window: QWidget
+            Окно, которое нужно сдвинуть.
+        """
+        screen_geometry = QApplication.primaryScreen().geometry()
+
+        x = (
+            screen_geometry.width() - window.window_width
+        ) // sett.MIDDLE_DETERMINANT_DIVIDER
+
+        y = sett.TOP_Y
+
+        window.setGeometry(x, y, window.window_width, window.window_height)
 
     @staticmethod
     def get_calculation_file(name: str) -> str:
