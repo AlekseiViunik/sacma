@@ -17,7 +17,7 @@
                         },
                         {
                             "type": "input",
-                            "name": "excel_path",
+                            "name": "excel_link",
                             "default_value": "Paste the link here",
                             "width": 300,
                             "height": 40,
