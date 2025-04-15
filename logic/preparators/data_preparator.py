@@ -3,6 +3,7 @@ import re
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
+from logic.helpers.translator import Translator
 from logic.logger import logger as log
 from logic.helpers.validator import Validator
 from settings import settings as sett
@@ -106,7 +107,6 @@ class DataPreparator:
 
         log.info(sett.DATA_VALIDATION)
         for key, value in self.data.items():
-            key = key.capitalize()
             log.info(sett.CHECK_KEY.format(key))
             if key in self.rules:
                 log.info(sett.DATA_TO_BE_CHECKED.format(self.data))
@@ -220,6 +220,8 @@ class DataPreparator:
             Сообщение об ошибке
         """
 
+        key = Translator.translate_string(key)
+
         match rule_key:
 
             case sett.VALIDATION_MIN:
@@ -239,6 +241,9 @@ class DataPreparator:
 
             case sett.VALIDATION_EXISTS:
                 return sett.EXISTS_FAILED_MSG.format(key)
+
+            case sett.VALIDATION_NOT_EQUAL:
+                return sett.NOT_EQUAL_FAILED_MSG.format(key, rule_value, value)
 
             case _:
                 return sett.EMPTY_STRING
