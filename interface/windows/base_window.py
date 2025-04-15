@@ -173,12 +173,6 @@ class BaseWindow(QWidget):
             case sett.HANDLE_FORWARD_BUTTON_METHOD:
                 widget.clicked.connect(inheritor.handle_forward_button)
 
-            case sett.BROWSE_FILE_METHOD:
-                target_input = params.get(sett.TARGET_INPUT)
-                widget.clicked.connect(
-                    lambda: inheritor.browse_file(target_input)
-                )
-
             case sett.SAVE_SETTINGS_METHOD:
                 widget.clicked.connect(inheritor.save_settings)
 
