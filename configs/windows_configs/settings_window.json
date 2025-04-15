@@ -12,26 +12,16 @@
                     "widgets": [
                         {
                             "type": "label",
-                            "text": "Select excel file:",
+                            "text": "Metti il link su dropbox:",
                             "column": "first"
                         },
                         {
                             "type": "input",
                             "name": "excel_path",
-                            "default_value": "Enter the path",
-                            "width": 250,
+                            "default_value": "Paste the link here",
+                            "width": 300,
                             "height": 40,
                             "column": "current"
-                        },
-                        {
-                            "type": "button",
-                            "text": "Browse",
-                            "callback": "browse_file",
-                            "height": 40,
-                            "params": {
-                                "target_input": "excel_path"
-                            },
-                            "column": "last"
                         }
                     ]
                 }
