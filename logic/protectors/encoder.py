@@ -96,7 +96,7 @@ class Encoder:
         encrypted_lines = []
 
         for line in json_lines:
-            line = line.ljust(sett.HUNDRED)[:sett.HUNDRED]
+            line = line.ljust(sett.THREE_HUNDRED)[:sett.THREE_HUNDRED]
             encrypted_line = [
                 random.choice(
                     encryption.get(ch, encryption[sett.SPACE_SYMBOL])
