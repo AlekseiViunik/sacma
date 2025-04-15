@@ -1,10 +1,13 @@
 import requests
 import os
 import tempfile
+import psutil
+import win32process
 import win32com.client as win32
 
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.json_handler import JsonHandler
+from logic.helpers.helper import Helper
 from settings import settings as sett
 
 
@@ -29,13 +32,27 @@ class DropboxHandler:
         ).replace("dl=0", "dl=1")
         response = requests.get(self.url)
         response.raise_for_status()
-
-        with open(self.local_path, "wb") as file:
-            file.write(response.content)
+        try:
+            with open(self.local_path, "wb") as file:
+                file.write(response.content)
+        except PermissionError as pe:
+            Helper.log_exception(pe)
 
     def open_excel(self):
+        self.__close_excel_if_it_is_already_opened()
         self.download_excel()
         self.excel_handler.excel = win32.DispatchEx(sett.EXCEL_APP)
+
+        hwnd = self.excel_handler.excel.Hwnd  # окно Excel
+        pid = None
+
+        # получаем и сохраняем PID по HWND
+        _, pid = win32process.GetWindowThreadProcessId(hwnd)
+        self.json_handler.write_into_file(
+            key=sett.LAST_PID,
+            value=pid
+        )
+
         self.excel_handler.excel.Visible = sett.EXCEL_VISIBILITY
         self.excel_handler.excel.DisplayAlerts = sett.EXCEL_DISPLAY_ALERTS
         self.excel_handler.wb = self.excel_handler.excel.Workbooks.Open(
@@ -64,3 +81,19 @@ class DropboxHandler:
         self.json_handler.create_file_if_not_exists()
         if not sett.TEST_GUI:
             self.open_excel()
+
+    def __close_excel_if_it_is_already_opened(self) -> None:
+        """
+        Проверяет, открыт ли Excel. Если открыт, то закрывает, иначе
+        ничего не делает. Проверка осуществляется по PID, который
+        сохраняется в файле настроек. Если PID не найден, значит
+        Excel не открыт.
+        """
+        last_pid = self.json_handler.get_value_by_key(
+            sett.LAST_PID
+        )
+        if last_pid and (proc := psutil.Process(last_pid)):
+            try:
+                proc.terminate()
+            except Exception as e:
+                Helper.log_exception(e)
