@@ -34,7 +34,7 @@ class Backuper:
             return
 
         # Пытаемся получить last_backup
-        json_handler = JsonHandler(settings_path)
+        json_handler = JsonHandler(settings_path, True)
         last_backup = json_handler.get_value_by_key(sett.LAST_BACKUP)
         last_backup_time = datetime.strptime(
             last_backup, sett.DATE_TIME_FORMAT

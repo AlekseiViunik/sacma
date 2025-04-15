@@ -181,7 +181,7 @@ class JsonHandler:
                 try:
                     data = self.encoder.encrypt_data(data)
                 except Exception as e:
-                    print(e)
+                    Helper.log_exception(e)
 
             json.dump(
                 data, f, indent=sett.INDENT, ensure_ascii=False
