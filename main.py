@@ -4,6 +4,7 @@ from datetime import datetime
 
 from interface.windows.login_window import LoginWindow
 from logic.handlers.excel_handler import ExcelHandler
+from logic.handlers.dropbox_handler import DropboxHandler
 from logic.helpers.backuper import Backuper
 from logic.generators.filepath_generator import FilepathGenerator
 from logic.logger import logger, check_log_size, switch_log_to_user
@@ -27,27 +28,32 @@ if __name__ == "__main__":
             Если None, приложение запускается с именем создателя по
             умолчанию.
         """
+
         user_settings_path = FilepathGenerator.generate_settings_filepath(
             sett.SETTINGS_FILE, username
         )
 
-        excel_handler = ExcelHandler(settings_file_path=user_settings_path)
-        if not excel_handler.check_excel_file():
-            sys.exit()
+        excel_handler = ExcelHandler()
+        dropbox = DropboxHandler(excel_handler, user_settings_path)
 
         if not sett.TEST_GUI:
-            excel_handler.open_excel()
-            app.aboutToQuit.connect(excel_handler.close_excel)
+
+            dropbox.open_excel()
+
+            app.aboutToQuit.connect(dropbox.close_excel)
             app.aboutToQuit.connect(
                 lambda: ConfigProtector.protect_all_json_files(
                     sett.CONFIGS_FOLDER
                 )
             )
+
         main_window = StartWindow(
             username=username,
             excel_handler=excel_handler,
+            dropbox_handler=dropbox,
             user_settings_path=user_settings_path
         )
+
         main_window.show()
         sys.exit(app.exec())
 
@@ -67,9 +73,9 @@ if __name__ == "__main__":
         protector.activate()
 
     Backuper.backup_files(
-        sett.SETTINGS_FILE,
-        sett.CONFIGS_FOLDER,
-        sett.BACKUPS_FOLDER
+       sett.SETTINGS_FILE,
+       sett.CONFIGS_FOLDER,
+       sett.BACKUPS_FOLDER
     )
 
     logger.info("============================================================")
