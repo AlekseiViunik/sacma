@@ -8,7 +8,8 @@
                     "numeric": 1,
                     "min": 680,
                     "max": 6000,
-                    "multiple": 40
+                    "multiple": 40,
+                    "ne": 0
                 }
             },
             "special_output": 1,
@@ -79,7 +80,8 @@
                     "numeric": 1,
                     "min": 680,
                     "max": 6000,
-                    "multiple": 40
+                    "multiple": 40,
+                    "ne": 0
                 }
             },
             "special_output": 1,

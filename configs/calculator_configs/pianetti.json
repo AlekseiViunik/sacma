@@ -7,7 +7,8 @@
                 "numeric": 1,
                 "multiple": 10,
                 "min": 400,
-                "max": 1600
+                "max": 1600,
+                "ne": 0
             }
         },
         "cells_input": {

@@ -5,19 +5,23 @@
             "rules":{
                 "height_1": {
                     "max": 13500,
-                    "multiple": 75
+                    "multiple": 75,
+                    "ne": 0
                 },
                 "height_2": {
                     "max": 13500,
-                    "multiple": 75
+                    "multiple": 75,
+                    "ne": 0
                 },
                 "height_3": {
                     "max": 13500,
-                    "multiple": 75
+                    "multiple": 75,
+                    "ne": 0
                 },
                 "depth": {
                     "exists": 1,
-                    "numeric": 1
+                    "numeric": 1,
+                    "ne": 0
                 }
             },
             "cells_input": {
@@ -32,8 +36,8 @@
                 "section_1": "D7",
                 "section_2": "D19",
                 "section_3": "D30",
-                "welded_base_plates": "D42",
-                "automatic_top": "D44"
+                "baseplates_welded": "D42",
+                "top_automatic": "D44"
             },
             "cells_output": {
                 "price": "C51"
@@ -72,11 +76,11 @@
                     "120/25": 9,
                     "120/30": 10
                 },
-                "automatic_top": {
+                "top_automatic": {
                     "Sì": "s",
                     "No": "n"
                 },
-                "welded_base_plates": {
+                "baseplates_welded": {
                     "Sì": "s",
                     "No": "n"
                 }
@@ -89,19 +93,23 @@
                 "height_1": {
                     "exists": 1,
                     "max": 13500,
-                    "multiple": 75
+                    "multiple": 75,
+                    "ne": 0
                 },
                 "height_2": {
                     "max": 13500,
-                    "multiple": 75
+                    "multiple": 75,
+                    "ne": 0
                 },
                 "height_3": {
                     "max": 13500,
-                    "multiple": 75
+                    "multiple": 75,
+                    "ne": 0
                 },
                 "depth": {
                     "exists": 1,
-                    "numeric": 1
+                    "numeric": 1,
+                    "ne": 0
                 }
             },
             "cells_input": {
@@ -143,12 +151,12 @@
                 "n_traverse_3_1": "D44",
                 "traverse_3_2": "C45",
                 "n_traverse_3_2": "D45",
-                "automatic_top": "D63",
+                "top_automatic": "D63",
                 "typology_pb": "D64",
-                "base_thickness": "D68",
-                "boot_height": "D65",
-                "base_length": "D66",
-                "base_depth": "D67",
+                "thickness_baseplate": "D68",
+                "height_boot": "D65",
+                "baselength": "D66",
+                "basedepth": "D67",
                 "n_holes": "D69"
             },
             "cells_output": {
@@ -341,7 +349,7 @@
                     "35/10": 35,
                     "40/10": 40
                 },
-                "automatic_top": {
+                "top_automatic": {
                     "Sì": "s",
                     "No": "n"
                 }
