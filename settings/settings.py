@@ -237,6 +237,8 @@ FAILED_TO_CREATE_FILE = "Failed to create file!"
 CHANGE_USER_DATA_SUCCESS = "Successful change!"
 CHANGING_FAILED = "Changing failed!"
 FILE_ID_PARSING_FALIED = "File ID parsing failed!"
+CHOSE_FILE = "Chose file"
+PRE_MSG_STANDART = "Result"
 
 # ============================== DYNAMIC MESSAGES =============================
 
@@ -383,6 +385,7 @@ NEW_SEX = "new_sex"
 SEX = "sex"
 LAST_BACKUP = "last_backup"
 SYMBOLS = "symbols"
+TYPE_INFO = "info"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -407,7 +410,8 @@ DEFAULT_PLACE_TO_PASTE = -100  # Default: -100
 INDENT = 4  # Default: 4
 HUNDRED = 100  # Default: 100
 MIN_PASS_LENGTH = 8  # Default: 8
-BACKUP_PERIOD = 24
+BACKUP_PERIOD = 24  # Default: 24
+ROUNDING_LIMIT = "0.01"  # Default: "0.01"
 
 # =============================== NAMES CONSTS ================================
 LABEL = "label"  # Default: "label"
@@ -451,7 +455,6 @@ CHANGE_PHONE = "change_phone"
 CHANGE_SEX = "change_sex"
 
 # ================================ Translator =================================
-# TODO make a dictionary dynamic to translate frases
 # English: Italian
 DICTIONARY = {
     "amount": "Quantità",
@@ -466,54 +469,14 @@ DICTIONARY = {
     "depth": "Profondità",
     "development": "Sviluppo",
     "diagonal": "Diagonale",
-    "diagonal_15/10": "Diagonale 15/10",
-    "diagonal_20/10": "Diagonale 20/10",
-    "diagonal_25/10": "Diagonale 25/10",
-    "diagonal_30/10": "Diagonale 30/10",
     "element": "Elemento",
     "fold": "Piega",
     "diagonals": "Diagonali",
     "height": "Altezza",
-    "height_boot": "Altezza Stivaletto",
-    "height_1": "Altezza 1",
-    "height_2": "Altezza 2",
-    "height_3": "Altezza 3",
     "holes": "Fori",
     "hook": "Staffa",
-    "hook_special": "Staffa speciale",
-    "hook_standart": "Staffa tipo standart",
     "length": "Lunghezza",
-    "n_diagonals_15/10": "N diagonali 15/10",
-    "n_diagonals_20/10": "N diagonali 20/10",
-    "n_diagonals_25/10": "N diagonali 25/10",
-    "n_diagonals_30/10": "N diagonali 30/10",
-    "n_traverse_10/10": "N traversi 10/10",
-    "n_traverse_15/10": "N traversi 15/10",
-    "n_diagonals_1": "N diagonali 1",
-    "n_diagonals_2": "N diagonali 2",
-    "n_diagonals_3": "N diagonali 3",
-    "n_diagonals_15/10_1": "N diagonali 15/10 1",
-    "n_diagonals_20/10_1": "N diagonali 20/10 1",
-    "n_diagonals_25/10_1": "N diagonali 25/10 1",
-    "n_diagonals_30/10_1": "N diagonali 30/10 1",
-    "n_traverse_10/10_1": "N traversi 10/10 1",
-    "n_traverse_15/10_1": "N traversi 15/10 1",
-    "n_diagonals_15/10_2": "N diagonali 15/10 2",
-    "n_diagonals_20/10_2": "N diagonali 20/10 2",
-    "n_diagonals_25/10_2": "N diagonali 25/10 2",
-    "n_diagonals_30/10_2": "N diagonali 30/10 2",
-    "n_traverse_10/10_2": "N traversi 10/10 2",
-    "n_traverse_15/10_2": "N traversi 15/10 2",
-    "n_diagonals_15/10_3": "N diagonali 15/10 3",
-    "n_diagonals_20/10_3": "N diagonali 20/10 3",
-    "n_diagonals_25/10_3": "N diagonali 25/10 3",
-    "n_diagonals_30/10_3": "N diagonali 30/10 3",
-    "n_traverse_10/10_3": "N traversi 10/10 3",
-    "n_traverse_15/10_3": "N traversi 15/10 3",
-    "n_skates": "N pattini",
-    "n_holes": "N fori",
     "only": "Solo",
-    "only_strut": "Solo montante",
     "pb": "PB",
     "pieces": "Tratti",
     "preparation": "Approntamento",
@@ -526,17 +489,11 @@ DICTIONARY = {
     "strut": "Montante",
     "support": "Appoggio",
     "thickness": "Spessore",
-    "thickness_baseplate": "Spessore piastra di base",
     "top": "Sommità",
-    "top_automatic": "Sommità automatico",
     "traverse": "Traverse",
-    "traverse_10/10": "Traverse 10/10",
-    "traverse_15/10": "Traverse 15/10",
     "traverses": "Traversi",
     "type": "Tipo",
-    "type_element": "Tipo elemento",
     "typology": "Tipologia",
-    "typology_pb": "Tipologi PB",
     "weight": "Peso",
     "welded": "Saldati",
     "width": "Larghezza",
@@ -576,15 +533,6 @@ DEVELOPMENT_IT = "Sviluppo"
 START_IT = "Invia"
 FORWARD_IT = "Avanti"
 
-ROUNDING_LIMIT = "0.01"
-
-FILE_NAME_CONNECTOR = "_"
-LISTING_CONNECTOR = ", "
-
-PRE_MSG_STANDART = "Result"
-
-TYPE_INFO = "info"
-
 # ================================== SYMBOLS ==================================
 EURO_SYMBOL = "€"
 KILO_SYMBOL = "Kg"
@@ -600,6 +548,8 @@ QUESTION_MARK = "?"
 LESS_THAN = "<"
 GREATER_THAN = ">"
 UNDERSCORE = "_"
+FILE_NAME_CONNECTOR = "_"
+LISTING_CONNECTOR = ", "
 
 # ============================ REGEX PATTERNS =================================
 FLOAT_REGEX = r"\d+(,\d+)?"
@@ -609,7 +559,6 @@ EMAIL_REGEX = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 SPECIAL_CHARS = "[!@#$%^&*()_+={}[]:;\"'<>?,./\\|`~]"
 COMMON_SPECIAL_CHARS = "!@#$%^&*()_+"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
-CHOSE_FILE = "Chose file"
 DATE_TIME_FORMAT = "%H:%M:%S %d/%m/%Y"
 PHONE_REGEX = r"^\d{3}-\d{3}-\d{2}-\d{2}$"
 
@@ -634,8 +583,6 @@ ALIGN_LEFT = "left"
 ALIGN_RIGHT = "right"
 
 BG_COLOR = "background-color: {0}"
-FONT_COLOR = "color: {0}"
-MARGIN_TOP = "margin-top: 10px;"
 
 # ============================ VALIDATION KEYS ================================
 VALIDATION_MIN = "min"
