@@ -8,7 +8,7 @@ def test_travi_tg_excel_calculation(excel_handler):
         'height': '130',
         'base': '50',
         'thickness': '1.5',
-        'special_hook': 'Sì',
+        'hook_special': 'Sì',
         'amount': '<=1000',
         'length': '3600'
     }
@@ -59,7 +59,7 @@ def test_travi_tg_wrong_data_passed(excel_handler):
         'height': '130',
         'base': '50',
         'thickness': '1.5',
-        'special_hook': 'Sì',
+        'hook_special': 'Sì',
         'amount': '<=1000',
         'length': '900'
     }
@@ -115,7 +115,7 @@ def test_travi_sat_excel_calculation(excel_handler):
         'height': '100',
         'support': 'Sì',
         'thickness': '3.0',
-        'special_hook': 'Sì',
+        'hook_special': 'Sì',
         'amount': '<=1000',
         'length': '3000'
     }
@@ -166,7 +166,7 @@ def test_travi_sat_wrong_data_passed(excel_handler):
         'height': '100',
         'support': 'Sì',
         'thickness': '3.0',
-        'special_hook': 'Sì',
+        'hook_special': 'Sì',
         'amount': '<=1000',
         'length': 'abc'
     }
@@ -221,7 +221,7 @@ def test_travi_aperte_excel_calculation(excel_handler):
         'type': 'APERTE',
         'height': '70',
         'thickness': '2.0',
-        'special_hook': 'No',
+        'hook_special': 'No',
         'amount': '>=1001',
         'base': '45',
         'length': '1200'
@@ -272,7 +272,7 @@ def test_travi_aperte_wrong_data_passed(excel_handler):
         'type': 'APERTE',
         'height': '70',
         'thickness': '2.0',
-        'special_hook': 'No',
+        'hook_special': 'No',
         'amount': '>=1001',
         'base': '45',
         'length': '1000'

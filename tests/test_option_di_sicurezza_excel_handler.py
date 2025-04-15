@@ -4,7 +4,7 @@ from logic.calculator import Calculator
 
 def test_option_di_sicurezza_excel_calculation_1(excel_handler):
     data = {
-        'type': 'PARACOLPI', 'element_type': 'Frontale per montante serie 80'
+        'type': 'PARACOLPI', 'type_element': 'Frontale per montante serie 80'
     }
     choices = {'type': 'PARACOLPI'}
     el_type = 'Option di sicurezza'
@@ -46,7 +46,7 @@ def test_option_di_sicurezza_excel_calculation_1(excel_handler):
 
 def test_option_di_sicurezza_excel_calculation_2(excel_handler):
     data = {
-        'type': 'PARACOLPI', 'element_type': 'Frontale per montante serie 100'
+        'type': 'PARACOLPI', 'type_element': 'Frontale per montante serie 100'
     }
     choices = {'type': 'PARACOLPI'}
     el_type = 'Option di sicurezza'
@@ -89,7 +89,7 @@ def test_option_di_sicurezza_excel_calculation_2(excel_handler):
 def test_option_di_sicurezza_excel_calculation_3(excel_handler):
     data = {
         'type': 'PARACOLPI',
-        'element_type': 'Angolare per monttante serie 80/100 H=400mm'
+        'type_element': 'Angolare per monttante serie 80/100 H=400mm'
     }
     choices = {'type': 'PARACOLPI'}
     el_type = 'Option di sicurezza'
@@ -132,7 +132,7 @@ def test_option_di_sicurezza_excel_calculation_3(excel_handler):
 def test_option_di_sicurezza_excel_calculation_4(excel_handler):
     data = {
         'type': 'PARACOLPI',
-        'element_type': 'Angolare frontale tipo Metelli'
+        'type_element': 'Angolare frontale tipo Metelli'
     }
     choices = {'type': 'PARACOLPI'}
     el_type = 'Option di sicurezza'
@@ -175,7 +175,7 @@ def test_option_di_sicurezza_excel_calculation_4(excel_handler):
 def test_option_di_sicurezza_excel_calculation_5(excel_handler):
     data = {
         'type': 'GUARDRAIL',
-        'element_type': 'Bifronte (2 paracolpi + Sigma 255x3)'
+        'type_element': 'Bifronte (2 paracolpi + Sigma 255x3)'
     }
     choices = {'type': 'GUARDRAIL'}
     el_type = 'Option di sicurezza'
@@ -218,7 +218,7 @@ def test_option_di_sicurezza_excel_calculation_5(excel_handler):
 def test_option_di_sicurezza_excel_calculation_6(excel_handler):
     data = {
         'type': 'GUARDRAIL',
-        'element_type': 'Monofronte (2 paracolpi + Sigma 255x3)'
+        'type_element': 'Monofronte (2 paracolpi + Sigma 255x3)'
     }
     choices = {'type': 'GUARDRAIL'}
     el_type = 'Option di sicurezza'

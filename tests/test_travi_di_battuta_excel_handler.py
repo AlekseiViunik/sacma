@@ -5,7 +5,7 @@ from logic.calculator import Calculator
 def test_travi_di_battuta_excel_calculation_1(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
-        'standart_hook': 'Sì',
+        'hook_standart': 'Sì',
         'amount': '<=500',
         'fold': 'Sì',
         'length': '2000'
@@ -52,7 +52,7 @@ def test_travi_di_battuta_excel_calculation_1(excel_handler):
 def test_travi_di_battuta_excel_calculation_2(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
-        'standart_hook': 'No',
+        'hook_standart': 'No',
         'amount': '>=501',
         'fold': 'Sì',
         'length': '3500'
@@ -99,7 +99,7 @@ def test_travi_di_battuta_excel_calculation_2(excel_handler):
 def test_travi_di_battuta_excel_calculation_3(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
-        'standart_hook': 'No',
+        'hook_standart': 'No',
         'amount': '>=501',
         'fold': 'Sì',
         'length': '3300'
@@ -146,7 +146,7 @@ def test_travi_di_battuta_excel_calculation_3(excel_handler):
 def test_travi_di_battuta_excel_validation_1(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
-        'standart_hook': 'No',
+        'hook_standart': 'No',
         'amount': '>=501',
         'fold': 'Sì',
         'length': ''
@@ -193,7 +193,7 @@ def test_travi_di_battuta_excel_validation_1(excel_handler):
 def test_travi_di_battuta_excel_validation_2(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
-        'standart_hook': 'No',
+        'hook_standart': 'No',
         'amount': '>=501',
         'fold': 'Sì',
         'length': 'abc'
@@ -240,7 +240,7 @@ def test_travi_di_battuta_excel_validation_2(excel_handler):
 def test_travi_di_battuta_excel_validation_3(excel_handler):
     data = {
         'type': 'Tubolare 60x40x2',
-        'standart_hook': 'No',
+        'hook_standart': 'No',
         'amount': '>=501',
         'fold': 'Sì',
         'length': '1111'
