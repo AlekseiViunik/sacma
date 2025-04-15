@@ -70,6 +70,10 @@ FILE_READ = "r"
 # Default: "w"
 FILE_WRITE = "w"
 
+# Открытие файла для записи в бинарном режиме
+# Default: "wb"
+FILE_WRITE_BINARY = "wb"
+
 # ============================= LOG STATIC MESSAGES ===========================
 
 TRYING_LOGIN = "Trying to acces the app"
@@ -387,6 +391,7 @@ SEX = "sex"
 LAST_BACKUP = "last_backup"
 SYMBOLS = "symbols"
 TYPE_INFO = "info"
+LAST_PID = "last_pid"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -640,3 +645,8 @@ GOOGLE_ENCRYPTION_FILE_LINK = (
     "https://drive.google.com/uc?export=download&id={0}"
 )
 GOOGLE_FILE_ID_REGEX = r"/d/([a-zA-Z0-9_-]+)"
+
+
+# ============================== DROPBOX SETTINGS =============================
+LINK_REPLACE_PART = "dl=0"
+LINK_REPLACE_WITH = "dl=1"
