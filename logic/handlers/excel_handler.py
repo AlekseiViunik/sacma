@@ -178,7 +178,7 @@ class ExcelHandler:
             log.info(sett.EXCEL_FILE_PATH.format(file_path))
 
         except Exception as e:
-            log.error(sett.EXCEL_LAUNCH_ERROR.format(e))
+            Helper.log_exception(e)
         log.info(sett.EXCEL_IS_OPENED)
 
         # Попытка открыть книгу

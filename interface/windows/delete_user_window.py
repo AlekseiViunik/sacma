@@ -1,9 +1,9 @@
 import os
 
 from logic.generators.filepath_generator import FilepathGenerator
+from logic.helpers.helper import Helper
 from .base_window import BaseWindow
 from logic.handlers.json_handler import JsonHandler
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -85,7 +85,7 @@ class DeleteUserWindow(BaseWindow):
             self.__remove_yourself_from_dropdown()
 
         except Exception as e:
-            log.error(sett.DELETE_USER_ERROR.format(username, e))
+            Helper.log_exception(e)
             return
 
     # ============================ Private Methods ============================

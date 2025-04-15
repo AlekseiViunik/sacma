@@ -48,7 +48,7 @@ class UserDataHandler:
         if new_data.get(username) and new_data[username] == user_data:
             log.info(sett.USER_DATA_IS_ADDED)
         else:
-            log.info(sett.USER_DATA_IS_NOT_ADDED)
+            log.error(sett.USER_DATA_IS_NOT_ADDED)
 
     def change_user_data(
         self,

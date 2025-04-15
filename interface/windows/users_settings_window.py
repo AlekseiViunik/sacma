@@ -1,7 +1,7 @@
+from logic.helpers.helper import Helper
 from .base_window import BaseWindow
 from interface.windows.messagebox import Messagebox
 from logic.handlers.json_handler import JsonHandler
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -50,7 +50,7 @@ class UsersSettingsWindow(BaseWindow):
             user_data_json_handler.rewrite_file(userdata)
 
         except Exception as e:
-            log.error(sett.SAVE_USER_SETTINGS_ERROR.format(username, e))
+            Helper.log_exception(e)
             Messagebox.show_messagebox(
                 sett.CHANGE_GROUP_ERROR,
                 sett.SAVE_USER_SETTINGS_ERROR.format(username, e),

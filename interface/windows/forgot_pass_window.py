@@ -1,5 +1,7 @@
 from PyQt6.QtWidgets import QDialog
 
+from logic.helpers.helper import Helper
+
 from .base_window import BaseWindow
 from interface.windows.messagebox import Messagebox
 from logic.handlers.mail_handler import MailHandler
@@ -116,7 +118,7 @@ class ForgotPasswordWindow(QDialog, BaseWindow):
                     )
                 )
             except Exception as e:
-                log.error(sett.MAIL_ERROR.format(e))
+                Helper.log_exception(e)
                 Messagebox.show_messagebox(
                     sett.RECOVER_ERROR,
                     sett.MAIL_ERROR.format(e),

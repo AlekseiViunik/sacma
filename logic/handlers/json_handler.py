@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import QLineEdit
 from typing import Any
 
 from interface.windows.messagebox import Messagebox
+from logic.helpers.helper import Helper
 from logic.protectors.encoder import Encoder
 from logic.logger import logger as log
 from logic.protectors.config_protector import ConfigProtector
@@ -255,7 +256,7 @@ class JsonHandler:
                     )
                 )
             except Exception as e:
-                log.error(sett.COULDNT_CREATE_FILE.format(e))
+                Helper.log_exception(e)
                 Messagebox.show_messagebox(
                     sett.FAILED_TO_CREATE_FILE,
                     sett.COULDNT_CREATE_FILE.format(e),
