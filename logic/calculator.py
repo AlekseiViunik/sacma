@@ -2,7 +2,6 @@ from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.formulas_handler import FormulasHandler
 from logic.handlers.json_handler import JsonHandler
 from logic.helpers.helper import Helper
-from logic.helpers.translator import Translator
 from logic.helpers.validator import Validator
 from settings import settings as sett
 
@@ -138,15 +137,16 @@ class Calculator:
             # данные по извлекаемым ячейкам - я не помню.
 
             self.excel_handler.data = self.excel_handler.preparator.data = (
-                Translator.translate_dict(self.data)
+                self.data
             )
             self.excel_handler.rules = self.excel_handler.preparator.rules = (
-                Translator.translate_dict(self.calc_config[sett.RULES])
+                self.calc_config[sett.RULES]
             )
             self.excel_handler.worksheet = self.calc_config[sett.WORKSHEET]
-            self.excel_handler.cells_input = Translator.translate_dict(
+            self.excel_handler.cells_input = (
                 self.calc_config[sett.CELLS_INPUT]
             )
+
             self.excel_handler.cells_output = (
                 self.calc_config[sett.CELLS_OUTPUT]
             )

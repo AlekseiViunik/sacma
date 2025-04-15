@@ -178,6 +178,8 @@ IS_GREATER_THAN = "{0} is greater than max possible ({1})"
 IS_NOT_NATURAL = "{0} is not natural"
 IS_NOT_MULTIPLE = "{0} is not multiple of {1}"
 SHOULD_BE_MULTIPLE = "Should be multiple of {0}"
+SHOULD_NOT_BE_EQUAL = "{0} should not be = {1}"
+IS_EQUAL = "{0} = {1}"
 ERROR_CAUGHT = "Error caught: {0}"
 BUTTON_PRESSED = "{0} button has been pressed!"
 CREATE_WIDGET = "Create {0}: {1}"
@@ -235,6 +237,8 @@ FAILED_TO_CREATE_FILE = "Failed to create file!"
 CHANGE_USER_DATA_SUCCESS = "Successful change!"
 CHANGING_FAILED = "Changing failed!"
 FILE_ID_PARSING_FALIED = "File ID parsing failed!"
+CHOSE_FILE = "Chose file"
+PRE_MSG_STANDART = "Result"
 
 # ============================== DYNAMIC MESSAGES =============================
 
@@ -257,7 +261,7 @@ WRONG_EMAIL_FORGOT_PASS = (
 D_CHANGE_USER_DATA_SUCCESS = (
     "User's {0} has been changed successfully on '{1}'!"
 )
-
+NOT_EQUAL_FAILED_MSG = "{0} should not be equal to {1}. You have {2}"
 # =========================== STATIC DICTIONARY KEYS ==========================
 
 PRICE = "price"
@@ -381,6 +385,7 @@ NEW_SEX = "new_sex"
 SEX = "sex"
 LAST_BACKUP = "last_backup"
 SYMBOLS = "symbols"
+TYPE_INFO = "info"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -405,7 +410,8 @@ DEFAULT_PLACE_TO_PASTE = -100  # Default: -100
 INDENT = 4  # Default: 4
 HUNDRED = 100  # Default: 100
 MIN_PASS_LENGTH = 8  # Default: 8
-BACKUP_PERIOD = 24
+BACKUP_PERIOD = 24  # Default: 24
+ROUNDING_LIMIT = "0.01"  # Default: "0.01"
 
 # =============================== NAMES CONSTS ================================
 LABEL = "label"  # Default: "label"
@@ -449,78 +455,48 @@ CHANGE_PHONE = "change_phone"
 CHANGE_SEX = "change_sex"
 
 # ================================ Translator =================================
-# TODO make a dictionary dynamic to translate frases
+# English: Italian
 DICTIONARY = {
-    "height": "Altezza",
-    "width": "Larghezza",
-    "thickness": "Spessore",
-    "length": "Lunghezza",
-    "special_hook": "Staffa speciale",
-    "standart_hook": "Staffa tipo standart",
     "amount": "Quantità",
-    "price": "Prezzo",
-    "weight": "Peso",
-    "support": "Appoggio",
+    "automatic": "Automatico",
     "base": "Base",
-    "only_strut": "Solo montante",
-    "section": "Sezione",
-    "type": "Tipo",
-    "weight": "Peso",
-    "skates": "Pattini",
-    "n_skates": "N pattini",
-    "pieces": "Tratti",
+    "baseplate": "Piastra di base",
+    "basedepth": "Dimensione piastra (P)",
+    "baselength": "Dimensione piastra (L)",
+    "baseplates": "Piastre di base",
+    "baseplates_welded": "pdb saldati",
+    "boot": "Stivaletto",
     "depth": "Profondità",
-    "n_diagonals_15/10": "N diagonali 15/10",
-    "n_diagonals_20/10": "N diagonali 20/10",
-    "n_diagonals_25/10": "N diagonali 25/10",
-    "n_diagonals_30/10": "N diagonali 30/10",
-    "n_traverse_10/10": "N traversi 10/10",
-    "n_traverse_15/10": "N traversi 15/10",
-    "diagonal_15/10": "Diagonale 15/10",
-    "diagonal_20/10": "Diagonale 20/10",
-    "diagonal_25/10": "Diagonale 25/10",
-    "diagonal_30/10": "Diagonale 30/10",
-    "traverse_10/10": "Traverse 10/10",
-    "traverse_15/10": "Traverse 15/10",
-    "fold": "Piega",
-    "profile": "Profilo",
-    "element": "Elemento",
-    "element_type": "Tipo elemento",
-    "inclined_invitations?": "Inviti inclinati?",
-    "height_1": "Altezza 1",
-    "height_2": "Altezza 2",
-    "height_3": "Altezza 3",
-    "n_diagonals_1": "N diagonali 1",
-    "n_diagonals_2": "N diagonali 2",
-    "n_diagonals_3": "N diagonali 3",
-    "n_diagonals_15/10_1": "N diagonali 15/10 1",
-    "n_diagonals_20/10_1": "N diagonali 20/10 1",
-    "n_diagonals_25/10_1": "N diagonali 25/10 1",
-    "n_diagonals_30/10_1": "N diagonali 30/10 1",
-    "n_traverse_10/10_1": "N traversi 10/10 1",
-    "n_traverse_15/10_1": "N traversi 15/10 1",
-    "n_diagonals_15/10_2": "N diagonali 15/10 2",
-    "n_diagonals_20/10_2": "N diagonali 20/10 2",
-    "n_diagonals_25/10_2": "N diagonali 25/10 2",
-    "n_diagonals_30/10_2": "N diagonali 30/10 2",
-    "n_traverse_10/10_2": "N traversi 10/10 2",
-    "n_traverse_15/10_2": "N traversi 15/10 2",
-    "n_diagonals_15/10_3": "N diagonali 15/10 3",
-    "n_diagonals_20/10_3": "N diagonali 20/10 3",
-    "n_diagonals_25/10_3": "N diagonali 25/10 3",
-    "n_diagonals_30/10_3": "N diagonali 30/10 3",
-    "n_traverse_10/10_3": "N traversi 10/10 3",
-    "n_traverse_15/10_3": "N traversi 15/10 3",
-    "preparation": "Approntamento",
     "development": "Sviluppo",
-    "automatic_top": "Sommità automatico",
-    "welded_base_plates": "pdb saldati",
-    "typology_pb": "Tipologi PB",
-    "base_thickness": "Spessore piastra",
-    "boot_height": "Altezza Stivaletto",
-    "base_length": "Dimensione piastra (L)",
-    "base_depth": "Dimensione piastra (P)",
-    "n_holes": "N fori",
+    "diagonal": "Diagonale",
+    "element": "Elemento",
+    "fold": "Piega",
+    "diagonals": "Diagonali",
+    "height": "Altezza",
+    "holes": "Fori",
+    "hook": "Staffa",
+    "length": "Lunghezza",
+    "only": "Solo",
+    "pb": "PB",
+    "pieces": "Tratti",
+    "preparation": "Approntamento",
+    "price": "Prezzo",
+    "profile": "Profilo",
+    "section": "Sezione",
+    "skates": "Pattini",
+    "special": "Speciale",
+    "standart": "Tipo standart",
+    "strut": "Montante",
+    "support": "Appoggio",
+    "thickness": "Spessore",
+    "top": "Sommità",
+    "traverse": "Traverse",
+    "traverses": "Traversi",
+    "type": "Tipo",
+    "typology": "Tipologia",
+    "weight": "Peso",
+    "welded": "Saldati",
+    "width": "Larghezza",
 }
 
 # =============================== JSON PATHS ==================================
@@ -557,15 +533,6 @@ DEVELOPMENT_IT = "Sviluppo"
 START_IT = "Invia"
 FORWARD_IT = "Avanti"
 
-ROUNDING_LIMIT = "0.01"
-
-FILE_NAME_CONNECTOR = "_"
-LISTING_CONNECTOR = ", "
-
-PRE_MSG_STANDART = "Result"
-
-TYPE_INFO = "info"
-
 # ================================== SYMBOLS ==================================
 EURO_SYMBOL = "€"
 KILO_SYMBOL = "Kg"
@@ -580,6 +547,9 @@ METERS_SYMBOL = "m"
 QUESTION_MARK = "?"
 LESS_THAN = "<"
 GREATER_THAN = ">"
+UNDERSCORE = "_"
+FILE_NAME_CONNECTOR = "_"
+LISTING_CONNECTOR = ", "
 
 # ============================ REGEX PATTERNS =================================
 FLOAT_REGEX = r"\d+(,\d+)?"
@@ -589,7 +559,6 @@ EMAIL_REGEX = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 SPECIAL_CHARS = "[!@#$%^&*()_+={}[]:;\"'<>?,./\\|`~]"
 COMMON_SPECIAL_CHARS = "!@#$%^&*()_+"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
-CHOSE_FILE = "Chose file"
 DATE_TIME_FORMAT = "%H:%M:%S %d/%m/%Y"
 PHONE_REGEX = r"^\d{3}-\d{3}-\d{2}-\d{2}$"
 
@@ -614,8 +583,6 @@ ALIGN_LEFT = "left"
 ALIGN_RIGHT = "right"
 
 BG_COLOR = "background-color: {0}"
-FONT_COLOR = "color: {0}"
-MARGIN_TOP = "margin-top: 10px;"
 
 # ============================ VALIDATION KEYS ================================
 VALIDATION_MIN = "min"
@@ -624,6 +591,7 @@ VALIDATION_NUMERIC = "numeric"
 VALIDATION_NATURAL = "natural"
 VALIDATION_MULTIPLE = "multiple"
 VALIDATION_EXISTS = "exists"
+VALIDATION_NOT_EQUAL = "ne"
 
 # ============================= GREETING MESSAGES =============================
 GOOD_MORNING = "Buongiorno"

@@ -152,6 +152,12 @@ class Validator:
                     log.error(sett.EMPTY_REQUIRED_FIELDS)
                     return False
 
+            case sett.VALIDATION_NOT_EQUAL:
+                log.info(sett.SHOULD_NOT_BE_EQUAL.format(rule_key, rule_value))
+                if int(value) == int(rule_value):
+                    log.error(sett.IS_EQUAL.format(rule_key, rule_value))
+                    return False
+
         log.info(sett.VALIDATION_IS_OK)
         return True
 

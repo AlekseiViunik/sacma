@@ -5,13 +5,15 @@
             "rules":{
                 "height": {
                     "min": 70,
-                    "max": 170
+                    "max": 170,
+                    "ne": 0
                 },
                 "length": {
                     "exists": 1,
                     "numeric": 1,
                     "min": 1200,
-                    "max": 3600
+                    "max": 3600,
+                    "ne": 0
                 }
             },
             "cells_input": {
@@ -19,7 +21,7 @@
                 "base": "B6",
                 "thickness": "B8",
                 "length": "B12",
-                "special_hook": "B14",
+                "hook_special": "B14",
                 "amount": "B16"
             },
             "cells_output": {
@@ -32,7 +34,8 @@
             "rules": {
                 "length": {
                     "exists": 1,
-                    "numeric": 1
+                    "numeric": 1,
+                    "ne": 0
                 }
             },
             "cells_input": {
@@ -40,7 +43,7 @@
                 "thickness": "B23",
                 "support": "B27",
                 "length": "B29",
-                "special_hook": "B31",
+                "hook_special": "B31",
                 "amount": "B33"
             },
             "cells_output": {
@@ -53,13 +56,15 @@
             "rules":{
                 "height": {
                     "min": 70,
-                    "max": 170
+                    "max": 170,
+                    "ne": 0
                 },
                 "length": {
                     "exists": 1,
                     "numeric": 1,
                     "min": 1200,
-                    "max": 3600
+                    "max": 3600,
+                    "ne": 0
                 }
             },
             "cells_input": {
@@ -67,7 +72,7 @@
                 "base": "B39",
                 "thickness": "B41",
                 "length": "B45",
-                "special_hook": "B47",
+                "hook_special": "B47",
                 "amount": "B49"
             },
             "cells_output": {
@@ -80,7 +85,8 @@
             "rules":{
                 "length": {
                     "exists": 1,
-                    "numeric": 1
+                    "numeric": 1,
+                    "ne": 0
                 }
             },
             "cells_input":{

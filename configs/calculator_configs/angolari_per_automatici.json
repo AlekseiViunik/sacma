@@ -4,7 +4,8 @@
         "rules":{
             "length": {
                 "exists": 1,
-                "numeric": 1
+                "numeric": 1,
+                "ne": 0
             }
         },
         "cells_input": {

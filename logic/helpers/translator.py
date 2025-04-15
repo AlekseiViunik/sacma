@@ -41,10 +41,66 @@ class Translator:
 
         try:
             if only_keys:
-                return {
-                    sett.DICTIONARY.get(key, key): val for key, val
-                    in value.items()
-                }
+                translated = {}
+                for key, val in value.items():
+                    key_parts = key.split(sett.UNDERSCORE)
+                    translated_key_parts = Translator.translate_words(
+                        key_parts
+                    )
+                    translated_key = sett.SPACE_SYMBOL.join(
+                        translated_key_parts
+                    )
+                    translated[translated_key] = val
+
+                return translated
             return None
         except Exception as e:
             Helper.log_exception(e)
+
+    @staticmethod
+    def translate_words(words: list[str]) -> list[str]:
+        """
+        Переводит список слов с английского на итальянский.
+        Делает первое слово списка с заглавной буквы, остальные - с
+        маленькой.
+
+        Parameters
+        ----------
+        words : list[str]
+            Список слов, которые нужно перевести.
+
+        Returns
+        -------
+        list[str]
+            Возвращает список переведенных слов.
+        """
+        translated_list = [
+            sett.DICTIONARY.get(word, word) for word in words
+        ]
+
+        for i in range(len(translated_list)):
+            if i == sett.SET_TO_ZERO:
+                translated_list[i] = translated_list[i].capitalize()
+            else:
+                translated_list[i] = translated_list[i].lower()
+
+        return translated_list
+
+    @staticmethod
+    def translate_string(text: str) -> str:
+        """
+        Переводит текст с английского на итальянский.
+
+        Parameters
+        ----------
+        text : str
+            Текст, который нужно перевести.
+
+        Returns
+        -------
+        str
+            Возвращает переведенный текст.
+        """
+        text = {text: sett.EMPTY_STRING}
+        translated_dict = Translator.translate_dict(text)
+        return list(translated_dict.keys())[sett.SET_TO_ZERO]

@@ -175,7 +175,7 @@
                         },
                         {
                             "type": "dropdown",
-                            "name": "special_hook",
+                            "name": "hook_special",
                             "width": 150,
                             "height": 20,
                             "default_value": "No",
