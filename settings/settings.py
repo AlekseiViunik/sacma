@@ -178,6 +178,8 @@ IS_GREATER_THAN = "{0} is greater than max possible ({1})"
 IS_NOT_NATURAL = "{0} is not natural"
 IS_NOT_MULTIPLE = "{0} is not multiple of {1}"
 SHOULD_BE_MULTIPLE = "Should be multiple of {0}"
+SHOULD_NOT_BE_EQUAL = "{0} should not be = {1}"
+IS_EQUAL = "{0} = {1}"
 ERROR_CAUGHT = "Error caught: {0}"
 BUTTON_PRESSED = "{0} button has been pressed!"
 CREATE_WIDGET = "Create {0}: {1}"
@@ -257,7 +259,7 @@ WRONG_EMAIL_FORGOT_PASS = (
 D_CHANGE_USER_DATA_SUCCESS = (
     "User's {0} has been changed successfully on '{1}'!"
 )
-
+NOT_EQUAL_FAILED_MSG = "{0} should not be equal to {1}. You have {2}"
 # =========================== STATIC DICTIONARY KEYS ==========================
 
 PRICE = "price"
@@ -450,46 +452,43 @@ CHANGE_SEX = "change_sex"
 
 # ================================ Translator =================================
 # TODO make a dictionary dynamic to translate frases
+# English: Italian
 DICTIONARY = {
-    "height": "Altezza",
-    "width": "Larghezza",
-    "thickness": "Spessore",
-    "length": "Lunghezza",
-    "special_hook": "Staffa speciale",
-    "standart_hook": "Staffa tipo standart",
     "amount": "Quantità",
-    "price": "Prezzo",
-    "weight": "Peso",
-    "support": "Appoggio",
+    "automatic": "Automatico",
     "base": "Base",
-    "only_strut": "Solo montante",
-    "section": "Sezione",
-    "type": "Tipo",
-    "weight": "Peso",
-    "skates": "Pattini",
-    "n_skates": "N pattini",
-    "pieces": "Tratti",
+    "baseplate": "Piastra di base",
+    "basedepth": "Dimensione piastra (P)",
+    "baselength": "Dimensione piastra (L)",
+    "baseplates": "Piastre di base",
+    "baseplates_welded": "pdb saldati",
+    "boot": "Stivaletto",
     "depth": "Profondità",
+    "development": "Sviluppo",
+    "diagonal": "Diagonale",
+    "diagonal_15/10": "Diagonale 15/10",
+    "diagonal_20/10": "Diagonale 20/10",
+    "diagonal_25/10": "Diagonale 25/10",
+    "diagonal_30/10": "Diagonale 30/10",
+    "element": "Elemento",
+    "fold": "Piega",
+    "diagonals": "Diagonali",
+    "height": "Altezza",
+    "height_boot": "Altezza Stivaletto",
+    "height_1": "Altezza 1",
+    "height_2": "Altezza 2",
+    "height_3": "Altezza 3",
+    "holes": "Fori",
+    "hook": "Staffa",
+    "hook_special": "Staffa speciale",
+    "hook_standart": "Staffa tipo standart",
+    "length": "Lunghezza",
     "n_diagonals_15/10": "N diagonali 15/10",
     "n_diagonals_20/10": "N diagonali 20/10",
     "n_diagonals_25/10": "N diagonali 25/10",
     "n_diagonals_30/10": "N diagonali 30/10",
     "n_traverse_10/10": "N traversi 10/10",
     "n_traverse_15/10": "N traversi 15/10",
-    "diagonal_15/10": "Diagonale 15/10",
-    "diagonal_20/10": "Diagonale 20/10",
-    "diagonal_25/10": "Diagonale 25/10",
-    "diagonal_30/10": "Diagonale 30/10",
-    "traverse_10/10": "Traverse 10/10",
-    "traverse_15/10": "Traverse 15/10",
-    "fold": "Piega",
-    "profile": "Profilo",
-    "element": "Elemento",
-    "element_type": "Tipo elemento",
-    "inclined_invitations?": "Inviti inclinati?",
-    "height_1": "Altezza 1",
-    "height_2": "Altezza 2",
-    "height_3": "Altezza 3",
     "n_diagonals_1": "N diagonali 1",
     "n_diagonals_2": "N diagonali 2",
     "n_diagonals_3": "N diagonali 3",
@@ -511,16 +510,36 @@ DICTIONARY = {
     "n_diagonals_30/10_3": "N diagonali 30/10 3",
     "n_traverse_10/10_3": "N traversi 10/10 3",
     "n_traverse_15/10_3": "N traversi 15/10 3",
-    "preparation": "Approntamento",
-    "development": "Sviluppo",
-    "automatic_top": "Sommità automatico",
-    "welded_base_plates": "pdb saldati",
-    "typology_pb": "Tipologi PB",
-    "base_thickness": "Spessore piastra",
-    "boot_height": "Altezza Stivaletto",
-    "base_length": "Dimensione piastra (L)",
-    "base_depth": "Dimensione piastra (P)",
+    "n_skates": "N pattini",
     "n_holes": "N fori",
+    "only": "Solo",
+    "only_strut": "Solo montante",
+    "pb": "PB",
+    "pieces": "Tratti",
+    "preparation": "Approntamento",
+    "price": "Prezzo",
+    "profile": "Profilo",
+    "section": "Sezione",
+    "skates": "Pattini",
+    "special": "Speciale",
+    "standart": "Tipo standart",
+    "strut": "Montante",
+    "support": "Appoggio",
+    "thickness": "Spessore",
+    "thickness_baseplate": "Spessore piastra di base",
+    "top": "Sommità",
+    "top_automatic": "Sommità automatico",
+    "traverse": "Traverse",
+    "traverse_10/10": "Traverse 10/10",
+    "traverse_15/10": "Traverse 15/10",
+    "traverses": "Traversi",
+    "type": "Tipo",
+    "type_element": "Tipo elemento",
+    "typology": "Tipologia",
+    "typology_pb": "Tipologi PB",
+    "weight": "Peso",
+    "welded": "Saldati",
+    "width": "Larghezza",
 }
 
 # =============================== JSON PATHS ==================================
@@ -580,6 +599,7 @@ METERS_SYMBOL = "m"
 QUESTION_MARK = "?"
 LESS_THAN = "<"
 GREATER_THAN = ">"
+UNDERSCORE = "_"
 
 # ============================ REGEX PATTERNS =================================
 FLOAT_REGEX = r"\d+(,\d+)?"
@@ -624,6 +644,7 @@ VALIDATION_NUMERIC = "numeric"
 VALIDATION_NATURAL = "natural"
 VALIDATION_MULTIPLE = "multiple"
 VALIDATION_EXISTS = "exists"
+VALIDATION_NOT_EQUAL = "ne"
 
 # ============================= GREETING MESSAGES =============================
 GOOD_MORNING = "Buongiorno"
