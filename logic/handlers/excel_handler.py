@@ -6,7 +6,6 @@ from typing import Any
 
 from logic.handlers.json_handler import JsonHandler
 from logic.helpers.helper import Helper
-from interface.windows.settings_window import SettingsWindow
 from logic.preparators.data_preparator import DataPreparator
 from logic.logger import logger as log
 from settings import settings as sett
@@ -106,7 +105,7 @@ class ExcelHandler:
         self.additional_input: dict[str, Any] | None = additional_input
         self.roundings: dict[str, str] | None = roundings
         self.settings_json_handler: JsonHandler = JsonHandler(
-            settings_file_path
+            settings_file_path, True
         )
         self.preparator: DataPreparator = DataPreparator()
         self.excel: win32com.client.CDispatch | None = None
@@ -219,44 +218,6 @@ class ExcelHandler:
                 Helper.log_exception(e)
 
         gc.collect()
-
-    def restart_excel(self, new_settings_filepath: str) -> None:
-        """
-        Закрывает текущий экземпляр Excel и открывает новый учитывая, что файл
-        с содержанием пути к файлу excel мог измениться или вообще стать
-        другим.
-
-        Parameters
-        ----------
-        - new_settings_filepath: str
-            Новый путь к файлу настроек, в котором хранится путь к экселю.
-        """
-
-        self.close_excel()
-        self.settings_json_handler = JsonHandler(new_settings_filepath)
-        self.settings_json_handler.create_file_if_not_exists()
-        if not sett.TEST_GUI:
-            self.open_excel()
-
-    def check_excel_file(self) -> bool:
-        """
-        Проверяет, существует ли файл Excel, указанный в настройках.
-        Если файла нет, открывает окно настроек.
-
-        Returns
-        -------
-        - _: bool
-            True, если файл Excel существует, иначе False.
-        """
-
-        self.settings_json_handler.create_file_if_not_exists()
-        while not self.settings_json_handler.get_value_by_key(sett.EXCEL_PATH):
-            log.info(sett.SETTINGS_BUTTON_PRESSED)
-            settings_window = SettingsWindow(self.settings_file_path)
-            result = settings_window.exec()
-            if result == 0:  # пользователь нажал Cancel (reject)
-                return False
-        return True
 
     # ============================ Private Methods ============================
     # -------------------------------------------------------------------------

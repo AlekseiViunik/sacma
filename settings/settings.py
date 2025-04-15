@@ -70,6 +70,10 @@ FILE_READ = "r"
 # Default: "w"
 FILE_WRITE = "w"
 
+# Открытие файла для записи в бинарном режиме
+# Default: "wb"
+FILE_WRITE_BINARY = "wb"
+
 # ============================= LOG STATIC MESSAGES ===========================
 
 TRYING_LOGIN = "Trying to acces the app"
@@ -336,6 +340,7 @@ SLASH = "/"
 CONVERTATION = "convertation"
 EXE_FROZEN = "frozen"
 EXCEL_PATH = "excel_path"
+EXCEL_LINK = "excel_link"
 OPEN_EXCEL = "Open excel"
 EXCEL_IS_OPENED = "Excel is opened"
 WORKBOOK_IS_OPENED = "Workbook is opened"
@@ -386,6 +391,7 @@ SEX = "sex"
 LAST_BACKUP = "last_backup"
 SYMBOLS = "symbols"
 TYPE_INFO = "info"
+LAST_PID = "last_pid"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
@@ -408,7 +414,7 @@ NON_STANDART_BUTTON_HEIGHT = 40  # Default: 40
 NON_STANDART_BUTTON_WIDTH = 100  # Default: 100
 DEFAULT_PLACE_TO_PASTE = -100  # Default: -100
 INDENT = 4  # Default: 4
-HUNDRED = 100  # Default: 100
+THREE_HUNDRED = 300  # Default: 300
 MIN_PASS_LENGTH = 8  # Default: 8
 BACKUP_PERIOD = 24  # Default: 24
 ROUNDING_LIMIT = "0.01"  # Default: "0.01"
@@ -434,7 +440,6 @@ HANDLE_START_BUTTON_METHOD = "handle_start_button"
 HANDLE_FORWARD_BUTTON_METHOD = "handle_forward_button"
 HANDLE_OPEN_MY_PROFILE_METHOD = "handle_open_my_profile"
 HANDLE_LOGOUT_METHOD = "handle_logout"
-BROWSE_FILE_METHOD = "browse_file"
 SAVE_SETTINGS_METHOD = "save_settings"
 OPEN_SETTINGS_METHOD = "open_settings"
 OPEN_INPUT_WINDOW_METHOD = "open_input_window"
@@ -518,6 +523,7 @@ MY_PROFILE_CONFIG_FILE = "configs/windows_configs/my_profile_window.json"
 ENCRYPTION_FILE = "configs/encryption.json"
 SETTINGS_JSON = "settings.json"
 MODIFIED_SETTINGS_JSON = "settings_{0}.json"
+TEMP_EXCEL_NAME = "temp_excel.xlsx"
 
 # =============================== LOGO PATHS ==================================
 
@@ -639,3 +645,8 @@ GOOGLE_ENCRYPTION_FILE_LINK = (
     "https://drive.google.com/uc?export=download&id={0}"
 )
 GOOGLE_FILE_ID_REGEX = r"/d/([a-zA-Z0-9_-]+)"
+
+
+# ============================== DROPBOX SETTINGS =============================
+LINK_REPLACE_PART = "dl=0"
+LINK_REPLACE_WITH = "dl=1"

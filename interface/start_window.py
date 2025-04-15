@@ -1,3 +1,4 @@
+from logic.handlers.dropbox_handler import DropboxHandler
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
@@ -54,6 +55,7 @@ class StartWindow(BaseWindow):
         self,
         username: str = sett.ALEX,
         excel_handler: ExcelHandler | None = None,
+        dropbox_handler: DropboxHandler | None = None,
         user_settings_path: str = sett.SETTINGS_FILE
     ) -> None:
         super().__init__(username=username)
@@ -63,6 +65,7 @@ class StartWindow(BaseWindow):
         ).get_value_by_key(self.username)
 
         self.excel_handler = excel_handler
+        self.dropbox_handler = dropbox_handler
         self.user_settings_path = user_settings_path
 
         self.init_ui()
@@ -75,7 +78,7 @@ class StartWindow(BaseWindow):
         log.info(sett.SETTINGS_BUTTON_PRESSED)
         self.settings_window = SettingsWindow(self.user_settings_path)
         if self.settings_window.exec():
-            self.excel_handler.restart_excel(
+            self.dropbox_handler.restart_excel(
                 self.user_settings_path
             )
             self.creator.update_dependent_layouts()
@@ -122,23 +125,27 @@ class StartWindow(BaseWindow):
         self.hide()
         self.login_window = LoginWindow()
         if self.login_window.exec():
+
             self.username = self.login_window.username
             self.user_settings_path = (
                 FilepathGenerator.generate_settings_filepath(
                     sett.SETTINGS_FILE, self.username
                 )
             )
+
             self.userdata = JsonHandler(
                 sett.USER_MAIN_DATA_FILE, True
             ).get_value_by_key(self.username)
+
             self.show()
+
             default_config = self.config_json_handler.get_all_data()
             self._add_greetings_to_config(default_config)
             default_config = ConfigGenerator().add_logo_to_config(
                 default_config, sett.MINUS_ONE
             )
             self.creator.config = default_config
-            self.excel_handler.restart_excel(
+            self.dropbox_handler.restart_excel(
                 self.user_settings_path
             )
             self.creator.update_dependent_layouts()

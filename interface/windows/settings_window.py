@@ -1,8 +1,4 @@
-from PyQt6.QtWidgets import (
-    QDialog,
-    QLineEdit,
-    QFileDialog
-)
+from PyQt6.QtWidgets import QDialog
 
 from .base_window import BaseWindow
 from logic.handlers.json_handler import JsonHandler
@@ -17,8 +13,6 @@ class SettingsWindow(QDialog, BaseWindow):
 
     Methods
     -------
-    - browse_file(target_input)
-        Открывает окно выбора файла
 
     - save_settings()
         Переписывает файл настроек и закрывает окно.
@@ -28,39 +22,9 @@ class SettingsWindow(QDialog, BaseWindow):
 
     def __init__(self, user_settings_path: str = sett.SETTINGS_FILE) -> None:
         super().__init__()
-        self.settings_json_handler = JsonHandler(user_settings_path)
+        self.settings_json_handler = JsonHandler(user_settings_path, True)
 
         self.init_ui()
-
-    def browse_file(self, target_input: QLineEdit) -> None:
-        """
-        Метод, срабатывающий при нажатии кнопки Browse. Открывает окно выбора
-        файла excel.
-
-        Parameters
-        ----------
-        - target_input: QLineEdit
-            Поле для ввода, в которое будет вставлен выбранный путь к файлу.
-        """
-
-        log.info(sett.BROWSE_BUTTON_PRESSED)
-
-        # Получаем путь к файлу, выбрав его в открывшемся окне.
-        file_path, _ = QFileDialog.getOpenFileName(
-            None,
-            sett.CHOSE_FILE,
-            sett.EMPTY_STRING,
-            sett.EXCEL_FILES_FILTER
-        )
-
-        # Если путь получен и поле для ввода находится массива полей для ввода
-        # у креатора, то меняем у этого поля для ввода отображаемый введенный
-        # текст на путь к файлу.
-        if file_path and target_input in self.creator.input_fields:
-            self.creator.input_fields[target_input].setText(file_path)
-            self.creator.input_fields[target_input].setPlaceholderText(
-                file_path
-            )
 
     def save_settings(self) -> None:
         """
@@ -72,8 +36,10 @@ class SettingsWindow(QDialog, BaseWindow):
             log.info(sett.TRYING_TO_REWRITE_SETTINGS)
             log.info(sett.PATH_IS.format(sett.SETTINGS_FILE))
             log.info(sett.REWRITING_CHECK_IS_UNAVAILABLE)
-            self.settings_json_handler.rewrite_file(
-                self.creator.input_fields
+            input_data = self.creator.input_fields[sett.EXCEL_LINK].text()
+            self.settings_json_handler.write_into_file(
+                key=sett.EXCEL_LINK,
+                value=input_data
             )
             self.accept()
 
