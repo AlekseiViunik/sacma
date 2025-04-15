@@ -29,11 +29,13 @@ class DropboxHandler:
     def download_excel(self):
         self.url = self.json_handler.get_value_by_key(
             sett.EXCEL_LINK
-        ).replace("dl=0", "dl=1")
+        ).replace(
+            sett.LINK_REPLACE_PART, sett.LINK_REPLACE_WITH
+        )
         response = requests.get(self.url)
         response.raise_for_status()
         try:
-            with open(self.local_path, "wb") as file:
+            with open(self.local_path, sett.FILE_WRITE_BINARY) as file:
                 file.write(response.content)
         except PermissionError as pe:
             Helper.log_exception(pe)
