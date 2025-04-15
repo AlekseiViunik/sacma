@@ -54,7 +54,7 @@
                         },
                         {
                             "type": "dropdown",
-                            "name": "element_type",
+                            "name": "type_element",
                             "width": 300,
                             "height": 20,
                             "default_value": "Frontale per montante serie 80",
