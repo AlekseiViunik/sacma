@@ -38,11 +38,16 @@ if __name__ == "__main__":
         dropbox = DropboxHandler(excel_handler, user_settings_path)
 
         if not sett.TEST_GUI:
+            logger.info("Show info window...")
             dialog = InfoWindow()
             dialog.show()
             QApplication.processEvents()
+
+            logger.info("Open excel...")
             dropbox.open_excel()
             dialog.accept()
+
+            logger.info("Set on_close bahvior...")
             app.aboutToQuit.connect(dropbox.close_excel)
             app.aboutToQuit.connect(
                 lambda: ConfigProtector.protect_all_json_files(
@@ -50,6 +55,7 @@ if __name__ == "__main__":
                 )
             )
 
+        logger.info("Show main window...")
         main_window = StartWindow(
             username=username,
             excel_handler=excel_handler,
@@ -75,13 +81,13 @@ if __name__ == "__main__":
         )
         protector.activate()
 
+    logger.info("============================================================")
+    logger.info("Trying to backup files...")
     Backuper.backup_files(
        sett.SETTINGS_FILE,
        sett.CONFIGS_FOLDER,
        sett.BACKUPS_FOLDER
     )
-
-    logger.info("============================================================")
 
     from PyQt6.QtWidgets import QApplication
     from PyQt6.QtGui import QIcon
@@ -104,6 +110,9 @@ if __name__ == "__main__":
             # Меняем файл логов на файл с именем пользователя
             switch_log_to_user(login_window.username)
 
+            logger.info(
+                f"User {login_window.username} started the application"
+            )
             # Запускаем приложение с именем пользователя
             launch_app(username=login_window.username)
         else:

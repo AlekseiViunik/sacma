@@ -135,7 +135,6 @@ class ExcelHandler:
                 sett.ERROR: check_result[sett.ERROR_MESSAGE]
             }
 
-        # Запись ячеек в таблицу и пересчет формул
         if not self.__input_cells():
             return {
                 sett.PRICE: None,
@@ -291,7 +290,7 @@ class ExcelHandler:
         Во все ячейки, перечисленные в массиве, который является значением
         словаря self.copy_cells.
         """
-
+        log.info("Copy cells to another ones...")
         for cell_to_copy, cells_to_paste_to in self.copy_cells.items():
             cell_to_copy_value = self.sheet.Range(cell_to_copy).Value
 
