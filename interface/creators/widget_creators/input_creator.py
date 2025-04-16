@@ -70,6 +70,17 @@ class InputCreator:
                 case sett.DISABLED:
                     input_field.setEnabled(False)
 
+                case sett.TEXT_CHANGE:
+                    match value:
+                        case sett.AUTO_PHONE_FORMAT:
+                            input_field.textChanged.connect(
+                                lambda text: (
+                                    WidgetPreparator.auto_phone_format(
+                                        input_field, text
+                                    )
+                                )
+                            )
+
         # Пытаемся получить данные из поля для ввода.
         try:
             creator.input_fields.get(
