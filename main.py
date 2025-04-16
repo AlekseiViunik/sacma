@@ -2,6 +2,7 @@ import ctypes
 
 from datetime import datetime
 
+from interface.windows.info_window import InfoWindow
 from interface.windows.login_window import LoginWindow
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.dropbox_handler import DropboxHandler
@@ -37,9 +38,11 @@ if __name__ == "__main__":
         dropbox = DropboxHandler(excel_handler, user_settings_path)
 
         if not sett.TEST_GUI:
-
+            dialog = InfoWindow()
+            dialog.show()
+            QApplication.processEvents()
             dropbox.open_excel()
-
+            dialog.accept()
             app.aboutToQuit.connect(dropbox.close_excel)
             app.aboutToQuit.connect(
                 lambda: ConfigProtector.protect_all_json_files(
