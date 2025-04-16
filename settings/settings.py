@@ -392,6 +392,8 @@ LAST_BACKUP = "last_backup"
 SYMBOLS = "symbols"
 TYPE_INFO = "info"
 LAST_PID = "last_pid"
+TEXT_CHANGE = "text_change"
+AUTO_PHONE_FORMAT = "auto_phone_format"
 
 # ========================== DYNAMIC DICTIONARY KEYS ==========================
 SECTION_I = "section_{0}"
