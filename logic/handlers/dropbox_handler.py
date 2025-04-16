@@ -91,11 +91,14 @@ class DropboxHandler:
         сохраняется в файле настроек. Если PID не найден, значит
         Excel не открыт.
         """
+
         last_pid = self.json_handler.get_value_by_key(
             sett.LAST_PID
         )
-        if last_pid and (proc := psutil.Process(last_pid)):
+
+        if last_pid and psutil.pid_exists(last_pid):
             try:
+                proc = psutil.Process(last_pid)
                 proc.terminate()
             except Exception as e:
                 Helper.log_exception(e)

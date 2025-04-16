@@ -1,3 +1,5 @@
+from PyQt6.QtWidgets import QLineEdit
+
 from logic.handlers.json_handler import JsonHandler
 from settings import settings as sett
 
@@ -67,3 +69,72 @@ class WidgetPreparator:
                     default_value += ends_with
 
         return default_value
+
+    @staticmethod
+    def auto_phone_format(
+        input: QLineEdit,
+        text: str
+    ) -> None:
+        """
+        Автоматически форматирует номер телефона в формате (XXX) XXX-XX-XX.
+
+        Parameters
+        ----------
+        - input: QLineEdit
+            Поле ввода, которое нужно отформатировать.
+        - text: str
+            Текст, который нужно отформатировать.
+        """
+        # Удаляем все символы, кроме цифр
+        digits = sett.EMPTY_STRING.join(filter(str.isdigit, text))
+
+        # Форматируем номер телефона
+        if len(digits) > sett.SET_TO_ONE:
+
+            # Максимум 10 цифр
+            # Eсли больше, то обрезаем до 10
+            digits = sett.EMPTY_STRING.join(
+                filter(str.isdigit, text)
+            )[:sett.PHONE_NUMBER_LENGTH]
+
+        formatted = sett.EMPTY_STRING
+
+        # Начало ввода. Ставим скобку.
+        if len(digits) >= sett.OPEN_BRACKET_POSITION:
+            formatted = sett.ADD_OPEN_BRACKET.format(
+                digits[:sett.FIRST_DIGITS_BLOCK]
+            )
+
+        # Введено 3 цифры. Ставим закрывающую скобку и пробел.
+        if len(digits) >= sett.CLOSE_BRACKET_POSITION:
+            end_block = sett.FIRST_DIGITS_BLOCK + sett.SECOND_DIGITS_BLOCK
+            formatted += sett.ADD_CLOSE_BRACKET.format(
+                digits[
+                    sett.FIRST_DIGITS_BLOCK:end_block
+                ]
+            )
+
+        # Введено 6 цифр. Ставим дефис.
+        if len(digits) >= sett.FIRST_DASH_POSITION:
+            start_block = sett.FIRST_DIGITS_BLOCK + sett.SECOND_DIGITS_BLOCK
+            end_block = start_block + sett.THIRD_DIGITS_BLOCK
+            formatted += sett.ADD_DASH.format(
+                digits[start_block:end_block]
+            )
+
+        # Введено 8 цифр. Ставим дефис.
+        if len(digits) >= sett.SECOND_DASH_POSITION:
+            start_block = (
+                sett.FIRST_DIGITS_BLOCK +
+                sett.SECOND_DIGITS_BLOCK +
+                sett.THIRD_DIGITS_BLOCK
+            )
+            end_block = start_block + sett.FOURTH_DIGITS_BLOCK
+            formatted += sett.ADD_DASH.format(
+                digits[start_block:end_block]
+            )
+
+        input.blockSignals(True)
+        input.setText(formatted)
+        input.blockSignals(False)
+        input.setCursorPosition(len(formatted))

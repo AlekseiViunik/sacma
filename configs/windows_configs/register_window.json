@@ -127,7 +127,8 @@
                         {
                             "type": "input",
                             "name": "phone",
-                            "default_value": "351-234-5678",
+                            "default_value": "(351) 234-56-78",
+                            "text_change": "auto_phone_format",
                             "width": 250,
                             "height": 40,
                             "column": "current"
