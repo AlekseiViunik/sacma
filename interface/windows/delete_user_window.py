@@ -2,6 +2,7 @@ import os
 
 from logic.generators.filepath_generator import FilepathGenerator
 from logic.helpers.helper import Helper
+from logic.protectors.config_protector import ConfigProtector
 from .base_window import BaseWindow
 from logic.handlers.json_handler import JsonHandler
 from settings import settings as sett
@@ -79,6 +80,7 @@ class DeleteUserWindow(BaseWindow):
             user_data_json_handler.rewrite_file(userdata)
 
             if os.path.exists(filepath):
+                ConfigProtector.unset_read_only(filepath)
                 os.remove(filepath)
 
             self.creator.update_dependent_layouts()
