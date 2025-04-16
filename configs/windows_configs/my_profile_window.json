@@ -312,6 +312,7 @@
                                 },
                                 "starts_with": "Current is: "
                             },
+                            "text_change": "auto_phone_format",
                             "width": 200,
                             "height": 30,
                             "column": "current"
