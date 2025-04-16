@@ -2,9 +2,11 @@ from PyQt6.QtWidgets import QDialog, QLabel, QVBoxLayout
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap, QFont
 
+from settings import settings as sett
+
 
 class InfoWindow(QDialog):
-    def __init__(self, message="Loading...", parent=None):
+    def __init__(self, message=sett.LOADING_IT, parent=None):
         super().__init__(parent)
         self.setWindowFlags(
             Qt.WindowType.Dialog |
@@ -12,9 +14,11 @@ class InfoWindow(QDialog):
             Qt.WindowType.WindowTitleHint
         )
         self.setModal(True)
-        self.setWindowTitle("Aspetta...")
-        self.setFixedSize(500, 200)
-        self.setStyleSheet("background-color: #e1e4e6;")
+        self.setWindowTitle(sett.WAIT_IT)
+        self.setFixedSize(
+            sett.INFO_WINDOW_WIDTH,
+            sett.INFO_WINDOW_HEIGHT
+        )
 
         layout = QVBoxLayout()
         label = QLabel(message)
@@ -28,7 +32,7 @@ class InfoWindow(QDialog):
         image_label = QLabel()
         image_label.setScaledContents(True)
         image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        pixmap = QPixmap("files/icons/main_logo.png")
+        pixmap = QPixmap(sett.MAIN_LOGO_PATH)
         image_label.setPixmap(pixmap)
 
         layout.addWidget(image_label)
