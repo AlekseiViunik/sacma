@@ -64,7 +64,10 @@ class DropboxHandler:
     def close_excel(self):
         self.excel_handler.close_excel()
         if os.path.exists(self.local_path):
-            os.remove(self.local_path)
+            try:
+                os.remove(self.local_path)
+            except PermissionError:
+                self.__close_excel_if_it_is_already_opened()
 
     def restart_excel(self, user_settings_path: str):
         """

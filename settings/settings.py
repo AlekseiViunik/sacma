@@ -420,6 +420,8 @@ THREE_HUNDRED = 300  # Default: 300
 MIN_PASS_LENGTH = 8  # Default: 8
 BACKUP_PERIOD = 24  # Default: 24
 ROUNDING_LIMIT = "0.01"  # Default: "0.01"
+INFO_WINDOW_WIDTH = 500  # Default: 500
+INFO_WINDOW_HEIGHT = 200  # Default: 200
 
 # =============================== NAMES CONSTS ================================
 LABEL = "label"  # Default: "label"
@@ -531,6 +533,7 @@ TEMP_EXCEL_NAME = "temp_excel.xlsx"
 
 LOGO_PATH = "files/icons/logo_sacma.png"
 ICON_PATH = "files/icons/logo_s.ico"
+MAIN_LOGO_PATH = "files/icons/main_logo.png"
 
 # ============================ ITALIAN STR CONSTS =============================
 PRICE_IT = "Prezzo"
@@ -540,6 +543,8 @@ NOT_FOUND_IT = "non trovato"
 DEVELOPMENT_IT = "Sviluppo"
 START_IT = "Invia"
 FORWARD_IT = "Avanti"
+WAIT_IT = "Attendere..."
+LOADING_IT = "Caricamento..."
 
 # ================================== SYMBOLS ==================================
 EURO_SYMBOL = "€"
