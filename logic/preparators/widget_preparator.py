@@ -67,3 +67,36 @@ class WidgetPreparator:
                     default_value += ends_with
 
         return default_value
+
+    @staticmethod
+    def auto_phone_format(input, text):
+        """
+        Автоматически форматирует номер телефона в формате (XXX) XXX-XX-XX.
+
+        Parameters
+        ----------
+        - input: QLineEdit
+            Поле ввода, которое нужно отформатировать.
+        - text: str
+            Текст, который нужно отформатировать.
+        """
+        # Удаляем все символы, кроме цифр
+        digits = ''.join(filter(str.isdigit, text))
+
+        # Форматируем номер телефона
+        if len(digits) > 1:
+            digits = ''.join(filter(str.isdigit, text))[:10]
+        formatted = ''
+        if len(digits) >= 1:
+            formatted = f"({digits[:3]}"
+        if len(digits) >= 4:
+            formatted += f") {digits[3:6]}"
+        if len(digits) >= 7:
+            formatted += f"-{digits[6:8]}"
+        if len(digits) >= 9:
+            formatted += f"-{digits[8:10]}"
+
+        input.blockSignals(True)
+        input.setText(formatted)
+        input.blockSignals(False)
+        input.setCursorPosition(len(formatted))
