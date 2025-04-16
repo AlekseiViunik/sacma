@@ -4,6 +4,7 @@ import shutil
 from datetime import datetime, timedelta
 
 from logic.handlers.json_handler import JsonHandler
+from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
 
 
@@ -47,11 +48,13 @@ class Backuper:
             )
         ):
             if os.path.exists(backup_dir):
+                ConfigProtector.unprotect_all_json_files(backup_dir)
                 shutil.rmtree(backup_dir)
             os.makedirs(backup_dir, exist_ok=True)
 
             dst = os.path.join(backup_dir, sett.CONFIGS_FOLDER)
             shutil.copytree(configs_dir, dst)
+            ConfigProtector.protect_all_json_files(dst)
 
             current_time = current_time.strftime(sett.DATE_TIME_FORMAT)
             # Обновляем время бэкапа
