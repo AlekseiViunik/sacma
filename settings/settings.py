@@ -222,7 +222,7 @@ COULDNT_CREATE_FILE = "Couldn't create file: {0}"
 USER_SETTINGS_FILE_CREATED = "Created settings file: {0}"
 PHONE_IS_NOT_VALID = """
     Phone number is not valid: {0}\n
-    Valid format is XXX-XXX-XX-XX only!
+    Valid format is (XXX) XXX-XX-XX only!
 """
 TRYING_CHANGE_USER_DATA = "Trying to change user data: {0} = {1}"
 
@@ -568,7 +568,7 @@ SPECIAL_CHARS = "[!@#$%^&*()_+={}[]:;\"'<>?,./\\|`~]"
 COMMON_SPECIAL_CHARS = "!@#$%^&*()_+"
 EXCEL_FILES_FILTER = "Excel Files (*.xlsx *.xls)"
 DATE_TIME_FORMAT = "%H:%M:%S %d/%m/%Y"
-PHONE_REGEX = r"^\d{3}-\d{3}-\d{2}-\d{2}$"
+PHONE_REGEX = r"^\(\d{3}\) \d{3}-\d{2}-\d{2}$"
 
 # ============================ LAYOUTS AND WIDGETS ============================
 LAYOUT_TYPE_GRID = "grid"
@@ -652,3 +652,19 @@ GOOGLE_FILE_ID_REGEX = r"/d/([a-zA-Z0-9_-]+)"
 # ============================== DROPBOX SETTINGS =============================
 LINK_REPLACE_PART = "dl=0"
 LINK_REPLACE_WITH = "dl=1"
+
+# =========================== PHONE NUMBER SETTINGS ===========================
+
+PHONE_NUMBER_LENGTH = 10  # Default: 10
+FIRST_DIGITS_BLOCK = 3  # Default: 3
+SECOND_DIGITS_BLOCK = 3  # Default: 3
+THIRD_DIGITS_BLOCK = 2  # Default: 2
+FOURTH_DIGITS_BLOCK = 2  # Default: 2
+OPEN_BRACKET_POSITION = 1  # Default: 1
+CLOSE_BRACKET_POSITION = 4  # Default: 4
+FIRST_DASH_POSITION = 7  # Default: 7
+SECOND_DASH_POSITION = 9  # Default: 9
+
+ADD_OPEN_BRACKET = "({0}"
+ADD_CLOSE_BRACKET = ") {0}"
+ADD_DASH = "-{0}"
