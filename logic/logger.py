@@ -88,7 +88,7 @@ class LogManager:
     @staticmethod
     def log_method_call():
         context = LogManager._get_caller_context()
-        LogManager.log_info("Method {0} called.", context)
+        LogManager.log_info("---Method '{0}' called.---", context)
 
     @staticmethod
     def check_log_size() -> None:
