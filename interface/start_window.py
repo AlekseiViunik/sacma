@@ -118,6 +118,7 @@ class StartWindow(BaseWindow):
         """
         Закрывает текущее окно и открывает окно логина.
         """
+
         self.hide()
         self.login_window = LoginWindow()
         if self.login_window.exec():
@@ -150,6 +151,7 @@ class StartWindow(BaseWindow):
         """
         Открывает окно смены пароля.
         """
+
         self.my_profile_window = MyProfile(self.username)
         self.my_profile_window.show()
 
