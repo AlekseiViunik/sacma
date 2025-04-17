@@ -29,6 +29,7 @@ if __name__ == "__main__":
             Если None, приложение запускается с именем создателя по
             умолчанию.
         """
+        lm.log_method_call()
 
         user_settings_path = FilepathGenerator.generate_settings_filepath(
             sett.SETTINGS_FILE, username
