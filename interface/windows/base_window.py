@@ -253,6 +253,7 @@ class BaseWindow(QWidget):
         - config: dict
             Конфиг, в который добавляется приветствие.
         """
+
         current_hour = datetime.now().hour
         name = self.userdata.get(
             sett.NAME, sett.EMPTY_STRING
