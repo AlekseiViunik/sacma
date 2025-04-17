@@ -4,8 +4,6 @@ import shutil
 from datetime import datetime, timedelta
 
 from logic.handlers.json_handler import JsonHandler
-from logic.helpers.helper import Helper
-from logic.logger import logger as log
 from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
 
@@ -34,10 +32,6 @@ class Backuper:
         """
 
         if not os.path.exists(settings_path):
-            log.warning(
-                f"Settings file {settings_path} not found. "
-                "Backup will not be created."
-            )
             return
 
         # Пытаемся получить last_backup
@@ -61,7 +55,7 @@ class Backuper:
                 try:
                     ConfigProtector.unprotect_all_json_files(backup_dir)
                 except Exception as e:
-                    Helper.log_exception(e)
+                    print(e)
 
                 shutil.rmtree(backup_dir)
 

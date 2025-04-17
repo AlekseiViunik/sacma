@@ -5,7 +5,6 @@ import win32com.client as win32
 from typing import Any
 
 from logic.handlers.json_handler import JsonHandler
-from logic.helpers.helper import Helper
 from logic.preparators.data_preparator import DataPreparator
 from settings import settings as sett
 
@@ -171,7 +170,7 @@ class ExcelHandler:
             self.excel.DisplayAlerts = sett.EXCEL_DISPLAY_ALERTS
 
         except Exception as e:
-            Helper.log_exception(e)
+            print(e)
 
         # Попытка открыть книгу
         try:
@@ -180,7 +179,7 @@ class ExcelHandler:
                 UpdateLinks=sett.EXCEL_UPDATE_LINKS
             )
         except Exception as e:
-            Helper.log_exception(e)
+            print(e)
 
     def close_excel(self) -> None:
         """
@@ -198,7 +197,7 @@ class ExcelHandler:
                 self.wb.Close(SaveChanges=sett.EXCEL_SAVE_CHANGES)
                 self.wb = None
             except Exception as e:
-                Helper.log_exception(e)
+                print(e)
 
         # Закрытие приложения эксель, если открыто
         if self.excel:
@@ -206,7 +205,7 @@ class ExcelHandler:
                 self.excel.Quit()
                 self.excel = None
             except Exception as e:
-                Helper.log_exception(e)
+                print(e)
 
         gc.collect()
 

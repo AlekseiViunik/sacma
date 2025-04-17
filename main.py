@@ -8,7 +8,7 @@ from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.dropbox_handler import DropboxHandler
 from logic.helpers.backuper import Backuper
 from logic.generators.filepath_generator import FilepathGenerator
-from logic.logger import logger, check_log_size, switch_log_to_user
+from logic.logger import LogManager as lm
 from logic.protectors.protector import Protector
 from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
@@ -38,16 +38,13 @@ if __name__ == "__main__":
         dropbox = DropboxHandler(excel_handler, user_settings_path)
 
         if not sett.TEST_GUI:
-            logger.info("Show info window...")
             dialog = InfoWindow()
             dialog.show()
             QApplication.processEvents()
 
-            logger.info("Open excel...")
             dropbox.open_excel()
             dialog.accept()
 
-            logger.info("Set on_close bahvior...")
             app.aboutToQuit.connect(dropbox.close_excel)
             app.aboutToQuit.connect(
                 lambda: ConfigProtector.protect_all_json_files(
@@ -55,7 +52,6 @@ if __name__ == "__main__":
                 )
             )
 
-        logger.info("Show main window...")
         main_window = StartWindow(
             username=username,
             excel_handler=excel_handler,
@@ -66,7 +62,8 @@ if __name__ == "__main__":
         main_window.show()
         sys.exit(app.exec())
 
-    check_log_size()
+    lm.setup_default_logger()
+    lm.check_log_size()
 
     if sett.PRODUCTION_MODE_ON:
         protector = Protector(
@@ -81,8 +78,7 @@ if __name__ == "__main__":
         )
         protector.activate()
 
-    logger.info("============================================================")
-    logger.info("Trying to backup files...")
+    lm.log_info("============================================================")
     Backuper.backup_files(
        sett.SETTINGS_FILE,
        sett.CONFIGS_FOLDER,
@@ -103,23 +99,19 @@ if __name__ == "__main__":
 
     if sett.PRODUCTION_MODE_ON:
         ConfigProtector.protect_all_json_files(sett.CONFIGS_FOLDER)
-        logger.info(sett.TRYING_LOGIN)
+        lm.log_info(sett.TRYING_LOGIN)
         login_window = LoginWindow()
         if login_window.exec():
-            logger.info(sett.SUCCESSFUL_LOGIN)
+            lm.log_info(sett.SUCCESSFUL_LOGIN)
             # Меняем файл логов на файл с именем пользователя
-            switch_log_to_user(login_window.username)
+            lm.switch_log_to_user(login_window.username)
 
-            logger.info(
-                f"User {login_window.username} started the application"
-            )
             # Запускаем приложение с именем пользователя
             launch_app(username=login_window.username)
         else:
-            logger.info(sett.UNSUCCESSFUL_LOGIN)
+            lm.log_info(sett.UNSUCCESSFUL_LOGIN)
             sys.exit()
 
     else:
         ConfigProtector.unprotect_all_json_files(sett.CONFIGS_FOLDER)
-        logger.info(sett.NEW_APP_START)
         launch_app(username=sett.ALEX)

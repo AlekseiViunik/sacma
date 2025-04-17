@@ -5,7 +5,6 @@ from PyQt6.QtWidgets import QWidget, QPushButton, QCheckBox
 from logic.handlers.json_handler import JsonHandler
 from logic.helpers.mover import Mover
 from interface.creators.creator import Creator
-from logic.helpers.helper import Helper
 from logic.generators.config_generator import ConfigGenerator
 from settings import settings as sett
 
@@ -93,7 +92,7 @@ class BaseWindow(QWidget):
         try:
             self.creator.create_widget_layout(self, config[sett.LAYOUT])
         except Exception as e:
-            Helper.log_exception(e)
+            print(e)
 
         if sett.SIZE_BLOCKER in config.keys():
             self.setMaximumSize(self.size())

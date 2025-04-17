@@ -169,7 +169,7 @@ class Calculator:
             try:
                 excel_result = self.excel_handler.initiate_process()
             except Exception as e:
-                Helper.log_exception(e)
+                print(e)
         else:
             excel_result = {
                 sett.PRICE: None,
@@ -192,7 +192,7 @@ class Calculator:
                         self.data
                     )
                 except Exception as e:
-                    Helper.log_exception(e)
+                    print(e)
 
             # NEW! Если post_message - не строка, а словарь (содержит помимо)
             # сообщения еще и условие для его отображения. То проверяем это

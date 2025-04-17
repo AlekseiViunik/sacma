@@ -1,7 +1,6 @@
 import os
 
 from logic.generators.filepath_generator import FilepathGenerator
-from logic.helpers.helper import Helper
 from logic.protectors.config_protector import ConfigProtector
 from .base_window import BaseWindow
 from logic.handlers.json_handler import JsonHandler
@@ -87,7 +86,7 @@ class DeleteUserWindow(BaseWindow):
             self.__remove_yourself_from_dropdown()
 
         except Exception as e:
-            Helper.log_exception(e)
+            print(e)
             return
 
     # ============================ Private Methods ============================

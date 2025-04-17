@@ -7,7 +7,6 @@ from PyQt6.QtWidgets import QLineEdit
 from typing import Any
 
 from interface.windows.messagebox import Messagebox
-from logic.helpers.helper import Helper
 from logic.protectors.encoder import Encoder
 from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
@@ -179,7 +178,7 @@ class JsonHandler:
                 try:
                     data = self.encoder.encrypt_data(data)
                 except Exception as e:
-                    Helper.log_exception(e)
+                    print(e)
 
             json.dump(
                 data, f, indent=sett.INDENT, ensure_ascii=False
@@ -248,7 +247,6 @@ class JsonHandler:
                 os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
                 shutil.copy(sett.SETTINGS_FILE, self.file_path)
             except Exception as e:
-                Helper.log_exception(e)
                 Messagebox.show_messagebox(
                     sett.FAILED_TO_CREATE_FILE,
                     sett.COULDNT_CREATE_FILE.format(e),

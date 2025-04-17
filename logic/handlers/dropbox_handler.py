@@ -7,7 +7,6 @@ import win32com.client as win32
 
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.json_handler import JsonHandler
-from logic.helpers.helper import Helper
 from settings import settings as sett
 
 
@@ -38,7 +37,7 @@ class DropboxHandler:
             with open(self.local_path, sett.FILE_WRITE_BINARY) as file:
                 file.write(response.content)
         except PermissionError as pe:
-            Helper.log_exception(pe)
+            print(pe)
 
     def open_excel(self):
 
@@ -47,7 +46,7 @@ class DropboxHandler:
         try:
             self.download_excel()
         except Exception as e:
-            Helper.log_exception(e)
+            print(e)
 
         self.excel_handler.excel = win32.DispatchEx(sett.EXCEL_APP)
 
@@ -78,9 +77,9 @@ class DropboxHandler:
                 try:
                     os.remove(self.local_path)
                 except PermissionError as pe:
-                    Helper.log_exception(pe)
+                    print(pe)
             except Exception as e:
-                Helper.log_exception(e)
+                print(e)
 
     def restart_excel(self, user_settings_path: str):
         """
@@ -119,4 +118,4 @@ class DropboxHandler:
                 proc = psutil.Process(last_pid)
                 proc.terminate()
             except Exception as e:
-                Helper.log_exception(e)
+                print(e)

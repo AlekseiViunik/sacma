@@ -164,7 +164,7 @@ class RegisterWindow(BaseWindow):
                 self.close()
 
         except Exception as e:
-            Helper.log_exception(e)
+            print(e)
 
     def toggle_password(
         self,

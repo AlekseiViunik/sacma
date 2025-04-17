@@ -6,8 +6,6 @@ from .base_window import BaseWindow
 from .messagebox import Messagebox
 from logic.handlers.json_handler import JsonHandler
 from logic.helpers.authenticator import Authenticator
-from logic.helpers.helper import Helper
-from logic.logger import logging as log
 from settings import settings as sett
 
 
@@ -75,7 +73,7 @@ class LoginWindow(QDialog, BaseWindow):
                     self
                 )
         except Exception as e:
-            Helper.log_exception(e)
+            print(e)
 
     def toggle_password(self, checkbox: QCheckBox) -> None:
         """
