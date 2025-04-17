@@ -96,6 +96,7 @@ class DeleteUserWindow(BaseWindow):
         Чтобы случайно не вызвать ошибку, попытавшись удалить самого себя,
         удаляет себя из списка доступных юзеров для удаления.
         """
+
         dropdown = self.creator.chosen_fields[sett.USERNAME]
         current_options = [
             dropdown.itemText(i) for i in range(dropdown.count())
