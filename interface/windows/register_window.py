@@ -9,7 +9,6 @@ from logic.handlers.json_handler import JsonHandler
 from logic.handlers.user_data_handler import UserDataHandler
 from logic.helpers.authenticator import Authenticator
 from logic.helpers.helper import Helper
-from logic.logger import logging as log
 from settings import settings as sett
 
 
@@ -55,23 +54,18 @@ class RegisterWindow(BaseWindow):
         """
 
         try:
-            log.info(sett.CREATE_BUTTON_PRESSED)
 
             # Собираем все введенные и выбранные данные в один словарь.
             all_inputs = self.input_data_handler.collect_all_inputs(
                 self.creator.input_fields,
                 self.creator.chosen_fields
             )
-            log.info(sett.FULFILLED_FIELDS.format(all_inputs))
-
             # Проверка, все ли обязательные поля заполнены.
             difference = self.input_data_handler.check_mandatory(
                 all_inputs,
                 self.creator.mandatory_fields
             )
             if difference:
-                log.error(sett.MANDATORY_FIELDS_CHECK_FAILED)
-                log.error(sett.MISSING_FIELDS.format(difference))
                 if len(difference) == sett.SET_TO_ONE:
                     err_msg = sett.MANDATORY_FIELD.format(
                         difference[sett.SET_TO_ZERO]
@@ -91,12 +85,6 @@ class RegisterWindow(BaseWindow):
             # Проверка, совпадает ли введенный пароль с повторенным.
             if all_inputs[sett.PASSWORD] != all_inputs[sett.REPEAT_PASSWORD]:
 
-                log.error(
-                    sett.CONCAT_TWO_MSGS.format(
-                        sett.CHECK_FAILED,
-                        sett.REPEAT_IS_DIFFERENT
-                    )
-                )
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.REPEAT_IS_DIFFERENT,
@@ -110,7 +98,6 @@ class RegisterWindow(BaseWindow):
                     all_inputs[sett.PASSWORD]
                 )
             ):
-                log.error(sett.PASSWORD_IS_WEAK)
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.PASSWORD_IS_WEAK,
@@ -124,9 +111,6 @@ class RegisterWindow(BaseWindow):
                     all_inputs[sett.EMAIL]
                 )
             ):
-                log.error(
-                    sett.EMAIL_IS_NOT_VALID.format(all_inputs[sett.EMAIL])
-                )
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.EMAIL_IS_NOT_VALID.format(all_inputs[sett.EMAIL]),
@@ -140,9 +124,6 @@ class RegisterWindow(BaseWindow):
                     all_inputs[sett.PHONE]
                 )
             ):
-                log.error(
-                    sett.PHONE_IS_NOT_VALID.format(all_inputs[sett.PHONE])
-                )
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.PHONE_IS_NOT_VALID.format(all_inputs[sett.PHONE]),
@@ -164,12 +145,6 @@ class RegisterWindow(BaseWindow):
                 all_inputs[sett.USERNAME],
                 all_inputs[sett.PASSWORD]
             ):
-                log.error(
-                    sett.CONCAT_TWO_MSGS.format(
-                        sett.CREATION_FAILED,
-                        sett.USER_EXISTS
-                    )
-                )
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.USER_EXISTS,
@@ -179,10 +154,6 @@ class RegisterWindow(BaseWindow):
             else:
                 # Если чувствительные данные успешно сохранены, вносим обычные
                 # данные.
-                log.info(
-                    sett.AUTH_CREATION_SUCCESSFUL
-                )
-                log.info(sett.TRYING_ADD_AUTH_DATA)
                 self.user_data_handler.add_new_user_data(all_inputs)
                 Messagebox.show_messagebox(
                     sett.SUCCESS,
@@ -215,18 +186,10 @@ class RegisterWindow(BaseWindow):
         """
 
         if checkbox.isChecked():
-            if field == sett.PASSWORD:
-                log.info(sett.PASS_MARKED_AS_CHECKED)
-            elif field == sett.REPEAT_PASSWORD:
-                log.info(sett.PASS_REPEAT_MARKED_AS_CHECKED)
             self.creator.input_fields[field].setEchoMode(
                 QLineEdit.EchoMode.Normal
             )
         else:
-            if field == sett.PASSWORD:
-                log.info(sett.PASS_MARKED_AS_UNCHECKED)
-            elif field == sett.REPEAT_PASSWORD:
-                log.info(sett.PASS_REPEAT_MARKED_AS_UNCHECKED)
             self.creator.input_fields[field].setEchoMode(
                 QLineEdit.EchoMode.Password
             )

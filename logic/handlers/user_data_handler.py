@@ -1,6 +1,5 @@
 from logic.handlers.json_handler import JsonHandler
 from interface.windows.messagebox import Messagebox
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -39,16 +38,7 @@ class UserDataHandler:
         if user_data.get(sett.REPEAT_PASSWORD):
             user_data.pop(sett.REPEAT_PASSWORD)
 
-        log.info(sett.TRYING_ADD_USER_DATA)
-        log.info(sett.PATH_IS.format(sett.USER_MAIN_DATA_FILE))
         self.auth_json_handler.write_into_file(key=username, value=user_data)
-
-        # Проверка, что пользователь добавлен (для логов)
-        new_data = self.auth_json_handler.get_all_data()
-        if new_data.get(username) and new_data[username] == user_data:
-            log.info(sett.USER_DATA_IS_ADDED)
-        else:
-            log.error(sett.USER_DATA_IS_NOT_ADDED)
 
     def change_user_data(
         self,
@@ -71,7 +61,6 @@ class UserDataHandler:
             Новое значение поля.
         """
 
-        log.info(sett.TRYING_CHANGE_USER_DATA.format(field, new_value))
         self.auth_json_handler.write_into_file(
             key=username,
             key2=field,

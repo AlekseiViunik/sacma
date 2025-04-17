@@ -8,7 +8,6 @@ from logic.handlers.mail_handler import MailHandler
 from logic.helpers.authenticator import Authenticator
 from logic.helpers.validator import Validator
 from logic.handlers.json_handler import JsonHandler
-from logic.logger import logger as log
 from logic.generators.pass_generator import PassGenerator
 from settings import settings as sett
 
@@ -51,11 +50,9 @@ class ForgotPasswordWindow(QDialog, BaseWindow):
         данных. Если данные не валидны, то выводит сообщение об ошибке.
         """
 
-        log.info(sett.TRYING_RECOVER_PASSWORD)
         username = self.creator.input_fields[sett.USERNAME].text()
         useremail = self.creator.input_fields[sett.EMAIL].text()
         if not Validator.validate_email(useremail):
-            log.error(sett.WRONG_EMAIL_FORGOT_PASS.format(useremail))
             Messagebox.show_messagebox(
                 sett.RECOVER_ERROR,
                 sett.WRONG_EMAIL.format(useremail),

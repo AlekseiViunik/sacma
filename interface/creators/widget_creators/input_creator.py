@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import QLineEdit
 from typing import TYPE_CHECKING
 
-from logic.logger import logger as log
 from logic.preparators.widget_preparator import WidgetPreparator
 from settings import settings as sett
 
@@ -44,7 +43,6 @@ class InputCreator:
             Объект созданного поля для ввода.
         """
 
-        log.info(sett.CREATE_INPUT_FIELD)
         input_field = QLineEdit()
         for param, value in input_config.items():
             match param:

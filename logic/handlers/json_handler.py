@@ -9,7 +9,6 @@ from typing import Any
 from interface.windows.messagebox import Messagebox
 from logic.helpers.helper import Helper
 from logic.protectors.encoder import Encoder
-from logic.logger import logger as log
 from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
 
@@ -67,7 +66,7 @@ class JsonHandler:
         - _: dict
             Возвращаемые данные.
         """
-        log.info(sett.JSON_GET_ALL_DATA)
+
         if self.file_path:
             try:
                 with open(
@@ -112,7 +111,7 @@ class JsonHandler:
         - _: Any
             Возвращаемые данные.
         """
-        log.info(sett.JSON_GET_VALUE_BY_KEY)
+
         data = self.get_all_data()
         if data:
             return data.get(key, sett.EMPTY_STRING)
@@ -134,7 +133,7 @@ class JsonHandler:
         - result : dict
             Словарь со значениями для этих ключей. Или пустой словарь.
         """
-        log.info(sett.JSON_GET_VALUES_BY_KEYS)
+
         result = {}
         data = self.get_all_data()
 
@@ -159,7 +158,6 @@ class JsonHandler:
 
         ConfigProtector.unset_read_only(self.file_path)
 
-        log.info(sett.JSON_REWRITE_FILE)
         with open(
             self.file_path,
             sett.FILE_WRITE,
@@ -215,7 +213,6 @@ class JsonHandler:
             Значение, которое нужно записать.
         """
 
-        log.info(sett.JSON_WRITE_INTO_FILE)
         data = self.get_all_data()
         if not key2:
             data[key] = value
@@ -250,11 +247,6 @@ class JsonHandler:
             try:
                 os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
                 shutil.copy(sett.SETTINGS_FILE, self.file_path)
-                log.info(
-                    sett.USER_SETTINGS_FILE_CREATED.format(
-                        self.file_path
-                    )
-                )
             except Exception as e:
                 Helper.log_exception(e)
                 Messagebox.show_messagebox(

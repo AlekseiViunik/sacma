@@ -2,7 +2,6 @@ from PyQt6.QtWidgets import QComboBox
 from typing import TYPE_CHECKING
 
 from logic.handlers.json_handler import JsonHandler
-from logic.logger import logger as log
 from settings import settings as sett
 
 if TYPE_CHECKING:
@@ -48,11 +47,6 @@ class DropdownCreator:
         name = dropdown_config[sett.NAME]
         if not creator.default_values.get(name):
             creator.default_values[name] = dropdown_config[sett.DEFAULT_VALUE]
-        log.info(
-            sett.CREATE_WIDGET.format(
-                sett.DROPDOWN, dropdown_config[sett.NAME]
-            )
-        )
         for param, value in dropdown_config.items():
 
             match param:

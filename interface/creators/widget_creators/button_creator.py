@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import QPushButton
 from typing import TYPE_CHECKING
 
-from logic.logger import logger as log
 from settings import settings as sett
 
 if TYPE_CHECKING:
@@ -40,9 +39,6 @@ class ButtonCreator:
             Объект созданной кнопки.
         """
 
-        log.info(
-            sett.CREATE_WIDGET.format(sett.BUTTON, button_config[sett.TEXT])
-        )
         button = QPushButton(button_config[sett.TEXT])
         for param, value in button_config.items():
             match param:

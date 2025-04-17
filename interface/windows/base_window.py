@@ -7,7 +7,6 @@ from logic.helpers.mover import Mover
 from interface.creators.creator import Creator
 from logic.helpers.helper import Helper
 from logic.generators.config_generator import ConfigGenerator
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -76,15 +75,8 @@ class BaseWindow(QWidget):
         - Блокирует размеры окна, если это указано в конфиге.
         """
 
-        log.info(sett.CREATE_WINDOW_WITH_CONF.format(self.CONFIG_FILE))
-
         # Загружаем конфиг
         config = self.config_json_handler.get_all_data()
-
-        if config:
-            log.info(sett.CONFIG_LOADED_SUCCESSFULLY.format(config))
-        else:
-            log.error(sett.FAILED_GET_JSON_DATA)
 
         if config.get(sett.WINDOW_TITLE) == sett.SACMA:
             config = self._add_greetings_to_config(config)
@@ -97,7 +89,6 @@ class BaseWindow(QWidget):
 
         Mover.move_window_to_center(self)
 
-        log.info(sett.USE_CREATOR)
         self.creator = Creator(config, self)
         try:
             self.creator.create_widget_layout(self, config[sett.LAYOUT])
@@ -250,7 +241,6 @@ class BaseWindow(QWidget):
             пришлось указать QWidget, как тип передаваемого объекта.
         """
 
-        log.info(sett.CANCEL_BUTTON_PRESSED)
         inheritor.close()
 
     # =========================== Protected methods ===========================

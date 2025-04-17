@@ -1,7 +1,6 @@
 import json
 import random
 
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -69,7 +68,6 @@ class Encoder:
         try:
             return json.loads(sett.EMPTY_STRING.join(decrypted_text))
         except json.JSONDecodeError:
-            log.error(sett.FAILED_TO_DECODE)
             return {sett.ERROR: sett.FAILED_TO_DECODE}
 
     def encrypt_data(self, data_dict: dict) -> list[str]:

@@ -2,7 +2,6 @@ import hashlib
 import os
 
 from logic.handlers.json_handler import JsonHandler
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -65,9 +64,6 @@ class Authenticator:
             Юзернейм последнего успешно вошедшего юзера. Чтобы вставить его как
             дефолтное значение поля для ввода юзернейма.
         """
-        last_user = sett.EMPTY_STRING
-        if last_user := self.file_handler.get_value_by_key(sett.LAST_USER):
-            log.info(sett.LAST_USER_FOUND.format(last_user))
         return self.file_handler.get_value_by_key(sett.LAST_USER)
 
     def save_last_user(self, username: str) -> None:
@@ -80,7 +76,7 @@ class Authenticator:
         - username: str
             Логин
         """
-        log.info(sett.SAVE_LAST_USER)
+
         self.file_handler.write_into_file(key=sett.LAST_USER, value=username)
 
     def register_user(self, username: str, password: str) -> bool:
@@ -151,7 +147,7 @@ class Authenticator:
         - _: str
             Хешированный пароль для записи хеша в файл.
         """
-        log.info(sett.HASHING_PASS)
+
         return hashlib.sha256(password.encode()).hexdigest()
 
     @staticmethod
@@ -174,5 +170,4 @@ class Authenticator:
         """
         users_data = Authenticator().load_users()
         hashed_password = Authenticator().hash_password(password)
-        log.info(sett.CHECK_USER_EXISTS.format(username, password))
         return users_data[sett.USERS].get(username) == hashed_password

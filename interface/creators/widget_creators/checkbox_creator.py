@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import QCheckBox
 from typing import TYPE_CHECKING
 
-from logic.logger import logger as log
 from settings import settings as sett
 
 if TYPE_CHECKING:
@@ -41,11 +40,6 @@ class CheckboxCreator:
             Объект созданного чекбокса.
         """
 
-        log.info(
-            sett.CREATE_WIDGET.format(
-                sett.CHECKBOX, checkbox_config[sett.NAME]
-            )
-        )
         checkbox = QCheckBox()
         for param, value in checkbox_config.items():
             match param:

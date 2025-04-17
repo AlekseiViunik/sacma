@@ -20,7 +20,6 @@ from interface.creators.widget_creators.image_creator import ImageCreator
 from interface.creators.widget_creators.input_creator import InputCreator
 from interface.creators.widget_creators.label_creator import LabelCreator
 from logic.generators.config_generator import ConfigGenerator
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -294,7 +293,6 @@ class Creator:
             Новое выбранное значение.
         """
 
-        log.info(sett.RERENDER_LAYOUTS)
         if name and selected_value:
             self.default_values[name] = selected_value
 
@@ -503,7 +501,6 @@ class Creator:
             Объект созданного контейнера
         """
 
-        log.info(sett.CREATE_LAYOUT.format(layout_config[sett.TYPE]))
         match layout_config[sett.TYPE]:
             case sett.LAYOUT_TYPE_GRID:
                 layout = QGridLayout()

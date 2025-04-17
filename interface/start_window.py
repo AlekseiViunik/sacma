@@ -11,7 +11,6 @@ from interface.windows.settings_window import SettingsWindow
 from interface.windows.users_settings_window import UsersSettingsWindow
 from logic.generators.config_generator import ConfigGenerator
 from logic.generators.filepath_generator import FilepathGenerator
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -75,7 +74,6 @@ class StartWindow(BaseWindow):
         Открывает окно пользовательских настроек.
         """
 
-        log.info(sett.SETTINGS_BUTTON_PRESSED)
         self.settings_window = SettingsWindow(self.user_settings_path)
         if self.settings_window.exec():
             self.dropbox_handler.restart_excel(
@@ -95,7 +93,6 @@ class StartWindow(BaseWindow):
         """
 
         sender = self.sender()  # Получаем объект кнопки
-        log.info(sett.BUTTON_PRESSED.format(sender.text()))
         if sender:
             window_name = sender.text()  # Берем текст кнопки как имя окна
             input_window = InputWindow(
@@ -114,7 +111,6 @@ class StartWindow(BaseWindow):
         Открывает окно регистрации нового юзера.
         """
 
-        log.info(sett.CREATE_USER_BUTTON_PRESSED)
         self.register_window = RegisterWindow()
         self.register_window.show()
 

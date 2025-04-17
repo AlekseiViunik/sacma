@@ -7,7 +7,6 @@ from typing import Any
 from logic.handlers.json_handler import JsonHandler
 from logic.helpers.helper import Helper
 from logic.preparators.data_preparator import DataPreparator
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -128,7 +127,6 @@ class ExcelHandler:
         # Валидация входных данных
         check_result = self.preparator.check_data()
         if not check_result[sett.CHECK_RESULT]:
-            log.error(sett.FAILED_VALIDATION)
             return {
                 sett.PRICE: None,
                 sett.WEIGHT: None,
@@ -163,7 +161,6 @@ class ExcelHandler:
         )
 
         # Попытка запустить приложение
-        log.info(sett.OPEN_EXCEL)
         try:
             self.excel = win32.DispatchEx(sett.EXCEL_APP)
 
@@ -173,11 +170,8 @@ class ExcelHandler:
             # Отключаем предупреждения
             self.excel.DisplayAlerts = sett.EXCEL_DISPLAY_ALERTS
 
-            log.info(sett.EXCEL_FILE_PATH.format(file_path))
-
         except Exception as e:
             Helper.log_exception(e)
-        log.info(sett.EXCEL_IS_OPENED)
 
         # Попытка открыть книгу
         try:
@@ -185,9 +179,8 @@ class ExcelHandler:
                 file_path,
                 UpdateLinks=sett.EXCEL_UPDATE_LINKS
             )
-            log.info(sett.WORKBOOK_IS_OPENED)
         except Exception as e:
-            log.error(sett.WORKBOOK_OPENING_ERROR.format(e))
+            Helper.log_exception(e)
 
     def close_excel(self) -> None:
         """
@@ -196,7 +189,6 @@ class ExcelHandler:
         принудительно его закрывает.
         """
 
-        log.info(sett.CLOSE_EXCEL)
         # Закрытие книги, если открыта
         if self.sheet:
             self.sheet = None
@@ -241,11 +233,7 @@ class ExcelHandler:
                 return False
 
             # Вставляем данные в Excel
-            log.info(sett.INSERT_DATA_INTO_EXCEL)
             for cell, value in data_prepared.items():
-                log.info(
-                    sett.INSERT_IN_THE_CELL.format(value, cell, self.worksheet)
-                )
                 self.sheet.Range(cell).Value = value
 
             # Вставляем доп. данные в Excel
@@ -254,7 +242,6 @@ class ExcelHandler:
                     self.sheet.Range(cell).Value = value
 
             # Обновляем связи
-            log.info(sett.REFRESH_EXCEL)
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()
 
@@ -272,7 +259,6 @@ class ExcelHandler:
             Словарь полученными из excel данными.
         """
 
-        log.info(sett.GETTING_EXCEL_DATA)
         # Получение всех необходимых данных
         excel_data = {
             key: self.sheet.Range(self.cells_output[key]).Value
@@ -290,7 +276,7 @@ class ExcelHandler:
         Во все ячейки, перечисленные в массиве, который является значением
         словаря self.copy_cells.
         """
-        log.info("Copy cells to another ones...")
+
         for cell_to_copy, cells_to_paste_to in self.copy_cells.items():
             cell_to_copy_value = self.sheet.Range(cell_to_copy).Value
 

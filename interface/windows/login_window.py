@@ -49,7 +49,6 @@ class LoginWindow(QDialog, BaseWindow):
 
         super().init_ui()  # ✅ Вызываем базовый метод
 
-        log.info(sett.ADD_LAST_USER_TO_INPUT_FIELD)
         last_user = self.auth_json_handler.get_value_by_key(sett.LAST_USER)
         if sett.USERNAME in self.creator.input_fields:
             self.creator.input_fields[sett.USERNAME].setText(last_user)
@@ -61,18 +60,15 @@ class LoginWindow(QDialog, BaseWindow):
         случае открывает Окно с информации о неверных логине и пароле.
         """
 
-        log.info(sett.TRY_BUTTON_PRESSED)
         username = self.creator.input_fields[sett.USERNAME].text()
         password = self.creator.input_fields[sett.PASSWORD].text()
         try:
             if self.auth.verify_user(username, password):
-                log.info(sett.USER_VERIFIED)
                 self.auth.save_last_user(username)
                 self.username = username
                 self.auth_successful = True
                 self.accept()
             else:
-                log.error(sett.WRONG_CREDENTIALS)
                 Messagebox.show_messagebox(
                     sett.LOGIN_ERROR,
                     sett.WRONG_CREDENTIALS,
@@ -94,12 +90,10 @@ class LoginWindow(QDialog, BaseWindow):
         """
 
         if checkbox.isChecked():
-            log.info(sett.PASS_MARKED_AS_CHECKED)
             self.creator.input_fields[sett.PASSWORD].setEchoMode(
                 QLineEdit.EchoMode.Normal
             )
         else:
-            log.info(sett.PASS_MARKED_AS_UNCHECKED)
             self.creator.input_fields[sett.PASSWORD].setEchoMode(
                 QLineEdit.EchoMode.Password
             )

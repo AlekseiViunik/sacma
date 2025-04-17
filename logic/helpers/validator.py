@@ -3,7 +3,6 @@ import re
 from typing import Any
 
 from logic.helpers.helper import Helper
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -102,63 +101,45 @@ class Validator:
         match rule_key:
 
             case sett.VALIDATION_MIN:
-                log.info(sett.SHOULD_BE_MORE_THAN.format(rule_key, rule_value))
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value < rule_value:
-                    log.error(sett.IS_LESS_THAN.format(value, rule_value))
                     return False
 
             case sett.VALIDATION_MAX:
-                log.info(sett.SHOULD_BE_LESS_THAN.format(rule_key, rule_value))
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value > rule_value:
-                    log.error(sett.IS_GREATER_THAN.format(value, rule_value))
                     return False
 
             case sett.VALIDATION_NUMERIC:
-                log.info(sett.SHOULD_BE_NUMERIC)
                 if not str(value).isnumeric():
-                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
 
             case sett.VALIDATION_NATURAL:
-                log.info(sett.SHOULD_BE_NATURAL)
                 if not str(value).isnumeric() or int(value) < 0:
-                    log.error(sett.IS_NOT_NATURAL.format(value))
                     return False
 
             case sett.VALIDATION_MULTIPLE:
-                log.info(sett.SHOULD_BE_MULTIPLE.format(rule_value))
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value % rule_value != 0:
-                    log.error(sett.IS_NOT_MULTIPLE.format(value, rule_value))
                     return False
 
             case sett.VALIDATION_EXISTS:
-                log.info(sett.SHOULD_BE_PRESENTED)
                 if not value:
-                    log.error(sett.EMPTY_REQUIRED_FIELDS)
                     return False
 
             case sett.VALIDATION_NOT_EQUAL:
-                log.info(sett.SHOULD_NOT_BE_EQUAL.format(rule_key, rule_value))
                 if int(value) == int(rule_value):
-                    log.error(sett.IS_EQUAL.format(rule_key, rule_value))
                     return False
 
-        log.info(sett.VALIDATION_IS_OK)
         return True
 
     @staticmethod
@@ -180,8 +161,6 @@ class Validator:
 
         if re.match(sett.EMAIL_REGEX, email):
             return True
-
-        log.error(sett.EMAIL_IS_NOT_VALID.format(email))
         return False
 
     @staticmethod
