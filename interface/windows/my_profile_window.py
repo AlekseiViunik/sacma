@@ -13,12 +13,12 @@ from settings import settings as sett
 
 class MyProfile(BaseWindow):
     """
-    Класс для окна смены пароля.
+    Класс для окна редактирования профиля.
 
     Attributes
     ----------
     - username: str
-        Имя пользователя, от которого открыто окно смены пароля.
+        Имя пользователя, от имени которого открыто окно.
         Передается в родительский класс BaseWindow.
 
     Methods
@@ -28,6 +28,21 @@ class MyProfile(BaseWindow):
 
     - change_pass()
         Сменяет пароль пользователя.
+
+    - change_email()
+        Сменяет email пользователя.
+
+    - change_name()
+        Сменяет имя пользователя.
+
+    - change_surname()
+        Сменяет фамилию пользователя.
+
+    - change_phone()
+        Сменяет номер телефона пользователя.
+
+    - change_sex()
+        Сменяет пол пользователя.
     """
 
     CONFIG_FILE = sett.MY_PROFILE_CONFIG_FILE
@@ -138,6 +153,10 @@ class MyProfile(BaseWindow):
             )
 
     def change_email(self) -> None:
+        """
+        Метод для смены email. Вызывается при нажатии кнопки "Сменить
+        email".
+        """
 
         lm.log_info(sett.TRYING_TO_CHANGE_EMAIL, self.username)
 
@@ -161,6 +180,11 @@ class MyProfile(BaseWindow):
         lm.log_info(sett.SUCCESS)
 
     def change_name(self) -> None:
+        """
+        Мктод для смены имени. Вызывается при нажатии кнопки "Сменить
+        имя".
+        """
+
         lm.log_info(sett.TRYING_TO_CHANGE_NAME, self.username)
         self.user_data_handler.change_user_data(
             username=self.username,
@@ -169,6 +193,11 @@ class MyProfile(BaseWindow):
         )
 
     def change_surname(self) -> None:
+        """
+        Метод для смены фамилии. Вызывается при нажатии кнопки "Сменить
+        фамилию".
+        """
+
         lm.log_info(sett.TRYING_TO_CHANGE_SURNAME, self.username)
         self.user_data_handler.change_user_data(
             username=self.username,
@@ -177,6 +206,11 @@ class MyProfile(BaseWindow):
         )
 
     def change_phone(self) -> None:
+        """
+        Метод для смены телефона. Вызывается при нажатии кнопки "Сменить
+        телефон".
+        """
+
         lm.log_info(sett.TRYING_TO_CHANGE_PHONE, self.username)
         if not Validator.validate_phone(
             self.creator.input_fields[sett.NEW_PHONE].text()
@@ -200,6 +234,11 @@ class MyProfile(BaseWindow):
         lm.log_info(sett.SUCCESS)
 
     def change_sex(self) -> None:
+        """
+        Метод для смены пола. Вызывается при нажатии кнопки "Сменить
+        пол".
+        """
+
         lm.log_info(sett.TRYING_TO_CHANGE_SEX, self.username)
         self.user_data_handler.change_user_data(
             username=self.username,
