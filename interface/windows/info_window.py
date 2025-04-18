@@ -6,6 +6,10 @@ from settings import settings as sett
 
 
 class InfoWindow(QDialog):
+    """
+    Класс, отвечающий за создание окна ожидания, пока подгружаются файлы.
+    """
+
     def __init__(self, message=sett.LOADING_IT, parent=None):
         super().__init__(parent)
         self.setWindowFlags(
