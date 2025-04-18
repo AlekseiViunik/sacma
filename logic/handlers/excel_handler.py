@@ -220,7 +220,7 @@ class ExcelHandler:
                     )
                     self.sheet.Range(cell).Value = value
 
-            lm.log_info(sett.REFRESHING_EXCEL)
+            lm.log_info(sett.REFRESH_EXCEL)
             # Обновляем связи
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()

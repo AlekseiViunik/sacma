@@ -2,6 +2,7 @@ import re
 
 from decimal import Decimal, ROUND_HALF_UP
 
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -51,6 +52,7 @@ class FormulasHandler:
 
         # Проверяем, что в data все значения — Decimal
         if not all(isinstance(value, Decimal) for value in data.values()):
+            lm.log_error(sett.NOT_DECIMAL_ERROR)
             raise ValueError(sett.NOT_DECIMAL_ERROR)
 
         # Извлекаем все переменные из формулы
@@ -66,6 +68,7 @@ class FormulasHandler:
         def replace_var(match):
             var = match.group(0)  # Получаем название переменной
             if var not in data:
+                lm.log_error(sett.VAR_IS_MISSING, var)
                 raise KeyError(sett.VAR_IS_MISSING.format(var))
             return str(data[var])  # Подставляем значение из словаря
 
@@ -76,6 +79,7 @@ class FormulasHandler:
         # Проверяем, что в выражении остались только допустимые символы
         # (цифры, скобки, операторы)
         if not re.match(sett.NUMBERS_N_OPERATORS_REGEX, expression):
+            lm.log_error(sett.UNACCEPTABLE_OPERATORS)
             raise ValueError(sett.UNACCEPTABLE_OPERATORS)
 
         # Выполняем вычисление

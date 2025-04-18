@@ -21,11 +21,11 @@ class Encoder:
 
     def __init__(self) -> None:
         if sett.PRODUCTION_MODE_ON:
-            lm.log_info(sett.LOG_LOAD_ENCRYPTION_DATA)
+            lm.log_info(sett.LOAD_ENCRYPTION_DATA)
             from settings.global_variables import encryption_data
             self.encryption_data = encryption_data
         else:
-            lm.log_info(sett.LOG_LOAD_ENCRYPTION_FILE)
+            lm.log_info(sett.LOAD_ENCRYPTION_FILE)
             with open(
                 sett.ENCRYPTION_FILE, sett.FILE_READ, encoding=sett.STR_CODING
             ) as f:

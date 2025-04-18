@@ -113,7 +113,7 @@ class Calculator:
                 self.calc_config[sett.CELLS_OUTPUT]
             )
 
-        lm.log_info(sett.LOG_GETTING_POST_MESSAGE)
+        lm.log_info(sett.GETTING_POST_MESSAGE)
         # Если есть сообщение, которое надо вставить в окне результатов после
         # вывода результата, извлекаем его из конфига.
         post_message = self.calc_config[sett.CELLS_OUTPUT].pop(
@@ -129,7 +129,7 @@ class Calculator:
             None
         )
 
-        lm.log_info(sett.LOG_HANDLE_CUSTOM_VALIDATIONS)
+        lm.log_info(sett.HANDLE_CUSTOM_VALIDATIONS)
         # Стандартная валидация данных на сравнение друг с другом разных
         # показателей. Например, что количество одних элементов должно быть
         # равно определенному количеству других элементов.
@@ -196,7 +196,7 @@ class Calculator:
             # Если полученные результаты требуют дальнейших расчетов по
             # формуле, применяем ее
             if self.calc_config.get(sett.FORMULAS):
-                lm.log_info(sett.LOG_TRYING_TO_USE_FORMULA)
+                lm.log_info(sett.TRYING_TO_USE_FORMULA)
                 try:
                     self.__use_formula(
                         excel_result,

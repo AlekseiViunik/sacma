@@ -26,7 +26,7 @@ class GoogleHandler:
         raise ValueError(sett.FILE_ID_PARSING_FALIED)
 
     def get_encryption_file() -> dict:
-        lm.log_info(sett.LOG_GET_ENCRYPTION_FILE)
+        lm.log_info(sett.TRYING_TO_GET_ENCRYPTION_FILE)
         file_id = GoogleHandler.extract_file_id(FILE_URL)
         download_url = sett.GOOGLE_ENCRYPTION_FILE_LINK.format(file_id)
         response = requests.get(download_url)
