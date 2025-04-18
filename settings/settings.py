@@ -80,6 +80,7 @@ FILE_WRITE_BINARY = "wb"
 BACKUP_SUCCESS = "Backup was successful!"
 BACKUP_IS_NEEDED = "It's time for backup!"
 BACKUP_DIR_EXISTS = "Backup folder already exists!"
+BACKUP_IS_NOT_NEEDED = "It's too early for backup!"
 # Create something
 CREATE_NEW_NACKUP_FOLDER = "Creating new backup folder!"
 CREATE_EXCEL_HANDLER_OBJECT = "Create excel handler object"

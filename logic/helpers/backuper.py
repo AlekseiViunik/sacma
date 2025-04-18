@@ -101,3 +101,6 @@ class Backuper:
                 key=sett.LAST_BACKUP,
                 value=current_time
             )
+            lm.log_info(sett.BACKUP_SUCCESS)
+        else:
+            lm.log_info(sett.BACKUP_IS_NOT_NEEDED)

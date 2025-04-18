@@ -105,7 +105,6 @@ if __name__ == "__main__":
             sett.CONFIGS_FOLDER,
             sett.BACKUPS_FOLDER
         )
-        lm.log_info(sett.BACKUP_SUCCESS)
     except Exception as e:
         lm.log_exception(e)
 
