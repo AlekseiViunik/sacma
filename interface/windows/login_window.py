@@ -11,7 +11,7 @@ from settings import settings as sett
 
 class LoginWindow(QDialog, BaseWindow):
     """
-    Класс, отвечающий за вывод окна авторизации.
+    Класс, отвечающий за вывод окна авторизации (логина).
 
     Methods
     -------
@@ -25,6 +25,9 @@ class LoginWindow(QDialog, BaseWindow):
     - toggle_password(checkbox)
         Метод делающий ввода пароля видимым/невидимым в зависимости от
         Чекбокса.
+
+    - forgot_password(params)
+        Метод, открывающий окно восстановления пароля.
     """
 
     CONFIG_FILE = sett.LOGIN_WINDOW_CONFIG_FILE
