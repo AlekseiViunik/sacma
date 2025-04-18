@@ -29,12 +29,22 @@ class StartWindow(BaseWindow):
         Defult = None\n
         Обработчик Excel файла, который будет использоваться в дальнейшем.
 
+    - dropbox_handler: DropboxHandler | None
+        Default = None\n
+        Обработчик Dropbox, который будет использоваться в дальнейшем.
+
+    - user_settings_path: str
+        Default = sett."configs/users_settings_files/settings.json"\n
+        Не помню, зачем я добювлял эту переменную, но она есть. По идее, это
+        путь к файлу настроек юзера, который будет использоваться в дальнейшем.
+
+
     Methods
     -------
-    - open_settings(target_input)
+    - open_settings()
         Открывает окно пользовательских настроек.
 
-    - open_input_window()
+    - open_input_window(params)
         Открывает выбранное окно ввода данных.
 
     - open_register()
@@ -47,6 +57,15 @@ class StartWindow(BaseWindow):
     - open_my_profile()
         Открывает окно настроек юзера. Срабатывает при нажатии соответствующей
         кнопки.
+
+    - open_delete_user(params)
+        Открывает окно удаления юзера. Срабатывает при нажатии соответствующей
+        кнопки.
+
+    - open_users_settings(params)
+        Открывает окно настроек юзеров. Срабатывает при нажатии соответствующей
+        кнопки. Доступно только администратору. На данный момент позволяет
+        только сменить группу юзера.
     """
 
     CONFIG_FILE = sett.MAIN_WINDOW_CONFIG_FILE
@@ -72,7 +91,9 @@ class StartWindow(BaseWindow):
 
     def open_settings(self) -> None:
         """
-        Открывает окно пользовательских настроек.
+        Открывает окно настроек, на котором на данный момент можно только
+        указать ссылку на эксель файл, по которой файл должен быть скачан
+        во врем запуска программы.
         """
 
         lm.log_info(sett.SETTINGS_BUTTON_PRESSED)
@@ -93,7 +114,7 @@ class StartWindow(BaseWindow):
 
         Parameters
         ----------
-        params: dict[str, str]
+        - params: dict[str, str]
             Параметры для кнопки окна открытия. По сути содержат пока что
             только одно значение - путь к файлу с конфигом этого окна.
         """
@@ -118,8 +139,10 @@ class StartWindow(BaseWindow):
 
     def open_register(self) -> None:
         """
-        Открывает окно регистрации нового юзера.
+        Открывает окно регистрации нового юзера. Доступно только
+        администратору. Срабатывает при нажатии соответствующей кнопки.
         """
+
         lm.log_info(sett.CREATE_USER_BUTTON_PRESSED)
         lm.log_info(sett.CREATE_REGISTER_WINDOW)
         self.register_window = RegisterWindow()
@@ -138,7 +161,7 @@ class StartWindow(BaseWindow):
         self.login_window = LoginWindow()
         if self.login_window.exec():
             lm.log_info(sett.SUCCESSFUL_LOGIN)
-            lm.log_info(sett.SWITCHING_LOG_FILE)
+            lm.log_info(sett.SWITCHING_LOG_FILE, self.login_window.username)
             lm.switch_log_to_user(self.login_window.username)
             lm.log_info(sett.LOG_DELIMITER)
 
@@ -174,8 +197,9 @@ class StartWindow(BaseWindow):
 
     def open_my_profile(self) -> None:
         """
-        Открывает окно смены пароля.
+        Открывает окно профиля, в котором можно поменять личные данные.
         """
+
         lm.log_info(sett.MY_PROFILE_BUTTON_PRESSED)
         lm.log_info(sett.CREATE_MY_PROFILE_WINDOW)
         self.my_profile_window = MyProfile(self.username)
@@ -183,7 +207,13 @@ class StartWindow(BaseWindow):
 
     def open_delete_user(self, params: dict[str, str]) -> None:
         """
-        Открывает окно удаления юзера.
+        Открывает окно удаления юзера. Доступно только администратору.
+
+        Parameters
+        ----------
+        - params: dict[str, str]
+            Параметры для кнопки окна открытия. По сути содержат пока что
+            только одно значение - путь к файлу с конфигом этого окна.
         """
 
         sender = self.sender()
@@ -202,7 +232,15 @@ class StartWindow(BaseWindow):
 
     def open_users_settings(self, params: dict[str, str]) -> None:
         """
-        Открывает окно настроек юзера.
+        Открывает окно настроек юзеров. Позволяет сменить группу выбранного
+        юзера. Доступно только администратору. Срабатывает при нажатии
+        соответствующей кнопки.
+
+        Parameters
+        ----------
+        - params: dict[str, str]
+            Параметры для кнопки окна открытия. По сути содержат пока что
+            только одно значение - путь к файлу с конфигом этого окна.
         """
 
         sender = self.sender()
