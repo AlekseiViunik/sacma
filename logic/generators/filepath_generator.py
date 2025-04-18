@@ -79,3 +79,25 @@ class FilepathGenerator:
         """
 
         return os.path.join(tempfile.gettempdir(), sett.TEMP_EXCEL_NAME)
+
+    @staticmethod
+    def generate_calculation_filepath(name: str) -> str:
+        """
+        Генерирует относительный путь к файлу конфигурации калькулятора по
+        передаваемому имени кнопки.
+
+        Parameters
+        ----------
+        - name: str
+            Имя файла конфигурации для расчетов.
+
+        Returns
+        -------
+        - _: str
+            Путь к файлу конфигурации для расчетов.
+        """
+
+        filename = sett.FILE_NAME_CONNECTOR.join(
+            word.lower() for word in name.split()
+        )
+        return sett.CALC_CONFIG_PATH.format(filename)
