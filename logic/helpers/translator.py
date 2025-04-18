@@ -9,9 +9,15 @@ class Translator:
 
     Methods
     -------
-    translate_dict(value, only_keys)
+    - translate_dict(value, only_keys)
         Переводит ключи словаря или весь словарь с английского на
         итальянский.
+
+    - translate_words(words)
+        Переводит список слов с английского на итальянский.
+
+    - translate_string(text)
+        Переводит строку с английского на итальянский.
     """
 
     @staticmethod
@@ -74,6 +80,7 @@ class Translator:
         list[str]
             Возвращает список переведенных слов.
         """
+
         translated_list = [
             sett.DICTIONARY.get(word, word) for word in words
         ]
@@ -101,6 +108,7 @@ class Translator:
         str
             Возвращает переведенный текст.
         """
+
         text = {text: sett.EMPTY_STRING}
         translated_dict = Translator.translate_dict(text)
         return list(translated_dict.keys())[sett.SET_TO_ZERO]
