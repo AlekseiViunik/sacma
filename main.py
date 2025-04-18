@@ -116,6 +116,7 @@ if __name__ == "__main__":
     app.setWindowIcon(QIcon(sett.ICON_PATH))
 
     if sett.PRODUCTION_MODE_ON:
+        lm.log_info(sett.TEST_MODE_OFF)
         lm.log_info(sett.PROTECTING_FILES, sett.CONFIGS_FOLDER)
         ConfigProtector.protect_all_json_files(sett.CONFIGS_FOLDER)
         lm.log_info(sett.TRYING_LOGIN)

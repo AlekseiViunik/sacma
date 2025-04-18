@@ -12,7 +12,7 @@ PROTECTION_MODE_ON = True
 # В таком случае вместо файла будет вставлена заглушка, которая не будет
 # открывать excel.
 # Default: False
-TEST_GUI = True
+TEST_GUI = False
 
 PROTECTION_1 = 20  # День. Default: 20
 PROTECTION_2 = 7   # Месяц. Default: 7
@@ -184,6 +184,7 @@ VALIDATION_IS_OK = "This check is OK!"
 HANDLE_CUSTOM_VALIDATIONS = "Handle custom validations"
 # Other
 TEST_MODE_ON = "Launching in test mode!"
+TEST_MODE_OFF = "Launching in production mode!"
 TEST_GUI_MODE = "Test GUI mode is on! Excel will not be opened!"
 SHOW_LOADING_WINDOW = "Show loading window"
 CLOSE_LOADING_WINDOW = "Close loading window"
