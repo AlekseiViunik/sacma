@@ -4,6 +4,7 @@ import sys
 import traceback
 import inspect
 
+from logic.generators.filepath_generator import FilepathGenerator as FP
 from settings import settings as sett
 
 _logger_instance = None
@@ -76,9 +77,8 @@ class LogManager:
     def switch_log_to_user(username: str) -> None:
         global _logger_instance
 
-        user_log_file = os.path.join(
-            LogManager.get_log_dir(),
-            f"{username}.log"
+        user_log_file = FP.generate_log_filepath(
+            LogManager.get_log_dir(), username
         )
 
         logger = logging.getLogger(sett.APP_LOGGER)
