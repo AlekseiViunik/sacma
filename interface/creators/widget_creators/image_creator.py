@@ -2,7 +2,6 @@ from PyQt6.QtWidgets import QLabel
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -32,9 +31,6 @@ class ImageCreator:
             Объект созданного лейбла с картинкой
         """
 
-        log.info(
-            sett.CREATE_WIDGET.format(sett.IMAGE, image_config[sett.PATH])
-        )
         label = QLabel()
         pixmap = QPixmap(sett.EMPTY_STRING)
         for param, value in image_config.items():

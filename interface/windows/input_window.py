@@ -1,9 +1,8 @@
 from .base_window import BaseWindow
+from logic.calculator import Calculator
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.input_data_handler import InputDataHandler
-from logic.helpers.helper import Helper
-from logic.calculator import Calculator
-from logic.logger import logger as log
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -62,7 +61,6 @@ class InputWindow(BaseWindow):
         """
 
         try:
-            log.info(sett.INVIA_BUTTON_PRESSED)
             all_inputs = self.input_data_handler.collect_all_inputs(
                 self.creator.input_fields,
                 self.creator.chosen_fields
@@ -73,10 +71,7 @@ class InputWindow(BaseWindow):
                 self.creator.current_changing_values,
                 self.excel_handler
             )
-            log.info(sett.START_CALCULATING)
             result, post_message = calculator.calc_data()
-
-            log.info(sett.OPEN_RESPONSE_WIDGET)
 
             if not (
                 only_keys := calculator.calc_config[sett.CELLS_OUTPUT].get(
@@ -96,7 +91,7 @@ class InputWindow(BaseWindow):
             )
 
         except Exception as e:
-            Helper.log_exception(e)
+            lm.log_exception(e)
 
     def handle_forward_button(self) -> None:
         """

@@ -2,8 +2,7 @@ from PyQt6.QtWidgets import QDialog
 
 from .base_window import BaseWindow
 from logic.handlers.json_handler import JsonHandler
-from logic.helpers.helper import Helper
-from logic.logger import logger as log
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -32,10 +31,6 @@ class SettingsWindow(QDialog, BaseWindow):
         """
 
         try:
-            log.info(sett.SAVE_BUTTON_PRESSED)
-            log.info(sett.TRYING_TO_REWRITE_SETTINGS)
-            log.info(sett.PATH_IS.format(sett.SETTINGS_FILE))
-            log.info(sett.REWRITING_CHECK_IS_UNAVAILABLE)
             input_data = self.creator.input_fields[sett.EXCEL_LINK].text()
             self.settings_json_handler.write_into_file(
                 key=sett.EXCEL_LINK,
@@ -44,4 +39,4 @@ class SettingsWindow(QDialog, BaseWindow):
             self.accept()
 
         except Exception as e:
-            Helper.log_exception(e)
+            lm.log_exception(e)

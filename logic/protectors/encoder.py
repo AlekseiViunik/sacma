@@ -1,7 +1,7 @@
 import json
 import random
 
-from logic.logger import logger as log
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -18,11 +18,14 @@ class Encoder:
     - encrypt_data(data_dict)
         Шифрует данные, используя словарь шифрования
     """
+
     def __init__(self) -> None:
         if sett.PRODUCTION_MODE_ON:
+            lm.log_info(sett.LOAD_ENCRYPTION_DATA)
             from settings.global_variables import encryption_data
             self.encryption_data = encryption_data
         else:
+            lm.log_info(sett.LOAD_ENCRYPTION_FILE)
             with open(
                 sett.ENCRYPTION_FILE, sett.FILE_READ, encoding=sett.STR_CODING
             ) as f:
@@ -47,6 +50,7 @@ class Encoder:
             возвращает словарь с ошибкой.
         """
 
+        lm.log_method_call()
         # Загружаем словарь дешифровки
         decryption: dict = self.encryption_data[sett.DECRYPTION]
 
@@ -69,7 +73,7 @@ class Encoder:
         try:
             return json.loads(sett.EMPTY_STRING.join(decrypted_text))
         except json.JSONDecodeError:
-            log.error(sett.FAILED_TO_DECODE)
+            lm.log_error(sett.FAILED_TO_DECODE)
             return {sett.ERROR: sett.FAILED_TO_DECODE}
 
     def encrypt_data(self, data_dict: dict) -> list[str]:
@@ -87,6 +91,7 @@ class Encoder:
             Список строк, содержащих зашифрованные данные.
         """
 
+        lm.log_method_call()
         encryption = self.encryption_data[sett.ENCRYPTION]
 
         json_lines = json.dumps(

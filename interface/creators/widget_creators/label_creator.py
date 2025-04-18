@@ -2,7 +2,6 @@ from PyQt6.QtWidgets import QLabel
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -32,9 +31,6 @@ class LabelCreator:
             Объект созданного лейбла
         """
 
-        log.info(
-            sett.CREATE_WIDGET.format(sett.LABEL, label_config[sett.TEXT])
-        )
         mandatory_field = None
         label = QLabel()
         font = QFont()

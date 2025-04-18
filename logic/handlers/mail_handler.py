@@ -4,6 +4,7 @@ import smtplib
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
 
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 load_dotenv()
@@ -49,10 +50,16 @@ class MailHandler:
         msg[sett.FROM] = self.email_address
         msg[sett.TO] = to
 
-        with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
-            server.starttls()
-            server.login(self.email_address, self.email_password)
-            server.send_message(msg)
+        lm.log_info(sett.SEND_MAIL_TO, to)
+        try:
+            with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+                server.starttls()
+                server.login(self.email_address, self.email_password)
+                server.send_message(msg)
+
+            lm.log_info(sett.SUCCESS)
+        except Exception as e:
+            lm.log_exception(e)
 
     def generate_recover_pass_message(
         self,

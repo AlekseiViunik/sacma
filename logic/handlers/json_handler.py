@@ -7,9 +7,8 @@ from PyQt6.QtWidgets import QLineEdit
 from typing import Any
 
 from interface.windows.messagebox import Messagebox
-from logic.helpers.helper import Helper
+from logic.logger import LogManager as lm
 from logic.protectors.encoder import Encoder
-from logic.logger import logger as log
 from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
 
@@ -67,8 +66,9 @@ class JsonHandler:
         - _: dict
             Возвращаемые данные.
         """
-        log.info(sett.JSON_GET_ALL_DATA)
+
         if self.file_path:
+            lm.log_info(sett.JSON_GET_ALL_DATA, self.file_path)
             try:
                 with open(
                     self.file_path,
@@ -87,6 +87,7 @@ class JsonHandler:
                 return data
 
             except FileNotFoundError:
+                lm.log_critical(sett.FNF_MESSAGE)
                 Messagebox.show_messagebox(
                     sett.FILE_NOT_FOUND,
                     sett.FNF_MESSAGE,
@@ -112,7 +113,8 @@ class JsonHandler:
         - _: Any
             Возвращаемые данные.
         """
-        log.info(sett.JSON_GET_VALUE_BY_KEY)
+
+        lm.log_info(sett.JSON_GET_VALUE_BY_KEY, key, self.file_path)
         data = self.get_all_data()
         if data:
             return data.get(key, sett.EMPTY_STRING)
@@ -134,7 +136,8 @@ class JsonHandler:
         - result : dict
             Словарь со значениями для этих ключей. Или пустой словарь.
         """
-        log.info(sett.JSON_GET_VALUES_BY_KEYS)
+
+        lm.log_info(sett.JSON_GET_VALUES_BY_KEYS, keys, self.file_path)
         result = {}
         data = self.get_all_data()
 
@@ -157,9 +160,10 @@ class JsonHandler:
             Данные, которыми будет перезаписан файл.
         """
 
+        lm.log_info(sett.TRYING_TO_UNPROTECT_FILE, self.file_path)
         ConfigProtector.unset_read_only(self.file_path)
 
-        log.info(sett.JSON_REWRITE_FILE)
+        lm.log_info(sett.JSON_REWRITE_FILE, self.file_path)
         with open(
             self.file_path,
             sett.FILE_WRITE,
@@ -181,13 +185,14 @@ class JsonHandler:
                 try:
                     data = self.encoder.encrypt_data(data)
                 except Exception as e:
-                    Helper.log_exception(e)
+                    lm.log_exception(e)
 
             json.dump(
                 data, f, indent=sett.INDENT, ensure_ascii=False
             )
 
         if sett.PRODUCTION_MODE_ON:
+            lm.log_info(sett.PROTECTING_FILE, self.file_path)
             ConfigProtector.set_read_only(self.file_path)
 
     def write_into_file(
@@ -215,7 +220,7 @@ class JsonHandler:
             Значение, которое нужно записать.
         """
 
-        log.info(sett.JSON_WRITE_INTO_FILE)
+        lm.log_info(sett.JSON_WRITE_INTO_FILE, self.file_path)
         data = self.get_all_data()
         if not key2:
             data[key] = value
@@ -250,13 +255,8 @@ class JsonHandler:
             try:
                 os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
                 shutil.copy(sett.SETTINGS_FILE, self.file_path)
-                log.info(
-                    sett.USER_SETTINGS_FILE_CREATED.format(
-                        self.file_path
-                    )
-                )
             except Exception as e:
-                Helper.log_exception(e)
+                lm.log_exception(e)
                 Messagebox.show_messagebox(
                     sett.FAILED_TO_CREATE_FILE,
                     sett.COULDNT_CREATE_FILE.format(e),

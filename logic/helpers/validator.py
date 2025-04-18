@@ -3,7 +3,7 @@ import re
 from typing import Any
 
 from logic.helpers.helper import Helper
-from logic.logger import logger as log
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -57,21 +57,28 @@ class Validator:
             Результат проверки. И сообщение об ошибке, если проверка не
             пройдена.
         """
-
+        lm.log_method_call()
         for method in config[sett.CUSTOM_VALIDATIONS]:
             match method:
                 case sett.SECTION_CHECK:
+                    lm.log_info(sett.VALIDATE_SECTION)
                     if not self.__check_section(data, config):
+                        lm.log_error(sett.SECTIONS_ARE_NOT_VALID)
                         return {
                             sett.IS_CORRECT: False,
                             sett.ERROR_MESSAGE: sett.BASE_CHECK_FAILED
                         }
+                    lm.log_info(sett.SECTIONS_ARE_VALID)
+
                 case sett.DIAGONALS_CHECK:
+                    lm.log_info(sett.VALIDATE_DIAGONALS)
                     if not self.__diagonals_check(data):
+                        lm.log_error(sett.DIAGONALS_ARE_NOT_VALID)
                         return {
                             sett.IS_CORRECT: False,
                             sett.ERROR_MESSAGE: sett.DIAGONALS_CHECK_FAILED
                         }
+                    lm.log_info(sett.DIAGONALS_ARE_VALID)
         return {
             sett.IS_CORRECT: True,
             sett.ERROR_MESSAGE: None
@@ -102,63 +109,59 @@ class Validator:
         match rule_key:
 
             case sett.VALIDATION_MIN:
-                log.info(sett.SHOULD_BE_MORE_THAN.format(rule_key, rule_value))
+                lm.log_info(sett.SHOULD_BE_MORE_THAN, rule_key, rule_value)
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value < rule_value:
-                    log.error(sett.IS_LESS_THAN.format(value, rule_value))
+                    lm.log_error(sett.IS_LESS_THAN, value, rule_value)
                     return False
 
             case sett.VALIDATION_MAX:
-                log.info(sett.SHOULD_BE_LESS_THAN.format(rule_key, rule_value))
+                lm.log_info(sett.SHOULD_BE_LESS_THAN, rule_key, rule_value)
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value > rule_value:
-                    log.error(sett.IS_GREATER_THAN.format(value, rule_value))
+                    lm.log_error(sett.IS_GREATER_THAN, value, rule_value)
                     return False
 
             case sett.VALIDATION_NUMERIC:
-                log.info(sett.SHOULD_BE_NUMERIC)
+                lm.log_info(sett.SHOULD_BE_NUMERIC, rule_key)
                 if not str(value).isnumeric():
-                    log.error(sett.IS_NOT_NUMERIC.format(value))
+                    lm.log_error(sett.IS_NOT_NUMERIC, value)
                     return False
 
             case sett.VALIDATION_NATURAL:
-                log.info(sett.SHOULD_BE_NATURAL)
+                lm.log_info(sett.SHOULD_BE_NATURAL, rule_key)
                 if not str(value).isnumeric() or int(value) < 0:
-                    log.error(sett.IS_NOT_NATURAL.format(value))
+                    lm.log_error(sett.IS_NOT_NATURAL, value)
                     return False
 
             case sett.VALIDATION_MULTIPLE:
-                log.info(sett.SHOULD_BE_MULTIPLE.format(rule_value))
+                lm.log_info(sett.SHOULD_BE_MULTIPLE, rule_key, rule_value)
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(sett.IS_NOT_NUMERIC.format(value))
                     return False
                 if value % rule_value != 0:
-                    log.error(sett.IS_NOT_MULTIPLE.format(value, rule_value))
+                    lm.log_error(sett.IS_NOT_MULTIPLE, value, rule_value)
                     return False
 
             case sett.VALIDATION_EXISTS:
-                log.info(sett.SHOULD_BE_PRESENTED)
+                lm.log_info(sett.SHOULD_BE_PRESENTED, rule_key)
                 if not value:
-                    log.error(sett.EMPTY_REQUIRED_FIELDS)
+                    lm.log_error(sett.IS_NOT_PRESENTED, rule_key, value)
                     return False
 
             case sett.VALIDATION_NOT_EQUAL:
-                log.info(sett.SHOULD_NOT_BE_EQUAL.format(rule_key, rule_value))
+                lm.log_info(sett.SHOULD_NOT_BE_EQUAL, rule_key, rule_value)
                 if int(value) == int(rule_value):
-                    log.error(sett.IS_EQUAL.format(rule_key, rule_value))
+                    lm.log_error(sett.IS_EQUAL, value, rule_value)
                     return False
 
-        log.info(sett.VALIDATION_IS_OK)
         return True
 
     @staticmethod
@@ -179,9 +182,10 @@ class Validator:
         """
 
         if re.match(sett.EMAIL_REGEX, email):
+            lm.log_info(sett.EMAIL_IS_VALID)
             return True
 
-        log.error(sett.EMAIL_IS_NOT_VALID.format(email))
+        lm.log_error(sett.EMAIL_IS_NOT_VALID)
         return False
 
     @staticmethod
@@ -191,8 +195,10 @@ class Validator:
         корректный формат.
         """
         if re.match(sett.PHONE_REGEX, phone):
+            lm.log_info(sett.PHONE_IS_VALID)
             return True
 
+        lm.log_error(sett.PHONE_IS_NOT_VALID.format(phone))
         return False
 
     @staticmethod
@@ -215,6 +221,8 @@ class Validator:
         - _: bool
             True, если пароль соответствует критериям сложности, иначе False.
         """
+
+        lm.log_info(sett.CHECK_PASSWORD_STRENGTH)
         if len(password) < sett.MIN_PASS_LENGTH:
             return False
         if not any(char.isdigit() for char in password):
@@ -237,6 +245,14 @@ class Validator:
         """
         Проверяет, если шкаф состоит из нескольких секций, то как минимум
         эти секции имеют одинаковую базу (но могут иметь разные толщины).
+        Принцип работы проверки:
+        1. Пробегаемся по каждорй из секций шкафа (Если секия одна, то
+           сразу возвращаем True).
+        2. Выписываем все секции в отдельный список, отсекая толщины и оставляя
+           только типоразмер базы.
+        3. Конвертируем список в множество, чтобы исключить повторения.
+        4. Если длина множества равна 1, т.е. если все типоразмеры
+           соответствуют первому, возвращаем True, иначе False.
 
         Parameters
         ----------

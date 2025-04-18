@@ -4,8 +4,8 @@ from decimal import Decimal, ROUND_HALF_UP
 from typing import Any
 
 from logic.helpers.translator import Translator
-from logic.logger import logger as log
 from logic.helpers.validator import Validator
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -74,9 +74,8 @@ class DataPreparator:
             Отвалидированные и подготовленные для дальнейшей обработки данные.
         """
 
-        log.info(sett.PREPARE_DICT)
-
         # Подготавливаем данные для записи в Excel
+        lm.log_info(sett.PREPARE_DICT)
         data_prepared = {}
         for name, cell in cells_input.items():
             if name in self.data.keys():
@@ -87,7 +86,6 @@ class DataPreparator:
                     ).strip()
                 # Номер ячейки      = Значение переданных данных
                 data_prepared[cell] = self.data[name]
-        log.info(sett.DICT_PREPARED.format(data_prepared))
         return data_prepared
 
     def check_data(self) -> bool:
@@ -105,11 +103,8 @@ class DataPreparator:
             Результат валидации данных.
         """
 
-        log.info(sett.DATA_VALIDATION)
         for key, value in self.data.items():
-            log.info(sett.CHECK_KEY.format(key))
             if key in self.rules:
-                log.info(sett.DATA_TO_BE_CHECKED.format(self.data))
                 for rule_key, rule_value in self.rules[key].items():
                     if not Validator().validate(rule_key, rule_value, value):
                         check_err_mesg = self.__set_err_msg(
@@ -118,12 +113,13 @@ class DataPreparator:
                             key,
                             value
                         )
-                        log.error(sett.CHECK_KEY_FAILED.format(key))
+
+                        lm.log_error(sett.FAILED_VALIDATION)
                         return {
                             sett.CHECK_RESULT: False,
                             sett.ERROR_MESSAGE: check_err_mesg
                         }
-        log.info(sett.SUCCESSFUL_VALIDATION)
+        lm.log_info(sett.VALIDATION_IS_OK)
         return {sett.CHECK_RESULT: True}
 
     def decimalize_and_rounding(
@@ -151,7 +147,6 @@ class DataPreparator:
         """
 
         # Перевод в Децимал и округление.
-        log.info(sett.ROUNDING_UP_DATA)
         for key, value in excel_data.items():
             if isinstance(value, str):
                 match = re.search(sett.FLOAT_REGEX, value)

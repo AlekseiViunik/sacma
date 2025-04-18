@@ -1,15 +1,13 @@
 from PyQt6.QtWidgets import QDialog
 
-from logic.helpers.helper import Helper
-
 from .base_window import BaseWindow
 from interface.windows.messagebox import Messagebox
+from logic.generators.pass_generator import PassGenerator
 from logic.handlers.mail_handler import MailHandler
 from logic.helpers.authenticator import Authenticator
 from logic.helpers.validator import Validator
 from logic.handlers.json_handler import JsonHandler
-from logic.logger import logger as log
-from logic.generators.pass_generator import PassGenerator
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -51,11 +49,9 @@ class ForgotPasswordWindow(QDialog, BaseWindow):
         данных. Если данные не валидны, то выводит сообщение об ошибке.
         """
 
-        log.info(sett.TRYING_RECOVER_PASSWORD)
         username = self.creator.input_fields[sett.USERNAME].text()
         useremail = self.creator.input_fields[sett.EMAIL].text()
         if not Validator.validate_email(useremail):
-            log.error(sett.WRONG_EMAIL_FORGOT_PASS.format(useremail))
             Messagebox.show_messagebox(
                 sett.RECOVER_ERROR,
                 sett.WRONG_EMAIL.format(useremail),
@@ -118,7 +114,7 @@ class ForgotPasswordWindow(QDialog, BaseWindow):
                     )
                 )
             except Exception as e:
-                Helper.log_exception(e)
+                lm.log_exception(e)
                 Messagebox.show_messagebox(
                     sett.RECOVER_ERROR,
                     sett.MAIL_ERROR.format(e),

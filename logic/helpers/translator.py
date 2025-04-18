@@ -1,4 +1,4 @@
-from logic.helpers.helper import Helper
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -55,7 +55,7 @@ class Translator:
                 return translated
             return None
         except Exception as e:
-            Helper.log_exception(e)
+            lm.log_exception(e)
 
     @staticmethod
     def translate_words(words: list[str]) -> list[str]:

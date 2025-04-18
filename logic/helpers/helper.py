@@ -1,4 +1,3 @@
-import traceback
 import re
 
 from datetime import datetime
@@ -6,7 +5,6 @@ from decimal import Decimal
 from numbers import Number
 from typing import Any
 
-from logic.logger import logger as log
 from settings import settings as sett
 
 
@@ -205,26 +203,6 @@ class Helper:
             if val == value:
                 return key
         return ""
-
-    @staticmethod
-    def log_exception(e: Exception) -> None:
-        """
-        Логирует исключение с указанием типа, сообщения, функции, файла и
-        строки, где произошло исключение.
-
-        Parameters
-        ----------
-        - e: Exception
-            Исключение, которое произошло.
-        """
-        exc_info = traceback.extract_tb(e.__traceback__)[-1]
-        filename = exc_info.filename
-        line = exc_info.lineno
-        func = exc_info.name
-        full_msg = sett.EXCEPTION_MSG_TEMPLATE.format(
-            type(e).__name__, e, func, filename, line
-        )
-        log.error(sett.ERROR_CAUGHT.format(full_msg))
 
     @staticmethod
     def get_current_time() -> str:
