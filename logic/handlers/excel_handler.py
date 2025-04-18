@@ -158,7 +158,7 @@ class ExcelHandler:
             self.sheet = None
 
         if self.wb:
-            lm.log.info(sett.TRYING_TO_CLOSE_EXCEL_BOOK)
+            lm.log_info(sett.TRYING_TO_CLOSE_EXCEL_BOOK)
             try:
                 self.wb.Close(SaveChanges=sett.EXCEL_SAVE_CHANGES)
                 self.wb = None
