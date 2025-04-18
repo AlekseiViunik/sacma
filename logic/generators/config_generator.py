@@ -12,6 +12,9 @@ class ConfigGenerator:
 
     Methods
     -------
+    - add_greetings_to_config(greeting, config)
+        Добавляет приветствие в конфиг.
+
     - add_response_to_config(
         config, response, only_keys, pre_message, post_message
     )
@@ -23,12 +26,34 @@ class ConfigGenerator:
         Удаляет ответ из конфига.
         Если в конфиге нет ответа с таким же именем, то ничего не происходит.
 
+    - add_logo_to_config(config, place)
+        Добавляет логотип в конфиг в конкретное место в списке виджетов.
+
     Private Methods
     ---------------
+    - __add_new_layout_to_config(config, new_layout_config, place)
+        Добавляет конфиг нового контейнера в текущий конфиг на конкретное
+        место среди виджетов.
+
     - __generate_response_config(
         response, only_keys, pre_message, post_message
     )
         Генерирует конфиг для контейнера содержащего лейблы ответов.
+
+    - disable_fields(config)
+        Добавляет в конфиг атрибут "disabled: 1" для всех полей ввода и выбора.
+        Таким образом блокирует все поля ввода и выбора.
+
+    - __enable_fields(config)
+        Удаляет из конфига атрибут "disabled: 1" для всех полей ввода и выбора.
+        Таким образом разблокирует все поля ввода и выбора.
+
+    - __change_button(config, new_name, new_method)
+        Меняет в конфиге кнопку "Invia" на "Avanti" и наоборот. Также меняет
+        метод, который вызывается при нажатии на кнопку.
+
+    - __generate_logo_config()
+        Просто возвращает конфиг контейнера с логотипом.
     """
 
     def add_greetings_to_config(
