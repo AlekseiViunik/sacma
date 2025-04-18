@@ -1,6 +1,7 @@
 from typing import Any
 
 from logic.helpers.translator import Translator
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -52,6 +53,7 @@ class ConfigGenerator:
             Конфиг, в который добавлено приветствие.
         """
 
+        lm.log_method_call()
         greeting_config = {
             sett.LAYOUT: {
                 sett.TYPE: sett.LAYOUT_TYPE_HORIZONTAL,
@@ -127,12 +129,17 @@ class ConfigGenerator:
             Конфиг, в который добавлен ответ.
         """
 
+        lm.log_info(sett.GENERATE_RESPONSE)
         config_to_add = self.__generate_response_config(
             response, only_keys, pre_message, post_mssage
         )
         config_where_to_add: list = config[sett.LAYOUT][sett.WIDGETS]
         config_where_to_add.insert(sett.MINUS_TWO, config_to_add)
+
+        lm.log_info(sett.DISABLE_FIELDS)
         self.__disable_fields(config)
+
+        lm.log_info(sett.CHANGE_BUTTON)
         self.__change_button(
             config, sett.FORWARD_IT, sett.HANDLE_FORWARD_BUTTON_METHOD
         )
@@ -157,6 +164,7 @@ class ConfigGenerator:
             Конфиг, из которого удален ответ.
         """
 
+        lm.log_info(sett.REMOVE_RESULT_FROM_CONFIG)
         widgets: list[dict[str, dict]] = config[sett.LAYOUT][sett.WIDGETS]
         if widgets:
             for i in range(len(widgets)):
@@ -166,7 +174,11 @@ class ConfigGenerator:
                 ):
                     widgets.pop(i)
                     break
+
+        lm.log_info(sett.ENABLE_FIELDS)
         self.__enable_fields(config)
+
+        lm.log_info(sett.CHANGE_BUTTON)
         self.__change_button(
             config, sett.START_IT, sett.HANDLE_START_BUTTON_METHOD
         )
@@ -196,6 +208,8 @@ class ConfigGenerator:
         - config : dict[str, Any]
             Конфиг, в который добавлен логотип.
         """
+
+        lm.log_info(sett.GENERATE_LOGO_CONFIG)
         logo_config = self.__generate_logo_config()
         return self.__add_new_layout_to_config(
             config, logo_config, place
@@ -227,6 +241,7 @@ class ConfigGenerator:
             Если -1, то добавляет в конец списка.
         """
 
+        lm.log_info(sett.INSERT_NEW_LAYOUT_TO_CONFIG)
         if place == sett.DEFAULT_PLACE_TO_PASTE:
             config[sett.LAYOUT][sett.WIDGETS].append(new_layout_config)
         else:
@@ -265,6 +280,7 @@ class ConfigGenerator:
             Обновленный конфиг.
         """
 
+        lm.log_method_call()
         config = {
             sett.LAYOUT: {
                 sett.TYPE: sett.LAYOUT_TYPE_VERTICAL,

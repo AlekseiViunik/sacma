@@ -3,6 +3,7 @@ from logic.handlers.formulas_handler import FormulasHandler
 from logic.handlers.json_handler import JsonHandler
 from logic.helpers.helper import Helper
 from logic.helpers.validator import Validator
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -80,6 +81,9 @@ class Calculator:
             Результат для вывода и сообщение после вывода результата.
         """
 
+        lm.log_method_call()
+
+        lm.log_info(sett.GETTING_CALC_CONFIG)
         # Получаем из общего конфига конфиг для выбранного нам типа элемента.
         self.calc_config = self.config_file_handler.get_all_data()
         keys = list(self.choices.values())
@@ -90,9 +94,12 @@ class Calculator:
             )
         else:
             self.calc_config = self.calc_config[sett.CHOICES]
+
+        lm.log_info(sett.LOG_CONVERTATION)
         if self.calc_config.get(sett.CONVERTATION):
             self.__convert_data()
 
+        lm.log_info(sett.LOG_HANDLE_SPECIAL_OUTPUT)
         # Специальный вывод - это обычно когда в экселе считать ничего не надо,
         # а значения для вывода берутся из ячеек, адрес которых определяется
         # введенными параметрами
@@ -106,6 +113,7 @@ class Calculator:
                 self.calc_config[sett.CELLS_OUTPUT]
             )
 
+        lm.log_info(sett.LOG_GETTING_POST_MESSAGE)
         # Если есть сообщение, которое надо вставить в окне результатов после
         # вывода результата, извлекаем его из конфига.
         post_message = self.calc_config[sett.CELLS_OUTPUT].pop(
@@ -113,6 +121,7 @@ class Calculator:
             None
         )
 
+        lm.log_info(sett.LOG_HIDE_RESULT)
         # Если есть результат, который не надо отображать, даже если он
         # получен, активируем флаг is_hide.
         is_hide = self.calc_config[sett.CELLS_OUTPUT].pop(
@@ -120,6 +129,7 @@ class Calculator:
             None
         )
 
+        lm.log_info(sett.LOG_HANDLE_CUSTOM_VALIDATIONS)
         # Стандартная валидация данных на сравнение друг с другом разных
         # показателей. Например, что количество одних элементов должно быть
         # равно определенному количеству других элементов.
@@ -131,11 +141,8 @@ class Calculator:
             )
 
         if not validation_result or validation_result[sett.IS_CORRECT]:
-            # Ключи введенных данных на английском языке, а поля для ввода
-            # обозначены на итальянском, поэтому переводим все ключи на
-            # итальянский. Почему при этом мы не переводим на итальянский
-            # данные по извлекаемым ячейкам - я не помню.
 
+            lm.log_info(sett.LOG_PREPARE_EXCEL_HANDLER)
             self.excel_handler.data = self.excel_handler.preparator.data = (
                 self.data
             )
@@ -165,11 +172,14 @@ class Calculator:
             self.excel_handler.sheet = self.excel_handler.wb.Sheets(
                 self.excel_handler.worksheet
             )
+
+            lm.log_info(sett.LOG_INITIATE_EXCEL_HANDLER)
             # Запускаем обработчик эксель файла
             try:
                 excel_result = self.excel_handler.initiate_process()
+                lm.log_info(sett.SUCCESS)
             except Exception as e:
-                print(e)
+                lm.log_exception(e)
         else:
             excel_result = {
                 sett.PRICE: None,
@@ -180,20 +190,24 @@ class Calculator:
         # Если в обработчике данные не прошли валидацию, то в сообщении после
         # вывода результатов выводим сообщение об ошибке.
         if excel_result.get(sett.ERROR):
+            lm.log_info(sett.LOG_ADD_POST_MESSAGE_FOR_ERROR)
             post_message = excel_result.pop(sett.ERROR)
         else:
             # Если полученные результаты требуют дальнейших расчетов по
             # формуле, применяем ее
             if self.calc_config.get(sett.FORMULAS):
+                lm.log_info(sett.LOG_TRYING_TO_USE_FORMULA)
                 try:
                     self.__use_formula(
                         excel_result,
                         self.calc_config[sett.FORMULAS],
                         self.data
                     )
+                    lm.log_info(sett.SUCCESS)
                 except Exception as e:
-                    print(e)
+                    lm.log_exception(e)
 
+            lm.log_info(sett.LOG_CHECK_CONDITION)
             # NEW! Если post_message - не строка, а словарь (содержит помимо)
             # сообщения еще и условие для его отображения. То проверяем это
             # условие перед тем, как установить это сообщение.

@@ -5,6 +5,7 @@ from typing import Any
 
 from logic.helpers.translator import Translator
 from logic.helpers.validator import Validator
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -74,6 +75,7 @@ class DataPreparator:
         """
 
         # Подготавливаем данные для записи в Excel
+        lm.log_info(sett.PREPARE_DICT)
         data_prepared = {}
         for name, cell in cells_input.items():
             if name in self.data.keys():
@@ -111,10 +113,13 @@ class DataPreparator:
                             key,
                             value
                         )
+
+                        lm.log_error(sett.FAILED_VALIDATION)
                         return {
                             sett.CHECK_RESULT: False,
                             sett.ERROR_MESSAGE: check_err_mesg
                         }
+        lm.log_info(sett.VALIDATION_IS_OK)
         return {sett.CHECK_RESULT: True}
 
     def decimalize_and_rounding(

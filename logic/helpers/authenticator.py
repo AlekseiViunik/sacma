@@ -2,6 +2,7 @@ import hashlib
 import os
 
 from logic.handlers.json_handler import JsonHandler
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -49,6 +50,7 @@ class Authenticator:
             Словарь с данными (логин + хешированный пароль) всех юзеров.
         """
 
+        lm.log_method_call()
         if not os.path.exists(sett.AUTH_FILE):
             return {sett.USERS: {}, sett.LAST_USER: sett.EMPTY_STRING}
 
@@ -64,6 +66,8 @@ class Authenticator:
             Юзернейм последнего успешно вошедшего юзера. Чтобы вставить его как
             дефолтное значение поля для ввода юзернейма.
         """
+
+        lm.log_method_call()
         return self.file_handler.get_value_by_key(sett.LAST_USER)
 
     def save_last_user(self, username: str) -> None:
@@ -77,6 +81,7 @@ class Authenticator:
             Логин
         """
 
+        lm.log_method_call()
         self.file_handler.write_into_file(key=sett.LAST_USER, value=username)
 
     def register_user(self, username: str, password: str) -> bool:
@@ -97,9 +102,11 @@ class Authenticator:
             Информация об успешной/неуспешной регистрации.
         """
 
+        lm.log_info(sett.TRYING_TO_CREATE_USER, username)
         users_data = Authenticator().load_users()
 
         if username in users_data[sett.USERS]:
+            lm.log_error(sett.USER_EXISTS)
             return False  # Пользователь уже существует
 
         users_data[sett.USERS][username] = self.file_handler.write_into_file(
@@ -127,6 +134,8 @@ class Authenticator:
         - _: bool
             Информация об успешной/неуспешной регистрации.
         """
+
+        lm.log_method_call()
         users_data = Authenticator().load_users()
         if username not in users_data[sett.USERS]:
             return False
@@ -148,6 +157,7 @@ class Authenticator:
             Хешированный пароль для записи хеша в файл.
         """
 
+        lm.log_method_call()
         return hashlib.sha256(password.encode()).hexdigest()
 
     @staticmethod
@@ -168,6 +178,8 @@ class Authenticator:
         - _: bool
             Информация об успешной/неуспешной авторизации.
         """
+
+        lm.log_method_call()
         users_data = Authenticator().load_users()
         hashed_password = Authenticator().hash_password(password)
         return users_data[sett.USERS].get(username) == hashed_password

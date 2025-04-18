@@ -1,9 +1,10 @@
 import os
 
-from logic.generators.filepath_generator import FilepathGenerator
-from logic.protectors.config_protector import ConfigProtector
 from .base_window import BaseWindow
+from logic.generators.filepath_generator import FilepathGenerator
 from logic.handlers.json_handler import JsonHandler
+from logic.logger import LogManager as lm
+from logic.protectors.config_protector import ConfigProtector
 from settings import settings as sett
 
 
@@ -86,7 +87,7 @@ class DeleteUserWindow(BaseWindow):
             self.__remove_yourself_from_dropdown()
 
         except Exception as e:
-            print(e)
+            lm.log_exception(e)
             return
 
     # ============================ Private Methods ============================

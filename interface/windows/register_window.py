@@ -1,7 +1,5 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox
 
-from logic.helpers.validator import Validator
-
 from .base_window import BaseWindow
 from .messagebox import Messagebox
 from logic.handlers.input_data_handler import InputDataHandler
@@ -9,6 +7,8 @@ from logic.handlers.json_handler import JsonHandler
 from logic.handlers.user_data_handler import UserDataHandler
 from logic.helpers.authenticator import Authenticator
 from logic.helpers.helper import Helper
+from logic.helpers.validator import Validator
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -98,6 +98,7 @@ class RegisterWindow(BaseWindow):
                     all_inputs[sett.PASSWORD]
                 )
             ):
+                lm.log_error(sett.PASSWORD_IS_WEAK)
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
                     sett.PASSWORD_IS_WEAK,
@@ -111,9 +112,10 @@ class RegisterWindow(BaseWindow):
                     all_inputs[sett.EMAIL]
                 )
             ):
+                lm.log_error(sett.EMAIL_IS_NOT_VALID)
                 Messagebox.show_messagebox(
                     sett.CREATION_FAILED,
-                    sett.EMAIL_IS_NOT_VALID.format(all_inputs[sett.EMAIL]),
+                    sett.EMAIL_IS_NOT_VALID,
                     self
                 )
                 return
@@ -164,7 +166,7 @@ class RegisterWindow(BaseWindow):
                 self.close()
 
         except Exception as e:
-            print(e)
+            lm.log_exception(e)
 
     def toggle_password(
         self,

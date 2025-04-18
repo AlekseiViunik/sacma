@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QDialog
 
 from .base_window import BaseWindow
 from logic.handlers.json_handler import JsonHandler
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -38,4 +39,4 @@ class SettingsWindow(QDialog, BaseWindow):
             self.accept()
 
         except Exception as e:
-            print(e)
+            lm.log_exception(e)

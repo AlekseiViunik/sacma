@@ -1,7 +1,8 @@
 from .base_window import BaseWindow
+from logic.calculator import Calculator
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.input_data_handler import InputDataHandler
-from logic.calculator import Calculator
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -90,7 +91,7 @@ class InputWindow(BaseWindow):
             )
 
         except Exception as e:
-            print(e)
+            lm.log_exception(e)
 
     def handle_forward_button(self) -> None:
         """

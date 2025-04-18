@@ -4,6 +4,7 @@ import sys
 
 from datetime import datetime
 
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 BASE_DIR = os.path.dirname(sys.executable)
@@ -64,6 +65,7 @@ class Protector:
                 elif os.path.isdir(full_path):
                     shutil.rmtree(full_path)
             except Exception:
+                lm.log_error(sett.FNF_MESSAGE)
                 raise FileNotFoundError(
                     sett.FNF_MESSAGE
                 )

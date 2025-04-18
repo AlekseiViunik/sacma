@@ -1,12 +1,13 @@
-import requests
 import os
-import tempfile
 import psutil
+import requests
+import tempfile
 import win32process
 import win32com.client as win32
 
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.json_handler import JsonHandler
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -26,60 +27,94 @@ class DropboxHandler:
         )
 
     def download_excel(self):
+        lm.log_method_call()
+
+        lm.log_info(sett.GETTING_EXCEL_LINK)
         self.url = self.json_handler.get_value_by_key(
             sett.EXCEL_LINK
         ).replace(
             sett.LINK_REPLACE_PART, sett.LINK_REPLACE_WITH
         )
+        lm.log_info(sett.EXCEL_LINK_IS, self.url)
+
+        lm.log_info(sett.DOWNLOAD_FILE_FROM_DROPBOX)
         response = requests.get(self.url)
         response.raise_for_status()
+
+        lm.log_info(sett.TRYING_TO_OPEN_DOWNLOADED_FILE)
         try:
             with open(self.local_path, sett.FILE_WRITE_BINARY) as file:
                 file.write(response.content)
+            lm.log_info(sett.SUCCESS)
         except PermissionError as pe:
-            print(pe)
+            lm.log_exception(pe)
 
     def open_excel(self):
 
+        lm.log_method_call()
+        lm.log_info(sett.TRYING_TO_CLOSE_EXCEL)
         self.__close_excel_if_it_is_already_opened()
 
+        lm.log_info(sett.TRYING_TO_DOWNLOAD_EXCEL)
         try:
             self.download_excel()
+            lm.log_info(sett.SUCCESS)
         except Exception as e:
-            print(e)
+            lm.log_exception(e)
 
-        self.excel_handler.excel = win32.DispatchEx(sett.EXCEL_APP)
+        lm.log_info(sett.TRYING_TO_OPEN_EXCEL_APP)
+        try:
+            self.excel_handler.excel = win32.DispatchEx(sett.EXCEL_APP)
+            lm.log_info(sett.SUCCESS)
+        except Exception as e:
+            lm.log_exception(e)
 
+        lm.log_info(sett.GETTING_PID)
         hwnd = self.excel_handler.excel.Hwnd  # окно Excel
         pid = None
-
         # получаем и сохраняем PID по HWND
         _, pid = win32process.GetWindowThreadProcessId(hwnd)
 
+        lm.log_info(sett.SAVE_PID, pid)
         self.json_handler.write_into_file(
             key=sett.LAST_PID,
             value=pid
         )
 
+        lm.log_info(sett.SET_EXCEL_SETTINGS)
         self.excel_handler.excel.Visible = sett.EXCEL_VISIBILITY
         self.excel_handler.excel.DisplayAlerts = sett.EXCEL_DISPLAY_ALERTS
-        self.excel_handler.wb = self.excel_handler.excel.Workbooks.Open(
-            self.local_path, UpdateLinks=sett.EXCEL_UPDATE_LINKS
-        )
+
+        lm.log_info(sett.TRYING_TO_OPEN_EXCEL_WB)
+        try:
+            self.excel_handler.wb = self.excel_handler.excel.Workbooks.Open(
+                self.local_path, UpdateLinks=sett.EXCEL_UPDATE_LINKS
+            )
+            lm.log_info(sett.SUCCESS)
+        except Exception as e:
+            lm.log_exception(e)
 
     def close_excel(self):
+        lm.log_method_call()
+        lm.log_info(sett.CLOSE_EXCEL_HANDLER_FIRST)
         self.excel_handler.close_excel()
+
         if os.path.exists(self.local_path):
+            lm.log_info(sett.TRYING_TO_DELETE_EXCEL_FILE)
             try:
                 os.remove(self.local_path)
+                lm.log_info(sett.SUCCESS)
             except PermissionError:
+                lm.log_error(sett.CANT_DELETE_EXCEL_FILE)
                 self.__close_excel_if_it_is_already_opened()
+                lm.log_info(sett.TRYING_TO_DELETE_EXCEL_FILE_2)
                 try:
                     os.remove(self.local_path)
+                    lm.log_info(sett.SUCCESS)
                 except PermissionError as pe:
-                    print(pe)
+                    lm.log_exception(pe)
             except Exception as e:
-                print(e)
+                lm.log_exception(e)
 
     def restart_excel(self, user_settings_path: str):
         """
@@ -93,11 +128,18 @@ class DropboxHandler:
             Новый путь к файлу настроек, в котором хранится ссылка на эксель.
         """
 
+        lm.log_method_call()
+        lm.log_info(sett.RESTART_EXCEL)
         self.close_excel()
 
+        lm.log_info(sett.SET_NEW_FILEPATH)
         self.json_handler.set_file_path(user_settings_path)
+
+        lm.log_info(sett.CREATE_SETTINGS_FILE_IF_NOT_EXISTS)
         self.json_handler.create_file_if_not_exists()
+
         if not sett.TEST_GUI:
+            lm.log_info(sett.TRYING_TO_OPEN_EXCEL_AGAIN)
             self.open_excel()
 
     def __close_excel_if_it_is_already_opened(self) -> None:
@@ -107,15 +149,20 @@ class DropboxHandler:
         сохраняется в файле настроек. Если PID не найден, значит
         Excel не открыт.
         """
+        lm.log_method_call()
 
+        lm.log_info(sett.GET_LAST_PID)
         last_pid = self.json_handler.get_value_by_key(
             sett.LAST_PID
         )
 
         if last_pid and psutil.pid_exists(last_pid):
+            lm.log_info(sett.PID_AND_PROCESS_FOUND, last_pid)
 
+            lm.log_info(sett.TRYING_TO_KILL_PROCESS, last_pid)
             try:
                 proc = psutil.Process(last_pid)
                 proc.terminate()
+                lm.log_info(sett.SUCCESS)
             except Exception as e:
-                print(e)
+                lm.log_exception(e)

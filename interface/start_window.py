@@ -1,6 +1,3 @@
-from logic.handlers.dropbox_handler import DropboxHandler
-from logic.handlers.excel_handler import ExcelHandler
-from logic.handlers.json_handler import JsonHandler
 from interface.windows.base_window import BaseWindow
 from interface.windows.my_profile_window import MyProfile
 from interface.windows.delete_user_window import DeleteUserWindow
@@ -11,6 +8,10 @@ from interface.windows.settings_window import SettingsWindow
 from interface.windows.users_settings_window import UsersSettingsWindow
 from logic.generators.config_generator import ConfigGenerator
 from logic.generators.filepath_generator import FilepathGenerator
+from logic.handlers.dropbox_handler import DropboxHandler
+from logic.handlers.excel_handler import ExcelHandler
+from logic.handlers.json_handler import JsonHandler
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -74,8 +75,13 @@ class StartWindow(BaseWindow):
         Открывает окно пользовательских настроек.
         """
 
+        lm.log_info(sett.SETTINGS_BUTTON_PRESSED)
+
+        lm.log_info(sett.CREATE_SETTINGS_WINDOW)
         self.settings_window = SettingsWindow(self.user_settings_path)
+
         if self.settings_window.exec():
+            lm.log_info(sett.SETTINGS_WERE_CHANGED)
             self.dropbox_handler.restart_excel(
                 self.user_settings_path
             )
@@ -93,8 +99,12 @@ class StartWindow(BaseWindow):
         """
 
         sender = self.sender()  # Получаем объект кнопки
+        lm.log_info(sett.BUTTON_PRESSED, sender.text())
+
         if sender:
             window_name = sender.text()  # Берем текст кнопки как имя окна
+
+            lm.log_info(sett.CREATE_WINDOW, window_name)
             input_window = InputWindow(
                 window_name,
                 params[sett.JSON_FILE_PATH],
@@ -110,7 +120,8 @@ class StartWindow(BaseWindow):
         """
         Открывает окно регистрации нового юзера.
         """
-
+        lm.log_info(sett.CREATE_USER_BUTTON_PRESSED)
+        lm.log_info(sett.CREATE_REGISTER_WINDOW)
         self.register_window = RegisterWindow()
         self.register_window.show()
 
@@ -119,15 +130,28 @@ class StartWindow(BaseWindow):
         Закрывает текущее окно и открывает окно логина.
         """
 
+        lm.log_info(sett.LOGOUT_BUTTON_PRESSED)
+        lm.log_info(sett.HIDE_START_WINDOW)
         self.hide()
+
+        lm.log_info(sett.CREATE_LOGIN_WINDOW)
         self.login_window = LoginWindow()
         if self.login_window.exec():
+            lm.log_info(sett.SUCCESSFUL_LOGIN)
+            lm.log_info(sett.SWITCHING_LOG_FILE)
+            lm.switch_log_to_user(self.login_window.username)
+            lm.log_info(sett.LOG_DELIMITER)
 
             self.username = self.login_window.username
             self.user_settings_path = (
                 FilepathGenerator.generate_settings_filepath(
                     sett.SETTINGS_FILE, self.username
                 )
+            )
+            lm.log_info(
+                sett.NEW_USER_AND_SETTINGS_PATH_ARE,
+                self.username,
+                self.user_settings_path
             )
 
             self.userdata = JsonHandler(
@@ -136,6 +160,7 @@ class StartWindow(BaseWindow):
 
             self.show()
 
+            lm.log_info(sett.RERENDER_WINDOW)
             default_config = self.config_json_handler.get_all_data()
             self._add_greetings_to_config(default_config)
             default_config = ConfigGenerator().add_logo_to_config(
@@ -151,7 +176,8 @@ class StartWindow(BaseWindow):
         """
         Открывает окно смены пароля.
         """
-
+        lm.log_info(sett.MY_PROFILE_BUTTON_PRESSED)
+        lm.log_info(sett.CREATE_MY_PROFILE_WINDOW)
         self.my_profile_window = MyProfile(self.username)
         self.my_profile_window.show()
 
@@ -161,9 +187,11 @@ class StartWindow(BaseWindow):
         """
 
         sender = self.sender()
+        lm.log_info(sett.BUTTON_PRESSED, sender.text())
         if sender:
             window_name = sender.text()  # Берем текст кнопки как имя окна
 
+            lm.log_info(sett.CREATE_DELETE_USER_WINDOW)
             delete_user_window = DeleteUserWindow(
                 window_name,
                 params[sett.JSON_FILE_PATH],
@@ -178,8 +206,10 @@ class StartWindow(BaseWindow):
         """
 
         sender = self.sender()
+        lm.log_info(sett.BUTTON_PRESSED, sender.text())
         if sender:
             window_name = sender.text()
+            lm.log_info(sett.CREATE_USERS_SETTINGS_WINDOW)
             users_settings_window = UsersSettingsWindow(
                 window_name,
                 params[sett.JSON_FILE_PATH]

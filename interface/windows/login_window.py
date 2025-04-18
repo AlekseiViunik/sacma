@@ -1,11 +1,11 @@
 from PyQt6.QtWidgets import QLineEdit, QCheckBox, QDialog
 
-from interface.windows.forgot_pass_window import ForgotPasswordWindow
-
 from .base_window import BaseWindow
 from .messagebox import Messagebox
+from interface.windows.forgot_pass_window import ForgotPasswordWindow
 from logic.handlers.json_handler import JsonHandler
 from logic.helpers.authenticator import Authenticator
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -60,20 +60,23 @@ class LoginWindow(QDialog, BaseWindow):
 
         username = self.creator.input_fields[sett.USERNAME].text()
         password = self.creator.input_fields[sett.PASSWORD].text()
+        lm.log_info(sett.TRYING_TO_LOGIN, username)
         try:
             if self.auth.verify_user(username, password):
                 self.auth.save_last_user(username)
                 self.username = username
                 self.auth_successful = True
+                lm.log_info(sett.SUCCESS)
                 self.accept()
             else:
+                lm.log_error(sett.WRONG_CREDENTIALS)
                 Messagebox.show_messagebox(
                     sett.LOGIN_ERROR,
                     sett.WRONG_CREDENTIALS,
                     self
                 )
         except Exception as e:
-            print(e)
+            lm.log_exception(e)
 
     def toggle_password(self, checkbox: QCheckBox) -> None:
         """

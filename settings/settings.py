@@ -2,7 +2,7 @@
 
 # В продакшене просит залогиниться прежде всего.
 # Deafult: True
-PRODUCTION_MODE_ON = True
+PRODUCTION_MODE_ON = False
 
 # Защита должна быть всегда включена.
 # Default: True
@@ -12,7 +12,7 @@ PROTECTION_MODE_ON = True
 # В таком случае вместо файла будет вставлена заглушка, которая не будет
 # открывать excel.
 # Default: False
-TEST_GUI = False
+TEST_GUI = True
 
 PROTECTION_1 = 20  # День. Default: 20
 PROTECTION_2 = 7   # Месяц. Default: 7
@@ -57,7 +57,7 @@ LOGS_FOLDER_NAME = "logs"
 
 # Формат логов.
 # Default: "%(asctime)s [%(levelname)s] %(message)s"
-LOGS_FORMAT = "%(asctime)s [%(levelname)s] %(message)s"
+LOGS_FORMAT = "%(asctime)s [%(levelname)s] [%(context)s] %(message)s"
 
 # На один уровень вверх в пути к файлу/папке
 ONE_LEVEL_UP_FOLDER = ".."
@@ -76,24 +76,152 @@ FILE_WRITE_BINARY = "wb"
 
 # ============================= LOG STATIC MESSAGES ===========================
 
+SUCCESS = "Success!"
 TRYING_LOGIN = "Trying to acces the app"
-SUCCESSFUL_LOGIN = "Login is successful!"
+TRYING_BACKUP = "Trying to backup the configs folder"
+TRYING_TO_GET_LAST_BACKUP = "Trying to get last backup date"
+TRYING_TO_OPEN_EXCEL = "Trying to open excel file"
+TRYING_TO_OPEN_EXCEL_AGAIN = "Trying to open excel file again."
+TRYING_TO_OPEN_EXCEL_WB = "Trying to open excel workbook and set its property"
+TRYING_TO_RENDER_WINDOW = "Trying to render window"
+TRYING_TO_DELETE_EXCEL_FILE = "Trying to delete temp excel file"
+TRYING_TO_DELETE_EXCEL_FILE_2 = (
+    "Trying to delete temp excel file after killing process"
+)
+TRYING_TO_OPEN_DOWNLOADED_FILE = (
+    "Trying to open downloaded file"
+)
+TRYING_TO_CLOSE_EXCEL = "Trying to close excel file if it's already opened."
+TRYING_TO_DOWNLOAD_EXCEL = "Trying to call download_excel method"
+TRYING_TO_OPEN_EXCEL_APP = "Trying to open excel app"
+BACKUP_SUCCESS = "Backup was successful!"
+FNF_MESSAGE = "Required file is missing. Please contact the developer."
+TEST_MODE_ON = "Launching in test mode!"
+BACKUP_IS_NEEDED = "It's time for backup!"
+BACKUP_DIR_EXISTS = "Backup folder already exists!"
+CREATE_NEW_NACKUP_FOLDER = "Creating new backup folder!"
+SUCCESSFUL_LOGIN = "Login is successful! Change log folder"
 UNSUCCESSFUL_LOGIN = "Application closed due to unsuccessful login"
-NEW_APP_START = "Launching new interface"
-FAILED_VALIDATION = "The data is wrong!"
-INSERT_DATA_INTO_EXCEL = "Insert prepared data into the excel worksheet"
-REFRESH_EXCEL = "Refresh table data to recalculate formulas"
+CREATE_EXCEL_HANDLER_OBJECT = "Create excel handler object"
+CREATE_DROPBOX_HANDLER_OBJECT = "Create dropbox handler object"
+CREATE_CREATOR_OBJECT = "Create creator object"
+TEST_GUI_MODE = "Test GUI mode is on! Excel will not be opened!"
+SHOW_LOADING_WINDOW = "Show loading window"
+CLOSE_LOADING_WINDOW = "Close loading window"
+SET_ABOUT_TO_QUIT_CASE = (
+    "Set about to quit case. Close excel and protect json files"
+)
+CREATE_MAIN_WINDOW = "Create main window"
+SHOW_MAIN_WINDOW = "Show main window"
+GETTING_PID = "Getting PID of the excel app by HWND"
+SET_EXCEL_SETTINGS = "Set excel settings"
+GET_LAST_PID = "Get last PID of the excel app from settings file"
+GETTING_EXCEL_LINK = "Getting excel link from settings file"
+DOWNLOAD_FILE_FROM_DROPBOX = (
+    "Use response.get to download file from dropbox"
+)
+CLOSE_EXCEL_HANDLER_FIRST = "Close excel handler first"
+CANT_DELETE_EXCEL_FILE = (
+    "Couldn't delete temp excel file. That means that the process is still"
+    "working and we need to kill it firs! Call"
+    "__close_excel_if_it_is_already_opened() method"
+)
+RESTART_EXCEL = "Restart excel app in DropBox class"
+SET_NEW_FILEPATH = "Set new filepath before starting excel againg"
+CREATE_SETTINGS_FILE_IF_NOT_EXISTS = (
+    "Create settings file if it doesn't exist."
+)
+SETTINGS_BUTTON_PRESSED = "'Impostazioni' button has been pressed!"
+LOGOUT_BUTTON_PRESSED = "'Logout' button has been pressed!"
+CREATE_USER_BUTTON_PRESSED = "'Create user' button has been pressed!"
+MY_PROFILE_BUTTON_PRESSED = "'My profile' button has been pressed!"
+CANCEL_BUTTON_PRESSED = "Cancel button has been pressed"
+CREATE_SETTINGS_WINDOW = "Create 'Settings' window"
+CREATE_REGISTER_WINDOW = "Create 'Register' window"
+CREATE_LOGIN_WINDOW = "Create 'Login' window"
+CREATE_MY_PROFILE_WINDOW = "Create 'My profile' window"
+CREATE_DELETE_USER_WINDOW = "Create 'Delete user' window"
+CREATE_USERS_SETTINGS_WINDOW = "Create 'Users settings' window"
+SETTINGS_WERE_CHANGED = (
+    "Settings were changed! Restart excel and rerender main window"
+)
+HIDE_START_WINDOW = "Hide start window"
+RERENDER_WINDOW = "Rerender window"
+LOAD_CONFIG_GUI = "Load config needed for window creation"
+ADD_GREETINGS_TO_CONFIG = "It is a main window. Add greetings to config"
+ADD_LOGO_TO_CONFIG = "Add logo to config"
+BLOCK_SIZE = "Block window size"
+SELECT_TIME_OF_DAY = "Decide what time of day it is"
+WIDGET_IS_ALIVE = "The widget is alive"
+WIDGET_IS_DEAD = "The widget is dead"
+EMAIL_IS_VALID = "Provided email is valid"
+EMAIL_IS_NOT_VALID = "Provided email is not valid"
+PHONE_IS_VALID = "Provided phone is valid"
+SECTIONS_ARE_VALID = "Sections have the same base"
+SECTIONS_ARE_NOT_VALID = "Chosen sections have diffrerent base."
+DIAGONALS_ARE_VALID = "Diagonals and traverses have correct amount"
+DIAGONALS_ARE_NOT_VALID = "Diagonals and traverses have wrong amount"
+FAILED_TO_DECODE = "Failed to decode JSON"
+GENERATE_RESPONSE = "Generate response config"
+GENERATE_LOGO_CONFIG = "Generate logo config"
+DISABLE_FIELDS = "Disable all input and choice fields"
+ENABLE_FIELDS = "Enable all input and choice fields"
+CHANGE_BUTTON = "Rename button and set another callback to it"
+REMOVE_RESULT_FROM_CONFIG = "Remove result from config"
+INSERT_NEW_LAYOUT_TO_CONFIG = (
+    "Insert new layout into the config on the right place"
+)
+CHECK_PASSWORD_STRENGTH = "Check password strength"
+VALIDATE_SECTION = "Validate if all parts of the Fancata have the same base"
+VALIDATE_DIAGONALS = "Check if diagonals are in 1 less than traverses amount"
 DATA_VALIDATION = "Check data before preparing it"
-SUCCESSFUL_VALIDATION = "The data is correct!"
+INSERT_DATA_INTO_EXCEL = "Insert prepared data into the excel worksheet"
+COPYING_CELLS = "Copy cells to another ones"
 GETTING_EXCEL_DATA = "Getting excel data"
+TRYING_TO_CLOSE_EXCEL_BOOK = "Trying to close excel book"
+TRYING_TO_CLOSE_EXCEL_APP = "Trying to close excel app"
+REFRESHING_EXCEL = "Refreshing excel file"
+VALIDATION_IS_OK = "This check is OK!"
+GETTING_CALC_CONFIG = "Getting element's config for calculation"
+LOG_CONVERTATION = "Convert data"
+LOG_HANDLE_SPECIAL_OUTPUT = "Handle special output"
+LOG_GETTING_POST_MESSAGE = "Getting post message if exists"
+LOG_HIDE_RESULT = "Hide result if it is needed"
+LOG_HANDLE_CUSTOM_VALIDATIONS = "Handle custom validations"
+LOG_PREPARE_EXCEL_HANDLER = "Prepare excel handler"
+LOG_INITIATE_EXCEL_HANDLER = "Trying to iniciate excel handler main process"
+LOG_ADD_POST_MESSAGE_FOR_ERROR = "Add post message if there is an error"
+LOG_TRYING_TO_USE_FORMULA = "Trying to use formula"
+LOG_CHECK_CONDITION = (
+    "Set post message. If there is a condition, check it first"
+)
+LOG_GET_ENCRYPTION_FILE = "Get encryption file from Google Drive"
+LOG_LOAD_ENCRYPTION_DATA = "Trying to load encryption data from Google"
+LOG_LOAD_ENCRYPTION_FILE = "Trying to load encryption file from local"
+USER_EXISTS = "User is already exists!"
+WRONG_CREDENTIALS = "Credentials are wrong!"
+EMPTY_FIELDS_ERROR = "One (or more) of the required fields is/are empty!"
+REPEAT_IS_DIFFERENT = "Pass and its repeat are different"
+PASSWORD_IS_WEAK = (
+    "Password is weak! It should contain at least:\n"
+    "- 8 characters\n"
+    "- 1 Uppercase letter\n"
+    "- 1 Lowercase letter\n"
+    "- 1 Digit\n"
+    "- 1 Special character"
+)
+USER_NOT_FOUND = "User not found!"
+CHANGE_PASS_SUCCESS = "Password has been changed successfully!"
+LOG_DELIMITER = "============================================================="
+
+
+# ================================================================================================
+FAILED_VALIDATION = "The data is wrong!"
+REFRESH_EXCEL = "Refresh table data to recalculate formulas"
+SUCCESSFUL_VALIDATION = "The data is correct!"
 ROUNDING_UP_DATA = "Rounding up data"
 NOT_DECIMAL_ERROR = "All data should have Decimal type!"
 UNACCEPTABLE_OPERATORS = "Выражение содержит недопустимые символы"
-JSON_GET_ALL_DATA = "JsonHandler works. Method get_all_data."
-JSON_GET_VALUE_BY_KEY = "JsonHandler works. Method get_value_by_key."
-JSON_GET_VALUES_BY_KEYS = "JsonHandler works. Method get_values_by_keys."
-JSON_REWRITE_FILE = "JsonHandler works. Method rewrite_file."
-JSON_WRITE_INTO_FILE = "JsonHandler works. Method write_into_file."
 TRYING_ADD_USER_DATA = "Trying to add a new user data"
 TRYING_TO_REWRITE_SETTINGS = "Trying to rewrite settings file"
 USER_DATA_IS_ADDED = "New user data has been added"
@@ -102,19 +230,14 @@ HASHING_PASS = "Hashing the pass"
 SAVE_LAST_USER = "Save last user"
 FAILED_GET_JSON_DATA = "Couldn't get the data from the file!"
 USE_CREATOR = "Using creator to generate UI layout"
-CANCEL_BUTTON_PRESSED = "Cancel button has been pressed"
 INVIA_BUTTON_PRESSED = "Button Invia has been pressed"
-BROWSE_BUTTON_PRESSED = "Browse button has been pressed"
 TRY_BUTTON_PRESSED = "Try button is pressed"
 SAVE_BUTTON_PRESSED = "Save button is pressed"
-SETTINGS_BUTTON_PRESSED = "Settings button has been pressed!"
 CREATE_BUTTON_PRESSED = "Button Create has been pressed"
-CREATE_USER_BUTTON_PRESSED = "Create user button has been pressed!"
 START_CALCULATING = "Start calculating"
 OPEN_RESPONSE_WIDGET = "Open response widget"
 ADD_LAST_USER_TO_INPUT_FIELD = "Add last user to input field default value"
 USER_VERIFIED = "User verified"
-WRONG_CREDENTIALS = "Credentials are wrong!"
 WRONG_OLD_PATH = "Old path is wrong!"
 LOGIN_ERROR = "Login error"
 CHANGE_PASS_ERROR = "Change password error"
@@ -134,58 +257,86 @@ MANDATORY_FIELDS_CHECK_FAILED = (
 )
 CREATION_FAILED = "Creation failed!"
 CHECK_FAILED = "Check failed."
-REPEAT_IS_DIFFERENT = "Pass and its repeat are different"
-USER_EXISTS = "User is already exists!"
 AUTH_CREATION_SUCCESSFUL = (
     "Creation succesfull. Login-Pass pair has been added to the DB"
 )
 TRYING_ADD_AUTH_DATA = "Trying to add user auth data"
-SUCCESS = "Success!"
+
 REWRITING_CHECK_IS_UNAVAILABLE = "Rewriting check is temporary unavailable"
 CREATE_INPUT_FIELD = "Create input field"
-RERENDER_LAYOUTS = "Rerender layouts"
-VALIDATION_IS_OK = "This check is OK!"
-SHOULD_BE_NUMERIC = "Should be numeric"
-SHOULD_BE_NATURAL = "Should be natural"
-SHOULD_BE_PRESENTED = "Should be presented"
 EMPTY_REQUIRED_FIELDS = "One (or more) of the required fields is empty!"
 FILE_NOT_FOUND = "FILE NOT FOUND"
-FNF_MESSAGE = "Required file is missing. Please contact the developer."
 PREPARE_DICT = "Prepare dictionary where key is cell address"
 CLOSE_EXCEL = "Close excel file"
-EMPTY_FIELDS_ERROR = "One (or more) of the required fields is empty!"
-CHANGE_PASS_SUCCESS = "Password has been changed successfully!"
-USER_NOT_FOUND = "User not found!"
 EMAIL_NOT_FOUND = "Email not found!"
 UNKNOWN_ERROR = "Unknown error! Call the developer!"
-FAILED_TO_DECODE = "Failed to decode JSON"
-PASSWORD_IS_WEAK = (
-    "Password is weak! It should contain at least:\n"
-    "- 8 characters\n"
-    "- 1 Uppercase letter\n"
-    "- 1 Lowercase letter\n"
-    "- 1 Digit\n"
-    "- 1 Special character"
-)
 TRYING_RECOVER_PASSWORD = "Trying to recover password"
 RECOVER_ERROR = "Couldn't recover password!"
 
 # ============================ LOG DYNAMIC MESSAGES ===========================
 
+LAST_BACKUP_TIME_IS = "Last backup time is {0}"
+TRYING_TO_UNPROTECT_FILES = "Trying to unprotect files in {0}"
+TRYING_TO_UNPROTECT_FILE = "Trying to unprotect file '{0}'"
+TRYING_TO_DELETE_FILES = "Trying to delete files in {0}"
+COPYING_FILES = "Trying to copy files from {0} to {1}"
+PROTECTING_FILES = "Protect files in {0}. Just in case!"
+PROTECTING_FILE = "Protect file '{0}'. Just in case!"
+REWRITE_LAST_BACKUP_TIME = "Rewrite last backup time to {0}"
+LAUNCH_APP = "Launch app with username {0}"
+USER_SETTINGS_PATH_IS = "User settings path is {0}"
+SAVE_PID = "Save PID of the excel app in the settings file: {0}"
+PID_AND_PROCESS_FOUND = "PID {0} and the same process found!"
+TRYING_TO_KILL_PROCESS = "Trying to kill process with PID {0}"
+EXCEL_LINK_IS = "Excel link is {0}"
+CREATE_WINDOW = "Create window {0}"
+NEW_USER_AND_SETTINGS_PATH_ARE = (
+    "New user is {0} and his/her settings path is {1}"
+)
+BUTTON_PRESSED = "'{0}' button has been pressed!"
+ERROR_CAUGHT = "Error caught: {0}"
+CALLBACK_NOT_FOUND = "Callback {0} not found for {1}!"
+SHOULD_BE_MORE_THAN = "'{0}' should be more than '{1}'"
+SHOULD_BE_LESS_THAN = "'{0}' should be less than '{1}'"
+IS_GREATER_THAN = "'{0}' is greater than max possible ('{1}')"
+IS_LESS_THAN = "'{0}' is less than min possible ('{1}')"
+SHOULD_BE_NUMERIC = "'{0}' should be numeric"
+SHOULD_BE_NATURAL = "'{0}' should be natural"
+SHOULD_BE_PRESENTED = "'{0}' should be presented"
+SHOULD_BE_MULTIPLE = "'{0}' should be multiple of {1}"
+IS_NOT_NUMERIC = "'{0}' is not numeric"
+IS_NOT_NATURAL = "'{0}' is not natural"
+IS_NOT_PRESENTED = "'{0}'='{1}' is not presented"
+IS_NOT_MULTIPLE = "'{0}' is not multiple of '{1}'"
+SHOULD_NOT_BE_EQUAL = "'{0}' should not be equal to '{1}'"
+IS_EQUAL = "'{0}' = '{1}'"
+INSERT_IN_THE_CELL = "Insert {0} in the {1} cell of the worksheet '{2}'"
+INSERT_ADDITIONAL = (
+    "Insert additional value {0} in the {1} cell of the worksheet '{2}'"
+)
+JSON_GET_ALL_DATA = "Trying to get all data from {0}"
+JSON_GET_VALUE_BY_KEY = "Trying to get value by key '{0}' from {1}."
+JSON_GET_VALUES_BY_KEYS = "Trying to get value by keys '{0}' from {1}."
+JSON_REWRITE_FILE = "Rewrite whole file '{0}'"
+JSON_WRITE_INTO_FILE = "Write new value into the file '{0}'"
+SEND_MAIL_TO = "Trying to send mail to {0}"
+TRYING_TO_CREATE_USER = "Trying to create user {0}"
+TRYING_TO_LOGIN = "Trying to login user {0}"
+TRYING_TO_CHANGE_PASS = "Trying to change pass for {0}"
+TRYING_TO_CHANGE_EMAIL = "Trying to change email for {0}"
+TRYING_TO_CHANGE_NAME = "Trying to change name for {0}"
+TRYING_TO_CHANGE_SURNAME = "Trying to change surname for {0}"
+TRYING_TO_CHANGE_PHONE = "Trying to change phone for {0}"
+TRYING_TO_CHANGE_SEX = "Trying to change sex for {0}"
+PHONE_IS_NOT_VALID = """
+    Phone number is not valid: {0}\n
+    Valid format is (XXX) XXX-XX-XX only!
+"""
+
+
+# =============================================================================
 CREATE_WINDOW_WITH_CONF = "Create window with config: {0}"
 CONFIG_LOADED_SUCCESSFULLY = "Config loaded successfully: {0}"
-SHOULD_BE_MORE_THAN = "{0} should be more than {1}"
-SHOULD_BE_LESS_THAN = "{0} should be less than {1}"
-IS_NOT_NUMERIC = "{0} is not numeric"
-IS_LESS_THAN = "{0} is less than min possible ({1})"
-IS_GREATER_THAN = "{0} is greater than max possible ({1})"
-IS_NOT_NATURAL = "{0} is not natural"
-IS_NOT_MULTIPLE = "{0} is not multiple of {1}"
-SHOULD_BE_MULTIPLE = "Should be multiple of {0}"
-SHOULD_NOT_BE_EQUAL = "{0} should not be = {1}"
-IS_EQUAL = "{0} = {1}"
-ERROR_CAUGHT = "Error caught: {0}"
-BUTTON_PRESSED = "{0} button has been pressed!"
 CREATE_WIDGET = "Create {0}: {1}"
 CREATE_LAYOUT = "Create a layout. Type {0}"
 PATH_IS = "The path is {0}"
@@ -201,17 +352,14 @@ VAR_IS_MISSING = "Variable {0} is missing in the 'data'"
 CHECK_KEY = "Check {0}"
 CHECK_KEY_FAILED = "{0} hasn't passed"
 DATA_TO_BE_CHECKED = "Data to be checked is: {0}"
-INSERT_IN_THE_CELL = "Insert {0} in the {1} cell of the worksheet '{2}'"
 DICT_PREPARED = "Dictionary is prepared: {0}"
 EXCEL_FILE_PATH = "Excel file path is {0}"
 EXCEL_LAUNCH_ERROR = "Launching excel error: {0}"
 WORKBOOK_OPENING_ERROR = "Didn't manage to open workbook: {0}"
 EXCEL_DATA_IS = "Excel data is {0}"
-TRYING_TO_CHANGE_PASS = "Trying to change pass for {0}"
 DELETE_USER_ERROR = "Couldn't delete user {0}: {1}"
 CANT_CLEAR_LOG = "Can't check or clear log {0}: {1}"
 MAIL_ERROR = "Mail error: {0}"
-EMAIL_IS_NOT_VALID = "Email is not valid: {0}"
 SAVE_USER_SETTINGS_ERROR = (
     "Couldn't save user settings for {0}: {1}"
 )
@@ -220,11 +368,12 @@ SAVE_USER_SETTINGS_SUCCESS = (
 )
 COULDNT_CREATE_FILE = "Couldn't create file: {0}"
 USER_SETTINGS_FILE_CREATED = "Created settings file: {0}"
-PHONE_IS_NOT_VALID = """
-    Phone number is not valid: {0}\n
-    Valid format is (XXX) XXX-XX-XX only!
-"""
 TRYING_CHANGE_USER_DATA = "Trying to change user data: {0} = {1}"
+SWITCHING_LOG_FILE = """
+    This should be the last line of the log file, because the user has been
+    changed on {0}. The other logs should be written in the new log
+    file: '{0}.log'.
+"""
 
 # ============================== STATIC MESSAGES ==============================
 BASE_CHECK_FAILED = "Error! you have different base pieces chosen!"

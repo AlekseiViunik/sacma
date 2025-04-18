@@ -1,11 +1,12 @@
 from datetime import datetime
-
-from typing import Any
 from PyQt6.QtWidgets import QWidget, QPushButton, QCheckBox
-from logic.handlers.json_handler import JsonHandler
-from logic.helpers.mover import Mover
+from typing import Any
+
 from interface.creators.creator import Creator
 from logic.generators.config_generator import ConfigGenerator
+from logic.handlers.json_handler import JsonHandler
+from logic.helpers.mover import Mover
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -74,12 +75,15 @@ class BaseWindow(QWidget):
         - Блокирует размеры окна, если это указано в конфиге.
         """
 
+        lm.log_info(sett.LOAD_CONFIG_GUI)
         # Загружаем конфиг
         config = self.config_json_handler.get_all_data()
 
         if config.get(sett.WINDOW_TITLE) == sett.SACMA:
+            lm.log_info(sett.ADD_GREETINGS_TO_CONFIG)
             config = self._add_greetings_to_config(config)
 
+        lm.log_info(sett.ADD_LOGO_TO_CONFIG)
         config = ConfigGenerator().add_logo_to_config(config, sett.MINUS_ONE)
 
         self.setWindowTitle(config[sett.WINDOW_TITLE])
@@ -88,13 +92,18 @@ class BaseWindow(QWidget):
 
         Mover.move_window_to_center(self)
 
+        lm.log_info(sett.CREATE_CREATOR_OBJECT)
         self.creator = Creator(config, self)
+
+        lm.log_info(sett.TRYING_TO_RENDER_WINDOW)
         try:
             self.creator.create_widget_layout(self, config[sett.LAYOUT])
+            lm.log_info(sett.SUCCESS)
         except Exception as e:
-            print(e)
+            lm.log_exception(e)
 
         if sett.SIZE_BLOCKER in config.keys():
+            lm.log_info(sett.BLOCK_SIZE)
             self.setMaximumSize(self.size())
             self.setMinimumSize(self.size())
 
@@ -223,6 +232,13 @@ class BaseWindow(QWidget):
 
             case sett.CHANGE_SEX:
                 widget.clicked.connect(inheritor.change_sex)
+            case _:
+                lm.log_warning(
+                    sett.CALLBACK_NOT_FOUND.format(
+                        callback_name,
+                        widget.objectName()
+                    )
+                )
 
     def cancel(self, inheritor: QWidget) -> None:
         """
@@ -239,7 +255,7 @@ class BaseWindow(QWidget):
             QWidget. И поскольку я не могу ссылаться на сам себя, то мне
             пришлось указать QWidget, как тип передаваемого объекта.
         """
-
+        lm.log_info(sett.CANCEL_BUTTON_PRESSED)
         inheritor.close()
 
     # =========================== Protected methods ===========================
@@ -253,11 +269,15 @@ class BaseWindow(QWidget):
         - config: dict
             Конфиг, в который добавляется приветствие.
         """
+        lm.log_method_call()
 
         current_hour = datetime.now().hour
+
         name = self.userdata.get(
             sett.NAME, sett.EMPTY_STRING
         )
+
+        lm.log_info(sett.SELECT_TIME_OF_DAY)
         if sett.MORNING_HOUR <= current_hour < sett.DAY_HOUR:
             greeting = sett.GREETING_MSG.format(
                 sett.GOOD_MORNING,

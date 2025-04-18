@@ -1,10 +1,10 @@
 import gc
 import win32com.client
-import win32com.client as win32
 
 from typing import Any
 
 from logic.handlers.json_handler import JsonHandler
+from logic.logger import LogManager as lm
 from logic.preparators.data_preparator import DataPreparator
 from settings import settings as sett
 
@@ -123,6 +123,9 @@ class ExcelHandler:
             Словарь с необработанными данными для вывода в окне результата.
         """
 
+        lm.log_method_call()
+
+        lm.log_info(sett.DATA_VALIDATION)
         # Валидация входных данных
         check_result = self.preparator.check_data()
         if not check_result[sett.CHECK_RESULT]:
@@ -132,6 +135,7 @@ class ExcelHandler:
                 sett.ERROR: check_result[sett.ERROR_MESSAGE]
             }
 
+        lm.log_info(sett.INSERT_DATA_INTO_EXCEL)
         if not self.__input_cells():
             return {
                 sett.PRICE: None,
@@ -139,47 +143,15 @@ class ExcelHandler:
                 sett.ERROR: sett.UNKNOWN_ERROR
             }
 
+        lm.log_info(sett.COPYING_CELLS)
         if self.copy_cells:
             self.__copy_cells_to_another_ones()
 
+        lm.log_info(sett.GETTING_EXCEL_DATA)
         # Извлечение пересчитанных ячеек
         data = self.__get_data_from_excel()
 
         return data
-
-    def open_excel(self) -> None:
-        """
-        Открывает файл для работы и обновляет свойства класса, связанные с
-        файлом.
-        """
-
-        # Получение пути к файлу эксель, который хранится в файле общих
-        # настроек
-        file_path = self.settings_json_handler.get_value_by_key(
-            sett.EXCEL_PATH
-        )
-
-        # Попытка запустить приложение
-        try:
-            self.excel = win32.DispatchEx(sett.EXCEL_APP)
-
-            # Запуск в фоновом режиме
-            self.excel.Visible = sett.EXCEL_VISIBILITY
-
-            # Отключаем предупреждения
-            self.excel.DisplayAlerts = sett.EXCEL_DISPLAY_ALERTS
-
-        except Exception as e:
-            print(e)
-
-        # Попытка открыть книгу
-        try:
-            self.wb = self.excel.Workbooks.Open(
-                file_path,
-                UpdateLinks=sett.EXCEL_UPDATE_LINKS
-            )
-        except Exception as e:
-            print(e)
 
     def close_excel(self) -> None:
         """
@@ -187,25 +159,29 @@ class ExcelHandler:
         файл продолжает висеть в задачах и потреблять ресурсы. Этот метод
         принудительно его закрывает.
         """
-
+        lm.log_method_call()
         # Закрытие книги, если открыта
         if self.sheet:
             self.sheet = None
 
         if self.wb:
+            lm.log.info(sett.TRYING_TO_CLOSE_EXCEL_BOOK)
             try:
                 self.wb.Close(SaveChanges=sett.EXCEL_SAVE_CHANGES)
                 self.wb = None
+                lm.log_info(sett.SUCCESS)
             except Exception as e:
-                print(e)
+                lm.log_exception(e)
 
         # Закрытие приложения эксель, если открыто
         if self.excel:
+            lm.log_info(sett.TRYING_TO_CLOSE_EXCEL_APP)
             try:
                 self.excel.Quit()
                 self.excel = None
+                lm.log_info(sett.SUCCESS)
             except Exception as e:
-                print(e)
+                lm.log_exception(e)
 
         gc.collect()
 
@@ -233,13 +209,18 @@ class ExcelHandler:
 
             # Вставляем данные в Excel
             for cell, value in data_prepared.items():
+                lm.log_info(sett.INSERT_IN_THE_CELL, value, cell, self.sheet)
                 self.sheet.Range(cell).Value = value
 
             # Вставляем доп. данные в Excel
             if self.additional_input:
                 for cell, value in self.additional_input.items():
+                    lm.log_info(
+                        sett.INSERT_ADDITIONAL, value, cell, self.sheet
+                    )
                     self.sheet.Range(cell).Value = value
 
+            lm.log_info(sett.REFRESHING_EXCEL)
             # Обновляем связи
             self.wb.RefreshAll()
             self.excel.CalculateUntilAsyncQueriesDone()
@@ -264,6 +245,7 @@ class ExcelHandler:
             for key in self.cells_output
         }
 
+        lm.log_info(sett.ROUNDING_UP_DATA)
         return self.preparator.decimalize_and_rounding(
             excel_data,
             self.roundings

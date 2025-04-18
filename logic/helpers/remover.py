@@ -1,6 +1,7 @@
 from typing import Any
 from PyQt6.QtWidgets import QLayout
 
+from logic.logger import LogManager as lm
 from settings import settings as sett
 
 
@@ -156,7 +157,10 @@ class Remover:
         """
 
         try:
-            getattr(widget, method)()  # Вызываем метод динамически
+            getattr(widget, method)()
+            lm.log_info(sett.WIDGET_IS_ALIVE)  # Вызываем метод динамически
             return False
+
         except RuntimeError:
+            lm.log_info(sett.WIDGET_IS_DEAD)
             return True
