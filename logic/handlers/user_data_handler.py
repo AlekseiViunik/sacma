@@ -11,6 +11,9 @@ class UserDataHandler:
     -------
     - add_new_user_data(user_data)
         Метод добавления данных нового пользователя в файл.
+
+    - change_user_data(username, field, new_value)
+        Метод изменения данных пользователя в файле.
     """
 
     def __init__(self) -> None:
