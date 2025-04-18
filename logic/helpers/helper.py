@@ -15,10 +15,6 @@ class Helper:
 
     Methods
     -------
-    - get_calculation_file(name)
-        Генерирует имя файла конфига для калькулятора в зависимости от
-        названия кнопки, которая была нажата.
-
     - get_nested_data(keys, data)
         Ищет в многоуровневом словаре значение по ключам.
 
@@ -30,37 +26,9 @@ class Helper:
         Конвертирует значения в исходные в соответствии со словарем
         конвертации.
 
-    - log_exception(e)
-        Логирует исключение с указанием типа, сообщения, функции, файла и
-        строки, где произошло исключение.
-
     - get_current_time()
         Возвращает текущую дату и время в формате "YYYY-MM-DD HH:MM:SS".
     """
-
-    @staticmethod
-    def get_calculation_file(name: str) -> str:
-        """
-        Принимает имя нажатой кнопки и возвращает относительный путь к нему по
-        типу "configs/calculator_configs/<имя_файла>.json".
-
-        Parameters
-        ----------
-        - name: str
-            Имя нажатой кнопки.
-        Returns
-        -------
-        - _: str
-            Относительный путь к файлу с таким же именем.
-        """
-
-        # Если имя кнопки состоит их некольких слов, делаем все буквы нажнего
-        # регистра и заменяем пробелы нижним подчеркиванием.
-        filename = sett.FILE_NAME_CONNECTOR.join(
-            word.lower() for word in name.split()
-        )
-
-        return sett.CALC_CONFIG_PATH.format(filename)
 
     @staticmethod
     def get_nested_data(keys: list, data: dict) -> dict | None:
