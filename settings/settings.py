@@ -597,6 +597,7 @@ DICTIONARY = {
 # =============================== JSON PATHS ==================================
 
 JSON_EXTENSION = ".json"
+LOG_EXTENSION = ".log"
 CONFIGS_FOLDER = "configs"
 BACKUPS_FOLDER = "backups"
 AUTH_FILE = "configs/auth.json"
@@ -614,6 +615,7 @@ ENCRYPTION_FILE = "configs/encryption.json"
 SETTINGS_JSON = "settings.json"
 MODIFIED_SETTINGS_JSON = "settings_{0}.json"
 TEMP_EXCEL_NAME = "temp_excel.xlsx"
+MODIFIED_LOG_PATH = "{0}.log"
 
 # =============================== LOGO PATHS ==================================
 

@@ -1,10 +1,11 @@
 import os
 import psutil
 import requests
-import tempfile
+
 import win32process
 import win32com.client as win32
 
+from logic.generators.filepath_generator import FilepathGenerator as FP
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.json_handler import JsonHandler
 from logic.logger import LogManager as lm
@@ -12,6 +13,48 @@ from settings import settings as sett
 
 
 class DropboxHandler:
+    """
+    Обработчик для работы с Excel файлами, которые хранятся в Dropbox.
+    Скачивает файл по ссылке, открывает его в Excel и сохраняет PID
+    процесса Excel в JSON файл. Также закрывает Excel и удаляет файл
+    после завершения работы.
+
+    Attributes
+    ----------
+    - excel_handler: ExcelHandler
+        Обработчик для работы с Excel файлами.
+
+    - settings_path: str | None
+        Путь к файлу настроек, в котором хранится ссылка на файл
+        Excel в Dropbox, а также PID последнего запущенного процесса.
+
+    Methods
+    -------
+    - download_excel()
+        Скачивает файл Excel из Dropbox по ссылке, указанной в
+        файле настроек. Сохраняет файл во временной директории.
+
+    - open_excel()
+        Открывает файл Excel в приложении Excel. Если файл уже
+        открыт, закрывает его и открывает заново.
+
+    - close_excel()
+        Закрывает приложение Excel и удаляет временный файл
+        Excel из локальной директории.
+
+    - restart_excel(user_settings_path: str)
+        Закрывает текущий экземпляр Excel и скачивает и открывает новый
+        учитывая, что файл с содержанием пути к файлу excel мог измениться
+        или вообще стать другим.
+
+    Private Methods
+    ---------------
+    - __close_excel_if_it_is_already_opened()
+        Закрывает приложение Excel, если оно уже открыто. Проверяет
+        по PID, сохраненному в файле настроек. Если PID не найден,
+        значит Excel не открыт.
+    """
+
     def __init__(
         self,
         excel_handler: ExcelHandler,
@@ -22,11 +65,14 @@ class DropboxHandler:
         self.json_handler = JsonHandler(settings_path, True)
 
         self.url = None
-        self.local_path = os.path.join(
-            tempfile.gettempdir(), sett.TEMP_EXCEL_NAME
-        )
+        self.local_path = FP.generate_temp_excel_filepath()
 
-    def download_excel(self):
+    def download_excel(self) -> None:
+        """
+        Скачивает файл Excel из Dropbox по ссылке, указанной в
+        файле настроек. Сохраняет файл во временной директории.
+        """
+
         lm.log_method_call()
 
         lm.log_info(sett.GETTING_EXCEL_LINK)
@@ -49,7 +95,13 @@ class DropboxHandler:
         except PermissionError as pe:
             lm.log_exception(pe)
 
-    def open_excel(self):
+    def open_excel(self) -> None:
+        """
+        Открывает скачанный во временную директорию файл Excel, предварительно
+        попытавшись закрыть открытые в предыдущей сессии файлы, устанавливает
+        свойства обработчика эксель. Записывает PID процесса Excel в файл
+        настроек.
+        """
 
         lm.log_method_call()
         lm.log_info(sett.TRYING_TO_CLOSE_EXCEL)
@@ -94,7 +146,14 @@ class DropboxHandler:
         except Exception as e:
             lm.log_exception(e)
 
-    def close_excel(self):
+    def close_excel(self) -> None:
+        """
+        Закрывает приложение Excel используя обработчик ExcelHandler.
+        Удаляет временный файл Excel из локальной директории. Если по какой-то
+        причине файл закрыть или удалить не удалось, использует убийцу
+        процессов.
+        """
+
         lm.log_method_call()
         lm.log_info(sett.CLOSE_EXCEL_HANDLER_FIRST)
         self.excel_handler.close_excel()
@@ -124,7 +183,7 @@ class DropboxHandler:
 
         Parameters
         ----------
-        - new_settings_filepath: str
+        - user_settings_path: str
             Новый путь к файлу настроек, в котором хранится ссылка на эксель.
         """
 
@@ -142,13 +201,17 @@ class DropboxHandler:
             lm.log_info(sett.TRYING_TO_OPEN_EXCEL_AGAIN)
             self.open_excel()
 
+    # ============================ Private Methods ============================
+    # -------------------------------------------------------------------------
     def __close_excel_if_it_is_already_opened(self) -> None:
         """
         Проверяет, открыт ли Excel. Если открыт, то закрывает, иначе
         ничего не делает. Проверка осуществляется по PID, который
         сохраняется в файле настроек. Если PID не найден, значит
-        Excel не открыт.
+        Excel не открыт. Если PID найден, то проверяет, существует ли
+        процесс с таким PID. Если существует, то убивает его.
         """
+
         lm.log_method_call()
 
         lm.log_info(sett.GET_LAST_PID)

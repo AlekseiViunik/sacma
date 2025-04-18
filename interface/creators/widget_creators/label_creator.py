@@ -27,7 +27,7 @@ class LabelCreator:
 
         Returns
         -------
-        - label: QLabel
+        - label: tuple[QLabel, str | None]
             Объект созданного лейбла
         """
 

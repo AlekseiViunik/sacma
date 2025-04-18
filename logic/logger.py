@@ -4,6 +4,7 @@ import sys
 import traceback
 import inspect
 
+from logic.generators.filepath_generator import FilepathGenerator as FP
 from settings import settings as sett
 
 _logger_instance = None
@@ -43,9 +44,62 @@ class ContextFormatter(logging.Formatter):
 
 
 class LogManager:
+    """
+    Кастомный логгер для приложения.
+    Пишет логи в формате Дата и время| Тип | Имя класса.Имя метода | Сообщение.
+
+    Methods
+    -------
+    - setup_default_logger()
+        Настройка логгера по умолчанию. Создает папку для логов, если она не
+        существует, и создает файл лога с именем "app.log".
+
+    - switch_log_to_user(username: str) -> None
+        Переключает логирование на пользователя с указанным именем. Создает
+        (если надо) файл лога с именем "username.log" в папке логов. Удаляет
+        старый обработчик и добавляет новый. который пишет логи уже в только
+        что созданную папку.
+
+    - get_log_dir() -> str
+        Возвращает путь к папке с логами в зависимости от того, запущено
+        приложение из exe или из py.
+
+    - log_info(message, *args) -> None
+        Записывает информационное сообщение в лог. Если переданы аргументы,
+        форматирует сообщение с их помощью.
+
+    - log_error(message, *args) -> None
+        Записывает сообщение об ошибке в лог. Если переданы аргументы,
+        форматирует сообщение с их помощью.
+
+    - log_warning(message, *args) -> None
+        Записывает предупреждение в лог. Если переданы аргументы,
+        форматирует сообщение с их помощью.
+
+    - log_critical(message, *args) -> None
+        Записывает критическую ошибку в лог. Если переданы аргументы,
+        форматирует сообщение с их помощью.
+
+    - log_exception(e: Exception) -> None
+        Записывает информацию об исключении в лог.
+
+    - log_method_call() -> None
+        Записывает информацию о вызове метода в лог.
+
+    - check_log_size() -> None
+        Проверяет размер логов в папке с логами. Если размер превышает
+        MAX_LOG_LINES, очищает лог.
+    """
 
     @staticmethod
-    def setup_default_logger():
+    def setup_default_logger() -> None:
+        """
+        Настройка логгера по умолчанию. Создает папку для логов, если она не
+        существует, и создает файл лога с именем "app.log".
+        Использует кастомный адаптер и форматтер для того, чтобы добавить
+        Класс.методо, из которого был записан конкретный лог.
+        """
+
         global _logger_instance
 
         if getattr(sys, sett.EXE_FROZEN, False):
@@ -74,11 +128,20 @@ class LogManager:
 
     @staticmethod
     def switch_log_to_user(username: str) -> None:
+        """
+        Переносит логирование в другую папку каждый раз когда меняется
+        пользователь.
+
+        Parameters
+        ----------
+        - username: str
+            Имя пользователя, для которого будет создан/использован лог.
+        """
+
         global _logger_instance
 
-        user_log_file = os.path.join(
-            LogManager.get_log_dir(),
-            f"{username}.log"
+        user_log_file = FP.generate_log_filepath(
+            LogManager.get_log_dir(), username
         )
 
         logger = logging.getLogger(sett.APP_LOGGER)
@@ -96,6 +159,16 @@ class LogManager:
 
     @staticmethod
     def get_log_dir() -> str:
+        """
+        Возвращает относительный или абсолютный путь к папке с логами в
+        зависимости от того, запущено приложение из exe или из py.
+
+        Returns
+        -------
+        - _: str
+            Путь к папке с логами.
+        """
+
         if getattr(sys, sett.EXE_FROZEN, False):
             return os.path.join(
                 os.path.dirname(sys.executable),
@@ -109,30 +182,93 @@ class LogManager:
 
     @staticmethod
     def log_info(message: str, *args) -> None:
+        """
+        Записывает информационное сообщение в лог. Если переданы аргументы,
+        форматирует сообщение с их помощью.
+
+        Parameters
+        ----------
+        - message: str
+            Сообщение для записи в лог.
+
+        - args: tuple
+            Аргументы для форматирования сообщения.
+        """
+
         if args:
             message = message.format(*args)
         _logger_instance.info(message)
 
     @staticmethod
     def log_error(message: str, *args) -> None:
+        """
+        Записывает сообщение об ошибке в лог. Если переданы аргументы,
+        форматирует сообщение с их помощью.
+
+        Parameters
+        ----------
+        - message: str
+            Сообщение для записи в лог.
+
+        - args: tuple
+            Аргументы для форматирования сообщения.
+        """
+
         if args:
             message = message.format(*args)
         _logger_instance.error(message)
 
     @staticmethod
     def log_warning(message: str, *args) -> None:
+        """
+        Записывает предупреждение в лог. Если переданы аргументы,
+        форматирует сообщение с их помощью.
+
+        Parameters
+        ----------
+        - message: str
+            Сообщение для записи в лог.
+
+        - args: tuple
+            Аргументы для форматирования сообщения.
+        """
+
         if args:
             message = message.format(*args)
         _logger_instance.warning(message)
 
     @staticmethod
     def log_critical(message: str, *args) -> None:
+        """
+        Записывает критическую ошибку в лог. Если переданы аргументы,
+        форматирует сообщение с их помощью.
+
+        Parameters
+        ----------
+        - message: str
+            Сообщение для записи в лог.
+
+        - args: tuple
+            Аргументы для форматирования сообщения.
+        """
+
         if args:
             message = message.format(*args)
         _logger_instance.critical(message)
 
     @staticmethod
     def log_exception(e: Exception) -> None:
+        """
+        Записывает информацию об исключении в лог.
+        Использует traceback для получения информации о месте возникновения
+        исключения.
+
+        Parameters
+        ----------
+        - e: Exception
+            Исключение, которое нужно записать в лог.
+        """
+
         exc_info = traceback.extract_tb(e.__traceback__)[-1]
         filename = exc_info.filename
         line = exc_info.lineno
@@ -144,6 +280,10 @@ class LogManager:
 
     @staticmethod
     def log_method_call():
+        """
+        Записывает информацию о вызове метода в лог.
+        """
+
         frame = inspect.currentframe().f_back
         func_name = frame.f_code.co_name
         cls_name = type(frame.f_locals.get("self", object())).__name__
@@ -154,8 +294,13 @@ class LogManager:
 
     @staticmethod
     def check_log_size() -> None:
+        """
+        Проверяет все логи в папке с логами. Если размер лога превышает
+        MAX_LOG_LINES (20 000 по умолчанию), очищает лог.
+        """
+
         for filename in os.listdir(LogManager.get_log_dir()):
-            if filename.endswith(".log"):
+            if filename.endswith(sett.LOG_EXTENSION):
                 path = os.path.join(LogManager.get_log_dir(), filename)
                 try:
                     with open(

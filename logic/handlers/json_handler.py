@@ -47,6 +47,11 @@ class JsonHandler:
     - set_file_path(path)
         Этот метод нужен, чтобы настроить абсолютный путь к файлу, если
         приложение работает как ехе файл.
+
+    - create_file_if_not_exists()
+        Если файл не существует, то создает его и копирует туда файл
+        настроек по умолчанию. Если не получается, то выводит сообщение об
+        ошибке.
     """
 
     def __init__(self, file_path: str, is_encoded: bool = False) -> None:
@@ -152,7 +157,7 @@ class JsonHandler:
         """
         Открывает файл JSON для записи и полностью перезаписывает его, заменяя
         имеющиеся там данные переданными в метод. Обычно используется для
-        одноуровневого словаря.
+        одноуровневого словаря. Шифрует, если требуется.
 
         Parameters
         ----------
@@ -238,6 +243,7 @@ class JsonHandler:
          - path: str
             относительный путь к файлу.
         """
+
         if getattr(sys, sett.EXE_FROZEN, False):
             BASE_DIR = os.path.dirname(sys.executable)
             self.file_path = os.path.join(BASE_DIR, path)

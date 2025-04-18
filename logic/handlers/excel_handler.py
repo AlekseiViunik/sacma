@@ -3,7 +3,6 @@ import win32com.client
 
 from typing import Any
 
-from logic.handlers.json_handler import JsonHandler
 from logic.logger import LogManager as lm
 from logic.preparators.data_preparator import DataPreparator
 from settings import settings as sett
@@ -59,9 +58,6 @@ class ExcelHandler:
         Основной метод класса. Запускает обработку, подготовку и прочие
         действия с файлом и данными.
 
-    - open_excel()
-        Открывает файл эксель.
-
     - close_excel()
         Закрывает ставший уже ненужным файл эксель.
 
@@ -92,7 +88,6 @@ class ExcelHandler:
         copy_cells: dict | None = None,
         additional_input: dict | None = None,
         roundings: dict | None = None,
-        settings_file_path: str = sett.SETTINGS_FILE
     ) -> None:
         self.data = data
         self.rules: dict | None = rules
@@ -102,15 +97,11 @@ class ExcelHandler:
         self.copy_cells: dict[str, list[str]] | None = copy_cells
         self.additional_input: dict[str, Any] | None = additional_input
         self.roundings: dict[str, str] | None = roundings
-        self.settings_json_handler: JsonHandler = JsonHandler(
-            settings_file_path, True
-        )
         self.preparator: DataPreparator = DataPreparator()
         self.excel: win32com.client.CDispatch | None = None
         self.wb: win32com.client.CDispatch | None = None
         self.sheet: win32com.client.CDispatch | None = None
         self.check_err_mesg: str = sett.EMPTY_STRING
-        self.settings_file_path: str = settings_file_path
 
     def initiate_process(self) -> dict:
         """
@@ -157,8 +148,10 @@ class ExcelHandler:
         """
         После работы с файлом, даже когда уже текущее приложение остановлено,
         файл продолжает висеть в задачах и потреблять ресурсы. Этот метод
-        принудительно его закрывает.
+        принудительно его закрывает. Обнуляет свойства класса, чтобы
+        избежать утечек памяти.
         """
+
         lm.log_method_call()
         # Закрытие книги, если открыта
         if self.sheet:

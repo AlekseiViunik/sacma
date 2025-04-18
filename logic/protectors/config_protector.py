@@ -3,6 +3,26 @@ import stat
 
 
 class ConfigProtector:
+    """
+    Класс для защиты конфигурационных файлов от изменений.
+    Позволяет устанавливать и убирать режим только для чтения с файлов.
+    Может запускаться как независимый скрипт.
+
+    Methods
+    -------
+    - set_read_only(file_path: str) -> None
+        Устанавливает файл в режим только для чтения.
+
+    - unset_read_only(file_path: str) -> None
+        Убирает режим только для чтения с файла.
+
+    - protect_all_json_files(folder_path: str) -> None
+        Устанавливает все файлы JSON в указанной папке в режим только для
+        чтения.
+
+    - unprotect_all_json_files(folder_path: str) -> None
+        Убирает режим только для чтения со всех файлов JSON в указанной папке.
+    """
 
     @staticmethod
     def set_read_only(file_path: str) -> None:

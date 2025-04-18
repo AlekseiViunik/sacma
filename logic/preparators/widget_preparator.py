@@ -5,9 +5,26 @@ from settings import settings as sett
 
 
 class WidgetPreparator:
+    """
+    Класс для подготовки виджетов перед их использованием.
+
+    Methods
+    -------
+    - prepare_default_for_input(**kwargs) -> str
+        Подготавливает динамическое дефолтное значение для виджета
+        QLineEdit.
+
+    - auto_phone_format(input: QLineEdit, text: str) -> None
+        Автоматически форматирует ввод номера телефона в
+        формат (XXX) XXX-XX-XX.
+    """
 
     @staticmethod
     def prepare_default_for_input(**kwargs):
+        """
+        Подготавливает динамическое дефолтное значение для виджета
+        QLineEdit.
+        """
 
         # Собираем дефолтное значение. Начинаем с пустой строки.
         default_value = sett.EMPTY_STRING
@@ -76,7 +93,8 @@ class WidgetPreparator:
         text: str
     ) -> None:
         """
-        Автоматически форматирует номер телефона в формате (XXX) XXX-XX-XX.
+        Автоматически форматирует ввод номера телефона в
+        формат (XXX) XXX-XX-XX.
 
         Parameters
         ----------
@@ -85,6 +103,7 @@ class WidgetPreparator:
         - text: str
             Текст, который нужно отформатировать.
         """
+
         # Удаляем все символы, кроме цифр
         digits = sett.EMPTY_STRING.join(filter(str.isdigit, text))
 

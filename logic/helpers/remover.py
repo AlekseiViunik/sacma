@@ -18,7 +18,7 @@ class Remover:
         Удаляет мертвые ссылки из словарей с введенными юзером данными.
 
     - clear_layout(layout_to_clear)
-    Очищает контейнер от виджетов перед его удалением.
+        Очищает контейнер от виджетов перед его удалением.
 
     Private methods
     ---------------
@@ -110,7 +110,7 @@ class Remover:
 
         Parameters
         ----------
-        - layout_to_clear: QGridLayout | QHBoxLayout | QVBoxLayout
+        - layout_to_clear: QLayout
             Контейнер, который надо удалить.
         """
 

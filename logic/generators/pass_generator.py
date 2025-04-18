@@ -2,6 +2,15 @@ from settings import settings as sett
 
 
 class PassGenerator:
+    """
+    Генератор паролей. Служит для генерации случайных паролей при
+    восстановлении.
+
+    Methods
+    -------
+    - generate_password(length)
+        Генерирует случайный пароль заданной длины.
+    """
 
     @staticmethod
     def generate_password(length: int = sett.SET_TO_TWELVE) -> str:
@@ -19,6 +28,7 @@ class PassGenerator:
         - str
             Сгенерированный пароль.
         """
+
         import random
         import string
 

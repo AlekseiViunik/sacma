@@ -10,6 +10,15 @@ from settings import settings as sett
 
 
 class Backuper:
+    """
+    Класс для создания резервных копий файлов конфигурации приложения.
+
+    Methods
+    -------
+    - backup_files(settings_path, configs_dir, backup_dir)
+        Проверяет дату последнего бэкапа и при необходимости копирует папку
+        configs в backups.
+    """
 
     @staticmethod
     def backup_files(

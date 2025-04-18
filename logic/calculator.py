@@ -1,3 +1,4 @@
+from logic.generators.filepath_generator import FilepathGenerator as FP
 from logic.handlers.excel_handler import ExcelHandler
 from logic.handlers.formulas_handler import FormulasHandler
 from logic.handlers.json_handler import JsonHandler
@@ -64,7 +65,7 @@ class Calculator:
     ) -> None:
         self.data: dict = data
         self.choices: dict = choices
-        self.calc_file_path: str = Helper.get_calculation_file(type)
+        self.calc_file_path: str = FP.generate_calculation_filepath(type)
         self.calc_config: dict = {}
         self.config_file_handler = JsonHandler(self.calc_file_path)
         self.excel_handler: ExcelHandler | None = excel_handler

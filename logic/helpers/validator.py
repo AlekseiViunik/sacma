@@ -8,7 +8,8 @@ from settings import settings as sett
 
 
 class Validator:
-    """Класс для валидации данных.
+    """
+    Класс для валидации данных.
 
     Methods
     -------
@@ -57,6 +58,7 @@ class Validator:
             Результат проверки. И сообщение об ошибке, если проверка не
             пройдена.
         """
+
         lm.log_method_call()
         for method in config[sett.CUSTOM_VALIDATIONS]:
             match method:
@@ -194,6 +196,7 @@ class Validator:
         Метод валидации телефонного номера. Проверяет, что номер имеет
         корректный формат.
         """
+
         if re.match(sett.PHONE_REGEX, phone):
             lm.log_info(sett.PHONE_IS_VALID)
             return True
@@ -305,6 +308,7 @@ class Validator:
         - _: bool
             Результат проверки количества диагоналей и количество траверс.
         """
+
         for i in range(sett.SET_TO_ONE, int(data[sett.PIECES])+1):
             expression = sett.DIAGONALS_TRAVERSE.format(i)
             modified_expr = expression
