@@ -28,6 +28,7 @@ class Protector:
     - clean_directory()
         В дату судного дня выполняет самоочищение.
     """
+
     def __init__(self, deadline: datetime):
         self.deadline = deadline
         self.current_dir = BASE_DIR
